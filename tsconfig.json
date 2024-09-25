@@ -24,7 +24,9 @@
     // Alias
     "paths": {
       "@/*": ["*"]
-    }
+    },
+    // Add Node.js global object type definition
+    "types": ["node"]
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

@@ -1,2 +1,4 @@
-export { default as Header } from "./header";
-export { default as Footer } from "./footer";
+export * from "./lazy-layout";
+export * from "./main-layout";
+export * from "./header";
+export * from "./footer";

@@ -1,8 +1,7 @@
 const envConfig = {
-  mode: {
-    dev: import.meta.env.VITE_ENV_MODE,
-    prod: import.meta.env.VITE_ENV_MODE,
-  },
+  mode: process.env.MODE,
+  baseUrl: process.env.BASE_URL,
+  port: process.env.PORT,
 };
 
 export default envConfig;

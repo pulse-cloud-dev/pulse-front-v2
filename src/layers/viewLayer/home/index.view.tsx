@@ -1,13 +1,6 @@
-import { useState } from "react";
+import React from "react";
 
-import { styleConfigs, envConfigs } from "./app/configs";
-
-styleConfigs();
-
-function App() {
-  const [count, setCount] = useState(0);
-
-  console.log(envConfigs);
+const HomeView = () => {
   return (
     <>
       <div>
@@ -28,6 +21,6 @@ function App() {
       <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
     </>
   );
-}
+};
 
-export default App;
+export default HomeView;
