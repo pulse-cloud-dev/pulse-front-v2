@@ -1,0 +1,69 @@
+/* 공통 */
+.side-bar {
+  flex: 0 0 auto;
+  max-width: 220px;
+  width: 15%;
+  min-height: 100vh;
+  max-height: 100%;
+  background-color: var(--bg_sidebar);
+  border-right: 1px solid var(--border_color);
+  transition: width 0.3s ease;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+/* 우측 스크롤 사이드바 */
+.scroll-side-bar {
+  top: 80px;
+  right: 0;
+  width: 100%;
+
+  position: sticky;
+}
+
+/* 좌측 사이드바 */
+.side-bar-left {
+}
+
+.side-bar:hover {
+}
+
+.side-bar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.side-bar li {
+  margin-bottom: 8px; /* 각 메뉴 간격 */
+}
+
+.side-bar a {
+  display: block;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.side-bar a:hover {
+  background-color: var(--hover_bg_color); /* Hover 배경 색상 */
+  color: var(--hover_text_color); /* Hover 텍스트 색상 */
+}
+
+.side-bar-content {
+  flex: 1; /* 나머지 공간을 차지 */
+  padding: 16px;
+  overflow-y: auto; /* 세로 스크롤 허용 */
+  background: var(--bg_content);
+  border-radius: 8px; /* 콘텐츠 영역 모서리 */
+  backdrop-filter: blur(1.875rem);
+}
+
+/* 왼쪽 사이드 메뉴 */
+.left-bar {
+}
+
+/* 오른쪽 사이드 메뉴 */
+.right-bar {
+}

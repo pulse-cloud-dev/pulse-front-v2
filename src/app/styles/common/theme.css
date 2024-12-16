@@ -1,0 +1,408 @@
+:root[data-theme="light"] {
+  --bg_02: #04091a;
+  --bg_01: #0a0f24;
+  --background-bg_01: #0a0f24;
+  --bg_01_40: rgba(10, 11, 20, 0.4);
+  --bg_02_60: rgba(4, 9, 26, 0.6);
+  --primary-pri_6: rgba(39, 212, 255, 0.06);
+  --white-w_100: #ffffff;
+  --white-w_100-sec: #ffffff;
+  --white-w_87: rgba(255, 255, 255, 0.87);
+  --white-w_87-sec: rgba(255, 255, 255, 0.87);
+  --white-w_60: rgba(255, 255, 255, 0.6);
+  --white-w_40: rgba(255, 255, 255, 0.4);
+  --white-w_40-sec: rgba(255, 255, 255, 0.4);
+  --white-w_30: rgba(255, 255, 255, 0.3);
+  --white-w_20: rgba(255, 255, 255, 0.2);
+  --white-w_16: rgba(255, 255, 255, 0.16);
+  --white-w_12: rgba(255, 255, 255, 0.12);
+  --box1_border: rgba(39, 212, 255, 0.4);
+  --bg_01_80: rgba(11, 17, 41, 0.8);
+  --line-wh_12-to-40: rgba(255, 255, 255, 0.12);
+  --line-wh_20-to-100: rgba(255, 255, 255, 0.2);
+  --line-wh_30-to-60: rgba(255, 255, 255, 0.3);
+  --line-wh_12-to-100: rgba(255, 255, 255, 0.12);
+  --more-bright-wh_6-to-60: rgba(255, 255, 255, 0.06);
+  --white-w_6: rgba(255, 255, 255, 0.06);
+  --line-pri_40-to-wh_100: rgba(39, 212, 255, 0.4);
+  --etc-bg: #04091a;
+  --etc-popup_tit: rgba(39, 212, 255, 0.6);
+  --background-blur_0260: rgba(56, 61, 82, 0.6);
+  --point-error: #d60000;
+  --point-error-10: rgba(219, 0, 0, 0.08);
+  --blur_02_60: rgba(55, 61, 82, 0.6);
+  --bg-blur_02_60: rgba(55, 61, 82, 0.6);
+  --radio-default: rgba(255, 255, 255, 0.6);
+  --control-disabled: bg_grey10;
+  --background-legend: rgba(74, 78, 102, 0.8);
+  --icon-icon-selected: rgba(39, 212, 255, 0.4);
+  --group-icon-selected: rgba(39, 212, 255, 0.4);
+  --map-ver2-hover: rgba(39, 212, 255, 0.4);
+  --background-blur_02_60: rgba(55, 61, 82, 0.6);
+  --background-blur_01_20: rgba(162, 164, 184, 0.2);
+  --navigation-bg: #1f2333;
+  --etc-FNB: rgba(39, 212, 255, 0.12);
+  --black-bk_100: #000;
+  --PRI: #004ea2;
+  --PRI_hover: #003d7e;
+  --pri_op10: rgba(0, 78, 162, 0.1);
+  --PRI_plus: ;
+  --PRI_plus_hover: rgba(0, 78, 162, 0.1);
+  --PRI_light: #2a84dc;
+  --bg_body: #030914;
+  --alpha-bk-to-whbk-20: rgba(255, 255, 255, 0.2);
+  --alpha-wh-to-bkwh-60: rgba(0, 0, 0, 0.6);
+  --alpha-wh-to-bkwh-100: #000;
+  --alpha-white-w_100: #fff;
+  --wh-12: rgba(255, 255, 255, 0.12);
+  --alpha-bk-to-whbk-05: rgba(255, 255, 255, 0.05);
+  --alpha-bk-to-whbk-10: rgba(255, 255, 255, 0.1);
+  --alpha-white-w_20: rgba(255, 255, 255, 0.2);
+  --alpha-bk-to-whbk-87: rgba(255, 255, 255, 0.87);
+  --alpha-bk-to-whbk-100: rgba(255, 255, 255, 0.87);
+  --alpha-bk-to-whbk-60: rgba(255, 255, 255, 0.6);
+  --alpha-bk-to-whbk-40: rgba(255, 255, 255, 0.4);
+  --popup-wh-10-to-60: rgba(255, 255, 255, 0.1);
+  --wh-to-bk-wh-5-to-100: rgba(255, 255, 255, 0.05);
+  --pri_op10: rgba(143, 195, 54, 0.1);
+  --wh-to-bk-10-to-100-popu-line: rgba(255, 255, 255, 0.1);
+  --wh-to-bk-10-to-80-popup-bg: rgba(51, 51, 51, 0.2);
+  --Neutral-Gray-03: #3b3c40;
+  --input-select-fill: rgba(255, 255, 255, 0.1);
+  --input-select-line: rgba(255, 255, 255, 0);
+  --input-select-fill-disabled: rgba(255, 255, 255, 0.2);
+  --bg_nav: #131b28;
+  --WH-to-BK-70-to-100: rgba(255, 255, 255, 0.7);
+  --alpha-bk-to-whbk-80: rgba(255, 255, 255, 0.8);
+  --wh-to-bkwh-5-to-prilnb: rgba(255, 255, 255, 0.05);
+  --bg_nav2: #17181a;
+  --Neutral-Gray-03: rgba(255, 255, 255, 0.06);
+  --alpha-bk-to-whbk-50: rgba(255, 255, 255, 0.5);
+  --WH-to-BK-5-to-100: rgba(255, 255, 255, 0.05);
+  --87-to-100-txt: rgba(255, 255, 255, 0.87);
+  --bg_body_50: rgba(3, 9, 20, 0.5);
+  --link-color: #70a3e0;
+  --input-select-modal: #333539;
+  --alpha-wh-to-bkwh-20: rgba(0, 0, 0, 0.2);
+  --Neutral-Gray-04: #46484d;
+  --WH-to-BK-5: rgba(255, 255, 255, 0.05);
+  --Neutral-Gray-02: #2f3033;
+  --Neutral-Gray-05: #525459;
+}
+
+:root[data-theme="dark"] {
+  --bg_02: #ffffff;
+  --bg_01: #f5f6fa;
+  --background-bg_01: #ffffff;
+  --bg_01_40: #f3f5fd;
+  --bg_02_60: rgba(245, 247, 255, 0.9);
+  --primary-pri_12-to-bk: #000;
+  --primary-pri_6: rgba(0, 104, 230, 0.06);
+  --white-w_100: #ffffff;
+  --white-w_100-sec: #000;
+  --white-w_87: rgba(0, 0, 0, 0.87);
+  --white-w_87-sec: #000;
+  --white-w_60: rgba(0, 0, 0, 0.6);
+  --white-w_40: rgba(0, 0, 0, 0.4);
+  --white-w_40-sec: rgba(255, 255, 255, 0.4);
+  --white-w_30: rgba(0, 0, 0, 0.3);
+  --white-w_20: rgba(0, 0, 0, 0.2);
+  --white-w_16: rgba(0, 0, 0, 0.16);
+  --white-w_12: rgba(0, 0, 0, 0.12);
+  --box1_border: #ffffff;
+  --bg_01_80: rgba(245, 246, 250, 0.9);
+  --white-w_6: rgba(0, 0, 0, 0.06);
+  --line-pri_40-to-wh_100: #ffffff;
+  --etc-bg: #ffffff;
+  --etc-popup_tit: rgba(0, 104, 230, 0.8);
+  --background-blur_0260: rgba(56, 61, 82, 0.6);
+  --point-error: #d60000;
+  --point-error-10: rgba(219, 0, 0, 0.08);
+  --blur_02_60: rgba(255, 255, 255, 0.9);
+  --bg-blur_02_60: rgba(55, 61, 82, 0.6);
+  --grade-chart-gco-01: #fc5c34;
+  --radio-default: rgba(0, 0, 0, 0.6);
+  --control-disabled: bg_grey10;
+  --icon-icon-selected: #ffffff;
+  --group-icon-selected: rgba(51, 143, 255, 0.4);
+  --navigation-bg: #e1e2e5;
+  --etc-FNB: rgba(245, 246, 250, 0.9);
+  --black-bk_100: #ffffff;
+  --Neutral-Gray-03: #e6e7eb;
+  --PRI: #004ea2;
+  --PRI_hover: #003d7e;
+  --pri_op10: rgba(0, 78, 162, 0.1);
+  --PRI_plus_hover: #003d7e;
+  --PRI_light: #fff;
+  --PRI_plus: #004ea2;
+  --bg_body: #f5f7fa;
+  --alpha-bk-to-whbk-20: rgba(0, 0, 0, 0.2);
+  --alpha-wh-to-bkwh-60: rgba(255, 255, 255, 0.2);
+  --alpha-wh-to-bkwh-100: ;
+  --alpha-white-w_100: #fff;
+  --wh-12: rgba(0, 0, 0, 0.12);
+  --alpha-bk-to-whbk-05: rgba(0, 0, 0, 0.05);
+  --alpha-bk-to-whbk-10: rgba(0, 0, 0, 0.1);
+  --alpha-white-w_20: rgba(255, 255, 255, 0.2);
+  --alpha-bk-to-whbk-87: rgba(0, 0, 0, 0.87);
+  --alpha-bk-to-whbk-100: #000;
+  --alpha-bk-to-whbk-60: rgba(0, 0, 0, 0.6);
+  --alpha-bk-to-whbk-40: rgba(0, 0, 0, 0.4);
+  --popup-wh-10-to-60: rgba(255, 255, 255, 0.6);
+  --wh-to-bk-wh-5-to-100: #fff;
+  --pri_op10: rgba(143, 195, 54, 0.1);
+  --input-select-fill: rgba(7, 3, 3, 0);
+  --input-select-line: rgba(0, 0, 0, 0.2);
+  --input-select-fill-disabled: rgba(0, 0, 0, 0.1);
+  --wh-to-bk-10-to-100-popu-line: #fff;
+  --wh-to-bk-10-to-80-popup-bg: rgba(255, 255, 255, 0.8);
+  --bg_nav: #fff;
+  --WH-to-BK-70-to-100: #000;
+  --alpha-bk-to-whbk-80: rgba(0, 0, 0, 0.8);
+  --wh-to-bkwh-5-to-prilnb: rgba(0, 0, 0, 0.04);
+  --bg_nav2: #fff;
+  --Neutral-Gray-03: #e6e7eb;
+  --alpha-bk-to-whbk-50: rgba(0, 0, 0, 0.5);
+  --WH-to-BK-5-to-100: #fff;
+  --87-to-100-txt: #000;
+  --bg_body_50: rgba(240, 242, 245, 0.5);
+  --link-color: #0068e6;
+  --input-select-modal: rgba(255, 255, 255, 0);
+  --alpha-wh-to-bkwh-20: rgba(255, 255, 255, 0.2);
+  --Neutral-Gray-04: #dcdde0;
+  --WH-to-BK-5: rgba(0, 0, 0, 0.05);
+  --Neutral-Gray-02: #f0f2f5;
+  --Neutral-Gray-05: #d2d3d6;
+}
+
+/*mode button*/
+.lightmode > .inner {
+  position: relative;
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 24px;
+  background-color: rgba(86, 84, 84, 0.2);
+}
+
+html[data-theme="light"] .lightmode > .inner.ver1 {
+  background-color: var(--PRI);
+}
+
+.outer {
+  padding: 4px;
+  border-radius: 50px;
+  background-color: var(--wh-12);
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.lightmode label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
+.lightmode label:first-of-type {
+  padding: 2px;
+  border-radius: 50%;
+}
+
+.lightmode label:last-of-type {
+  padding: 2px;
+  border-radius: 50%;
+}
+
+.lightmode i {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.lightmode input[type="radio"] {
+  display: none;
+}
+
+.lightmode input[type="radio"]:checked + label > i {
+  color: rgb(46, 138, 229);
+  transition: all 0.35s ease-in-out;
+}
+
+.circle_dark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--alpha-wh-to-bkwh-100);
+  height: 30px;
+  width: 30px;
+  padding: 2px;
+}
+
+.circle_light {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--alpha-white-w_100);
+  height: 30px;
+  width: 30px;
+  padding: 2px;
+}
+
+.lightmode input[type="radio"]:checked + label {
+  background: #000;
+}
+
+html[data-theme="light"] .lightmode input[type="radio"]:checked + label {
+  background: #fff;
+}
+
+/**/
+/* html data-theme */
+html[data-theme="light"] .gnb ul li a {
+  color: var(--more-visible-wh_60-to-100);
+}
+html[data-theme="light"] .guide_top h1 {
+  color: #000;
+}
+html[data-theme="light"] .stepper_arrow img {
+  filter: brightness(0) saturate(100%) invert(0%) sepia(96%) saturate(7483%) hue-rotate(231deg) brightness(99%) contrast(104%);
+}
+html[data-theme="light"] .play_circle img {
+  content: url("../images/play_circle_light_20.svg");
+}
+html[data-theme="light"] .selectbox_arrow img,
+html[data-theme="light"] .selectbox img,
+html[data-theme="light"] .selectboxSample img {
+  filter: brightness(0) saturate(100%) invert(0%) sepia(96%) saturate(7483%) hue-rotate(231deg) brightness(99%) contrast(104%);
+}
+html[data-theme="light"] .bt_srch {
+  filter: brightness(0) saturate(100%) invert(0%) sepia(96%) saturate(7483%) hue-rotate(231deg) brightness(99%) contrast(104%);
+}
+html[data-theme="light"] .selector {
+  background-image: url("../images/arrow_down_gray_16.svg");
+  background-position: 96% 56% !important;
+  background-size: 16px 16px !important;
+}
+html[data-theme="light"] .lnb_box img {
+  filter: brightness(0) saturate(100%) invert(0%) sepia(96%) saturate(7483%) hue-rotate(231deg) brightness(99%) contrast(104%);
+}
+html[data-theme="light"] .login_logo {
+  content: url("../images/logo_light_big.svg");
+}
+html[data-theme="light"] .hamberger_btn {
+  content: url("../images/hamburger_bk_24.svg");
+}
+html[data-theme="light"] .logo_hd_kisa {
+  content: url("../images/logo_light.svg");
+}
+html[data-theme="light"] .bell img {
+  content: url("../images/bell_bk_20.svg");
+}
+html[data-theme="light"] .user img {
+  content: url("../images/user_bk_20.svg");
+}
+html[data-theme="light"] .light_none {
+  display: none;
+}
+html[data-theme="light"] .light_hidden {
+  visibility: hidden;
+}
+html[data-theme="light"] .grey_box.login {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: var(--bg_01_80);
+}
+html[data-theme="light"] .grey_box.login p {
+  background: rgba(0, 0, 0, 0.2);
+}
+html[data-theme="light"] .indicator {
+  box-shadow: 4px 4px 16px 0 rgba(4, 9, 26, 0.16);
+}
+html[data-theme="light"] .btn_bk {
+  filter: brightness(0) saturate(100%) invert(0%) sepia(96%) saturate(7483%) hue-rotate(231deg) brightness(99%) contrast(104%);
+}
+html[data-theme="light"] .reset_blue {
+  filter: brightness(0) saturate(100%) invert(19%) sepia(94%) saturate(1837%) hue-rotate(197deg) brightness(96%) contrast(101%);
+}
+html[data-theme="light"] .reset_yelgreen {
+  filter: brightness(0) saturate(100%) invert(92%) sepia(23%) saturate(5842%) hue-rotate(29deg) brightness(90%) contrast(82%);
+}
+html[data-theme="light"] .main_contents {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+}
+html[data-theme="light"] .main_contents.login {
+  background: url("../images/login_light.png") no-repeat;
+}
+html[data-theme="light"] .datepicker {
+  background-image: url("../images/calendar_bk_16.svg") !important;
+}
+html[data-theme="light"] .action_prev,
+html[data-theme="light"] .action_next {
+  filter: brightness(0) saturate(100%) invert(0%) sepia(96%) saturate(7483%) hue-rotate(231deg) brightness(99%) contrast(104%);
+}
+html[data-theme="light"] .rectangle {
+  background: rgba(255, 255, 255, 0.87);
+}
+html[data-theme="light"] .breadcrumb_home,
+html[data-theme="light"] .breadcrumb_arrow {
+  filter: brightness(0) saturate(100%) invert(0%) sepia(96%) saturate(7483%) hue-rotate(231deg) brightness(99%) contrast(104%);
+  opacity: 0.87;
+}
+html[data-theme="light"] .bg_back {
+  background: url(../images/login_light.png) no-repeat;
+  background-size: cover;
+}
+html[data-theme="light"] .contents_package {
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: -8px -8px 80px 0px rgba(0, 0, 0, 0.1);
+}
+html[data-theme="light"] .img_to_bk {
+  filter: brightness(0) saturate(100%) invert(0%) sepia(96%) saturate(7483%) hue-rotate(231deg) brightness(99%) contrast(104%);
+}
+html[data-theme="light"] .img_to_bk80 {
+  filter: brightness(0) saturate(100%) invert(0%) sepia(96%) saturate(7483%) hue-rotate(231deg) brightness(99%) contrast(104%);
+  opacity: 0.8;
+}
+html[data-theme="light"] .img_to_blue {
+  filter: brightness(0) saturate(100%) invert(19%) sepia(94%) saturate(1837%) hue-rotate(197deg) brightness(96%) contrast(101%);
+}
+html[data-theme="light"] .selector {
+  background-color: #fff;
+  background-image: url("../images/chevron_down_bk80_16.svg");
+}
+html[data-theme="light"] .selector.modal {
+  background-color: rgba(255, 255, 255, 0);
+  background-image: url("../images/chevron_down_bk80_16.svg");
+}
+html[data-theme="light"] .round_box.sample2 {
+  background: #fff;
+}
+html[data-theme="light"] .round_box.sample2 .selector {
+  background-color: #fff;
+}
+html[data-theme="light"] .img_dark {
+  display: none;
+}
+html[data-theme="light"] .img_light {
+  display: block;
+}
+html[data-theme="light"] .dg_dark {
+  content: url("../images/dg_disable_14.svg");
+}
+html[data-theme="light"] .btn_white {
+  filter: brightness(0) saturate(100%) invert(100%) sepia(5%) saturate(0%) hue-rotate(72deg) brightness(103%) contrast(102%);
+}
+html[data-theme="light"] .close_light {
+  content: url("../images/close_line_bk_24.svg");
+}
+html[data-theme="light"] .photo_circle {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+html[data-theme="light"] .modal_close {
+  filter: brightness(0) saturate(100%) invert(0%) sepia(96%) saturate(7483%) hue-rotate(231deg) brightness(99%) contrast(104%);
+}
+
+/* html data-theme End */
