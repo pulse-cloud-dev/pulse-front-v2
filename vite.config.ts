@@ -6,24 +6,15 @@ import path from "path";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }: ConfigEnv) => {
   // Load environment variables based on the current mode
-  const env = loadEnv(mode, process.cwd(), "VITE_ENV");
+  const env = loadEnv(mode, process.cwd(), "VITE_"); // VITE_ 접두사를 사용하여 로드
 
   // Common settings
   const commonSettings = {
-    plugins: [
-      react(), // Enables React fast refresh and JSX/TSX support
-      tsconfigPaths(), // Supports paths defined in tsconfig.json
-    ],
-    define: {
-      "process.env.MODE": JSON.stringify(process.env.MODE),
-      "process.env.PORT": JSON.stringify(process.env.PORT),
-      "process.env.BASE_URL": JSON.stringify(process.env.BASE_URL),
-    },
-    envPrefix: "VITE_ENV",
+    plugins: [react(), tsconfigPaths()],
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
-      }, // Add custom aliases if needed
+      },
     },
   };
 
@@ -31,15 +22,16 @@ export default defineConfig(({ mode }: ConfigEnv) => {
   const envSpecificSettings = {
     development: {
       server: {
-        port: 3000,
+        port: parseInt(env.VITE_PORT),
         headers: {
           "Cross-Origin-Embedder-Policy": "require-corp",
           "Cross-Origin-Opener-Policy": "same-origin",
         },
         proxy: {
           "/api": {
-            target: env.VITE_ENV_API_URI || "http://localhost:4000",
+            target: `${env.VITE_SERVER}${env.VITE_PORT ? ":" + env.VITE_PORT : ""}`,
             changeOrigin: true,
+            secure: false,
           },
         },
       },
@@ -58,13 +50,13 @@ export default defineConfig(({ mode }: ConfigEnv) => {
       },
     },
     test: {
-      testSpecificOption: true, // Placeholder for any test-specific configuration
+      testSpecificOption: true,
     },
   };
 
   // Merge common settings with environment-specific settings
   return {
     ...commonSettings,
-    ...envSpecificSettings[mode as keyof typeof envSpecificSettings], // Apply settings based on the current mode
+    ...envSpecificSettings[mode as keyof typeof envSpecificSettings],
   };
 });

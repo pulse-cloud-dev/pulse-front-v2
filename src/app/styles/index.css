@@ -1,13 +1,3 @@
 @charset "utf-8";
-@import "./common/reset.css";
-@import "./common/font.css";
-@import "./common/helper.css";
-@import "./common/guide.css";
-@import "./common/theme.css";
-@import "./common/app.css";
-@import "./common/border.css";
-
-@import "./component/air-datepicker.css";
-@import "./component/header.css";
-@import "./component/sidebar.css";
-@import "./component/wrapper.css";
+@import "./common/index.css";
+@import "./component/index.css";

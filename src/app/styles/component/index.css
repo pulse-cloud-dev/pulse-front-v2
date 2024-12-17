@@ -1,8 +1,7 @@
-@import "wrapper.css";
-@import "accordion.css";
-@import "air-datepicker.css";
-@import "card.css";
-@import "markdown.css";
-@import "header.css";
-@import "sidebar.css";
-@import "badge.css";
+@import "./app.css";
+@import "./air-datepicker.css";
+@import "./header.css";
+@import "./footer.css";
+@import "./sidebar.css";
+@import "./form.css";
+@import "./breadcrumb.css";

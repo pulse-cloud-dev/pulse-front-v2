@@ -1,1 +1,2 @@
-export * from "./lazy.wrapper";
+export * from "./breadcrumb/breadcrumb";
+export * from "./wrappers/lazy.wrapper";

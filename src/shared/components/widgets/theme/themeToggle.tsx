@@ -2,10 +2,10 @@ import { keyConst } from "@/shared/constants";
 import { useTheme } from "@/shared/lib/hooks";
 
 export const ThemeToggle = () => {
-  const themes = useTheme(keyConst.THEME, {});
+  const themes = useTheme(keyConst.THEME);
 
   return (
-    <div className="lightmode">
+    <div className="lightmode h28">
       <div className="inner template">
         <input type="radio" name="toggle" id="toggle-radio-light" onChange={themes.toggleTheme} checked={themes.theme === "light"} />
         <label htmlFor="toggle-radio-light" className="tolight">

@@ -1,31 +1,17 @@
 import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
 
-interface UseThemeOptions {
-  targetClass?: ClassName;
-}
-
-export function useTheme(themeKey: string = "taeopia-theme", options: UseThemeOptions) {
-  const { targetClass } = options;
-
+export function useTheme(themeKey: string = "theme") {
   const [theme, setTheme] = useState<Theme>(() => {
     const storedTheme = localStorage.getItem(themeKey) as Theme;
     return storedTheme === "dark" || storedTheme === "light" ? storedTheme : "light";
   });
 
   useEffect(() => {
-    if (targetClass) {
-      const $el = document.getElementsByClassName(targetClass);
-
-      Array.from($el).forEach((element) => {
-        element.setAttribute("data-theme", theme);
-      });
-    } else {
-      document.documentElement.setAttribute("data-theme", theme);
-    }
+    document.documentElement.setAttribute("data-theme", theme);
 
     localStorage.setItem(themeKey, theme);
-  }, [theme, themeKey, targetClass]);
+  }, [theme, themeKey]);
 
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));

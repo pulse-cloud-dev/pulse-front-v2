@@ -1,4 +1,22 @@
-export * from "./admin";
-// export * from "./auth";
-export * from "./errors";
-export * from "./main";
+// Admin
+export * from "./admin/admin.controller";
+
+// Auth
+export * from "./auth/signIn/sigIn.controller";
+export * from "./auth/signUp/signUp.controller";
+
+// Mentor
+export * from "./mentor/mentor.controller";
+
+// Chat
+export * from "./chat/chat.controller";
+
+// Community
+export * from "./community/community.controller";
+
+// Notice
+export * from "./notice/notice.controller";
+
+// Error
+export * from "./errors/notFound/notFound.controller";
+export * from "./errors/unAuthorized/unAuthorized.controller";

@@ -1,2 +1,3 @@
 export * from "./button";
-export * from "./linkers";
+export * from "./icons/icon";
+export * from "./linkers/linker";

@@ -1,0 +1,17 @@
+.sub_breadcrumb {
+  display: flex;
+  align-items: center;
+  -moz-column-gap: 8px;
+  column-gap: 8px;
+  flex-wrap: wrap;
+}
+
+.breadcrumb_anchor {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text_01);
+}
+
+.breadcrumb_home {
+  min-width: 16px;
+}

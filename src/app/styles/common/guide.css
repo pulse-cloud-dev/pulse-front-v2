@@ -1814,14 +1814,6 @@ header.two_line {
   color: var(--primary-pri_100);
 }
 
-.header_right {
-  display: flex;
-  align-items: center;
-  -moz-column-gap: 20px;
-  column-gap: 20px;
-  padding: 0 0 0 16px;
-}
-
 .profile_box {
   display: flex;
   align-items: center;
@@ -2011,11 +2003,7 @@ header.two_line {
   z-index: 1;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.4) 0%,
-    rgba(0, 0, 0, 0) 100%
-  );
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 100%);
 }
 
 .spin_animation {
@@ -2173,8 +2161,7 @@ header.two_line {
   border-collapse: separate;
 }
 .table_box tr.selected,
-.table_box
-  tr:hover:not(.disabled):not(.disable):not(.row_type2.disabled):not(.hover),
+.table_box tr:hover:not(.disabled):not(.disable):not(.row_type2.disabled):not(.hover),
 .table_box tr:focus,
 .table_box tr.hover {
   background: var(--alpha-bk-to-whbk-05);
@@ -2306,24 +2293,6 @@ header.two_line {
 }
 .search_dl dd .ch_radio:last-child {
   padding: 0;
-}
-
-.sub_breadcrumb {
-  display: flex;
-  align-items: center;
-  -moz-column-gap: 8px;
-  column-gap: 8px;
-  flex-wrap: wrap;
-}
-
-.breadcrumb_anchor {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--alpha-bk-to-whbk-87);
-}
-
-.breadcrumb_home {
-  min-width: 16px;
 }
 
 .form_group {
@@ -2522,7 +2491,7 @@ header.two_line {
   overflow: hidden;
   line-height: 1;
   text-overflow: ellipsis;
-  color: var(--alpha-bk-to-whbk-87);
+  /* color: var(--alpha-bk-to-whbk-87); */
 }
 .selectbox label,
 .selectboxSample label {
@@ -2531,16 +2500,16 @@ header.two_line {
 }
 .selectbox.disabled,
 .selectboxSample.disabled {
-  background: var(--input-select-fill-disabled);
+  /* background: var(--input-select-fill-disabled); */
 }
 .selectbox.disabled .selectbox_text,
 .selectboxSample.disabled .selectbox_text {
-  color: var(--white-w_20);
+  /* color: var(--white-w_20); */
 }
 .selectbox.sign,
 .selectboxSample.sign {
   border-radius: 8px;
-  background-color: var(--alpha-bk-to-whbk-20);
+  /* background-color: var(--alpha-bk-to-whbk-20); */
 }
 
 .hd_profile {
