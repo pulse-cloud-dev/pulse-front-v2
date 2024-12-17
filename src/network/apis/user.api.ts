@@ -1,6 +1,6 @@
 import type { UserSignInApi } from "@/network/types";
 import { privateClient, publicClient } from "@/network/client";
-import { UserDTO } from "@/entities";
+import { UserDTO } from "@/contracts";
 
 const userApiRouter = {
   login: "/login",

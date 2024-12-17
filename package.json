@@ -4,30 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "sideEffects": false,
-  "author": {
-    "name": "taetaeo",
-    "email": "ohtk1119@gmail.com",
-    "url": "https://github.com/taetaeo"
-  },
-  "scripts": {
-    "clean": "sh ./scripts/clean.sh",
-    "dev": "vite --host",
-    "build": "vite build",
-    "build:dev": "NODE_ENV=development vite build",
-    "build:prod": "NODE_ENV=production vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview --host --port 8080"
-  },
-  "dependencies": {
-    "antd": "^5.16.5",
-    "axios": "^1.6.8",
-    "class-transformer": "^0.5.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-hook-form": "^7.54.1",
-    "taeo-utils": "^2.0.23",
-    "zustand": "^5.0.0-rc.2"
-  },
+  "author": [
+    "taetaeo <ohtk1119@gmail.com> (https://github.com/taetaeo)",
+    "Hyesu-Choi <email@gmail.com> (https://github.com/Hyesu-Choi)"
+   ],
+
   "devDependencies": {
     "@types/node": "^22.7.0",
     "@types/react": "^18.2.66",
@@ -44,6 +25,26 @@
     "vite": "^5.2.0",
     "vite-tsconfig-paths": "^4.3.2"
   },
+  "dependencies": {
+    "antd": "^5.16.5",
+    "axios": "^1.6.8",
+    "class-transformer": "^0.5.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.54.1",
+    "taeo-utils": "^2.0.23",
+    "zustand": "^5.0.0-rc.2"
+  },
+  "scripts": {
+    "clean": "sh ./scripts/clean.sh",
+    "dev": "vite --host",
+    "build": "vite build",
+    "build:dev": "NODE_ENV=development vite build",
+    "build:prod": "NODE_ENV=production vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview --host --port 8080"
+  },
+
   "exports": {
     ".": {
       "import": "./index.mjs",

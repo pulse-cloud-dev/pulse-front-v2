@@ -1,17 +1,25 @@
 #!/bin/bash
 
-set -e
+set -euo pipefail
 
-echo "Removing node_modules folder..."
+# Color
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+RESET='\033[0m'
 
+echo -e "${YELLOW}Preparing to remove node_modules...${RESET}"
+
+# Remove node_modules
 rm -rf node_modules
 
-echo "Successfully removed node_modules."
+echo -e "${GREEN}Successfully cleaned node_modules.${RESET}"
 
-echo "Removing package-lock.json file..."
+echo -e "${YELLOW}Recreating package-lock.json and reinstalling dependencies...${RESET}"
 
-rm -rf package-lock.json
+# Re-Install npm
+npm install
 
-echo "Successfully removed package-lock.json."
+echo -e "${GREEN}Successfully reinstalled dependencies and recreated package-lock.json.${RESET}"
 
-echo "Clean process completed."
+echo -e "${GREEN}Clean process completed.${RESET}"

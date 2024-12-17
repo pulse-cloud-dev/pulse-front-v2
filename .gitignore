@@ -7,12 +7,20 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Node modules
 node_modules
+
+# Build output
 dist
 dist-ssr
+build
 *.local
 
-# Editor directories and files
+# Environment files
+.env
+.env.* 
+
+# IDE and editor files
 .vscode/*
 !.vscode/extensions.json
 .idea
@@ -22,3 +30,27 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# TypeScript
+*.tsbuildinfo
+
+# SASS/SCSS caching
+.sass-cache
+
+# Next.js (if using)
+.next
+
+# Jest
+coverage
+*.snap
+
+# VSCode Settings
+.vscode/settings.json
+.vscode/tasks.json
+
+# MacOS Finder
+.DS_Store
+
+# Windows installer files
+Thumbs.db
+ehthumbs.db

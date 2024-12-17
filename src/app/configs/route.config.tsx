@@ -3,8 +3,7 @@ import { createBrowserRouter, type RouteObject } from "react-router-dom";
 // Layouts...
 import { AdminLayout, MainLayout } from "@/shared/layouts";
 // Controllers
-import * as MainController from "@/layers/controllers/main";
-import * as AdminController from "@/layers/controllers/admin";
+import * as Controller from "@/features";
 
 export type Routers = RouteObject[];
 
@@ -16,7 +15,7 @@ const createRoutes = (): Routers => {
       children: [
         {
           path: "/",
-          element: <MainController.MainHomeController />,
+          element: <Controller.MainController />,
         },
       ],
     },
@@ -27,7 +26,7 @@ const createRoutes = (): Routers => {
       children: [
         {
           path: "",
-          element: <AdminController.AdminMainController />,
+          element: <Controller.AdminMainController />,
         },
       ],
     },

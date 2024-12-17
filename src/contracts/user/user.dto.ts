@@ -1,7 +1,7 @@
 import { Exclude, Expose } from "class-transformer";
-import { HelperDTO } from "../helper";
+import { BaseDTO } from "../shared";
 
-export class UserDTO extends HelperDTO {
+export class UserDTO extends BaseDTO {
   @Expose({ name: "id" })
   public id: string = "1";
 
