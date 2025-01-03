@@ -1,0 +1,54 @@
+.list__explanation {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  /* 숫자 카운터 초기화 */
+  /* counter-reset: custom-counter;  */
+}
+
+.explanation__item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+
+  /* 각 항목의 숫자 증가 */
+  /* counter-increment: custom-counter;  */
+}
+
+.explanation__item::before {
+  /* 숫자 표기 */
+  /* content: counter(custom-counter) "."; */
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #4a90e2; /* 주요 색상 */
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+/* 카드 스타일 */
+.explanation__item-card {
+  /* background-color: #f9f9f9;
+  border: 1px solid #e0e0e0; */
+  border-radius: 8px;
+  padding: 15px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.explanation__item-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.explanation__item-card p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333; /* 본문 텍스트 색상 */
+}
+
+/* 강조 텍스트 스타일 */
+.explanation__item-card p strong {
+  color: #4a90e2; /* 주요 강조 색상 */
+  font-weight: bold;
+}

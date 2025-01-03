@@ -1,9 +1,10 @@
 import { createBrowserRouter, Navigate, type RouteObject } from "react-router-dom";
 
-// Layouts...
-import { AdminLayout, MainLayout } from "@/shared/layouts";
 // Controllers
 import * as Controller from "@/features";
+// Layouts...
+import { AdminLayout, MainLayout } from "@/shared/layouts";
+// Shared
 import { urlConst } from "@/shared/constants";
 
 export type Routers = RouteObject[];
@@ -11,11 +12,11 @@ export type Routers = RouteObject[];
 const createRoutes = (): Routers => {
   const routes: Routers = [
     {
-      path: urlConst.home.default,
+      path: urlConst.home.default, // ""
       element: <MainLayout />,
       children: [
         {
-          path: urlConst.home.main,
+          path: urlConst.home.main, // "/"
           element: <Navigate to={urlConst.mentor.main} />,
         },
         /**

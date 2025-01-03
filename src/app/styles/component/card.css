@@ -1,0 +1,70 @@
+/* Card - Base */
+.card__base {
+  border-radius: 8px;
+  padding: 16px;
+  background-color: var(--background);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: box-shadow 0.3s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card__base:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Card - Info */
+.card__info {
+  background-color: var(--background);
+  padding: 8px;
+  border-radius: 4px;
+  width: 100%;
+}
+
+/* Card Structure */
+.card__base-image {
+  width: 100%;
+  max-width: 200px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.card__base-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--text);
+  margin: 8px 0;
+  text-transform: capitalize;
+}
+
+.card__base-description {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+.card__base-footer {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+.card__actions.action-button {
+  background: var(--primary-50);
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-wh);
+  transition: background 0.3s ease;
+}
+
+.card__actions.action-button:hover {
+  background: var(--primary-60);
+}
+
+.card_status.success {
+  border-color: var(--success);
+}
