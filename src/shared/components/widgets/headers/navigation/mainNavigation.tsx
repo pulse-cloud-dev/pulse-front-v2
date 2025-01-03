@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
-import { Linker } from "@/shared/components/atoms";
+import { Icon, Linker } from "@/shared/components/atoms";
 import { ThemeToggle } from "../../theme/themeToggle";
+import { HeaderSearchbar } from "@/shared/components/blocks";
 
 interface HeaderMainMenuProps {}
 
@@ -20,10 +21,7 @@ export const HeaderMainNavigation = (props: HeaderMainMenuProps) => {
       <div className="header__left">
         {/* Header Left - Logo*/}
         <Linker href="/" className="header__logo text_bk_wh ">
-          <span className="logo-secondary">P</span>
-          <span className="logo-primary">UL</span>
-          <span className="logo-secondary">S</span>
-          <span className="logo-primary">E</span>
+          <Icon src="logo_01" className="logo" alt="HOME" />
         </Linker>
         {/* Header Left - Logo */}
 
@@ -43,8 +41,13 @@ export const HeaderMainNavigation = (props: HeaderMainMenuProps) => {
       {/* Header Navigation - Middle left*/}
 
       <div className="header__right">
+        <HeaderSearchbar id="search-input" placeHolder="관심있는 키워드로 검색해보세요." />
         <div className="header__user-actions">
-          <ThemeToggle />
+          <div>로그인</div>
+          <div className="user-actions__signup">회원가입</div>
+          {/* 테마 변경 */}
+          {/* <ThemeToggle /> */}
+          {/* 테마 변경 */}
         </div>
       </div>
     </>
