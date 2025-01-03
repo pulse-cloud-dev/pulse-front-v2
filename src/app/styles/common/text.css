@@ -1,0 +1,234 @@
+/* 
+========================================================
+   
+                  Font Stretch (장평)
+
+========================================================
+ */
+
+.fs-condensed {
+  font-stretch: condensed;
+}
+.fs-expanded {
+  font-stretch: expanded;
+}
+.fs-ultra-condensed {
+  font-stretch: ultra-condensed;
+}
+.fs-ultra-expanded {
+  font-stretch: ultra-expanded;
+}
+.fs-50 {
+  font-stretch: 50%;
+}
+.fs-75 {
+  font-stretch: 75%;
+}
+.fs-100 {
+  font-stretch: 100%;
+}
+.fs-125 {
+  font-stretch: 125%;
+}
+.fs-150 {
+  font-stretch: 150%;
+}
+
+/* 
+========================================================
+   
+                  Font Weights (굵기)
+
+========================================================
+ */
+
+.fw-bold {
+  font-weight: 900 !important;
+}
+.fw-semi-bold {
+  font-weight: 700 !important;
+}
+.fw-medium {
+  font-weight: 500 !important;
+}
+.fw-regular {
+  font-weight: 300 !important;
+}
+
+/* 
+========================================================
+   
+                  Font Line Height (행간)
+
+========================================================
+ */
+
+.lh-100 {
+  line-height: 1; /* 기본 줄 간격 (1) */
+}
+.lh-120 {
+  line-height: 1.2; /* 약간 조밀한 줄 간격 */
+}
+.lh-150 {
+  line-height: 1.5; /* 널찍한 줄 간격 */
+}
+.lh-200 {
+  line-height: 2; /* 더 넓은 줄 간격 */
+}
+.lh-250 {
+  line-height: 2.5; /* 매우 넓은 줄 간격 */
+}
+.lh-40 {
+  line-height: 40px !important;
+}
+.lh-32 {
+  line-height: 32px !important;
+}
+.lh-28 {
+  line-height: 28px !important;
+}
+.lh-24 {
+  line-height: 24px !important;
+}
+.lh-21 {
+  line-height: 21px !important;
+}
+.lh-20 {
+  line-height: 20px !important;
+}
+.lh-18 {
+  line-height: 18px !important;
+}
+.lh-16 {
+  line-height: 16px !important;
+}
+.ls-3 {
+  letter-spacing: 3px !important;
+}
+/* 
+========================================================
+   
+                  Font Style (폰트스타일)
+
+========================================================
+ */
+.special {
+  font-family: "Pretendard Variable", sans-serif;
+  font-weight: 700 !important;
+  font-size: 20px !important;
+}
+.italic {
+  /* 이탤릭 */
+  font-style: italic !important;
+}
+.underline {
+  /* 밑줄 */
+  text-decoration: underline !important;
+}
+
+.underline-4 {
+  text-decoration: underline;
+  text-underline-offset: 4px; /* 밑줄과 글자 사이 간격 */
+}
+
+.strikethrough {
+  /* 취소선 */
+  text-decoration: line-through !important;
+}
+.underline-italic {
+  /* 밑줄 + 이탤릭 */
+  text-decoration: underline !important;
+  font-style: italic !important;
+}
+
+.highlight {
+  /* 텍스트 하이라이트 */
+  background-color: yellow;
+}
+.caps-upper {
+  /* 대문자 변환 */
+  text-transform: uppercase;
+}
+.caps-lower {
+  /* 스몰캡스 스타일 */
+  font-variant: small-caps;
+}
+.text-shadow {
+  /* 텍스트 그림자 */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* 
+========================================================
+   
+                  Font Color (폰트 색상)
+
+========================================================
+ */
+
+.color__bk-99 {
+  color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.color__bk-60 {
+  color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.color__bk-87 {
+  color: rgba(0, 0, 0, 0.87) !important;
+}
+
+.color__bk-40 {
+  color: rgba(0, 0, 0, 0.4) !important;
+}
+
+.color__error {
+  color: var(--error) !important;
+}
+
+.color__grey-87 {
+  color: rgba(255, 255, 255, 0.87) !important;
+}
+
+.color__grey-80 {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* 
+============== Font Color - white ==============
+ */
+
+.color__grey-60 {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.color__white-05 {
+  color: var(--palette-white-05) !important;
+}
+.color__white-10 {
+  color: var(--palette-white-10) !important;
+}
+.color__white-20 {
+  color: var(--palette-white-20) !important;
+}
+.color__white-30 {
+  color: var(--palette-white-30) !important;
+}
+.color__white-40 {
+  color: var(--palette-white-40) !important;
+}
+.color__white-50 {
+  color: var(--palette-white-50) !important;
+}
+.color__white-60 {
+  color: var(--palette-white-60) !important;
+}
+.color__white-70 {
+  color: var(--palette-white-70) !important;
+}
+.color__white-80 {
+  color: var(--palette-white-80) !important;
+}
+.color__white-90 {
+  color: var(--palette-white-90) !important;
+}

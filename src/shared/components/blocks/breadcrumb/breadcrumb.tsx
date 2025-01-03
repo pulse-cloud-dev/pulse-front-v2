@@ -24,7 +24,7 @@ export interface BreadcrumbProps {
 
 export const Breadcrumb = forwardRef<HTMLDivElement, BreadcrumbProps>((props, ref) => {
   return (
-    <div className="sub_breadcrumb p-15" ref={ref}>
+    <div className="sub_breadcrumb p-10" ref={ref}>
       <Linker href="/" className="breadcrumb_anchor">
         <Icon src="home_fff_16" className="breadcrumb_home" alt="HOME" />
       </Linker>

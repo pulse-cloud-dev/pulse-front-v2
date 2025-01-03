@@ -1,0 +1,55 @@
+.flex__box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: auto;
+}
+
+.flex__box > div {
+  flex: 1 1 calc(100% - 16px); /* 기본: 한 줄에 1개 */
+  max-width: calc(100% - 16px);
+  box-sizing: border-box;
+}
+
+/* 2개 배치 */
+@media (min-width: 480px) {
+  .flex__box > div {
+    flex: 1 1 calc(50% - 16px);
+    max-width: calc(50% - 16px);
+  }
+}
+
+/* 3개 배치 */
+@media (min-width: 768px) {
+  .flex__box > div {
+    flex: 1 1 calc(33.333% - 16px);
+    max-width: calc(33.333% - 16px);
+  }
+}
+
+/* 4개 배치 */
+@media (min-width: 1024px) {
+  .flex__box > div {
+    flex: 1 1 calc(25% - 16px);
+    max-width: calc(25% - 16px);
+  }
+}
+
+/* Flex directions */
+.flex {
+  display: flex;
+}
+.flex-col {
+  display: flex;
+  flex-direction: column !important;
+}
+.flex-row {
+  display: flex;
+  flex-direction: row !important;
+}
+.align_center {
+  align-self: center;
+}
+.align_end {
+  align-self: flex-end;
+}

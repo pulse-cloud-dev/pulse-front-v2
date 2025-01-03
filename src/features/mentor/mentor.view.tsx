@@ -5,7 +5,7 @@ interface MentorViewProps {}
 
 export const MentorView = (props: MentorViewProps) => {
   return (
-    <article>
+    <article className="sub-layout__content">
       <Breadcrumb
         items={[
           { title: "멘토링", href: "/" },
@@ -13,7 +13,7 @@ export const MentorView = (props: MentorViewProps) => {
         ]}
       />
 
-      <section>gkgkgkgk</section>
+      <section></section>
     </article>
   );
 };

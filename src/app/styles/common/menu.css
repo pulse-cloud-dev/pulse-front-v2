@@ -1,0 +1,9 @@
+.menu__hamburger {
+  display: none;
+  cursor: pointer;
+}
+@media (max-width: 768px) {
+  .menu__hamburger {
+    display: block;
+  }
+}
