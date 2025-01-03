@@ -13,6 +13,7 @@ console.log(`
   `);
 
 function App() {
+  useTheme(keyConst.THEME);
   return <RouterProvider />;
 }
 

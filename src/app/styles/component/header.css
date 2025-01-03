@@ -11,11 +11,17 @@
 /* 
 ========================================================
 
-               Header's type
-               - single
-               - multiple 
+                  Header's type
+                  - single
+                  - multiple 
 
 ========================================================
+*/
+
+/*
+======================================= 
+          Single line Header 
+=======================================
 */
 .header-single-line {
   height: auto;
@@ -39,15 +45,23 @@
   padding: 10px;
   margin: 0 auto;
 }
-
-/* Header's left-side */
+/*
+=======================================
+          Header's left-side 
+=======================================
+*/
 .header__left {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 50%;
 }
-/* Header's right-side */
+
+/*
+=======================================
+          Header's right-side
+=======================================
+*/
 .header__right {
   display: flex;
   align-items: center;
@@ -61,7 +75,12 @@
   font-weight: bold;
 }
 
-/* Header's Navigation */
+/*
+=======================================
+         Header's Navigation
+=======================================
+*/
+
 .header__nav {
   width: 517px;
   display: flex;
@@ -93,6 +112,12 @@
   color: var(--secondary);
 }
 
+/*
+=======================================
+         Header's User Actions
+=======================================
+*/
+
 .header__user-actions {
   display: flex;
   align-items: center;
@@ -107,7 +132,49 @@
   border: none;
   cursor: pointer;
 }
-/* Header's sub-menu */
+
+.user-actions__linker {
+  cursor: pointer;
+}
+
+.user-actions__linker > a {
+  color: var(--text);
+}
+.user-actions__linker > .active {
+  font-weight: 700;
+  color: var(--primary) !important;
+}
+
+.user-actions__linker.signIn {
+  margin: auto;
+}
+.user-actions__linker.signup {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 9px 16px;
+  gap: 10px;
+
+  width: 80px;
+  height: 36px;
+
+  background: #00cbba;
+  border-radius: 20px;
+
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+.user-actions__linker.signup > a {
+  color: var(--palette-white-05) !important;
+}
+
+/*
+=======================================
+         Header's sub-menu
+=======================================
+*/
+
 .header__submenu {
   display: flex;
   top: 100%;
@@ -141,25 +208,4 @@
   font-weight: 900;
   border-bottom: 1px solid;
   color: var(--primary-50);
-}
-
-.user-actions__signup {
-  /* Auto layout */
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 9px 16px;
-  gap: 10px;
-
-  width: 80px;
-  height: 36px;
-
-  background: #00cbba;
-  border-radius: 20px;
-  color: #fff;
-
-  /* Inside auto layout */
-  flex: none;
-  order: 1;
-  flex-grow: 0;
 }

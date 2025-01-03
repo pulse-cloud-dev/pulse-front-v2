@@ -1,7 +1,8 @@
 import { useLocation } from "react-router-dom";
+
 import { Icon, Linker } from "@/shared/components/atoms";
-import { ThemeToggle } from "../../theme/themeToggle";
 import { HeaderSearchbar } from "@/shared/components/blocks";
+import { ThemeToggle } from "../../theme/themeToggle";
 
 interface HeaderMainMenuProps {}
 
@@ -14,8 +15,10 @@ const links = [
 ];
 
 export const HeaderMainNavigation = (props: HeaderMainMenuProps) => {
-  const location = useLocation().pathname.split("/")[1];
+  const { pathname } = useLocation();
+  const [depth1, depth2, depth3] = pathname.split("/");
 
+  console.log(depth3 === "signIn" ? "active" : "");
   return (
     <>
       <div className="header__left">
@@ -28,13 +31,16 @@ export const HeaderMainNavigation = (props: HeaderMainMenuProps) => {
         {/* Header Navigation - Middle left*/}
         <nav className="header__nav" aria-label="Primary Navigation">
           <ul className="header__menu">
-            {links.map((link) => (
-              <li key={link.href} className={`header__menu-item ${location === link.href.split("/")[1] ? "active" : ""}`}>
-                <Linker href={link.href} className="header__menu-item-link">
-                  {link.label}
-                </Linker>
-              </li>
-            ))}
+            {links.map((link) => {
+              const activeColor = depth2 === link.href.split("/")[1] ? "active" : "";
+              return (
+                <li key={link.href} className={`header__menu-item ${activeColor}`}>
+                  <Linker href={link.href} className="header__menu-item-link">
+                    {link.label}
+                  </Linker>
+                </li>
+              );
+            })}
           </ul>
         </nav>
       </div>
@@ -43,8 +49,18 @@ export const HeaderMainNavigation = (props: HeaderMainMenuProps) => {
       <div className="header__right">
         <HeaderSearchbar id="search-input" placeHolder="관심있는 키워드로 검색해보세요." />
         <div className="header__user-actions">
-          <div>로그인</div>
-          <div className="user-actions__signup">회원가입</div>
+          <ul className="flex_r align_center justify_center gap_10">
+            <li className={`user-actions__linker signIn`}>
+              <Linker href={"/auth/signIn"} className={depth3 === "signIn" ? "active" : ""}>
+                로그인
+              </Linker>
+            </li>
+            <li className="user-actions__linker signup">
+              <Linker href={"/auth/signUp"}>회원가입</Linker>
+            </li>
+          </ul>
+          {/* <button className="user-actions__button">로그인</button>
+          <button className="user-actions__button signup">회원가입</button> */}
           {/* 테마 변경 */}
           {/* <ThemeToggle /> */}
           {/* 테마 변경 */}

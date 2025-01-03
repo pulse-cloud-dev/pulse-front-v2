@@ -1,3 +1,135 @@
+/*
+=======================================
+    
+  This is style css specific to Flex.
+    flex-row : row direction
+    flex-column : column direction
+
+    flex-box 
+
+=======================================
+*/
+.flex1 {
+  flex: 1;
+}
+.flex {
+  display: flex;
+}
+.flex_wrap {
+  flex-wrap: wrap;
+}
+
+.flex_nowrap {
+  flex-wrap: nowrap;
+}
+
+/* Column Direction */
+.flex_c {
+  display: flex;
+  flex-direction: column !important;
+}
+/* Row Direction */
+.flex_r {
+  display: flex;
+  flex-direction: row !important;
+}
+.align_center {
+  align-self: center;
+}
+.align_end {
+  align-self: flex-end;
+}
+.justify_start {
+  justify-content: flex-start;
+}
+.justify_center {
+  justify-content: center;
+}
+.justify_space-between {
+  justify-content: space-between;
+}
+
+.flex_as {
+  display: flex;
+  align-items: flex-start;
+}
+
+.flex_ac {
+  display: flex;
+  align-items: center;
+}
+
+.flex_ae {
+  display: flex;
+  align-items: flex-end;
+}
+
+.flex_jbet {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex_jard {
+  display: flex;
+  justify-content: space-around;
+}
+
+.flex_jstart {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.flex_dcol_jbet {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.flex_jcent {
+  display: flex;
+  justify-content: center;
+}
+
+.flex_jend {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.flex_ac_jcent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex_as_jbet {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.flex_ac_jbet {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex_ae_jbet {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.flex_ac_jend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/*
+=======================================
+              Flex Box
+=======================================
+*/
 .flex__box {
   display: flex;
   flex-wrap: wrap;
@@ -33,23 +165,4 @@
     flex: 1 1 calc(25% - 16px);
     max-width: calc(25% - 16px);
   }
-}
-
-/* Flex directions */
-.flex {
-  display: flex;
-}
-.flex-col {
-  display: flex;
-  flex-direction: column !important;
-}
-.flex-row {
-  display: flex;
-  flex-direction: row !important;
-}
-.align_center {
-  align-self: center;
-}
-.align_end {
-  align-self: flex-end;
 }
