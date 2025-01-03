@@ -370,18 +370,7 @@
 
 /* 라이트 테마 */
 :root[data-theme="light"] {
-  --primary: var(--palette-royalBlue-50);
-
-  --primary-05: var(--palette-royalBlue-05);
-  --primary-10: var(--palette-royalBlue-10);
-  --primary-20: var(--palette-royalBlue-20);
-  --primary-30: var(--palette-royalBlue-30);
-  --primary-40: var(--palette-royalBlue-40);
-  --primary-50: var(--palette-royalBlue-50);
-  --primary-60: var(--palette-royalBlue-60);
-  --primary-70: var(--palette-royalBlue-70);
-  --primary-80: var(--palette-royalBlue-80);
-  --primary-90: var(--palette-royalBlue-90);
+  --primary: var(--primary-50);
 
   --isActive-primary-20: var(--palette-royalBlue-20);
   --isActive-primary-50: var(--palette-royalBlue-50);
@@ -429,17 +418,7 @@
 
 /* 다크 테마 */
 :root[data-theme="dark"] {
-  --primary: var(--primary-dark);
-  --primary-05: var(--palette-blue-05);
-  --primary-10: var(--palette-blue-10);
-  --primary-20: var(--palette-blue-20);
-  --primary-30: var(--palette-blue-30);
-  --primary-40: var(--palette-blue-40);
-  --primary-50: var(--palette-blue-50);
-  --primary-60: var(--palette-blue-60);
-  --primary-70: var(--palette-blue-70);
-  --primary-80: var(--palette-blue-80);
-  --primary-90: var(--palette-blue-90);
+  --primary: var(--primary-70);
 
   --isActive-primary-20: var(--palette-white-80);
   --isActive-primary-50: var(--palette-royalBlue-50);
@@ -568,6 +547,10 @@ html[data-theme="light"] .lightmode input[type="radio"]:checked + label {
 
 /**/
 /* html data-theme */
+html[data-theme="dark"] .logo {
+  filter: brightness(0) saturate(100%) invert(100%) hue-rotate(29deg) brightness(100%) contrast(80%);
+  opacity: 0.87;
+}
 html[data-theme="light"] .gnb ul li a {
   color: var(--more-visible-wh_60-to-100);
 }
