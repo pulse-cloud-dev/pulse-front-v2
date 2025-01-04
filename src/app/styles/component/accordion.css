@@ -7,15 +7,17 @@
 }
 
 .accordion__item > .accordion__toggle {
-  font-weight: 700;
-  font-size: 18px;
   color: var(--text);
   display: flex;
   justify-content: space-between;
 }
 
+.accordion__toggle.toggle__text {
+  font-size: 16px;
+  font-weight: 500;
+}
+
 .accordion__item > div {
-  padding: 8px;
   cursor: pointer;
   font-weight: normal; /* 기본 폰트 굵기 */
   transition: color 0.3s ease, font-weight 0.3s ease;

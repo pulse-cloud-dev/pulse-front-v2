@@ -4,6 +4,7 @@ export * from "./admin/admin.controller";
 // Auth
 export * from "./auth/signIn/sigIn.controller";
 export * from "./auth/signUp/signUp.controller";
+export * from "./auth/finds/find.controller";
 
 // Mentor
 export * from "./mentor/mentor.controller";

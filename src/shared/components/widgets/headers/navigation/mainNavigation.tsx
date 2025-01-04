@@ -47,7 +47,13 @@ export const HeaderMainNavigation = (props: HeaderMainMenuProps) => {
       {/* Header Navigation - Middle left*/}
 
       <div className="header__right">
+        {/* 테마 변경 */}
+        {/* <ThemeToggle /> */}
+        {/* 테마 변경 */}
+
+        {/* 검색창 */}
         <HeaderSearchbar id="search-input" placeHolder="관심있는 키워드로 검색해보세요." />
+        {/* 검색창 */}
         <div className="header__user-actions">
           <ul className="flex_r align_center justify_center gap_10">
             <li className={`user-actions__linker signIn`}>
@@ -59,11 +65,6 @@ export const HeaderMainNavigation = (props: HeaderMainMenuProps) => {
               <Linker href={"/auth/signUp"}>회원가입</Linker>
             </li>
           </ul>
-          {/* <button className="user-actions__button">로그인</button>
-          <button className="user-actions__button signup">회원가입</button> */}
-          {/* 테마 변경 */}
-          {/* <ThemeToggle /> */}
-          {/* 테마 변경 */}
         </div>
       </div>
     </>
