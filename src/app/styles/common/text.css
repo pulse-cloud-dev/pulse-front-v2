@@ -235,3 +235,28 @@
 .color__white-90 {
   color: var(--palette-white-90) !important;
 }
+
+.color__primary-05 {
+  color: var(--primary-05) !important;
+}
+.color__primary-10 {
+  color: var(--primary-10) !important;
+}
+.color__primary-20 {
+  color: var(--primary-20) !important;
+}
+.color__primary-30 {
+  color: var(--primary-30) !important;
+}
+.color__primary-40 {
+  color: var(--primary-40) !important;
+}
+.color__primary-50 {
+  color: var(--primary-50) !important;
+}
+.color__primary-60 {
+  color: var(--primary-60) !important;
+}
+.color__primary-70 {
+  color: var(--primary-70) !important;
+}

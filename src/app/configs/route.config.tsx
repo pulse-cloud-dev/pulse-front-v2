@@ -88,6 +88,21 @@ const createRoutes = (): Routers => {
             { path: "find-password", element: <Controller.FindController /> },
           ],
         },
+        {
+          // 이용약관
+          path: "terms-and-conditions-for-service",
+          element: <>이용약관</>,
+        },
+        {
+          // 개인정보 처리방침
+          path: "privacy-policy-for-users",
+          element: <>개인정보 처리 방침</>,
+        },
+        {
+          // 고객센터
+          path: "customer-support-faq",
+          element: <>고객센터</>,
+        },
       ],
     },
 

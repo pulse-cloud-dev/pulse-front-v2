@@ -25,21 +25,24 @@ export const SignInView = () => {
                 </Linker>
               </span>
             </div>
-            <button type="submit" className="login-button">
+            <button type="submit" className="auth__button">
               로그인
             </button>
           </form>
 
           <div className="flex_r align_center">
             <span>
-              아직 회원이 아니신가요? <span>회원가입</span>
+              아직 회원이 아니신가요?{" "}
+              <Linker href="/auth/signUp" className="color__primary-70 fw_700">
+                회원가입
+              </Linker>
             </span>
           </div>
 
           <div className="flex_r align_center m-t-40 terms">
-            <span>이용약관</span>
-            <span>개인정보방침</span>
-            <span>고객센터</span>
+            <Linker href="/terms-and-conditions-for-service">이용약관</Linker>
+            <Linker href="/privacy-policy-for-users">개인정보방침</Linker>
+            <Linker href="/customer-support-faq">고객센터</Linker>
           </div>
         </div>
       </section>

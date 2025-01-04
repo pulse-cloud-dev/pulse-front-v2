@@ -1,8 +1,15 @@
 import { useState } from "react";
 
-import { Accordion, Heading, Icon } from "@/shared/components";
+import { Accordion, CheckboxGroup, CheckboxItem, Heading, Icon } from "@/shared/components";
+import { usePageNavigation } from "@/shared/lib/hooks";
 
-const SignUpConsentCheck = () => {
+interface SignUpViewProps {
+  checkboxItems: CheckboxItem[];
+}
+
+const SignUpConsentCheck = (props: SignUpViewProps) => {
+  const { checkboxItems } = props;
+  const { goBack } = usePageNavigation();
   const [isActive, toggle] = useState<boolean>(false);
 
   if (isActive)
@@ -31,9 +38,10 @@ const SignUpConsentCheck = () => {
     );
   return (
     <>
-      <div className="accordion__wrap">
-        <div className="accordion__item">
-          <div className="accordion__toggle">모두 동의합니다</div>
+      <div className="border-b">
+        <div className="flex_r align_center gap_8 p-8">
+          <CheckboxGroup type="all" id={checkboxItems[0].id} />
+          <span>모두 동의합니다</span>
         </div>
       </div>
 
@@ -43,8 +51,13 @@ const SignUpConsentCheck = () => {
             {({ isActive, toggle }) => {
               return (
                 <>
-                  <div className={`accordion__toggle`} onClick={toggle}>
-                    <span className="accordion__toggle toggle__text">이용약관(필수)</span>
+                  <div className={`accordion__toggle border-b`}>
+                    <div className="accordion__toggle toggle__text">
+                      <div className="flex_r align_center p-8 gap_8 ">
+                        <CheckboxGroup type="item" id={checkboxItems[1].id} />
+                        <span>이용약관(필수)</span>
+                      </div>
+                    </div>
                     <button type="button" className="accordion__toggle-arrow more" onClick={toggle}>
                       <Icon className="icon__arrow img_to_bk80" src="chevron_down_bk_16" alt="화살표" />
                     </button>
@@ -55,38 +68,24 @@ const SignUpConsentCheck = () => {
               );
             }}
           </Accordion.Item>
-        </Accordion>
-        <Accordion>
+
           <Accordion.Item initialValue>
             {({ isActive, toggle }) => {
               return (
                 <>
-                  <div className={`accordion__toggle`} onClick={toggle}>
-                    <span className="accordion__toggle toggle__text">이용약관(필수)</span>
+                  <div className={`accordion__toggle border-b`}>
+                    <div className="accordion__toggle toggle__text">
+                      <div className="flex_r align_center p-8 gap_8">
+                        <CheckboxGroup type="item" id={checkboxItems[2].id} />
+                        <span>이용약관(필수)</span>
+                      </div>
+                    </div>
                     <button type="button" className="accordion__toggle-arrow more" onClick={toggle}>
                       <Icon className="icon__arrow img_to_bk80" src="chevron_down_bk_16" alt="화살표" />
                     </button>
                   </div>
 
-                  <div className="side-bar-content">아이템1</div>
-                </>
-              );
-            }}
-          </Accordion.Item>
-        </Accordion>
-        <Accordion>
-          <Accordion.Item initialValue>
-            {({ isActive, toggle }) => {
-              return (
-                <>
-                  <div className={`accordion__toggle`} onClick={toggle}>
-                    <span className="accordion__toggle toggle__text">이용약관(필수)</span>
-                    <button type="button" className="accordion__toggle-arrow more" onClick={toggle}>
-                      <Icon className="icon__arrow img_to_bk80" src="chevron_down_bk_16" alt="화살표" />
-                    </button>
-                  </div>
-
-                  <div className="side-bar-content">아이템1</div>
+                  <div className="side-bar-content">아이템2</div>
                 </>
               );
             }}
@@ -95,7 +94,9 @@ const SignUpConsentCheck = () => {
       </div>
 
       <div className="w-70 m-t-40 flex_r align_center justify_center gap_8">
-        <button className="btn__line btn_xl fs_15 flex1">취소</button>
+        <button className="btn__line btn_xl fs_15 flex1" onClick={goBack}>
+          취소
+        </button>
         <button className="btn__primary btn_xl flex1" onClick={() => toggle(true)}>
           다음
         </button>
@@ -104,7 +105,8 @@ const SignUpConsentCheck = () => {
   );
 };
 
-export const SignUpView = () => {
+export const SignUpView = (props: SignUpViewProps) => {
+  const { checkboxItems } = props;
   return (
     <article className="sub-layout__content">
       <section className="section__auth">
@@ -115,7 +117,7 @@ export const SignUpView = () => {
             시작하기
           </Heading>
 
-          <SignUpConsentCheck />
+          <SignUpConsentCheck checkboxItems={checkboxItems} />
         </div>
       </section>
     </article>

@@ -1631,10 +1631,10 @@ input[type="password"] {
   opacity: 0.6;
 }
 .checkbox_type input[type="checkbox"]:checked + label {
-  color: var(--primary-pri_100);
+  color: var(--primary-50);
 }
 .checkbox_type input[type="checkbox"]:checked + label:after {
-  border: 1px solid var(--primary-pri_100);
+  border: 1px solid var(--primary-60);
   background: url(../images/checkbox_checked.svg) center no-repeat;
   opacity: 1;
 }
