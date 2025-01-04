@@ -1,4 +1,8 @@
-import { createBrowserRouter, Navigate, type RouteObject } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  type RouteObject,
+} from "react-router-dom";
 
 // Layouts...
 import { AdminLayout, MainLayout } from "@/shared/layouts";
