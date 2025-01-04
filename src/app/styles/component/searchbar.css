@@ -31,13 +31,13 @@
 
 .search-bar__input {
   outline: none;
-  flex: 1;
   border: none;
+  flex: 1;
   padding: 10px;
   font-size: 14px;
   color: #909090;
   justify-self: center;
-  height: 100%;
+  height: max-content;
 }
 
 .search-bar__button {

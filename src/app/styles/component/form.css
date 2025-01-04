@@ -1,0 +1,88 @@
+/* 
+========================================================
+   
+                   Form Style
+                   - log-in 
+                   - sign-up
+
+========================================================
+ */
+
+/* ================== log-in form style =====================  */
+
+.form__auth {
+  padding: 20px;
+  /* background-color: #f9f9f9; */
+  border-radius: 8px;
+  margin: auto;
+}
+
+.form__auth label {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 30px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.form__auth input {
+  width: 400px;
+  height: 48px;
+  padding: 10px 12px;
+
+  margin-top: 8px;
+  font-size: 14px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.form__auth input:focus {
+  border-color: var(--primary-50);
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+}
+
+.login-button {
+  width: 400px;
+  padding: 12px;
+  margin-top: 10px;
+  background-color: var(--primary-50);
+  border: none;
+  border-radius: 4px;
+  color: var(--palette-white-05);
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: var(--primary-70);
+}
+
+.form__auth label:last-of-type {
+  margin-bottom: 20px; /* 비밀번호 필드 아래 마진 추가 */
+}
+.terms span {
+  position: relative;
+  padding: 0 10px; /* 좌우 간격 조정 */
+}
+
+.terms span:not(:last-child)::after {
+  content: "|";
+  position: absolute;
+  right: 0;
+  color: #ccc; /* 분리선 색상 */
+  font-weight: normal; /* 원하는 두께 */
+}
+
+/* ================== sign-up form style =====================  */
+
+.form__signUp {
+}

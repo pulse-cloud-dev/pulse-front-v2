@@ -8,8 +8,8 @@ export const MentorView = (props: MentorViewProps) => {
     <article className="sub-layout__content">
       <Breadcrumb
         items={[
-          { title: "멘토링", href: "/" },
-          { title: "멘토링1", href: `/` },
+          { title: "멘토링", href: "mentor" },
+          { title: "멘토링1", href: "mentor/123" },
         ]}
       />
 

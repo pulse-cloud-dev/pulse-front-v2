@@ -72,20 +72,20 @@ const createRoutes = (): Routers => {
          * @description Auth
          */
         {
-          path: urlConst.auth.main,
+          path: "auth",
           children: [
+            { path: "", element: <Navigate to={urlConst.auth.signIn} /> },
+            { path: "signIn", element: <Controller.SigInController /> },
             {
-              path: urlConst.auth.default,
-              element: <Navigate to={urlConst.auth.signIn} />,
+              path: "signUp",
+              children: [
+                { path: "", element: <Controller.SignUpController /> },
+                { path: "termsAndCondition", element: <>약관동의</> },
+                { path: "identityVerification", element: <>본인인증증</> },
+              ],
             },
-            {
-              path: urlConst.auth.signIn,
-              element: <Controller.SigInController />,
-            },
-            {
-              path: urlConst.auth.signUp,
-              element: <Controller.SignUpController />,
-            },
+
+            { path: "find-password", element: <Controller.FindController /> },
           ],
         },
       ],
