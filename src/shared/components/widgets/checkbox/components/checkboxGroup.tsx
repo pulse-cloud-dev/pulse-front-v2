@@ -1,6 +1,8 @@
-import { useCheckboxGroup } from "./checkbox.provider";
+import { useCheckboxGroup } from "../context/checkboxProvider";
 
-export interface CheckboxGroupAllProps extends ReturnType<typeof useCheckboxGroup> {}
+export interface CheckboxGroupAllProps extends ReturnType<typeof useCheckboxGroup> {
+  id?: string;
+}
 
 const CheckboxForAll = ({ items, toggleCheckbox }: CheckboxGroupAllProps) => (
   <>
@@ -13,7 +15,7 @@ const CheckboxForAll = ({ items, toggleCheckbox }: CheckboxGroupAllProps) => (
 );
 
 export interface CheckboxGroupItemProps extends ReturnType<typeof useCheckboxGroup> {
-  id: Id;
+  id?: Id;
 }
 const CheckboxForItem = ({ items, id, toggleCheckbox }: CheckboxGroupItemProps) => (
   <>{items.map((item) => (item.id === id ? <input key={item.id} type="checkbox" checked={item.checked} onChange={() => toggleCheckbox(item.id)} /> : null))}</>
@@ -31,8 +33,8 @@ export const CheckboxGroup = (props: CheckboxGroupProps) => {
 
   return (
     <>
-      {type === "all" && <CheckboxForAll {...checkboxGroups} />}
-      {type === "item" && <CheckboxForItem id={id || ""} {...checkboxGroups} />}
+      {type === "all" && <CheckboxForAll id={id} {...checkboxGroups} />}
+      {type === "item" && <CheckboxForItem id={id} {...checkboxGroups} />}
     </>
   );
 };

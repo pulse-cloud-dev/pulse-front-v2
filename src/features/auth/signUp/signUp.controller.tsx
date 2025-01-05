@@ -1,18 +1,14 @@
-import { CheckboxItem, CheckboxProvider } from "@/shared/components";
+import { useState } from "react";
 
 import { SignUpView } from "./signUp.view";
 
-const initialCheckboxItems: CheckboxItem[] = [
-  { id: "all", label: "전체 선택", checked: false },
-  { id: "1", label: "항목 1", checked: false },
-  { id: "2", label: "항목 2", checked: false },
-  { id: "3", label: "항목 3", checked: false },
-];
-
 export const SignUpController = () => {
-  return (
-    <CheckboxProvider initialItems={initialCheckboxItems}>
-      <SignUpView checkboxItems={initialCheckboxItems} />
-    </CheckboxProvider>
-  );
+  // View에서 사용되어질 상태관리
+  const [step, setStep] = useState<"consent" | "form">("consent");
+
+  // Controller에서 View로 내려질 Props
+  const props = {
+    state: { step, setStep },
+  };
+  return <SignUpView {...props} />;
 };
