@@ -1,9 +1,31 @@
+import { formConstant } from "@/shared/constants";
 import { DynamicForm, Icon, Linker } from "@/shared/components";
 
-const fields = [
-  { name: "username", label: "", required: false, placeholder: "사용자 이름을 입력하세요" },
-  { name: "password", label: "", type: "password", required: false, placeholder: "비밀번호를 입력하세요" },
-];
+const SignInDynamicForm = () => {
+  return (
+    <DynamicForm
+      id="signIn-form"
+      className="form__auth"
+      fields={formConstant.signIn}
+      handleSubmit={(data: { [key: string]: string }) => {
+        console.log("Form Submitted:", data);
+      }}
+    >
+      <div className="flex_r justify_space-between w400">
+        <span className="fs_12">로그인 상태 유지</span>
+
+        <span className="fs_12">
+          <Linker href="/auth/find-password" style={{ color: "#000" }}>
+            계정/비밀번호 찾기
+          </Linker>
+        </span>
+      </div>
+      <button type="submit" className="auth__button">
+        로그인
+      </button>
+    </DynamicForm>
+  );
+};
 
 export const SignInView = () => {
   return (
@@ -12,27 +34,7 @@ export const SignInView = () => {
         <div className="container__signIn">
           <Icon src="logo_02" alt="logo" className="logo" />
 
-          <DynamicForm
-            id="signIn-form"
-            className="form__auth"
-            fields={fields}
-            handleSubmit={(data: { [key: string]: string }) => {
-              console.log("Form Submitted:", data);
-            }}
-          >
-            <div className="flex_r justify_space-between w400">
-              <span className="fs_12">로그인 상태 유지</span>
-
-              <span className="fs_12">
-                <Linker href="/auth/find-password" style={{ color: "#000" }}>
-                  계정/비밀번호 찾기
-                </Linker>
-              </span>
-            </div>
-            <button type="submit" className="auth__button">
-              로그인
-            </button>
-          </DynamicForm>
+          <SignInDynamicForm />
 
           <div className="flex_r align_center">
             <span className="fs_14">
