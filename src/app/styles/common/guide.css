@@ -369,6 +369,9 @@ input[type="password"] {
 .fs_10 {
   font-size: 10px !important;
 }
+.fs_8 {
+  font-size: 8px !important;
+}
 /* Font Weight */
 .fw_100 {
   font-weight: 100;

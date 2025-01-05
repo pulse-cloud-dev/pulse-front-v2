@@ -12,20 +12,23 @@
 
 .form__auth {
   padding: 20px;
-  /* background-color: #f9f9f9; */
   border-radius: 8px;
   margin: auto;
 }
-
-.form__auth label {
+.form__auth > div {
   display: flex;
   flex-direction: column;
+  height: auto;
+  margin: 15px 0px;
+}
 
-  margin-top: 30px;
-  margin-bottom: 15px;
+.form__auth > label {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
   font-size: 14px;
   font-weight: 600;
-  color: #333;
+  color: var(--text);
 }
 
 .form__auth input {
@@ -33,7 +36,6 @@
   height: 48px;
   padding: 10px 12px;
 
-  margin-top: 10px;
   font-size: 14px;
   background: #fff;
   border: 1px solid #ccc;
@@ -74,6 +76,7 @@
   position: relative;
   padding: 0 10px;
   color: var(--text);
+  font-size: 14px;
 }
 
 .terms span:not(:last-child)::after,
