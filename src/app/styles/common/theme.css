@@ -327,7 +327,7 @@
   --primary-light: #163eca; /* 기본 색상 */
 
   /* Primary 색상 정의 */
-  --primary-05: #e1faf7;
+  /* --primary-05: #e1faf7;
   --primary-10: #bef4ed;
   --primary-20: #7de8dc;
   --primary-30: #26d9c4;
@@ -343,7 +343,7 @@
   --secondary-40: #1a85ff;
   --secondary-50: #0072f5;
   --secondary-60: #0066db;
-  --secondary-70: #0058bd;
+  --secondary-70: #0058bd; */
 
   --secondary-light: #6c757d; /* 보조 색상 */
   --error-light: #ee0000; /* 에러 색상 */
@@ -372,8 +372,40 @@
 :root[data-theme="light"] {
   --primary: var(--primary-50);
 
-  --isActive-primary-20: var(--palette-royalBlue-20);
-  --isActive-primary-50: var(--palette-royalBlue-50);
+  --primary-05: var(--palette-teal-05);
+  --primary-10: var(--palette-teal-10);
+  --primary-20: var(--palette-teal-20);
+  --primary-30: var(--palette-teal-30);
+  --primary-40: var(--palette-teal-40);
+  --primary-50: var(--palette-teal-50);
+  --primary-60: var(--palette-teal-60);
+  --primary-70: var(--palette-teal-70);
+
+  --secondary-05: var(--palette-blue-05);
+  --secondary-10: var(--palette-blue-10);
+  --secondary-20: var(--palette-blue-20);
+  --secondary-30: var(--palette-blue-30);
+  --secondary-40: var(--palette-blue-40);
+  --secondary-50: var(--palette-blue-50);
+  --secondary-60: var(--palette-blue-60);
+  --secondary-70: var(--palette-blue-70);
+
+  --grayscale-05: var(--palette-gray-05);
+  --grayscale-10: var(--palette-gray-10);
+  --grayscale-20: var(--palette-gray-20);
+  --grayscale-30: var(--palette-gray-30);
+  --grayscale-40: var(--palette-gray-40);
+  --grayscale-50: var(--palette-gray-50);
+  --grayscale-60: var(--palette-gray-60);
+  --grayscale-70: var(--palette-gray-70);
+  --grayscale-80: var(--palette-gray-80);
+  --grayscale-90: var(--palette-gray-90);
+
+  --error-main: #ff5757;
+  --error-sub: #ffebeb;
+
+  --isActive-primary-20: var(--palette-teal-20);
+  --isActive-primary-50: var(--palette-teal-50);
 
   --secondary: var(--secondary-light);
   --error: var(--error-light);
@@ -420,8 +452,40 @@
 :root[data-theme="dark"] {
   --primary: var(--primary-70);
 
+  --primary-05: var(--palette-teal-05);
+  --primary-10: var(--palette-teal-10);
+  --primary-20: var(--palette-teal-20);
+  --primary-30: var(--palette-teal-30);
+  --primary-40: var(--palette-teal-40);
+  --primary-50: var(--palette-teal-50);
+  --primary-60: var(--palette-teal-60);
+  --primary-70: var(--palette-teal-70);
+
+  --secondary-05: var(--palette-blue-05);
+  --secondary-10: var(--palette-blue-10);
+  --secondary-20: var(--palette-blue-20);
+  --secondary-30: var(--palette-blue-30);
+  --secondary-40: var(--palette-blue-40);
+  --secondary-50: var(--palette-blue-50);
+  --secondary-60: var(--palette-blue-60);
+  --secondary-70: var(--palette-blue-70);
+
+  --grayscale-05: var(--palette-gray-05);
+  --grayscale-10: var(--palette-gray-10);
+  --grayscale-20: var(--palette-gray-20);
+  --grayscale-30: var(--palette-gray-30);
+  --grayscale-40: var(--palette-gray-40);
+  --grayscale-50: var(--palette-gray-50);
+  --grayscale-60: var(--palette-gray-60);
+  --grayscale-70: var(--palette-gray-70);
+  --grayscale-80: var(--palette-gray-80);
+  --grayscale-90: var(--palette-gray-90);
+
+  --error-main: #ff5757;
+  --error-sub: #ffebeb;
+
   --isActive-primary-20: var(--palette-white-80);
-  --isActive-primary-50: var(--palette-royalBlue-50);
+  --isActive-primary-50: var(--palette-teal-50);
 
   --secondary: var(--secondary-dark);
   --error: var(--error-dark);

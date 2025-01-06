@@ -108,11 +108,11 @@ Header's right-side
   color: var(--text);
 }
 .header__menu-item.active .header__menu-item-link {
-  font-weight: 700;
-  color: var(--primary);
+  color: var(--primary-60);
 }
 .header__menu-item:hover .header__menu-item-link {
-  color: var(--secondary);
+  color: var(--primary-70);
+  font-weight: 700;
 }
 
 /*
@@ -161,7 +161,7 @@ Header's right-side
   width: auto;
   height: 36px;
 
-  background: #00cbba;
+  background: var(--primary-50);
   border-radius: 20px;
 
   flex: none;

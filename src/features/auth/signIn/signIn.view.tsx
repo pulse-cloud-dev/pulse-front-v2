@@ -18,10 +18,10 @@ const SignInDynamicForm = ({ handleSubmit }: { handleSubmit: Void }) => {
       schema={{ email: 4, password: 5 }}
     >
       <div className="flex_r justify_space-between">
-        <span className="fs_12">로그인 상태 유지</span>
+        <span className="fs_12 color__grayscale-50">로그인 상태 유지</span>
 
-        <span className="fs_12">
-          <Linker href="/auth/find-password" style={{ color: "#000" }}>
+        <span>
+          <Linker href="/auth/find-password" className="fs_12 color__grayscale-50">
             계정/비밀번호 찾기
           </Linker>
         </span>
