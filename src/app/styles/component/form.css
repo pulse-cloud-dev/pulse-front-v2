@@ -1,72 +1,94 @@
-/* 로그인 섹션의 스타일 */
-.login-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  min-height: 100vh;
-}
+/* 
+========================================================
+   
+                   Form Style
+                   - log-in 
+                   - sign-up
 
-/* 로그인 컨테이너의 스타일 */
-.login-container {
-  padding: 2rem;
-  border-radius: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 708px;
-  height: 770px;
-}
+========================================================
+ */
 
-/* 폼 내부의 스타일 */
-.login-form {
+/* ================== log-in form style =====================  */
+
+.form__auth {
+  padding: 20px;
+  border-radius: 8px;
+  margin: auto;
+}
+.form__auth > div {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
+  height: auto;
+  margin: 15px 0px;
 }
 
-/* 레이블의 스타일 */
-.login-form label {
+.form__auth > label {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-  font-size: 1rem;
+  gap: 4px;
+  padding: 4px;
+  font-size: 14px;
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  color: var(--text);
 }
 
-/* 입력 필드의 스타일 */
-.login-form input {
-  padding: 0.75rem;
-  font-size: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 20px;
+.form__auth input {
+  width: 400px;
+  height: 48px;
+  padding: 10px 12px;
+
+  font-size: 14px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
   outline: none;
   transition: border-color 0.3s ease;
-  width: 440px;
-  height: 66px;
 }
 
-.login-form input:focus {
-  border-color: #4d90fe;
+.form__auth input:focus {
+  border-color: var(--primary-50);
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
 }
 
-/* 로그인 버튼의 스타일 */
-.login-button {
-  padding: 0.75rem;
-  font-size: 1rem;
-  background-color: #4d90fe;
-  color: #fff;
+.auth__button {
+  width: 400px;
+  padding: 12px;
+  margin-top: 10px;
+  background-color: var(--primary-50);
   border: none;
-  border-radius: 20px;
+  border-radius: 10px;
+  color: var(--palette-white-05);
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  width: 440px;
-  height: 66px;
 }
 
-.login-button:hover {
-  background-color: #357ae8;
+.auth__button:hover {
+  background-color: var(--primary-70);
+}
+
+.form__auth label:last-of-type {
+  margin-bottom: 20px; /* 비밀번호 필드 아래 마진 추가 */
+}
+.terms span,
+.terms a {
+  position: relative;
+  padding: 0 10px;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.terms span:not(:last-child)::after,
+.terms a:not(:last-child)::after {
+  content: "|";
+  position: absolute;
+  right: 0;
+  color: #ccc; /* 분리선 색상 */
+  font-weight: normal; /* 원하는 두께 */
+}
+
+/* ================== sign-up form style =====================  */
+
+.form__signUp {
 }

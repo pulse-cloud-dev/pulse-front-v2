@@ -1,5 +1,144 @@
-import React from "react";
+import { usePageNavigation } from "@/shared/lib/hooks";
+import { checkboxConst, formConstant } from "@/shared/constants";
+import { Accordion, CheckboxGroup, CheckboxProvider, DynamicForm, Heading, Icon } from "@/shared/components";
 
-export const SignUpView = () => {
-  return <div>signUp.view</div>;
+const SignUpDynamicForm = () => {
+  const handleSubmit = (data: { [key: string]: string }) => console.log("Form Submitted:", data);
+
+  return <DynamicForm id="signIn-form" className="form__auth" fields={formConstant.signUp} handleSubmit={handleSubmit} />;
 };
+
+const SignUpConsentCheck = ({ onNext }: { onNext: () => void }) => {
+  const { goBack } = usePageNavigation();
+  const initialCheckboxItems = checkboxConst.signUp;
+
+  return (
+    <CheckboxProvider initialItems={initialCheckboxItems}>
+      <div className="border-b">
+        <div className="flex_r align_center gap_8 p-8">
+          <CheckboxGroup type="all" id={initialCheckboxItems[0].id} />
+          <span>모두 동의합니다</span>
+        </div>
+      </div>
+
+      <div className="flex1 flex_c gap_10">
+        {initialCheckboxItems.slice(1).map((item) => (
+          <Accordion key={item.id}>
+            <Accordion.Item>
+              {({ toggle, isActive }) => (
+                <>
+                  <div className={`accordion__toggle border-b`}>
+                    <div className="flex_r align_center p-8 gap_8">
+                      <CheckboxGroup type="item" id={item.id} />
+                      <span>{item.label}</span>
+                    </div>
+                    <button type="button" className="accordion__toggle-arrow more" onClick={toggle}>
+                      <Icon className={`icon__arrow img_to_bk80 ${isActive ? "on" : ""}`} src="chevron_down_bk_16" alt="화살표" />
+                    </button>
+                  </div>
+                  {isActive && (
+                    <div className="accordion__item-content">
+                      <span>{`${item.label} 내용`}</span>
+                      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer
+                      took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially
+                      unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
+                      PageMaker including versions of Lorem Ipsum.
+                    </div>
+                  )}
+                </>
+              )}
+            </Accordion.Item>
+          </Accordion>
+        ))}
+      </div>
+
+      <div className="w-70 m-t-40 flex_r align_center justify_center gap_8">
+        <button className="btn__line btn_xl fs_15 flex1" onClick={goBack}>
+          취소
+        </button>
+        <button className="btn__primary btn_xl flex1" onClick={onNext}>
+          다음
+        </button>
+      </div>
+    </CheckboxProvider>
+  );
+};
+
+interface SignUpViewProps {
+  state?: Record<string, any>;
+}
+
+export const SignUpView = (props: SignUpViewProps) => {
+  const { state } = props;
+
+  return (
+    <article className="sub-layout__content">
+      <section className="section__auth">
+        <div className="container__signUp">
+          <Icon src="logo_02" alt="logo" className="logo" />
+
+          <Heading as="h3" className="title-32 text-center m-t-20 m-b-20">
+            시작하기
+          </Heading>
+
+          {state?.step === "consent" && <SignUpConsentCheck onNext={() => state?.setStep("form")} />}
+          {state?.step === "form" && <SignUpDynamicForm />}
+        </div>
+      </section>
+    </article>
+  );
+};
+
+{
+  /* <div className="flex1 flex_c gap_10">
+        <Accordion>
+          <Accordion.Item initialValue>
+            {({ isActive, toggle }) => {
+              const toggleIconClass = isActive ? "on" : "";
+
+              return (
+                <>
+                  <div className={`accordion__toggle border-b`}>
+                    <div className="accordion__toggle toggle__text">
+                      <div className="flex_r align_center p-8 gap_8 ">
+                        <CheckboxGroup type="item" id={initialCheckboxItems[1].id} />
+                        <span>이용약관(필수)</span>
+                      </div>
+                    </div>
+                    <button type="button" className="accordion__toggle-arrow more" onClick={toggle}>
+                      <Icon className={`icon__arrow img_to_bk80 ${toggleIconClass}`} src="chevron_down_bk_16" alt="화살표" />
+                    </button>
+                  </div>
+
+                  <div className="side-bar-content">아이템1</div>
+                </>
+              );
+            }}
+          </Accordion.Item>
+
+          <Accordion.Item initialValue>
+            {({ isActive, toggle }) => {
+              const toggleIconClass = isActive ? "on" : "";
+
+              return (
+                <>
+                  <div className={`accordion__toggle border-b`}>
+                    <div className="accordion__toggle toggle__text">
+                      <div className="flex_r align_center p-8 gap_8">
+                        <CheckboxGroup type="item" id={initialCheckboxItems[2].id} />
+                        <span>이용약관(필수)</span>
+                      </div>
+                    </div>
+                    <button type="button" className="accordion__toggle-arrow more" onClick={toggle}>
+                      <Icon className={`icon__arrow img_to_bk80 ${toggleIconClass}`} src="chevron_down_bk_16" alt="화살표" />
+                    </button>
+                  </div>
+
+                  <div className="side-bar-content">아이템2</div>
+                </>
+              );
+            }}
+          </Accordion.Item>
+        </Accordion>
+      </div> */
+}

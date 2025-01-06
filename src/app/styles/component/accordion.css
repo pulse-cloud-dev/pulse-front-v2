@@ -1,0 +1,81 @@
+.accordion__wrap {
+}
+
+.accordion__item,
+.accordion__item > div > a {
+  color: var(--text);
+}
+
+.accordion__item > .accordion__toggle {
+  color: var(--text);
+  display: flex;
+  justify-content: space-between;
+}
+
+.accordion__toggle.toggle__text {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.accordion__item > div {
+  cursor: pointer;
+  font-weight: normal; /* 기본 폰트 굵기 */
+  transition: color 0.3s ease, font-weight 0.3s ease;
+}
+
+.accordion__item > div:hover {
+  background-color: #ddd;
+  /* font-weight: bold; */
+  color: #333; /* hover 시 색상 변경 */
+}
+.accordion__item .side-bar-content {
+  display: none;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.accordion__item.active {
+  display: block;
+  max-height: 1000px;
+}
+
+/* 추가적인 애니메이션 효과 */
+.accordion__item {
+  /* max-height: 0;
+  opacity: 0; */
+}
+
+.accordion__item.active {
+  opacity: 1;
+  max-height: 1000px;
+}
+
+.accordion__item-content {
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  overflow-y: auto;
+  background: var(--bg_content);
+  border-radius: 8px;
+  backdrop-filter: blur(1.875rem);
+  overflow-y: scroll;
+}
+
+.accordion__toggle-arrow {
+  right: 0;
+  padding: 0 12px 0 12px;
+  display: none;
+}
+.accordion__toggle-arrow.more {
+  display: block;
+}
+
+.icon__arrow.img_to_bk80 {
+  transform: rotate(-180deg);
+  transition: transform 0.3s ease;
+}
+
+.icon__arrow.img_to_bk80.on {
+  transform: rotate(0deg);
+}

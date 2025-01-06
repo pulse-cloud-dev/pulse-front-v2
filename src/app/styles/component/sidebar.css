@@ -11,16 +11,27 @@
   box-sizing: border-box;
   padding: 10px;
 }
+.side-bar.left-bar {
+  border-right: 1px solid var(--border);
+}
+.side-bar.right-bar {
+  border-left: 1px solid var(--border);
+}
 
 /* 우측 스크롤 사이드바 */
 .scroll-side-bar {
-  top: 80px;
+  top: 105px;
   right: 0;
   width: 100%;
 
   position: sticky;
 }
-
+.scroll-side-bar__text {
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+}
 /* 좌측 사이드바 */
 .side-bar-left {
 }
@@ -66,4 +77,32 @@
 
 /* 오른쪽 사이드 메뉴 */
 .right-bar {
+}
+
+@media (max-width: 768px) {
+  .side-bar {
+    display: none;
+  }
+  .side-bar.open__drawer {
+    display: block;
+    flex: 0 0 auto;
+    max-width: 220px;
+    width: 100%;
+    min-height: 100vh;
+    max-height: 100%;
+    background-color: var(--bg_sidebar);
+    transition: width 0.3s ease;
+    box-sizing: border-box;
+    padding: 10px;
+  }
+
+  .side-bar.left-bar {
+    border-right: none;
+  }
+  .side-bar.right-bar {
+    border-left: none;
+  }
+  .side-bar ul {
+    width: 280px;
+  }
 }

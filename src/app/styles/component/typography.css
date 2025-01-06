@@ -1,0 +1,114 @@
+/* 
+============================
+
+  CSS Guide.
+  - font-size : 폰트 사이즈
+  - line-height: 행간
+  - letter-spacing : 자간
+
+============================
+
+  */
+
+/* 
+========================================================
+   
+                  Title Styles
+
+========================================================
+ */
+
+/* 공통 스타일 */
+.title {
+  line-height: 130%;
+  letter-spacing: -2%;
+}
+
+/* 크기별 스타일 */
+.title-56 {
+  font-size: 56px !important;
+}
+.title-48 {
+  font-size: 48px !important;
+}
+.title-40 {
+  font-size: 40px !important;
+}
+.title-36 {
+  font-size: 36px !important;
+}
+.title-28 {
+  font-size: 28px !important;
+}
+.title-24 {
+  font-size: 24px !important;
+}
+.title-20 {
+  font-size: 20px !important;
+}
+.title-18 {
+  font-size: 18px !important;
+}
+.title-16 {
+  font-size: 16px !important;
+}
+
+/* 
+========================================================
+   
+                    Compact Style
+
+========================================================
+ */
+.compact {
+  line-height: auto;
+  letter-spacing: -2%;
+}
+.compact-18 {
+  font-size: 18px !important;
+}
+.compact-16 {
+  font-size: 16px !important;
+}
+.compact-15 {
+  font-size: 15px !important;
+}
+
+.compact-14 {
+  font-size: 14px !important;
+}
+.compact-13 {
+  font-size: 13px !important;
+}
+.compact-12 {
+  font-size: 12px !important;
+}
+.compact-11 {
+  font-size: 11px !important;
+}
+/* 
+========================================================
+   
+                  Body Styles
+
+========================================================
+ */
+.body {
+  line-height: 150%;
+  letter-spacing: -2%;
+}
+.body-18 {
+  font-size: 18px !important;
+}
+.body-16 {
+  font-size: 16px !important;
+}
+.body-15 {
+  font-size: 15px !important;
+}
+.body-14 {
+  font-size: 14px !important;
+}
+.body-12 {
+  font-size: 12px !important;
+}

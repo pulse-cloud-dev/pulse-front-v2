@@ -5,7 +5,7 @@ export const ThemeToggle = () => {
   const themes = useTheme(keyConst.THEME);
 
   return (
-    <div className="lightmode h28">
+    <div className="lightmode">
       <div className="inner template">
         <input type="radio" name="toggle" id="toggle-radio-light" onChange={themes.toggleTheme} checked={themes.theme === "light"} />
         <label htmlFor="toggle-radio-light" className="tolight">

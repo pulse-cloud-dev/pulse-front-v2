@@ -4,10 +4,11 @@ import {
   type RouteObject,
 } from "react-router-dom";
 
-// Layouts...
-import { AdminLayout, MainLayout } from "@/shared/layouts";
 // Controllers
 import * as Controller from "@/features";
+// Layouts...
+import { AdminLayout, MainLayout } from "@/shared/layouts";
+// Shared
 import { urlConst } from "@/shared/constants";
 
 export type Routers = RouteObject[];
@@ -15,11 +16,11 @@ export type Routers = RouteObject[];
 const createRoutes = (): Routers => {
   const routes: Routers = [
     {
-      path: urlConst.home.default,
+      path: urlConst.home.default, // ""
       element: <MainLayout />,
       children: [
         {
-          path: urlConst.home.main,
+          path: urlConst.home.main, // "/"
           element: <Navigate to={urlConst.mentor.main} />,
         },
         /**
@@ -75,21 +76,36 @@ const createRoutes = (): Routers => {
          * @description Auth
          */
         {
-          path: urlConst.auth.main,
+          path: "auth",
           children: [
+            { path: "", element: <Navigate to={urlConst.auth.signIn} /> },
+            { path: "signIn", element: <Controller.SigInController /> },
             {
-              path: urlConst.auth.default,
-              element: <Navigate to={urlConst.auth.signIn} />,
+              path: "signUp",
+              children: [
+                { path: "", element: <Controller.SignUpController /> },
+                { path: "termsAndCondition", element: <>약관동의</> },
+                { path: "identityVerification", element: <>본인인증증</> },
+              ],
             },
-            {
-              path: urlConst.auth.signIn,
-              element: <Controller.SigInController />,
-            },
-            {
-              path: urlConst.auth.signUp,
-              element: <Controller.SignUpController />,
-            },
+
+            { path: "find-password", element: <Controller.FindController /> },
           ],
+        },
+        {
+          // 이용약관
+          path: "terms-and-conditions-for-service",
+          element: <>이용약관</>,
+        },
+        {
+          // 개인정보 처리방침
+          path: "privacy-policy-for-users",
+          element: <>개인정보 처리 방침</>,
+        },
+        {
+          // 고객센터
+          path: "customer-support-faq",
+          element: <>고객센터</>,
         },
       ],
     },

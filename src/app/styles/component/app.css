@@ -1,55 +1,27 @@
+/* box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1); */
 body {
   background-color: var(--background);
   color: var(--text);
 }
-
-.body-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-  padding: 10px;
+button {
+  cursor: pointer;
 }
-
-.page-wrapper {
-  display: flex;
-  width: 1440px;
-  min-height: calc(100vh - 48px);
-}
-.page-wrapper > article {
-  width: 100%;
-  box-sizing: border-box;
-}
-.page-wrapper > article > section {
-  padding: 15px;
-  height: calc(100% - 15px);
-}
-
-.content-wrapper {
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 10px;
-  padding-top: 10px;
-  width: 100%;
-  min-width: calc(1440px - 30%);
-  box-sizing: border-box;
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
-
-  border-left: 1px solid rgba(0, 0, 0, 0.1);
-}
-.admin-wrapper {
-  display: flex;
-  width: 100%;
-  min-height: calc(100vh - 48px);
-}
-
-/* 로고 */
-.logo-primary {
-  font-weight: 700;
-  color: var(--ci-primary); /* UL은 파랑색 */
-}
-
-.logo-secondary {
-  font-weight: 700;
-  color: var(--ci-secondary); /* P는 오렌지색 */
+html,
+body,
+header,
+footer,
+nav,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+div,
+article,
+section,
+main {
+  font-family: "Pretendard Variable", sans-serif;
 }
