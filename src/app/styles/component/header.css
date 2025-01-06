@@ -160,13 +160,14 @@ Header's right-side
 
   width: auto;
   height: 36px;
-
-  background: var(--primary-50);
+  background: var(--primary-60);
   border-radius: 20px;
-
   flex: none;
   order: 1;
   flex-grow: 0;
+}
+.user-actions__linker.signup:hover {
+  background: var(--primary-70);
 }
 .user-actions__linker.signup > a {
   color: var(--palette-white-05) !important;
@@ -204,7 +205,6 @@ Header's right-side
 
 .header__submenu-link:hover {
   color: var(--secondary);
-
   border-bottom: 1px solid var(--secondary);
 }
 .header__submenu-item.active .header__submenu-link {
