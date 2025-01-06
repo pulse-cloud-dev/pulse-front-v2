@@ -1,0 +1,102 @@
+/* 
+========================================================
+
+                  Container CSS.
+                  - Sections
+                  - Container
+
+========================================================
+*/
+
+/* 
+========================================================
+   
+                  Sections Styles
+
+========================================================
+ */
+
+.section__container {
+  margin-top: 20px;
+  margin-bottom: 60px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.section__border {
+  position: absolute;
+  width: 2px;
+  z-index: 2;
+  height: 100%;
+}
+
+.section-container__header {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+/* flex-row gap_4 m-b-8 */
+.section__description-wrap {
+  padding: 4px 4px 4px 10px;
+}
+.section__card-wrap {
+  padding: 4px 4px 4px 30px;
+
+  display: flex;
+  gap: 8px;
+}
+@media (max-width: 768px) {
+  .section__card-wrap {
+    flex-direction: column;
+  }
+}
+
+.section__auth {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-self: center;
+}
+
+/* 
+========================================================
+   
+                  Container Styles
+
+========================================================
+ */
+
+.container__signIn {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* box-shadow: var(--box-shadow); */
+  /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2); */
+  width: 100%;
+  height: 500px;
+  margin: auto;
+}
+
+.container__signIn > .logo {
+  width: 182px;
+  margin: 0 auto;
+}
+
+.container__signUp {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* box-shadow: var(--box-shadow); */
+  /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2); */
+  max-width: 760px;
+  width: 100%;
+  height: 500px;
+  margin: auto;
+}
+.container__signUp > .logo {
+  width: 300px;
+  margin: 0 auto;
+}

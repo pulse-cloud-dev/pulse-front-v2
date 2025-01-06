@@ -7,3 +7,6 @@
 .border-gray {
   border: 1px solid var(--border);
 }
+.border-circle {
+  border-radius: 50%;
+}

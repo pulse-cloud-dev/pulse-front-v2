@@ -139,12 +139,12 @@ button.disabled .img_on {
 }
 .btn__line.sec {
   color: var(--87-to-100-txt);
-  border: 1px solid var(--alpha-bk-to-whbk-20);
+  border: 1px solid var(--grayScale);
 }
 .btn__line.sec:hover,
 .btn__line.sec.hover {
   background: var(--white-w_16);
-  border: 1px solid var(--alpha-bk-to-whbk-20);
+  border: 1px solid var(--secondary);
 }
 .btn__line.sec.disabled {
   background: var(--white-w_12);
@@ -236,4 +236,9 @@ button.disabled .img_on {
   font-size: 14px;
   color: var(--text-muted);
   line-height: 1.6;
+}
+
+.disabled {
+  background-color: var(--text-muted) !important;
+  color: #fff !important;
 }

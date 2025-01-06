@@ -18,6 +18,7 @@ export * from "./community/community.controller";
 // Notice
 export * from "./notice/notice.controller";
 
-// Error
-export * from "./errors/notFound/notFound.controller";
-export * from "./errors/unAuthorized/unAuthorized.controller";
+// Error..
+export * from "./errors/notFound.controller";
+export * from "./errors/unAuthorized.controller";
+export * from "./errors/underConstruction.controller";
