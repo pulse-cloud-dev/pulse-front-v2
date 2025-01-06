@@ -57,7 +57,6 @@
   padding: 16px;
   overflow-y: auto;
   background: var(--bg_content);
-  border-radius: 8px;
   backdrop-filter: blur(1.875rem);
   overflow-y: scroll;
 }

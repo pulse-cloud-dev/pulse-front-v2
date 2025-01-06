@@ -7,9 +7,9 @@
   "author": [
     "taetaeo <ohtk1119@gmail.com> (https://github.com/taetaeo)",
     "Hyesu-Choi <email@gmail.com> (https://github.com/Hyesu-Choi)"
-   ],
-
+  ],
   "devDependencies": {
+    "@tanstack/react-query-devtools": "^5.62.15",
     "@types/node": "^22.7.0",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
@@ -26,12 +26,15 @@
     "vite-tsconfig-paths": "^4.3.2"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.62.15",
     "antd": "^5.16.5",
     "axios": "^1.6.8",
     "class-transformer": "^0.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.54.1",
+    "react-hot-toast": "^2.5.1",
+    "taeo-hooks": "^1.1.2",
     "taeo-utils": "^2.0.23",
     "zustand": "^5.0.0-rc.2"
   },
@@ -44,7 +47,6 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview --host --port 8080"
   },
-
   "exports": {
     ".": {
       "import": "./index.mjs",

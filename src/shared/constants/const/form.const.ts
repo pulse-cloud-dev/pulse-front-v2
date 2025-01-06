@@ -1,6 +1,6 @@
 export const formConstant = {
   signIn: [
-    { name: "username", label: "", required: false, placeholder: "사용자 이름을 입력하세요" },
+    { name: "email", label: "", required: false, placeholder: "이메일을 입력해주세요" },
     { name: "password", label: "", type: "password", required: false, placeholder: "비밀번호를 입력하세요" },
   ],
   signUp: [

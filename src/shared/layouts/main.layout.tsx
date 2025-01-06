@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 
-import { Footer, PageHeader } from "@/shared/components/widgets";
+import { PageHeader } from "@/shared/components/widgets";
 
 export const MainLayout = () => {
   return (
@@ -14,7 +14,6 @@ export const MainLayout = () => {
           <Outlet />
         </section>
       </main>
-      {/* <Footer /> */}
     </>
   );
 };

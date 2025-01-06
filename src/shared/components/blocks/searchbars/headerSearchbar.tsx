@@ -13,14 +13,20 @@ export const HeaderSearchbar = forwardRef<HTMLInputElement, HeaderSearchbarProps
   const { id = "search-input", placeHolder, className, children, style, ...rest } = props;
 
   return (
-    <div className="search-bar" role="search">
-      <label htmlFor={id} className="visually-hidden">
-        Search
-      </label>
-      <button type="submit" className="search-bar__button" aria-label="Submit search">
+    <>
+      <div className="search-bar" role="search">
+        <label htmlFor={id} className="visually-hidden">
+          Search
+        </label>
+        <button type="submit" className="search-bar__button" aria-label="Submit search">
+          <Icon src="search_18" alt="search button" />
+        </button>
+        <input ref={forwardedRef} type="text" id={id} className="search-bar__input" placeholder={placeHolder || "검색어를 입력해주세요."} aria-label="Search" />
+      </div>
+
+      <button type="button" className="search-bar__button mobile" aria-label="Button search">
         <Icon src="search_18" alt="search button" />
       </button>
-      <input ref={forwardedRef} type="text" id={id} className="search-bar__input" placeholder={placeHolder || "검색어를 입력해주세요."} aria-label="Search" />
-    </div>
+    </>
   );
 });

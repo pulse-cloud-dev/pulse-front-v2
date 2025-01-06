@@ -1,0 +1,46 @@
+/* 
+========================================================
+
+                  Widgets CSS.
+                  - Profiler
+
+========================================================
+*/
+
+/* 
+========================================================
+   
+                  Profiler Styles
+
+========================================================
+ */
+.profile__header {
+  position: relative;
+}
+.profile__header .member_popover {
+  display: none;
+}
+.profile__header.open .member_popover,
+.profile__header.open .member_toggle {
+  display: block;
+}
+.profile__header.open .btn_profile .comma_under8 {
+  opacity: 1;
+  transform: rotate(180deg);
+}
+.profile__header.open .profile20 {
+  opacity: 1;
+}
+.member_popover {
+  width: 182px;
+  padding: 20px 12px 12px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--alpha-bk-to-whbk-10);
+  background: var(--background);
+  box-shadow: 0px 12px 40px 0px rgba(0, 0, 0, 0.2);
+  -webkit-backdrop-filter: blur(30px);
+  backdrop-filter: blur(30px);
+  position: absolute;
+  right: -12px;
+  top: 40px;
+}

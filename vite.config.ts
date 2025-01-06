@@ -29,7 +29,7 @@ export default defineConfig(({ mode }: ConfigEnv) => {
         },
         proxy: {
           "/api": {
-            target: `${env.VITE_SERVER}${env.VITE_PORT ? ":" + env.VITE_PORT : ""}`,
+            target: `${env.VITE_SERVER}${env.VITE_SERVER_PORT}`,
             changeOrigin: true,
             secure: false,
           },

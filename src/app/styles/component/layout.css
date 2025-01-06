@@ -175,16 +175,16 @@
 
 .notFound__home-link {
   font-size: 18px;
-  color: #007bff;
+  color: var(--primary-50);
   text-decoration: none;
-  border: 1px solid #007bff;
+  border: 1px solid var(--primary-50);
   padding: 10px 20px;
   border-radius: 5px;
   transition: all 0.3s ease;
 }
 
 .notFound__home-link:hover {
-  background-color: #007bff;
+  background-color: var(--primary-70);
   color: white;
 }
 /* Un-Authorized */
@@ -217,16 +217,16 @@
 
 .unauthorized__login-link {
   font-size: 18px;
-  color: #007bff;
+  color: var(--primary-50);
   text-decoration: none;
-  border: 1px solid #007bff;
+  border: 1px solid var(--primary-50);
   padding: 10px 20px;
   border-radius: 5px;
   transition: all 0.3s ease;
 }
 
 .unauthorized__login-link:hover {
-  background-color: #007bff;
+  background-color: var(--primary-70);
   color: white;
 }
 

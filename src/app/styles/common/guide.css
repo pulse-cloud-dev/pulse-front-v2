@@ -2118,38 +2118,6 @@ input[type="password"] {
   background-color: var(--alpha-bk-to-whbk-20);
 }
 
-.hd_profile {
-  position: relative;
-}
-.hd_profile .member_popover {
-  display: none;
-}
-.hd_profile.profile_open .member_popover,
-.hd_profile.profile_open .member_toggle {
-  display: block;
-}
-.hd_profile.profile_open .btn_profile .comma_under8 {
-  opacity: 1;
-  transform: rotate(180deg);
-}
-.hd_profile.profile_open .profile20 {
-  opacity: 1;
-}
-
-.member_popover {
-  width: 182px;
-  padding: 20px 12px 12px 12px;
-  border-radius: 20px;
-  border: 1px solid var(--alpha-bk-to-whbk-10);
-  background: var(--alpha-bk-to-whbk-10);
-  box-shadow: 0px 12px 40px 0px rgba(0, 0, 0, 0.2);
-  -webkit-backdrop-filter: blur(30px);
-  backdrop-filter: blur(30px);
-  position: absolute;
-  right: -12px;
-  top: 30px;
-}
-
 .search_tab_list {
   display: flex;
   align-items: center;

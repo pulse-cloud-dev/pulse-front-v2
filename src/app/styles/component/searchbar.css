@@ -29,6 +29,12 @@
   box-sizing: border-box;
 }
 
+@media (max-width: 768px) {
+  .search-bar {
+    display: none;
+  }
+}
+
 .search-bar__input {
   outline: none;
   border: none;
@@ -48,6 +54,16 @@
   cursor: pointer;
   transition: background-color 0.3s;
   height: 100%;
+}
+
+.mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile {
+    display: block;
+  }
 }
 
 .search-button:hover {

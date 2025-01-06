@@ -5,12 +5,13 @@ import type { FieldConfig, IFormData } from "../types/index.type";
 
 export interface UseFormManagerOptions {
   handleSubmit: (data: IFormData) => void;
+  schema: Record<string, any>;
 }
 
 export function useFormManager(fields: FieldConfig[], options: UseFormManagerOptions) {
   const [formData, setFormData] = useState<IFormData>({});
   const [errors, setErrors] = useState<IFormData>({});
-
+  const [disabled, setDisabled] = useState<boolean>(true);
   /**
    * @description Change 핸들러
    * @param {ChangeEvent<HTMLInputElement>} e
@@ -18,6 +19,12 @@ export function useFormManager(fields: FieldConfig[], options: UseFormManagerOpt
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+
+    const isValid = Object.keys(options.schema).every((key) => {
+      return value.length >= options.schema[key];
+    });
+
+    setDisabled(!isValid);
   };
 
   /**
@@ -49,6 +56,7 @@ export function useFormManager(fields: FieldConfig[], options: UseFormManagerOpt
   };
 
   return {
+    disabled,
     formData,
     setFormData,
     errors,

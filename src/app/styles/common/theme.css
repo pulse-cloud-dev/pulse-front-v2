@@ -379,7 +379,7 @@
   --error: var(--error-light);
   --warning: var(--warning-light);
   --success: var(--success-light);
-  --grayScale: var(--palette-gray-10);
+  --grayScale: var(--palette-gray-30);
   --background: var(--background-light);
   --background-reverse: var(--background-dark);
 

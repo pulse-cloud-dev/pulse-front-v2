@@ -9,15 +9,28 @@ interface DynamicFormProps extends HTMLAttributes<HTMLFormElement> {
   fields: FieldConfig[];
   handleSubmit: UseFormManagerOptions["handleSubmit"];
 
-  buttonTitle?: string;
+  schema: Record<string, any>;
 
+  submitTitle?: string;
   labelClass?: string;
   inputClass?: string;
+  submitClass?: string;
 }
 export const DynamicForm = forwardRef<HTMLFormElement, DynamicFormProps>((props, forwardedRef) => {
-  const { className, children, buttonTitle = "Submit", labelClass, inputClass, fields, handleSubmit } = props;
+  const {
+    className,
+    children,
+    fields,
+    handleSubmit,
+    schema,
+    // style class
+    submitTitle = "Submit",
+    labelClass,
+    inputClass,
+    submitClass,
+  } = props;
 
-  const { formData, errors, onChange, onSubmit } = useFormManager(fields, { handleSubmit });
+  const { disabled, formData, errors, onChange, onSubmit } = useFormManager(fields, { handleSubmit, schema });
 
   return (
     <form className={className} onSubmit={onSubmit} ref={forwardedRef}>
@@ -38,7 +51,9 @@ export const DynamicForm = forwardRef<HTMLFormElement, DynamicFormProps>((props,
         />
       ))}
       {children}
-      {/* <button type="submit">{buttonTitle}</button> */}
+      <button type="submit" className={`${submitClass} ${disabled ? "disabled" : ""}`} disabled={disabled}>
+        {submitTitle}
+      </button>
     </form>
   );
 });
