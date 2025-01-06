@@ -120,7 +120,6 @@ const createRoutes = (): Routers => {
         /**
          * @description My-Pages
          */
-
         {
           path: "my-page",
           element: <WithAuthLayout />,
