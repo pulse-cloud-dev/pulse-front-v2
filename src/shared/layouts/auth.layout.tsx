@@ -1,5 +1,7 @@
 import { Outlet } from "react-router-dom";
-import { withAuthRedirect } from "../hocs";
+
+import { ThemeToggle } from "@/shared/components";
+import { withAuthRedirect } from "@/shared/hocs";
 
 export const AuthLayout = withAuthRedirect(() => {
   return (
@@ -9,6 +11,10 @@ export const AuthLayout = withAuthRedirect(() => {
           <Outlet />
         </section>
       </main>
+
+      <div className="outer__right">
+        <ThemeToggle />
+      </div>
     </>
   );
 });

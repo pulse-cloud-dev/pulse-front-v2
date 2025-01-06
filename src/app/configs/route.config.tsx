@@ -15,37 +15,36 @@ const createRoutes = (): Routers => {
       path: urlConst.home.default, // ""
       element: <MainLayout />,
       children: [
-        { path: "/", element: <Navigate to={urlConst.mentor.main} /> },
+        { path: "/", element: <Navigate to={"mentor-find"} /> },
 
         {
           /**
-           * @description Mentor
+           * @description Mentor Find (멘토링 찾기)
            */
-          path: urlConst.mentor.main,
-          children: [{ path: urlConst.mentor.default, element: <Controller.MentorController /> }],
+          path: "mentor-find",
+          children: [{ path: "", element: <Controller.MentorController /> }],
         },
 
         {
           /**
-           * @description Chat
+           * @description Mentee Find (멘티 찾기)
            */
-          path: urlConst.chat.main,
-          children: [{ path: urlConst.chat.default, element: <Controller.ChatController /> }],
-        },
-        {
-          /**
-           * @description Community
-           */
-          path: urlConst.community.main,
-          children: [{ path: urlConst.community.default, element: <Controller.CommunityController /> }],
+          path: "mentee-find",
+          children: [{ path: "", element: <Controller.ChatController /> }],
         },
         /**
-         * @description Notice
+         * @description Community (커뮤니티)
          */
         {
-          // 공지사항
-          path: urlConst.notice.main,
-          children: [{ path: urlConst.notice.default, element: <Controller.NoticeController /> }],
+          path: "community",
+          children: [{ path: "", element: <Controller.CommunityController /> }],
+        },
+        /**
+         * @description Notice (공지사항)
+         */
+        {
+          path: "notice",
+          children: [{ path: "", element: <Controller.NoticeController /> }],
         },
 
         {
@@ -64,7 +63,9 @@ const createRoutes = (): Routers => {
           element: <Controller.UnderConstructionController />,
         },
 
-        // Admin Page
+        /**
+         * @description Admin (관리자 라우터)
+         */
         {
           path: "admin",
           element: <AdminLayout />,

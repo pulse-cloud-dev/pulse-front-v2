@@ -273,3 +273,9 @@
   background-color: var(--primary-70);
   color: white;
 }
+
+.outer__right {
+  position: fixed;
+  right: 2%;
+  bottom: 2%;
+}

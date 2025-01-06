@@ -1,20 +1,19 @@
 import { useLocation } from "react-router-dom";
 
-import { Icon, Linker } from "@/shared/components/atoms";
-import { HeaderSearchbar } from "@/shared/components/blocks";
 import { useUser } from "@/shared/lib/hooks";
-import { ThemeToggle } from "../../theme/themeToggle";
-import { HeaderProfile } from "../../profiles/headerProfile";
-
-interface HeaderMainMenuProps {}
+import { HeaderProfile } from "@/shared/components/widgets";
+import { HeaderSearchbar } from "@/shared/components/blocks";
+import { Icon, Linker } from "@/shared/components/atoms";
 
 const links = [
-  { href: "/mentor", label: "멘토링 찾기" },
-  { href: "/chat", label: "멘티 찾기" },
+  { href: "/mentor-find", label: "멘토링 찾기" },
+  { href: "/mentee-find", label: "멘티 찾기" },
   { href: "/community", label: "커뮤니티" },
   { href: "/notice", label: "공지사항" },
-  { href: "/admin", label: "관리자" },
+  // { href: "/admin", label: "관리자" },
 ];
+
+interface HeaderMainMenuProps {}
 
 export const HeaderMainNavigation = (props: HeaderMainMenuProps) => {
   const { pathname } = useLocation();
@@ -22,7 +21,6 @@ export const HeaderMainNavigation = (props: HeaderMainMenuProps) => {
 
   const { isLogin } = useUser();
 
-  console.log(isLogin);
   return (
     <>
       <div className="header__left">
@@ -51,10 +49,6 @@ export const HeaderMainNavigation = (props: HeaderMainMenuProps) => {
       {/* Header Navigation - Middle left*/}
 
       <div className="header__right">
-        {/* Theme Change Toggle*/}
-        {/* <ThemeToggle /> */}
-        {/* Theme Change Toggle*/}
-
         {/* Search-bar */}
         <HeaderSearchbar id="search-input" placeHolder="관심있는 키워드로 검색해보세요." />
         {/* Search-bar */}

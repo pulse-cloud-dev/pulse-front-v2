@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 
-import { PageHeader } from "@/shared/components/widgets";
+import { PageHeader, ThemeToggle } from "@/shared/components/widgets";
 
 export const MainLayout = () => {
   return (
@@ -14,6 +14,10 @@ export const MainLayout = () => {
           <Outlet />
         </section>
       </main>
+
+      <div className="outer__right">
+        <ThemeToggle />
+      </div>
     </>
   );
 };
