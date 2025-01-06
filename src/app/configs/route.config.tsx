@@ -15,115 +15,53 @@ const createRoutes = (): Routers => {
       path: urlConst.home.default, // ""
       element: <MainLayout />,
       children: [
+        { path: "/", element: <Navigate to={urlConst.mentor.main} /> },
+
         {
-          path: urlConst.home.main, // "/"
-          element: <Navigate to={urlConst.mentor.main} />,
-        },
-        /**
-         * @description Mentor
-         */
-        {
+          /**
+           * @description Mentor
+           */
           path: urlConst.mentor.main,
-          children: [
-            {
-              path: urlConst.mentor.default,
-              element: <Controller.MentorController />,
-            },
-          ],
+          children: [{ path: urlConst.mentor.default, element: <Controller.MentorController /> }],
         },
 
-        /**
-         * @description Chat
-         */
         {
+          /**
+           * @description Chat
+           */
           path: urlConst.chat.main,
-          children: [
-            {
-              path: urlConst.chat.default,
-              element: <Controller.ChatController />,
-            },
-          ],
+          children: [{ path: urlConst.chat.default, element: <Controller.ChatController /> }],
         },
-        /**
-         * @description Community
-         */
         {
+          /**
+           * @description Community
+           */
           path: urlConst.community.main,
-          children: [
-            {
-              path: urlConst.community.default,
-              element: <Controller.CommunityController />,
-            },
-          ],
+          children: [{ path: urlConst.community.default, element: <Controller.CommunityController /> }],
         },
         /**
          * @description Notice
          */
         {
+          // 공지사항
           path: urlConst.notice.main,
-          children: [
-            {
-              path: urlConst.notice.default,
-              element: <Controller.NoticeController />,
-            },
-          ],
-        },
-        /**
-         * @description Auth
-         */
-        {
-          path: "auth",
-          children: [
-            { path: "", element: <Navigate to={urlConst.auth.signIn} /> },
-            { path: "signIn", element: <Controller.SigInController /> },
-            {
-              path: "signUp",
-              children: [
-                { path: "", element: <Controller.SignUpController /> },
-                { path: "termsAndCondition", element: <>약관동의</> },
-                { path: "identityVerification", element: <>본인인증</> },
-              ],
-            },
-
-            {
-              // 이용약관
-              path: "terms-and-conditions-for-service",
-              element: <Controller.UnderConstructionController />,
-            },
-            {
-              // 개인정보 처리방침
-              path: "privacy-policy-for-users",
-              element: <Controller.UnderConstructionController />,
-            },
-            {
-              // 고객센터
-              path: "customer-support-faq",
-              element: <Controller.UnderConstructionController />,
-            },
-          ],
+          children: [{ path: urlConst.notice.default, element: <Controller.NoticeController /> }],
         },
 
-        /**
-         * @description Auth
-         */
         {
-          path: "auth",
-          element: <AuthLayout />,
-          children: [
-            { path: "", element: <Navigate to={urlConst.auth.signIn} /> },
-            { path: "signIn", element: <Controller.SigInController /> },
-            { path: "signUp", element: <Controller.SignUpController /> },
-            { path: "find-password", element: <Controller.UnderConstructionController /> },
-          ],
+          // 이용약관
+          path: "terms-and-conditions-for-service",
+          element: <Controller.UnderConstructionController />,
         },
-
-        /**
-         * @description My-Pages
-         */
         {
-          path: "my-page",
-          element: <WithAuthLayout />,
-          children: [{ path: "", element: <Controller.UnderConstructionController /> }],
+          // 개인정보 처리방침
+          path: "privacy-policy-for-users",
+          element: <Controller.UnderConstructionController />,
+        },
+        {
+          // 고객센터
+          path: "customer-support-faq",
+          element: <Controller.UnderConstructionController />,
         },
 
         // Admin Page
@@ -184,23 +122,44 @@ const createRoutes = (): Routers => {
             },
           ],
         },
-
-        // Error Pages
-        /**
-         * @description The page is displayed when a user enters an wrong url page.
-         */
-        {
-          path: "*",
-          element: <Controller.NotFoundController />,
-        },
-        /**
-         * @description The page is displayed when a user enters an unauthorized page.
-         */
-        {
-          path: "unauthorized",
-          element: <Controller.UnAuthorizedController />,
-        },
       ],
+    },
+
+    /**
+     * @description My-Pages
+     */
+    {
+      path: "my-page",
+      element: <WithAuthLayout />,
+      children: [{ path: "", element: <Controller.UnderConstructionController /> }],
+    },
+    /**
+     * @description Auth
+     */
+    {
+      path: "auth",
+      element: <AuthLayout />,
+      children: [
+        { path: "", element: <Navigate to={urlConst.auth.signIn} /> },
+        { path: "signIn", element: <Controller.SigInController /> },
+        { path: "signUp", element: <Controller.SignUpController /> },
+        { path: "find-password", element: <Controller.UnderConstructionController /> },
+      ],
+    },
+
+    /**
+     * @description The page is displayed when a user enters an wrong url page.
+     */
+    {
+      path: "*",
+      element: <Controller.NotFoundController />,
+    },
+    /**
+     * @description The page is displayed when a user enters an unauthorized page.
+     */
+    {
+      path: "unauthorized",
+      element: <Controller.UnAuthorizedController />,
     },
   ];
 
