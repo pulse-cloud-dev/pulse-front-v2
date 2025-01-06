@@ -36,7 +36,7 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, fo
     <div>
       <label htmlFor={inputId} className={labelClass}>
         {/* 라벨 */}
-        {label}
+        <span className="color__grayscale-50 fs_12">{label}</span>
         {/* 라벨 */}
 
         {/* 필수 필드 표시 */}

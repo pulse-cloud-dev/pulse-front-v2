@@ -46,7 +46,7 @@
 }
 
 .form__auth input:focus {
-  border-color: var(--primary-50);
+  border-color: var(--primary-70);
   box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
 }
 
@@ -75,7 +75,7 @@
 .terms a {
   position: relative;
   padding: 0 10px;
-  color: var(--text);
+  color: var(--grayscale-50);
   font-size: 14px;
 }
 
@@ -84,7 +84,7 @@
   content: "|";
   position: absolute;
   right: 0;
-  color: #ccc; /* 분리선 색상 */
+  color: var(--grayscale-30); /* 분리선 색상 */
   font-weight: normal; /* 원하는 두께 */
 }
 
