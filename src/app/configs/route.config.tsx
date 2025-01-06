@@ -1,9 +1,18 @@
-import { createBrowserRouter, Navigate, type RouteObject } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  type RouteObject,
+} from "react-router-dom";
 
 // Controllers
 import * as Controller from "@/features";
 // Layouts...
-import { AdminLayout, AuthLayout, MainLayout, WithAuthLayout } from "@/shared/layouts";
+import {
+  AdminLayout,
+  AuthLayout,
+  MainLayout,
+  WithAuthLayout,
+} from "@/shared/layouts";
 // Shared
 import { urlConst } from "@/shared/constants";
 
@@ -62,77 +71,78 @@ const createRoutes = (): Routers => {
           path: "customer-support-faq",
           element: <Controller.UnderConstructionController />,
         },
+      ],
+    },
 
-        /**
-         * @description Admin (관리자 라우터)
-         */
+    /**
+     * @description Admin (관리자 라우터)
+     */
+    {
+      path: "admin",
+      element: <AdminLayout />,
+      children: [
+        { path: "", element: <Controller.AdminMainController /> },
+        { path: "dashboard", element: <>대시보드</> },
         {
-          path: "admin",
-          element: <AdminLayout />,
+          path: "user",
           children: [
-            { path: "", element: <Controller.AdminMainController /> },
-            { path: "dashboard", element: <>대시보드</> },
-            {
-              path: "user",
-              children: [
-                { path: "member", element: <>회원정보관리</> },
-                { path: "admin", element: <>관리자정보관리</> },
-                { path: "access-log", element: <>회원정보접근이력</> },
-              ],
-            },
-            { path: "permission", element: <>권한관리</> },
-            {
-              path: "mentoring",
-              children: [
-                { path: "", element: <>멘토링관리</> },
-                { path: "chat", element: <>채팅관리</> },
-                { path: "restriction", element: <>활동제한설정</> },
-                { path: "review", element: <>멘토평가</> },
-              ],
-            },
-            {
-              path: "board",
-              children: [
-                { path: "knowledge-sharing", element: <>지식공유</> },
-                { path: "challenge", element: <>맞춰라 문제</> },
-              ],
-            },
-            {
-              path: "report",
-              children: [
-                { path: "mentoring", element: <>멘토링 신고</> },
-                { path: "post", element: <>게시물 신고</> },
-              ],
-            },
-            {
-              path: "support",
-              children: [
-                { path: "announcement", element: <>공지사항</> },
-                { path: "faq", element: <>FAQ</> },
-              ],
-            },
-            {
-              path: "statistics",
-              children: [
-                { path: "user", element: <>회원통계</> },
-                { path: "mentoring", element: <>멘토링통계</> },
-                { path: "payment", element: <>결제통계</> },
-                { path: "board", element: <>게시판통계</> },
-                { path: "page", element: <>페이지별통계</> },
-              ],
-            },
+            { path: "member", element: <>회원정보관리</> },
+            { path: "admin", element: <>관리자정보관리</> },
+            { path: "access-log", element: <>회원정보접근이력</> },
+          ],
+        },
+        { path: "permission", element: <>권한관리</> },
+        {
+          path: "mentoring",
+          children: [
+            { path: "", element: <>멘토링관리</> },
+            { path: "chat", element: <>채팅관리</> },
+            { path: "restriction", element: <>활동제한설정</> },
+            { path: "review", element: <>멘토평가</> },
+          ],
+        },
+        {
+          path: "board",
+          children: [
+            { path: "knowledge-sharing", element: <>지식공유</> },
+            { path: "challenge", element: <>맞춰라 문제</> },
+          ],
+        },
+        {
+          path: "report",
+          children: [
+            { path: "mentoring", element: <>멘토링 신고</> },
+            { path: "post", element: <>게시물 신고</> },
+          ],
+        },
+        {
+          path: "support",
+          children: [
+            { path: "announcement", element: <>공지사항</> },
+            { path: "faq", element: <>FAQ</> },
+          ],
+        },
+        {
+          path: "statistics",
+          children: [
+            { path: "user", element: <>회원통계</> },
+            { path: "mentoring", element: <>멘토링통계</> },
+            { path: "payment", element: <>결제통계</> },
+            { path: "board", element: <>게시판통계</> },
+            { path: "page", element: <>페이지별통계</> },
           ],
         },
       ],
     },
-
     /**
      * @description My-Pages
      */
     {
       path: "my-page",
       element: <WithAuthLayout />,
-      children: [{ path: "", element: <Controller.UnderConstructionController /> }],
+      children: [
+        { path: "", element: <Controller.UnderConstructionController /> },
+      ],
     },
     /**
      * @description Auth
@@ -144,7 +154,10 @@ const createRoutes = (): Routers => {
         { path: "", element: <Navigate to={urlConst.auth.signIn} /> },
         { path: "signIn", element: <Controller.SigInController /> },
         { path: "signUp", element: <Controller.SignUpController /> },
-        { path: "find-password", element: <Controller.UnderConstructionController /> },
+        {
+          path: "find-password",
+          element: <Controller.UnderConstructionController />,
+        },
       ],
     },
 
