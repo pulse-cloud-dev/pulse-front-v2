@@ -8,6 +8,7 @@ export * from "./auth/finds/find.controller";
 
 // Mentor
 export * from "./mentor/mentor.controller";
+export * from "./mentor/maps/maps.controller";
 
 // Chat
 export * from "./chat/chat.controller";

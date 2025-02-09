@@ -24,7 +24,9 @@ export default defineConfig(({ mode }: ConfigEnv) => {
       server: {
         port: parseInt(env.VITE_PORT),
         headers: {
-          "Cross-Origin-Embedder-Policy": "require-corp",
+          "Cross-Origin-Embedder-Policy": "unsafe-none", //
+          "Cross-Origin-Resource-Policy": "cross-origin", // 추가
+          // "Cross-Origin-Embedder-Policy": "require-corp",
           "Cross-Origin-Opener-Policy": "same-origin",
         },
         proxy: {
