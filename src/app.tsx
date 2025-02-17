@@ -2,6 +2,7 @@ import { Toaster } from "react-hot-toast";
 
 import "@/app/styles/index.css";
 import { QueryProvider, RouterProvider } from "@/app/contexts";
+import { ModalProvider } from "@/shared/modules";
 import { useTheme } from "@/shared/lib/hooks";
 import { keyConst } from "@/shared/constants";
 
@@ -18,8 +19,10 @@ function App() {
 
   return (
     <QueryProvider>
-      <Toaster position="bottom-left" />
-      <RouterProvider />
+      <ModalProvider>
+        <Toaster position="bottom-left" />
+        <RouterProvider />
+      </ModalProvider>
     </QueryProvider>
   );
 }
