@@ -42,3 +42,23 @@
 .badge__docs.black {
   background-color: var(--palette-black-50) !important;
 }
+
+.badge__square {
+  border-radius: 4px;
+  padding: 4px 12px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 14px;
+  letter-spacing: -0.02em;
+}
+.badge__square.blue {
+  background-color: #ecf4fe;
+  color: #0058bd;
+}
+.badge__square.purple {
+}
