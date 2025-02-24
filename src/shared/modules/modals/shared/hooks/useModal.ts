@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 
 import { uuid } from "@/shared/lib";
-import { useModalContext } from "./contexts/modalContexts";
+import { useModalContext } from "../contexts";
 
 export const useModal = (component: React.FC, props?: object) => {
   const { dispatch } = useModalContext();
