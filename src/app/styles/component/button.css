@@ -1,3 +1,40 @@
+/* 
+========================================================
+   
+                 Tab Style Guide
+                 - Default button style (btn__base)
+                 - Rounded button style (btn__round)
+
+========================================================
+ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+.btn--base {
+  background-color: #007bff;
+  color: #fff;
+}
+.btn--round {
+  border-radius: 20px;
+  padding: 10px 20px;
+
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  color: #000;
+}
+
 button .img {
   display: block;
 }
