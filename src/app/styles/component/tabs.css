@@ -1,0 +1,48 @@
+/* 
+========================================================
+   
+                 Tab Style Guide
+                 - Tab button for page menu (tabs__pageMenu)
+                 - Tab button style (tabs-btn)
+
+========================================================
+ */
+.tabs__pageMenu {
+  display: flex;
+  gap: 10px;
+}
+
+.tabs-btn {
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 0px;
+
+  box-sizing: border-box;
+
+  width: 52px;
+  height: 26px;
+
+  /* Title/title-20/bold */
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 130%;
+
+  /* identical to box height, or 26px */
+  letter-spacing: -0.02em;
+
+  color: #757575;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.tabs-btn.active {
+  font-weight: 700;
+  color: #212121;
+  border-bottom: 2px solid #212121;
+}

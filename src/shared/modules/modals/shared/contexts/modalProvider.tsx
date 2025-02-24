@@ -1,7 +1,7 @@
 import type { FC, PropsWithChildren } from "react";
 import { useReducer } from "react";
 
-import type { ModalAction } from "../types";
+import type { ModalAction } from "../../types";
 import { ModalContext, ModalState } from "./modalContexts";
 
 const modalReducer = (state: ModalState[], action: ModalAction): ModalState[] => {
