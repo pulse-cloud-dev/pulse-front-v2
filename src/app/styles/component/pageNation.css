@@ -1,0 +1,23 @@
+.pageNation__list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+
+  width: auto;
+  margin: auto;
+  gap: 15px;
+  height: 20px;
+  /* background-color: red; */
+}
+.pageNation__list > li a {
+  color: #000;
+  padding: 10px 15px;
+  font-size: 14px;
+}
+
+.pageNation__list > li a.active {
+  border-radius: 50%;
+  background: #00cbba;
+  color: #fff;
+}
