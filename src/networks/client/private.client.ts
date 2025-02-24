@@ -7,7 +7,7 @@ const { server, server_port } = envConst;
 
 const baseUrl =
   import.meta.env.MODE === "production"
-    ? `${envConst.server}${envConst.port}/api/v1`
+    ? `${envConst.server}${envConst.server_port}/api/v1`
     : `${server}${server_port}/api/v1`;
 
 const privateClient = axios.create({
