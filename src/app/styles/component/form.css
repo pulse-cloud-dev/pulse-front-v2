@@ -51,7 +51,7 @@
 }
 
 .auth__button {
-  width: 400px;
+  width: 100%;
   padding: 12px;
   margin-top: 10px;
   background-color: var(--primary-50);
@@ -63,7 +63,13 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
+.auth__button.cancel {
+  background-color: var(--palette-white-30);
+  color: var(--text);
+}
+.auth__button.cancel:hover {
+  background-color: var(--palette-white-60);
+}
 .auth__button:hover {
   background-color: var(--primary-70);
 }
@@ -91,6 +97,41 @@
 /* ================== sign-up form style =====================  */
 
 .form__signUp {
+}
+
+.signUp__step3 {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.signUp__step3 > div {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+}
+.signUp__step3 > div > input {
+  width: 15px;
+  height: 100%;
+}
+.signUp__step3 > div > span > p {
+  font-size: 14px;
+  display: block;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  /* identical to box height */
+  letter-spacing: -0.02em;
+
+  color: #212121;
+}
+.signUp__step3 > div > span {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: -0.02em;
+  color: #757575;
 }
 
 /*
