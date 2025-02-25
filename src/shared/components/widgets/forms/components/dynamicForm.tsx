@@ -11,9 +11,16 @@ interface DynamicFormProps extends HTMLAttributes<HTMLFormElement> {
 
   schema: Record<string, any>;
 
+  // On Click
+  onClickCancel?: () => void;
+  // Button Title
+  cancelTitle?: string;
   submitTitle?: string;
+
+  // Class
   labelClass?: string;
   inputClass?: string;
+  cancelClass?: string;
   submitClass?: string;
 }
 export const DynamicForm = forwardRef<HTMLFormElement, DynamicFormProps>((props, forwardedRef) => {
@@ -23,10 +30,16 @@ export const DynamicForm = forwardRef<HTMLFormElement, DynamicFormProps>((props,
     fields,
     handleSubmit,
     schema,
+    // On Click
+    onClickCancel,
+
     // style class
+    cancelTitle = "cancel",
     submitTitle = "Submit",
+
     labelClass,
     inputClass,
+    cancelClass,
     submitClass,
   } = props;
 
@@ -52,8 +65,8 @@ export const DynamicForm = forwardRef<HTMLFormElement, DynamicFormProps>((props,
       ))}
       {children}
       <div className="flex_r align_center justify_center gap_8">
-        <button type="submit" className={`${submitClass} ${disabled ? "disabled" : ""}`} disabled={disabled}>
-          취소
+        <button type="button" className={cancelClass} onClick={onClickCancel}>
+          {cancelTitle}
         </button>
         <button type="submit" className={`${submitClass} ${disabled ? "disabled" : ""}`} disabled={disabled}>
           {submitTitle}

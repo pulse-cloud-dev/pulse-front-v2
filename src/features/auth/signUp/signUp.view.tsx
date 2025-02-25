@@ -2,12 +2,13 @@ import { usePageNavigation } from "@/shared/lib/hooks";
 import { checkboxConst, formConstant } from "@/shared/constants";
 import { Accordion, BaseButton, CheckboxGroup, CheckboxProvider, DynamicForm, Heading, Icon, Linker, useCheckboxGroup } from "@/shared/components";
 
-type CommonSignUpCheckProps = {
-  onNext: () => void;
+type SignUpStepProps = {
+  onPrev?: () => void;
+  onNext?: () => void;
 };
 
 // Step 1
-const SignUpConsentStep = ({ onNext }: CommonSignUpCheckProps) => {
+const SignUpConsentStep = ({ onNext }: SignUpStepProps) => {
   const { items: checkboxItems } = useCheckboxGroup();
   const { goBack } = usePageNavigation();
 
@@ -69,7 +70,7 @@ const SignUpConsentStep = ({ onNext }: CommonSignUpCheckProps) => {
 };
 
 // Step 2
-const SignUpCertificationStep = ({ onNext }: CommonSignUpCheckProps) => {
+const SignUpCertificationStep = ({ onNext }: SignUpStepProps) => {
   return (
     <div className="m-t-40 w-100 flex_r align_center justify_center">
       <BaseButton className="w400 border gap_8" size="xl" onClick={onNext}>
@@ -81,7 +82,7 @@ const SignUpCertificationStep = ({ onNext }: CommonSignUpCheckProps) => {
 };
 
 // Step 3
-const SignUpFormStep = ({ onNext }: CommonSignUpCheckProps) => {
+const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
   const { items: checkboxItems } = useCheckboxGroup();
 
   const handleSubmit = (data: { [key: string]: string }) => console.log("Form Submitted:", data);
@@ -99,8 +100,11 @@ const SignUpFormStep = ({ onNext }: CommonSignUpCheckProps) => {
         password: 6,
         "password-check": 6,
       }}
+      cancelClass="auth__button cancel"
+      cancelTitle="취소"
+      onClickCancel={onPrev}
       submitClass="auth__button"
-      submitTitle="확인"
+      submitTitle="다음"
     >
       <div className="signUp__step3">
         {checkboxItems.map((item) => (
@@ -117,13 +121,7 @@ const SignUpFormStep = ({ onNext }: CommonSignUpCheckProps) => {
   );
 };
 
-interface SignUpViewProps {
-  state?: Record<string, any>;
-}
-
-export const SignUpView = (props: SignUpViewProps) => {
-  const { state } = props;
-
+export const SignUpView = ({ state }: { state: Record<string, any> }) => {
   return (
     <article className="sub-layout__content">
       <section className="section__auth">
@@ -137,22 +135,25 @@ export const SignUpView = (props: SignUpViewProps) => {
 
           {state?.step === "consent" && (
             <CheckboxProvider initialItems={checkboxConst.SIGN_UP_STEP_1}>
-              <SignUpConsentStep onNext={() => state?.setStep("certification")} />
+              <SignUpConsentStep
+                onNext={() => state?.setStep("certification")} // 인증으로 가기..
+              />
             </CheckboxProvider>
           )}
 
           {state?.step === "certification" && (
-            <>
-              <SignUpCertificationStep onNext={() => state?.setStep("form")} />
-            </>
+            <SignUpCertificationStep
+              onNext={() => state?.setStep("form")} // 회원가입 폼으로 가기..
+            />
           )}
 
           {state?.step === "form" && (
-            <>
-              <CheckboxProvider initialItems={checkboxConst.SIGN_UP_STEP_2}>
-                <SignUpFormStep onNext={() => state?.setStep("form")} />
-              </CheckboxProvider>
-            </>
+            <CheckboxProvider initialItems={checkboxConst.SIGN_UP_STEP_2}>
+              <SignUpFormStep
+                onPrev={() => state?.setStep("certification")} // 인증으로 돌아가기..
+                onNext={() => alert("회원가입중입니다...")} // 회원가입 시도하기..
+              />
+            </CheckboxProvider>
           )}
         </div>
       </section>

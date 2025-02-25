@@ -63,7 +63,13 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
+.auth__button.cancel {
+  background-color: var(--palette-white-30);
+  color: var(--text);
+}
+.auth__button.cancel:hover {
+  background-color: var(--palette-white-60);
+}
 .auth__button:hover {
   background-color: var(--primary-70);
 }
