@@ -51,7 +51,7 @@
 }
 
 .auth__button {
-  width: 400px;
+  width: 100%;
   padding: 12px;
   margin-top: 10px;
   background-color: var(--primary-50);
@@ -91,6 +91,41 @@
 /* ================== sign-up form style =====================  */
 
 .form__signUp {
+}
+
+.signUp__step3 {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.signUp__step3 > div {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+}
+.signUp__step3 > div > input {
+  width: 15px;
+  height: 100%;
+}
+.signUp__step3 > div > span > p {
+  font-size: 14px;
+  display: block;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  /* identical to box height */
+  letter-spacing: -0.02em;
+
+  color: #212121;
+}
+.signUp__step3 > div > span {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: -0.02em;
+  color: #757575;
 }
 
 /*

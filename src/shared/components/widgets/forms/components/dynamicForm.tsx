@@ -51,9 +51,14 @@ export const DynamicForm = forwardRef<HTMLFormElement, DynamicFormProps>((props,
         />
       ))}
       {children}
-      <button type="submit" className={`${submitClass} ${disabled ? "disabled" : ""}`} disabled={disabled}>
-        {submitTitle}
-      </button>
+      <div className="flex_r align_center justify_center gap_8">
+        <button type="submit" className={`${submitClass} ${disabled ? "disabled" : ""}`} disabled={disabled}>
+          취소
+        </button>
+        <button type="submit" className={`${submitClass} ${disabled ? "disabled" : ""}`} disabled={disabled}>
+          {submitTitle}
+        </button>
+      </div>
     </form>
   );
 });
