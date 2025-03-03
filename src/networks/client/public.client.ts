@@ -2,9 +2,16 @@ import $axios from "axios";
 
 import { envConst } from "@/shared/constants";
 
-const baseURL = `/api/${envConst.version}`;
+const baseUrl =
+  import.meta.env.MODE === "production"
+    ? "/api/v1"
+    : `${envConst.server}${envConst.server_port}/api/v1`;
 
-const publicClient = $axios.create({ baseURL });
+console.log("Public client - Current mode:", import.meta.env.MODE);
+console.log("Public client - Base URL:", baseUrl);
+
+const publicClient = $axios.create({ baseURL: baseUrl });
+// const publicClient = $axios.create({ baseURL });
 
 publicClient.interceptors.request.use(async (config) => {
   const headers = {

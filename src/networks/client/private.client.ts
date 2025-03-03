@@ -7,11 +7,12 @@ const { server, server_port } = envConst;
 
 const baseUrl =
   import.meta.env.MODE === "production"
-    ? `/api`
+    ? "/api/v1" // v1을 포함한 경로로 수정
     : `${server}${server_port}/api/v1`;
 
 console.log("Current mode:", import.meta.env.MODE);
 console.log("Base URL:", baseUrl);
+
 const privateClient = axios.create({
   baseURL: baseUrl,
 });
