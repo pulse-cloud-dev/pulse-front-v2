@@ -4,7 +4,7 @@ import { envConst } from "@/shared/constants";
 
 const baseUrl =
   import.meta.env.MODE === "production"
-    ? `${import.meta.env.VITE_PROD_API_URL}/api/v1`
+    ? "/api"
     : `${envConst.server}${envConst.server_port}/api/v1`;
 
 console.log("Public client - Current mode:", import.meta.env.MODE);

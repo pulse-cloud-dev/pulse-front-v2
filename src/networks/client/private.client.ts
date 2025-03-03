@@ -7,7 +7,7 @@ const { server, server_port } = envConst;
 
 const baseUrl =
   import.meta.env.MODE === "production"
-    ? "/api/v1" // v1을 포함한 경로로 수정
+    ? `${import.meta.env.VITE_PROD_API_URL}/api/v1`
     : `${server}${server_port}/api/v1`;
 
 console.log("Current mode:", import.meta.env.MODE);
