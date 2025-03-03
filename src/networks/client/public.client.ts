@@ -3,12 +3,7 @@ import $axios from "axios";
 import { envConst } from "@/shared/constants";
 
 const baseUrl =
-  import.meta.env.MODE === "production"
-    ? "/api"
-    : `${envConst.server}${envConst.server_port}/api/v1`;
-
-console.log("Public client - Current mode:", import.meta.env.MODE);
-console.log("Public client - Base URL:", baseUrl);
+  import.meta.env.MODE === "production" ? "/api" : `/api/${envConst.version}`;
 
 const publicClient = $axios.create({ baseURL: baseUrl });
 // const publicClient = $axios.create({ baseURL });
