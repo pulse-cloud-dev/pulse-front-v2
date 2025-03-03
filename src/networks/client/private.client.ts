@@ -10,6 +10,8 @@ const baseUrl =
     ? `${envConst.server}${envConst.server_port}/api/v1`
     : `${server}${server_port}/api/v1`;
 
+console.log("모드", import.meta.env.MODE);
+console.log("베이스", `${server}${server_port}`);
 const privateClient = axios.create({
   baseURL: baseUrl,
 });
