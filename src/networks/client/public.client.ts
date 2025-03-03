@@ -4,7 +4,7 @@ import { envConst } from "@/shared/constants";
 
 const baseUrl =
   import.meta.env.MODE === "production"
-    ? "/api/v1"
+    ? import.meta.env.VITE_PROD_API_URL // EC2 서버 주소 직접 사용
     : `${envConst.server}${envConst.server_port}/api/v1`;
 
 console.log("Public client - Current mode:", import.meta.env.MODE);
