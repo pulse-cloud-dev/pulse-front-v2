@@ -48,6 +48,15 @@ export default defineConfig(({ mode }: ConfigEnv) => {
           },
         },
       },
+      server: {
+        proxy: {
+          "/api": {
+            target: env.VITE_PROD_API_URL,
+            changeOrigin: true,
+            secure: false,
+          },
+        },
+      },
     },
     test: {
       testSpecificOption: true,

@@ -7,7 +7,7 @@ const { server, server_port } = envConst;
 
 const baseUrl =
   import.meta.env.MODE === "production"
-    ? `${envConst.server}${envConst.server_port}/api/v1`
+    ? `${import.meta.env.VITE_PROD_API_URL}/api/v1`
     : `${server}${server_port}/api/v1`;
 
 console.log("모드", import.meta.env.MODE);
