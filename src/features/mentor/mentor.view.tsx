@@ -1,6 +1,7 @@
 import { Modal, useModal } from "@/shared/modules";
 import { Breadcrumb, MentorCard, PageTabs, PopupSearch } from "@/shared/components/blocks";
 import { Heading } from "@/shared/components/atoms";
+import { PageNation } from "@/shared/components";
 
 interface MentorViewProps {}
 
@@ -55,6 +56,10 @@ export const MentorView = (props: MentorViewProps) => {
           <MentorCard />
           <MentorCard />
           <MentorCard />
+        </section>
+
+        <section className="m-t-72 m-b-70">
+          <PageNation queryStringKey={"offset"} pages={10} />
         </section>
       </article>
     </>

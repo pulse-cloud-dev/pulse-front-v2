@@ -8,5 +8,7 @@ export * from "./footers/footer";
 export * from "./forms";
 // Themes
 export * from "./theme/themeToggle";
+// PageNations
+export * from "./pageNations/pageNation";
 // Profiles
 export * from "./profiles/headerProfile";
