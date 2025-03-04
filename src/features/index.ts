@@ -12,6 +12,9 @@ export * from "./mentor/mentor.controller";
 // Chat
 export * from "./chat/chat.controller";
 
+// Posts
+export * from "./posts/posts.controller";
+
 // Community
 export * from "./community/community.controller";
 

@@ -21,20 +21,13 @@ export const Modal = (props: ModalProps) => {
       <div className={`modal__contents ${type}`} style={props.style}>
         <div className="modal_top m-b-20">
           <p className="modal_title">{title || "제목없음"}</p>
-          <button
-            type="button"
-            className="modal_close w24 h24"
-            onClick={() => {
-              if (openCancelAlert && typeof openCancelAlert === "function") {
-                openCancelAlert();
-              }
-            }}
-          >
-            <Icon src="close_line_fff_20.svg" alt="검색 닫기" />
+          <button type="button" className="modal_close w24 h24" onClick={() => openCancelAlert?.()}>
+            <Icon src="close_line_fff_20" alt="검색 닫기" />
           </button>
         </div>
 
         {children}
+
         <div className="keyword_selection gap_8">
           {variant === "confirm" && (
             <button

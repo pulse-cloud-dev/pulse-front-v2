@@ -12,3 +12,5 @@ export * from "./theme/themeToggle";
 export * from "./pageNations/pageNation";
 // Profiles
 export * from "./profiles/headerProfile";
+// Side Menu
+export * from "./sideMenus/floatingMenu";
