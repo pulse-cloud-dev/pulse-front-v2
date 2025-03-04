@@ -16,6 +16,9 @@ export default defineConfig(({ mode }: ConfigEnv) => {
         "@": path.resolve(__dirname, "./src"),
       },
     },
+    define: {
+      global: "window",
+    },
   };
 
   // Environment-specific configurations
