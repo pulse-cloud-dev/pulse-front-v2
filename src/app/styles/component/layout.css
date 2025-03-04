@@ -279,3 +279,13 @@
   right: 2%;
   bottom: 2%;
 }
+
+.side__menu {
+}
+.side__menu.right {
+  /* position: sticky; */
+  position: fixed;
+  right: 56px;
+  top: calc(50% - 284px / 2);
+  z-index: 99;
+}
