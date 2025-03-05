@@ -9,5 +9,6 @@ export * from "./searches/headerSearchBar";
 export * from "./searches/popupSearch";
 // Tabs
 export * from "./tabs/pageTabs";
+export * from "./textFields/baseTextField";
 // Lazy Loader
 export * from "./wrappers/lazy.wrapper";
