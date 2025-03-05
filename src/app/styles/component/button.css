@@ -84,6 +84,16 @@
   background-color: #fff;
   color: #000;
 }
+.btn.default {
+  border: 1px solid var(--border);
+  background-color: #fff;
+  color: #000;
+}
+.btn.primary {
+  border: none;
+  background-color: var(--primary-60);
+  color: var(--text-wh);
+}
 /* 
 ========================================================
                 Button Shape Style

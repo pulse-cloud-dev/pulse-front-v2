@@ -3,6 +3,7 @@ import { getSearchParams } from "@/shared/lib";
 import { PageNation } from "@/shared/components/widgets";
 import { Breadcrumb, MentorCard, PageTabs, PopupSearch } from "@/shared/components/blocks";
 import { Heading } from "@/shared/components/atoms";
+import { TabConst } from "@/shared/constants";
 
 // 지도 탭
 const MentorViewMap = () => {
@@ -15,7 +16,7 @@ const MentorViewPosts = () => {
     <>
       <section className="flex__box m-t-30">
         {Array.from({ length: 30 }).map((_, index) => (
-          <MentorCard />
+          <MentorCard key={index} />
         ))}
       </section>
 
@@ -29,29 +30,20 @@ const MentorViewPosts = () => {
 interface MentorViewProps extends ViewEventProps {}
 
 export const MentorView = (props: MentorViewProps) => {
+  const menu = getSearchParams("menu") || "posts";
   const { event } = props;
 
   return (
     <article className="sub-layout__content">
-      <header className="m-t-30">
+      <header className="m-t-60">
         <Heading as={"h3"}>멘티모집</Heading>
       </header>
-      {/* <Breadcrumb
-        items={[
-          { title: "멘토링", href: "mentor" },
-          { title: "멘토링1", href: "mentor/123" },
-        ]}
-      /> */}
 
+      {/* Tab Navigation */}
       <section className="m-t-30">
-        {/* Tab Navigation */}
-        <PageTabs
-          tabList={[
-            { id: "posts", display: "모집글" },
-            { id: "map", display: "지도" },
-          ]}
-        />
+        <PageTabs tabList={TabConst.MENTOR_PAGE} />
       </section>
+      {/* Tab Navigation */}
 
       <section className="m-t-30 flex_r gap_6">
         <PopupSearch title="분야" openPopup={event?.openFirstModal} />
@@ -59,8 +51,17 @@ export const MentorView = (props: MentorViewProps) => {
         <PopupSearch title="지역" openPopup={event?.openThirdModal} />
       </section>
 
-      {(getSearchParams("menu") === "posts" || getSearchParams("menu") === "") && <MentorViewPosts />}
-      {getSearchParams("menu") === "map" && <MentorViewMap />}
+      {menu === "posts" && <MentorViewPosts />}
+      {menu === "map" && <MentorViewMap />}
     </article>
   );
 };
+
+{
+  /* <Breadcrumb
+        items={[
+          { title: "멘토링", href: "mentor" },
+          { title: "멘토링1", href: "mentor/123" },
+        ]}
+      /> */
+}

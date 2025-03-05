@@ -33,14 +33,6 @@ const createRoutes = (): Routers => {
         },
 
         /**
-         * @description 모집글 등록
-         */
-        {
-          path: "posts",
-          children: [{ path: "", element: <Controller.PostsController /> }],
-        },
-
-        /**
          * @description Notice (공지사항)
          */
         {
@@ -89,6 +81,14 @@ const createRoutes = (): Routers => {
            */
           path: "mentor-find",
           children: [{ path: "", element: <Controller.MentorController /> }],
+        },
+
+        /**
+         * @description 모집글 등록
+         */
+        {
+          path: "posts",
+          children: [{ path: "", element: <Controller.PostsController /> }],
         },
       ],
     },
