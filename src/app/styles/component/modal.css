@@ -52,7 +52,7 @@
   z-index: 300;
   opacity: 1;
   background-color: rgba(140, 138, 138, 0.2);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(2px);
 }
 .modal_box.overflow_y {
   align-items: flex-start;

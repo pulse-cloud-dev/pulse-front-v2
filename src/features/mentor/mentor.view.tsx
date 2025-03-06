@@ -11,9 +11,16 @@ const MentorViewMap = () => {
 };
 
 // 모집글 탭
-const MentorViewPosts = () => {
+const MentorViewPosts = (props: ViewEventProps) => {
+  const { event } = props;
   return (
     <>
+      <section className="m-t-30 flex_r gap_6">
+        <PopupSearch title="분야" openPopup={event?.openFirstModal} />
+        <PopupSearch title="온/오프라인" openPopup={event?.openSecondModal} />
+        <PopupSearch title="지역" openPopup={event?.openThirdModal} />
+      </section>
+
       <section className="flex__box m-t-30">
         {Array.from({ length: 30 }).map((_, index) => (
           <MentorCard key={index} />
@@ -31,7 +38,6 @@ interface MentorViewProps extends ViewEventProps {}
 
 export const MentorView = (props: MentorViewProps) => {
   const menu = getSearchParams("menu") || "posts";
-  const { event } = props;
 
   return (
     <article className="sub-layout__content">
@@ -45,13 +51,7 @@ export const MentorView = (props: MentorViewProps) => {
       </section>
       {/* Tab Navigation */}
 
-      <section className="m-t-30 flex_r gap_6">
-        <PopupSearch title="분야" openPopup={event?.openFirstModal} />
-        <PopupSearch title="온/오프라인" openPopup={event?.openSecondModal} />
-        <PopupSearch title="지역" openPopup={event?.openThirdModal} />
-      </section>
-
-      {menu === "posts" && <MentorViewPosts />}
+      {menu === "posts" && <MentorViewPosts {...props} />}
       {menu === "map" && <MentorViewMap />}
     </article>
   );
