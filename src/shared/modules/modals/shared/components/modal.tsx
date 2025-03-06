@@ -1,8 +1,9 @@
-import * as React from "react";
+import type { HTMLAttributes, PropsWithChildren } from "react";
+import type { ModalVariants } from "../../types";
 import { Icon } from "@/shared/components";
 
-export interface ModalProps extends React.PropsWithChildren, React.HTMLAttributes<HTMLElement & HTMLDivElement> {
-  variant?: "check" | "confirm";
+export interface ModalProps extends PropsWithChildren, HTMLAttributes<HTMLElement & HTMLDivElement> {
+  variant?: ModalVariants;
   id?: string;
   title?: string;
   type?: string;
@@ -11,9 +12,9 @@ export interface ModalProps extends React.PropsWithChildren, React.HTMLAttribute
   closeModal?: (uid: string) => void;
   closeAllModals?: () => void;
 }
-//type 추가 mini, medium, large, w524
+
 export const Modal = (props: ModalProps) => {
-  const { variant, id, title, type, openCancelAlert, closeModal, children } = props;
+  const { variant = "default", id, title, type, openCancelAlert, closeModal, children, ...restProps } = props;
   if (!id) return null;
   return (
     <div className={type === "large" ? `modal_box ${id ? "on overflow_y" : ""}` : `modal_box ${id ? "on" : ""}`}>
@@ -28,23 +29,21 @@ export const Modal = (props: ModalProps) => {
 
         {children}
 
-        <div className="keyword_selection gap_8">
-          {variant === "confirm" && (
-            <button className="btn_secondary btn_l w160" type="button" onClick={() => openCancelAlert?.()}>
-              취소
-            </button>
-          )}
-
-          <button className="btn_primary btn_l w160" type="submit" onClick={() => closeModal?.(id)}>
-            확인
-          </button>
-        </div>
+        {variant !== "default" && (
+          <div className="keyword_selection gap_8">
+            {[
+              variant === "confirm" && (
+                <button key="cancel" className="btn_secondary btn_l w160" type="button" onClick={openCancelAlert}>
+                  취소
+                </button>
+              ),
+              <button key="confirm" className="btn_primary btn_l w160" type="submit" onClick={() => closeModal?.(id)}>
+                확인
+              </button>,
+            ].filter(Boolean)}
+          </div>
+        )}
       </div>
     </div>
   );
 };
-
-// const Contents = styled.div`
-//   width: max-content;
-//   height: max-content;
-// `;

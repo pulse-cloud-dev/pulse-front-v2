@@ -65,7 +65,9 @@
   width: 100%;
   box-sizing: border-box;
 }
-
+.sub-layout__content > header {
+  margin-top: 50px;
+}
 .description__section {
   /* flex: 1; */
   padding: 16px;

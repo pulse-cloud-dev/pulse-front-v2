@@ -31,7 +31,7 @@ export const PostsView = (props: PostsViewProps) => {
 
   return (
     <article className="sub-layout__content">
-      <header className="m-t-60">
+      <header>
         <Typography variant="title" size="24" weight="bold">
           멘티 모집글 등록
         </Typography>

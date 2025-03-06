@@ -64,7 +64,7 @@ interface MentorCardProps {
 export const MentorCard = ({ title = "제목입니다 제목은 세줄까지만 보입니다.제목입니다 제목은 세줄까지만 보입니다.제목입니다 제목은 " }: MentorCardProps) => {
   const modal = useModal(Modal, {
     title: "멘토링 정보",
-    variant: "check",
+    variant: "default",
     children: <MentorDetailPopup />,
   });
 

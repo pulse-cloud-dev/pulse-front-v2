@@ -2,7 +2,7 @@ import type { ViewEventProps } from "@/shared/types";
 import { getSearchParams } from "@/shared/lib";
 import { PageNation } from "@/shared/components/widgets";
 import { Breadcrumb, MentorCard, PageTabs, PopupSearch } from "@/shared/components/blocks";
-import { Heading } from "@/shared/components/atoms";
+import { Heading, Typography } from "@/shared/components/atoms";
 import { TabConst } from "@/shared/constants";
 
 // 지도 탭
@@ -41,8 +41,10 @@ export const MentorView = (props: MentorViewProps) => {
 
   return (
     <article className="sub-layout__content">
-      <header className="m-t-60">
-        <Heading as={"h3"}>멘티모집</Heading>
+      <header>
+        <Typography variant="title" size="24" weight="bold">
+          멘티모집
+        </Typography>
       </header>
 
       {/* Tab Navigation */}
