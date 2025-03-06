@@ -90,6 +90,11 @@ const createRoutes = (): Routers => {
           path: "posts",
           children: [{ path: "", element: <Controller.PostsController /> }],
         },
+
+        {
+          path: "bookmarks",
+          children: [{ path: "", element: <Controller.BookmarkController /> }],
+        },
       ],
     },
 
