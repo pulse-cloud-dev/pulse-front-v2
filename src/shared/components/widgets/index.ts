@@ -12,5 +12,7 @@ export * from "./theme/themeToggle";
 export * from "./pageNations/pageNation";
 // Profiles
 export * from "./profiles/headerProfile";
+// Popup
+export * from "./popups/mentorDetailPopup";
 // Side Menu
 export * from "./sideMenus/floatingMenu";

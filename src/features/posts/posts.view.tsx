@@ -79,7 +79,7 @@ export const PostsView = (props: PostsViewProps) => {
         </Typography>
         <div className="m-t-10 m-b-30 flex_r gap_4">
           <BaseButton color="bk">온라인</BaseButton>
-          <BaseButton color="default">오프라인</BaseButton>
+          <BaseButton color="reverse">오프라인</BaseButton>
         </div>
 
         <BaseTextField label="온라인 플랫폼" className={textFieldClass} placeholder="모집인원을 입력해주세요" value={""} onChange={() => {}} error={""} />
@@ -120,7 +120,7 @@ export const PostsView = (props: PostsViewProps) => {
         />
 
         <div className="m-t-30 flex_r flex_jend gap_4">
-          <BaseButton color="default">취소</BaseButton>
+          <BaseButton color="reverse">취소</BaseButton>
           <BaseButton className="primary">신청</BaseButton>
         </div>
       </section>

@@ -21,7 +21,7 @@ export const Modal = (props: ModalProps) => {
       <div className={`modal__contents ${type}`} style={props.style}>
         <div className="modal_top m-b-20">
           <p className="modal_title">{title || "제목없음"}</p>
-          <button type="button" className="modal_close w24 h24" onClick={() => openCancelAlert?.()}>
+          <button type="button" className="modal_close w24 h24" onClick={() => closeModal?.(id)}>
             <Icon src="close_line_fff_20" alt="검색 닫기" />
           </button>
         </div>
@@ -30,28 +30,12 @@ export const Modal = (props: ModalProps) => {
 
         <div className="keyword_selection gap_8">
           {variant === "confirm" && (
-            <button
-              className="btn_secondary btn_l w160"
-              type="button"
-              onClick={() => {
-                if (openCancelAlert && typeof openCancelAlert === "function") {
-                  openCancelAlert();
-                }
-              }}
-            >
+            <button className="btn_secondary btn_l w160" type="button" onClick={() => openCancelAlert?.()}>
               취소
             </button>
           )}
 
-          <button
-            className="btn_primary btn_l w160"
-            type="submit"
-            onClick={() => {
-              if (closeModal && typeof closeModal === "function") {
-                closeModal(id);
-              }
-            }}
-          >
+          <button className="btn_primary btn_l w160" type="submit" onClick={() => closeModal?.(id)}>
             확인
           </button>
         </div>
