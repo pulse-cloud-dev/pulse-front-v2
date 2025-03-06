@@ -15,6 +15,9 @@ export * from "./chat/chat.controller";
 // Posts
 export * from "./posts/posts.controller";
 
+// Bookmarks
+export * from "./bookmarks/bookmark.controller";
+
 // Community
 export * from "./community/community.controller";
 
