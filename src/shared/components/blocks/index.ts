@@ -12,3 +12,5 @@ export * from "./tabs/pageTabs";
 export * from "./textFields/baseTextField";
 // Lazy Loader
 export * from "./wrappers/lazy.wrapper";
+// Drawer
+export * from "./drawer/baseDrawer";
