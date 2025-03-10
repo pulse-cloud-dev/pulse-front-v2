@@ -427,10 +427,22 @@
   resolved "https://registry.npmjs.org/@types/estree/-/estree-1.0.5.tgz"
   integrity sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==
 
+"@types/geojson@*":
+  version "7946.0.16"
+  resolved "https://registry.npmjs.org/@types/geojson/-/geojson-7946.0.16.tgz"
+  integrity sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg==
+
 "@types/json-schema@^7.0.15":
   version "7.0.15"
   resolved "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.15.tgz"
   integrity sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==
+
+"@types/navermaps@^3.7.9":
+  version "3.7.9"
+  resolved "https://registry.npmjs.org/@types/navermaps/-/navermaps-3.7.9.tgz"
+  integrity sha512-5ZazQfVRq9P1+QbpJ8PA5W9CnsdtWQEiGG6ZWTJuNXzu4iQXov9rRMaWIdD5g+eIKZ2cI1CDE49zYUwUAXNqQQ==
+  dependencies:
+    "@types/geojson" "*"
 
 "@types/node@^18.0.0 || >=20.0.0", "@types/node@^22.7.0":
   version "22.7.0"

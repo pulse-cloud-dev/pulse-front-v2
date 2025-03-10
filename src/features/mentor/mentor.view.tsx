@@ -7,8 +7,8 @@ import {
   PageTabs,
   PopupSearch,
   BaseDrawer,
+  Map,
 } from "@/shared/components/blocks";
-
 import { Heading, Typography } from "@/shared/components/atoms";
 import { TabConst } from "@/shared/constants";
 import { useState } from "react";
@@ -34,8 +34,9 @@ const MentorViewMap = () => {
           border: "1px solid #e0e0e0",
         }}
       >
-        지도영역
+        <Map />
       </div>
+
       <div
         className="flex_r gap_6"
         style={{ position: "absolute", top: "16px", left: "16px" }}
