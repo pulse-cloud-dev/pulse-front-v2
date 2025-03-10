@@ -14,7 +14,7 @@ export const BaseDrawer = ({
   isOpen,
   onToggle,
   position = "right",
-  width = 340,
+  width = 360,
   children,
   title,
 }: BaseDrawerProps) => {

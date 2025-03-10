@@ -14,3 +14,5 @@ export * from "./textFields/baseTextField";
 export * from "./wrappers/lazy.wrapper";
 // Drawer
 export * from "./drawer/baseDrawer";
+// Map
+export * from "./map/map";
