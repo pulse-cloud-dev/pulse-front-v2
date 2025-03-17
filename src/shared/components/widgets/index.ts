@@ -13,6 +13,6 @@ export * from "./pageNations/pageNation";
 // Profiles
 export * from "./profiles/headerProfile";
 // Popup
-export * from "./popups/mentorDetailPopup";
+export * from "./popups";
 // Side Menu
 export * from "./sideMenus/floatingMenu";
