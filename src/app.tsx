@@ -1,6 +1,7 @@
 import { Toaster } from "react-hot-toast";
 
 import "@/app/styles/index.css";
+import "@/shared/modules/select-ui/styles/index.css";
 import { QueryProvider, RouterProvider } from "@/app/contexts";
 import { ModalProvider } from "@/shared/modules";
 import { useTheme } from "@/shared/lib/hooks";

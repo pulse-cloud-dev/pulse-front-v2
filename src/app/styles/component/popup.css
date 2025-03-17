@@ -1,3 +1,110 @@
+/* 
+========================================================
+                     분야 선택 Popup
+========================================================
+ */
+.popup--field {
+  width: 632px;
+  height: 514px;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+.popup--field__header {
+  background-color: red;
+}
+.popup--field__body {
+  border-bottom: 1px solid var(--border);
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  height: 90%;
+}
+.popup--field__body > .popup--field__body--top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  overflow-y: auto;
+  height: 60%;
+  padding: 10px;
+}
+.popup--field__body > .popup--field__body--top > .check-field-module {
+  flex: 1 1 calc(50% - 10px);
+  max-width: calc(50% - 10px);
+  box-sizing: border-box;
+}
+
+.popup--field__body--bottom {
+  border-top: 1px solid var(--border);
+  height: 40%;
+}
+.popup--field__body--bottom .no-data {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  height: 100%;
+}
+.popup--field__footer {
+  margin-top: 1rem;
+  height: calc(10% - 1rem);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.popup--field__footer > .popup--field__footer--left {
+  display: flex;
+  gap: 8px;
+}
+.popup--field__footer > .popup--field__footer--right {
+  display: flex;
+  gap: 8px;
+}
+/* 
+========================================================
+                     온/오프라인
+========================================================
+ */
+.popup--online {
+  width: 480px;
+  height: 300px;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+.popup--online__body {
+  height: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.popup--online__footer {
+  margin-top: 1rem;
+  height: calc(20% - 1rem);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+
+  box-sizing: border-box;
+}
+.popup--online__footer > .popup--online__footer--left {
+  display: flex;
+  gap: 6px;
+}
+.popup--online__footer > .popup--online__footer--right {
+  display: flex;
+  gap: 6px;
+}
+
+/* 
+========================================================
+                     Mentor Detail
+========================================================
+ */
 .popup--mentorDetail {
   padding: 20px;
   width: 784px;

@@ -12,7 +12,7 @@ export const Typography = forwardRef<HTMLSpanElement, TypographyProps>((props, f
   const { variant = "title", size = "18", weight = "medium", color = "black", className, style, children, ...rest } = props;
 
   return (
-    <span ref={forwardedRef} className={`${variant} ${variant}-${size} fw-${weight} color__${color}-50`} style={style} {...rest}>
+    <span ref={forwardedRef} className={`${className} ${variant} ${variant}-${size} fw-${weight} color__${color}-50`} style={style} {...rest}>
       {children}
     </span>
   );

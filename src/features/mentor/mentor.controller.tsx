@@ -1,19 +1,20 @@
 import { useLocation } from "react-router-dom";
 
 import { Modal, useModal } from "@/shared/modules";
+import { FieldPopup, OnlineStatusPopup } from "@/shared/components";
 import { MentorView } from "./mentor.view";
 
 const useModals = () => {
   return {
     first: useModal(Modal, {
       title: "분야",
-      variant: "check",
-      children: <div>모달 1</div>,
+      variant: "default",
+      children: <FieldPopup />,
     }),
     second: useModal(Modal, {
       title: "온/오프라인",
-      variant: "check",
-      children: <div>모달 2</div>,
+      variant: "default",
+      children: <OnlineStatusPopup />,
     }),
     third: useModal(Modal, {
       title: "지역",
