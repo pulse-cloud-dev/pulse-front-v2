@@ -22,7 +22,7 @@ const SignInDynamicForm = ({ handleSubmit }: { handleSubmit: Void }) => {
 
         <span>
           <Linker href="/auth/find-password" className="fs_12 color__grayscale-50">
-            계정/비밀번호 찾기
+            계정/비밀번호 찾기-ci/cd 테스트
           </Linker>
         </span>
       </div>
