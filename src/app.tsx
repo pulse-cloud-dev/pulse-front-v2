@@ -20,7 +20,7 @@ function App() {
 
   return (
     <QueryProvider>
-      <ModalProvider>
+      <ModalProvider> 
         <Toaster position="bottom-left" />
         <RouterProvider />
       </ModalProvider>
