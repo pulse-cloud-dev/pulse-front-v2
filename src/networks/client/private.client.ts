@@ -3,7 +3,11 @@ import axios from "axios";
 import { localStorageManager } from "taeo-utils";
 
 const { server, server_port } = envConst;
-const baseUrl = server + server_port + "/api/v1";
+
+const baseUrl =
+  import.meta.env.MODE === "production"
+    ? "/api"
+    : server + server_port + "/api/v1";
 
 const privateClient = axios.create({
   baseURL: baseUrl,

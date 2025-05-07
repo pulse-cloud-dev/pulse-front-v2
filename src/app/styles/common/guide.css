@@ -646,7 +646,7 @@ input[type="password"] {
 }
 
 .gap_8 {
-  gap: 8px;
+  gap: 8px !important;
 }
 
 .gap_9 {
@@ -662,7 +662,7 @@ input[type="password"] {
 }
 
 .gap_12 {
-  gap: 12px;
+  gap: 12px !important;
 }
 
 .gap_13 {
@@ -2308,9 +2308,9 @@ input[type="password"] {
   align-items: center;
   justify-content: center;
   position: relative;
-  margin-top: 20px;
-  padding: 20px;
+  padding: 10px;
 }
+
 .keyword_selection:before {
   position: absolute;
   content: "";

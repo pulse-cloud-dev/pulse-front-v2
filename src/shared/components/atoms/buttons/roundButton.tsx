@@ -5,10 +5,10 @@ interface RoundButtonProps extends PropsWithChildren, HTMLAttributes<HTMLButtonE
   size?: "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
 }
 
-export const RoundButton = forwardRef<HTMLButtonElement, RoundButtonProps>((props) => {
+export const RoundButton = forwardRef<HTMLButtonElement, RoundButtonProps>((props, forwardedRef) => {
   const { className, size = "md", style, children, ...restProps } = props;
   return (
-    <button className={`btn btn--round ${size} ${className}`} style={style} {...restProps}>
+    <button ref={forwardedRef} className={`btn btn--round ${size} ${className}`} style={style} {...restProps}>
       {children}
     </button>
   );

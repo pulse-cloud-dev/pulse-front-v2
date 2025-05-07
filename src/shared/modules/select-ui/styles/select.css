@@ -1,0 +1,70 @@
+/* select를 감싸는 wrapper */
+.quick-select--wrap {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  min-width: 120px;
+  max-width: 100%; 
+  height: 1.5rem; 
+  font-size: 0.75rem; 
+
+}
+
+/* 드롭다운 아이콘 추가 */
+.quick-select--wrap::after {
+  content: "";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  background: url("/icons/arrow_down_bk_16.svg") no-repeat center;
+  transform: translateY(-50%);
+  transition: transform 0.3s ease;
+  pointer-events: none;
+}
+
+/* select가 focus되면 아이콘 회전 */
+.quick-select--wrap:focus-within::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+/* 기본 select 스타일 */
+.quick-select.select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+
+  width: 100%;
+  padding: 0.325rem 0.75rem;
+  background: var(--more-visible-wh_12-to-6);
+
+  border: 0.0625rem solid var(--white-w_20);
+  /* border: 0.0625rem solid var(--line-pri_40-to-bk_40); */
+  border-radius: 2px;
+  /* background: var(--bg_02); */
+  background-color: transparent;
+  font-size: 13px;
+  color: var(--white-w_87); 
+}
+
+/* hover, focus 상태 */
+.quick-select.select:hover {
+  border:  0.0625rem  solid var(--primary-pri_20);
+}
+
+.quick-select.select:focus {
+  border: 0.0625rem solid var(--primary-pri_100);
+  outline: 0.1875rem solid var(--primary-pri_20);
+}
+.quick-select.select option {
+  background: var(--bg_01_80);
+  color: var(--white-w_87);
+}
+.quick-select.select:has(option[value=""]:checked) {
+  color: var(--white-w_20) 
+}
+.quick-select.select option:disabled{
+  color: var(--white-w_20);
+}

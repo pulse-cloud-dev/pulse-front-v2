@@ -6,7 +6,10 @@ const userApiRouter = {
   logOut: "/logout",
 };
 // 로그인 요청
-const loginUser = async ({ email, password }: SignInRequestDTO): Promise<SignInResponseDTO> => {
+const loginUser = async ({
+  email,
+  password,
+}: SignInRequestDTO): Promise<SignInResponseDTO> => {
   try {
     return await publicClient.post(userApiRouter.login, { email, password });
   } catch (error: any) {
@@ -27,7 +30,11 @@ const logOutUser = async (id: Id) => {
 };
 
 // 회원가입 요청
-const registerUser = async (userData: { name: string; email: string; password: string }) => {
+const registerUser = async (userData: {
+  name: string;
+  email: string;
+  password: string;
+}) => {
   const response = await publicClient.post("/register", userData);
   return response.data;
 };

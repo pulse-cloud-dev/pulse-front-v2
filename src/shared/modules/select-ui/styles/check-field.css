@@ -1,0 +1,119 @@
+.check-field-module {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  height: 32px;
+}
+.check-field-module input {
+  appearance: none;
+}
+
+.check-field-module label {
+  position: relative;
+  padding-left: 1.625rem;
+  cursor: pointer;
+  line-height: 1rem;
+  color: var(--white-w_87);
+  font-size: 13px;
+}
+
+.check-field-module label::after {
+  content: "";
+  position: absolute;
+  top: 0.063rem;
+  left: 0.125rem;
+  width: 1rem;
+  height: 1rem;
+
+  border: 0.063rem solid var(--white-w_60);
+  box-sizing: border-box;
+  opacity: 0.6;
+
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  border-radius: 0.125rem;
+}
+
+.check-field-module input[type="checkbox"]:checked + label::after {
+  border: 0.063rem solid var(--primary-pri_100);
+  background: url("/icons/checkbox_checked.svg") 0.125rem center no-repeat;
+  background-size: 0.625rem auto;
+  opacity: 1;
+}
+
+.check-field-module input[type="checkbox"]:checked + label {
+  color: var(--primary-pri_100);
+}
+
+.check-field-module input[type="checkbox"]:disabled + label::after,
+.check-field-module .disabled::after {
+  border: none;
+  background: var(--white-w_20);
+}
+
+/* .nemo 스타일 */
+.check-field-module.nemo {
+  align-self: center;
+  color: var(--white-w_100-sec);
+}
+
+.check-field-module.nemo input[type="checkbox"]:checked + label::after {
+  background: url("/icons/minus_sky_12.svg") center no-repeat !important;
+  opacity: 1;
+}
+
+.check-field-module.nemo input[type="checkbox"]:checked + label {
+  color: var(--white-w_100-sec);
+}
+
+/* .tree 스타일 */
+.check-field-module.tree {
+  align-self: center;
+  color: var(--white-w_100-sec);
+}
+
+.check-field-module.tree label::after {
+  border: 0.063rem solid var(--white-w_100-sec);
+  opacity: 0.8;
+}
+
+.check-field-module.tree input[type="checkbox"]:checked + label::after {
+  border: 0.063rem solid var(--primary-pri_100);
+  background: url("/icons/checkbox_checked.svg") 0.125rem center no-repeat;
+  background-size: 0.625rem auto;
+  opacity: 1;
+}
+
+.check-field-module.tree input[type="checkbox"]:checked + label {
+  color: var(--white-w_100-sec);
+}
+
+/* .circle 스타일 */
+.check-field-module.circle label::after {
+  top: 0;
+  left: 0;
+  width: 1rem;
+  height: 1rem;
+  border: none;
+  background: var(--white-w_40);
+  opacity: 0.6;
+
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.check-field-module.circle input[type="checkbox"]:checked + label::after {
+  border: none;
+  background: rgba(0, 104, 230, 1) url("/icons/chekcbox_login_chekced.svg") 0.125rem 0.188rem no-repeat;
+  opacity: 1;
+}
+
+.check-field-module.circle input[type="checkbox"]:checked + label {
+  color: inherit;
+}
+
+/* .td 스타일 */
+.check-field-module.td label {
+  padding-left: 1.25rem;
+}

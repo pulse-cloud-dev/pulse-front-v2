@@ -1,13 +1,17 @@
+import type { HTMLAttributes } from "react";
+
+import { Modal, useModal } from "@/shared/modules";
+import { MentorDetailPopup } from "@/shared/components/widgets";
 import { Icon, Image, SquareBadge } from "@/shared/components/atoms";
 import { BaseCard } from "./baseCard";
 
 // Body
-interface BodyContentTitleProps {
+interface BodyContentTitleProps extends HTMLAttributes<HTMLElement> {
   title?: string;
 }
 const BodyContentTitle = (props: BodyContentTitleProps) => {
-  const { title } = props;
-  return <>{title && <span>{title}</span>}</>;
+  const { title, ...rest } = props;
+  return <>{title && <span {...rest}>{title}</span>}</>;
 };
 
 interface BodyContentTagProps {}
@@ -52,8 +56,18 @@ const FooterDescription = (props: FooterDescriptionProps) => {
   );
 };
 
+interface MentorCardProps {
+  title?: string;
+}
+
 // Mentor Card Component
-export const MentorCard = () => {
+export const MentorCard = ({ title = "제목입니다 제목은 세줄까지만 보입니다.제목입니다 제목은 세줄까지만 보입니다.제목입니다 제목은 " }: MentorCardProps) => {
+  const modal = useModal(Modal, {
+    title: "멘토링 정보",
+    variant: "default",
+    children: <MentorDetailPopup />,
+  });
+
   return (
     <BaseCard>
       <BaseCard.Header>
@@ -61,8 +75,8 @@ export const MentorCard = () => {
         <Icon src={"bookmark_20"} alt={"bookmark"} />
       </BaseCard.Header>
       <BaseCard.Body className="border-b">
-        <div className="mentorCard-body__top ">
-          <BodyContentTitle title="제목입니다 제목은 세줄까지만 보입니다.제목입니다 제목은 세줄까지만 보입니다.제목입니다 제목은 " />
+        <div className="mentorCard-body__top">
+          <BodyContentTitle onClick={modal.openModal} title={title} />
         </div>
         <div className="mentorCard-body__bottom">
           <BodyContentTag />

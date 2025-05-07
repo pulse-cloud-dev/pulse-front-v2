@@ -1,5 +1,7 @@
 import type { FC } from "react";
 
+export type ModalVariants = "check" | "confirm" | "default";
+
 export type ModalOpenPayload = {
   id: string;
   component: FC;

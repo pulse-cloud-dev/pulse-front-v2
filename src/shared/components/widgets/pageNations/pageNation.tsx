@@ -89,7 +89,7 @@ export const PageNation = forwardRef<HTMLUListElement, PageNationProps>((props, 
             return (
               <li key={`${page}-${j}`}>
                 <a data-page={undefined} className={`${pageNationController.offset === page && "active"}`} onClick={pageNationController.handleOffset}>
-                  {"Error"}
+                  {"⛔"}{" "}
                 </a>
               </li>
             );
