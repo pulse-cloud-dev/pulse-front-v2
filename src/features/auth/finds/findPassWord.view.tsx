@@ -23,7 +23,6 @@ const ShowEmailIdStep = ({ onNext, onPrev }: { onNext?: () => void; onPrev?: () 
 const ResetAccountPasswordStep = ({ onNext, onPrev }: { onNext?: () => void; onPrev?: () => void }) => {
   //버튼을 누르면 비밀번호 재성정 성공 로그인으로 이동
   //그냥 로그인으로 이동
-  console.log("${urlConst.home.main}", urlConst.home.main);
   return (
     <div>
       <h3>비밀번호 재설정</h3>
