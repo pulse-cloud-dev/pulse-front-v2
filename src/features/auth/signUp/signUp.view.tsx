@@ -61,7 +61,13 @@ const SignUpConsentStep = ({ onNext }: SignUpStepProps) => {
         <button className="fs_16 btn__line gray btn_xl flex1" onClick={goBack}>
           취소
         </button>
-        <button className={`fs_16 btn__primary btn_xl flex1 ${isActiveNext ? "" : "disabled"}`} onClick={onNext} disabled={!isActiveNext}>
+        <button className={`fs_16 btn__primary btn_xl flex1 ${isActiveNext ? "" : "disabled"}`} 
+                onClick={() => {
+                  const uncheckedItem = checkboxItems.filter((item) => item.id !== "all").find((item) => !item.checked);
+                  if (uncheckedItem === undefined) {onNext?.()}
+                  else if (uncheckedItem?.id === "1") { alert("이용약관 동의는 필수로 동의해야 회원가입이 가능합니다.");}
+                  else if (uncheckedItem?.id === "2") { alert("개인정보 수집 이용에 대한 동의는 필수로 동의해야 회원가입이 가능합니다.");}
+                }} >
           다음
         </button>
       </div>
@@ -72,10 +78,15 @@ const SignUpConsentStep = ({ onNext }: SignUpStepProps) => {
 // Step 2
 const SignUpCertificationStep = ({ onNext }: SignUpStepProps) => {
   return (
-    <div className="m-t-40 w-100 flex_r align_center justify_center">
-      <BaseButton className="w400 border gap_8" size="xl" onClick={onNext}>
+    <div className="m-t-40 w-100 flex_c align_center justify_center">
+      <BaseButton className="w400 m-b-30 border gap_8" size="xl" onClick={onNext}>
         <Icon src="logo_naver" alt="네이버 로고" />
         네이버 로그인으로 본인인증
+      </BaseButton>
+
+      <BaseButton className="w400 m-b-30 border gap_8" size="xl" onClick={onNext}>
+        <Icon src="logo_naver" alt="네이버 로고" />
+        카카오 로그인으로 본인인증
       </BaseButton>
     </div>
   );

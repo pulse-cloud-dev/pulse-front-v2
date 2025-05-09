@@ -13,6 +13,7 @@ const SignInDynamicForm = ({ handleSubmit }: { handleSubmit: Void }) => {
           handleSubmit(formData);
         }
       }}
+      cancelTitle=""
       submitTitle="로그인"
       submitClass="auth__button"
       schema={{ email: 4, password: 5 }}
@@ -22,7 +23,7 @@ const SignInDynamicForm = ({ handleSubmit }: { handleSubmit: Void }) => {
 
         <span>
           <Linker href="/auth/find-password" className="fs_12 color__grayscale-50">
-            계정/비밀번호 찾기-ci/cd 테스트
+            계정/비밀번호 찾기
           </Linker>
         </span>
       </div>
