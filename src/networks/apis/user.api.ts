@@ -1,10 +1,12 @@
 import { privateClient, publicClient } from "@/networks/client";
-import { SignInRequestDTO, SignInResponseDTO, UserDTO } from "@/contracts";
+import { SignInRequestDTO, SignInResponseDTO, SignUpRequestDTO, UserDTO } from "@/contracts";
 
 const userApiRouter = {
   login: "/members/login",
   logOut: "/logout",
+  joinSocial: "/members/join/"
 };
+
 // 로그인 요청
 const loginUser = async ({
   email,
@@ -28,6 +30,25 @@ const loginUser = async ({
 const logOutUser = async (id: Id) => {
   return await privateClient.post(userApiRouter.logOut, { id });
 };
+
+//소셜 로그인 인증
+const joinSocial = async (domain:SignUpRequestDTO) => {
+  try {
+    const endPoint = userApiRouter.joinSocial+{domain}
+    return await publicClient.get(endPoint);
+  }
+  catch (error: any){
+    // 에러 처리: 서버에서 응답 실패 시 예외 처리
+    if (error.response) {
+      // 서버에서 반환된 오류 처리
+      console.error("Social Certification failed:", error.response.data);
+    } else {
+      // 네트워크 오류 등 기타 오류 처리
+      console.error("Network or other error:", error.message);
+    }
+    throw error.response; // 에러를 다시 던져서 상위 컴포넌트에서 처리할 수 있게 함
+  }
+}
 
 // 회원가입 요청
 const registerUser = async (userData: {
@@ -59,6 +80,7 @@ const deleteUser = async (): Promise<void> => {
 export const userApis = {
   loginUser,
   logOutUser,
+  joinSocial,
   registerUser,
   getUser,
   updateUser,

@@ -1,5 +1,6 @@
+import type { ViewEventProps, Void } from "@/shared/types";
 import { usePageNavigation } from "@/shared/lib/hooks";
-import { checkboxConst, formConstant } from "@/shared/constants";
+import { checkboxConst, formConstant, socialConstant } from "@/shared/constants";
 import { Accordion, BaseButton, CheckboxGroup, CheckboxProvider, DynamicForm, Heading, Icon, Linker, useCheckboxGroup } from "@/shared/components";
 
 type SignUpStepProps = {
@@ -67,7 +68,7 @@ const SignUpConsentStep = ({ onNext }: SignUpStepProps) => {
                   if (uncheckedItem === undefined) {onNext?.()}
                   else if (uncheckedItem?.id === "1") { alert("이용약관 동의는 필수로 동의해야 회원가입이 가능합니다.");}
                   else if (uncheckedItem?.id === "2") { alert("개인정보 수집 이용에 대한 동의는 필수로 동의해야 회원가입이 가능합니다.");}
-                }} >
+                }}>
           다음
         </button>
       </div>
@@ -76,18 +77,20 @@ const SignUpConsentStep = ({ onNext }: SignUpStepProps) => {
 };
 
 // Step 2
-const SignUpCertificationStep = ({ onNext }: SignUpStepProps) => {
+const SignUpCertificationStep = ({ handleJoinSocial, onNext }: {  
+    handleJoinSocial: (param: string) => void,
+    onNext: () => void;
+  }) => {
+  const socialLogin = socialConstant.socialLogin;
+  
   return (
     <div className="m-t-40 w-100 flex_c align_center justify_center">
-      <BaseButton className="w400 m-b-30 border gap_8" size="xl" onClick={onNext}>
-        <Icon src="logo_naver" alt="네이버 로고" />
-        네이버 로그인으로 본인인증
-      </BaseButton>
-
-      <BaseButton className="w400 m-b-30 border gap_8" size="xl" onClick={onNext}>
-        <Icon src="logo_naver" alt="네이버 로고" />
-        카카오 로그인으로 본인인증
-      </BaseButton>
+      {socialLogin.map((item) => (
+        <BaseButton className="w400 m-b-30 border gap_8" size="xl" onClick={() => handleJoinSocial({domain:item.domain})}>
+          <Icon src={item.icon} alt={item.alt} />
+          {item.text}
+        </BaseButton>
+      ))}
     </div>
   );
 };
@@ -132,7 +135,14 @@ const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
   );
 };
 
-export const SignUpView = ({ state }: { state: Record<string, any> }) => {
+interface SignUpViewProps extends ViewEventProps {
+  state: { 
+    step: "consent" | "certification" | "form";
+    setStep: React.Dispatch<React.SetStateAction<"consent" | "certification" | "form">>;
+  };
+}
+
+export const SignUpView = (props: SignUpViewProps) => {
   return (
     <article className="sub-layout__content">
       <section className="section__auth">
@@ -144,24 +154,25 @@ export const SignUpView = ({ state }: { state: Record<string, any> }) => {
             시작하기
           </Heading>
 
-          {state?.step === "consent" && (
+          {props.state?.step === "consent" && (
             <CheckboxProvider initialItems={checkboxConst.SIGN_UP_STEP_1}>
               <SignUpConsentStep
-                onNext={() => state?.setStep("certification")} // 인증으로 가기..
+                onNext={() => props.state?.setStep("certification")} // 인증으로 가기..
               />
             </CheckboxProvider>
           )}
 
-          {state?.step === "certification" && (
+          {props.state?.step === "certification" && (
             <SignUpCertificationStep
-              onNext={() => state?.setStep("form")} // 회원가입 폼으로 가기..
+              handleJoinSocial={props.event!.handleJoinSocial}
+              onNext={() => props.state?.setStep("form")} // 회원가입 폼으로 가기..
             />
           )}
 
-          {state?.step === "form" && (
+          {props.state?.step === "form" && (
             <CheckboxProvider initialItems={checkboxConst.SIGN_UP_STEP_2}>
               <SignUpFormStep
-                onPrev={() => state?.setStep("certification")} // 인증으로 돌아가기..
+                onPrev={() => props.state?.setStep("certification")} // 인증으로 돌아가기..
                 onNext={() => alert("회원가입중입니다...")} // 회원가입 시도하기..
               />
             </CheckboxProvider>
