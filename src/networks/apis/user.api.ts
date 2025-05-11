@@ -1,5 +1,6 @@
 import { privateClient, publicClient } from "@/networks/client";
 import { SignInRequestDTO, SignInResponseDTO, UserDTO } from "@/contracts";
+import axios from "axios";
 
 const userApiRouter = {
   login: "/members/login",
@@ -32,11 +33,22 @@ const registerUser = async (userData: { name: string; email: string; password: s
   return response.data;
 };
 
-// 유저 정보 가져오기
-const getUser = async (): Promise<UserDTO> => {
-  const response = await publicClient.get("/user");
-  return response.data;
+const getUser = async () : Promise<string> => {
+  try {
+    const { data } = await axios.get("/api/v1/members/find-id/NAVER");
+    // window.location.href = data.body; // 네이버 로그인 URL로 이동
+    return data.body;
+  } catch (error) {
+    console.error("네이버 로그인 URL 요청 실패:", error);
+     return "";
+  }
 };
+
+// 유저 정보 가져오기
+// const getUser = async (): Promise<UserDTO> => {
+//   const response = await publicClient.get("/user");
+//   return response.data;
+// };
 
 // 유저 정보 업데이트
 const updateUser = async (userData: Partial<UserDTO>): Promise<UserDTO> => {
