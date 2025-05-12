@@ -65,9 +65,11 @@ export const DynamicForm = forwardRef<HTMLFormElement, DynamicFormProps>((props,
       ))}
       {children}
       <div className="flex_r align_center justify_center gap_8">
-        <button type="button" className={cancelClass} onClick={onClickCancel}>
-          {cancelTitle}
-        </button>
+        {cancelTitle !== "cancel" && (
+          <button type="button" className={cancelClass} onClick={onClickCancel}>
+            {cancelTitle}
+          </button>
+        )}
         <button type="submit" className={`${submitClass} ${disabled ? "disabled" : ""}`} disabled={disabled}>
           {submitTitle}
         </button>
