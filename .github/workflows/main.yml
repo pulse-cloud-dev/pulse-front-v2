@@ -45,11 +45,36 @@ jobs:
           exit 1
         fi
         
-        # EC2에 디렉토리 생성
-        ssh -i private_key.pem -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_IP }} "mkdir -p /pulse-front"
+        # EC2에 디렉토리 생성 - 홈 디렉토리에 생성
+        ssh -i private_key.pem -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_IP }} "mkdir -p /home/pulse-front"
         
         # 빌드 파일 전송
-        scp -i private_key.pem -o StrictHostKeyChecking=no -r ${BUILD_DIR}/* ec2-user@${{ secrets.EC2_IP }}:/pulse-front/
+        scp -i private_key.pem -o StrictHostKeyChecking=no -r ${BUILD_DIR}/* ec2-user@${{ secrets.EC2_IP }}:/home/pulse-front/
+        
+        # Nginx 설정 (필요시)
+        ssh -i private_key.pem -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_IP }} "
+          # Nginx가 설치되어 있는지 확인
+          if ! command -v nginx &> /dev/null; then
+            echo 'Nginx가 설치되어 있지 않습니다.'
+          else
+            # Nginx 설정 파일 생성
+            sudo tee /etc/nginx/conf.d/pulse-front.conf > /dev/null << 'EOF'
+            server {
+              listen 80;
+              server_name pulse-dev.shop www.pulse-dev.shop;
+              
+              location / {
+                root /home/pulse-front;
+                index index.html index.htm;
+                try_files \$uri \$uri/ /index.html;
+              }
+            }
+            EOF
+            
+            # Nginx 설정 테스트 및 재시작
+            sudo nginx -t && sudo systemctl restart nginx
+          fi
+        "
         
         # 임시 파일 정리
         rm -f private_key.pem
