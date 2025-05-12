@@ -1,28 +1,21 @@
 name: pulse-front
-
 on:
   push:
     branches: [ main ]
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '22' # pulse node 버전 : 22.2.0
-
+        node-version: '22'
     - name: Install dependencies
       run: npm ci
-
     - name: Build
       run: npm run build
-
     - name: Debug build directory
       run: |
         echo "현재 디렉토리 목록:"
@@ -31,44 +24,37 @@ jobs:
         ls -la build || echo "build 디렉토리 없음"
         echo "dist 디렉토리 확인:"
         ls -la dist || echo "dist 디렉토리 없음"
-
     - name: Deploy to EC2
       run: |
         echo "${{ secrets.EC2_SSH_KEY }}" > private_key.pem
         chmod 600 private_key.pem
-
         if [ -d "build" ]; then
           BUILD_DIR="build"
         elif [ -d "dist" ]; then
           BUILD_DIR="dist"
         else
-          echo "[error] 빌드 디렉토리를 찾을 수 없습니다."
+          echo "빌드 디렉토리를 찾을 수 없습니다."
           exit 1
         fi
-
         ssh -i private_key.pem -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_IP }} "mkdir -p /home/ec2-user/pulse-front"
-
         scp -i private_key.pem -o StrictHostKeyChecking=no -r ${BUILD_DIR}/* ec2-user@${{ secrets.EC2_IP }}:/home/ec2-user/pulse-front/
-
-        ssh -i private_key.pem -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_IP }} "
-          if ! command -v nginx &> /dev/null; then
-            echo '[error] Nginx가 설치되어 있지 않습니다.'
-          else
-            sudo tee /etc/nginx/conf.d/pulse-front.conf > /dev/null << 'EOF'
-            server {
-              listen 80;
-              server_name pulse-dev.shop www.pulse-dev.shop;
-
-              location / {
-                root /home/ec2-user/pulse-front;
-                index index.html index.htm;
-                try_files \$uri \$uri/ /index.html;
-              }
-            }
-            EOF
-
-            sudo nginx -t && sudo systemctl restart nginx
-          fi
-        "
-
+        ssh -i private_key.pem -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_IP }} 'bash -s' << 'ENDSSH'
+        if ! command -v nginx &> /dev/null; then
+          echo 'Nginx가 설치되어 있지 않습니다.'
+        else
+          sudo tee /etc/nginx/conf.d/pulse-front.conf > /dev/null << 'EOF'
+server {
+    listen 80;
+    server_name pulse-dev.shop www.pulse-dev.shop;
+  
+    location / {
+      root /home/ec2-user/pulse-front;
+      index index.html index.htm;
+      try_files $uri $uri/ /index.html;
+    }
+}
+EOF
+          sudo nginx -t && sudo systemctl restart nginx
+        fi
+ENDSSH
         rm -f private_key.pem
