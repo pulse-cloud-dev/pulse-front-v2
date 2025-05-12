@@ -4,7 +4,7 @@
                    Form Style
                    - log-in 
                    - sign-up
-
+                  -find-password
 ========================================================
  */
 
@@ -132,6 +132,63 @@
   line-height: 16px;
   letter-spacing: -0.02em;
   color: #757575;
+}
+
+/* ================== find-passwordstyle =====================  */
+/* fs_16 btn__line btn_xl flex1  */
+/* css   */
+
+.find_reset__button {
+  height: 40px;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 0.0316px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  padding: 2px 12px 0;
+  border-radius: 8px;
+  font-size: 8px;
+  background: transparent;
+  color: var(--text);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 16px !important;
+  background-color: var(--palette-white-30);
+}
+
+.find_reset__button.cancel {
+  background-color: var(--palette-white-30);
+  color: var(--text);
+}
+.find_reset__button:hover {
+  background-color: var(--palette-white-60);
+}
+
+.find__auth__button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  background-color: var(--primary-50);
+  border: none;
+  border-radius: 10px;
+  color: var(--palette-white-05);
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.find__auth__button.cancel {
+  background-color: var(--palette-white-30);
+  color: var(--text);
+}
+.find__auth__button.cancel:hover {
+  background-color: var(--palette-white-60);
+}
+.find__auth__button:hover {
+  background-color: var(--primary-70);
 }
 
 /*

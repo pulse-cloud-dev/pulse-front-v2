@@ -178,7 +178,7 @@ const createRoutes = (): Routers => {
         { path: "signUp", element: <Controller.SignUpController /> },
         {
           path: "find-password",
-          element: <Controller.UnderConstructionController />,
+          element: <Controller.FindController />,
         },
       ],
     },
