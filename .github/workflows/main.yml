@@ -1,26 +1,28 @@
 name: pulse-front
+
 on:
   push:
-    branches: [ main ] 
+    branches: [ main ]
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-      
+
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '22' # pulse node 버전 : 22.2.0
-        
+
     - name: Install dependencies
       run: npm ci
-      
+
     - name: Build
       run: npm run build
-      
+
     - name: Debug build directory
       run: |
         echo "현재 디렉토리 목록:"
@@ -29,52 +31,44 @@ jobs:
         ls -la build || echo "build 디렉토리 없음"
         echo "dist 디렉토리 확인:"
         ls -la dist || echo "dist 디렉토리 없음"
-      
+
     - name: Deploy to EC2
       run: |
         echo "${{ secrets.EC2_SSH_KEY }}" > private_key.pem
         chmod 600 private_key.pem
-        
-        # 빌드 디렉토리가 있는지 확인하고 해당 디렉토리 사용
+
         if [ -d "build" ]; then
           BUILD_DIR="build"
         elif [ -d "dist" ]; then
           BUILD_DIR="dist"
         else
-          echo "빌드 디렉토리를 찾을 수 없습니다."
+          echo "[error] 빌드 디렉토리를 찾을 수 없습니다."
           exit 1
         fi
-        
-        # EC2에 디렉토리 생성 - 홈 디렉토리에 생성
-        ssh -i private_key.pem -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_IP }} "mkdir -p /home/pulse-front"
-        
-        # 빌드 파일 전송
-        scp -i private_key.pem -o StrictHostKeyChecking=no -r ${BUILD_DIR}/* ec2-user@${{ secrets.EC2_IP }}:/home/pulse-front/
-        
-        # Nginx 설정 (필요시)
+
+        ssh -i private_key.pem -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_IP }} "mkdir -p /home/ec2-user/pulse-front"
+
+        scp -i private_key.pem -o StrictHostKeyChecking=no -r ${BUILD_DIR}/* ec2-user@${{ secrets.EC2_IP }}:/home/ec2-user/pulse-front/
+
         ssh -i private_key.pem -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_IP }} "
-          # Nginx가 설치되어 있는지 확인
           if ! command -v nginx &> /dev/null; then
-            echo 'Nginx가 설치되어 있지 않습니다.'
+            echo '[error] Nginx가 설치되어 있지 않습니다.'
           else
-            # Nginx 설정 파일 생성
             sudo tee /etc/nginx/conf.d/pulse-front.conf > /dev/null << 'EOF'
             server {
               listen 80;
               server_name pulse-dev.shop www.pulse-dev.shop;
-              
+
               location / {
-                root /home/pulse-front;
+                root /home/ec2-user/pulse-front;
                 index index.html index.htm;
                 try_files \$uri \$uri/ /index.html;
               }
             }
             EOF
-            
-            # Nginx 설정 테스트 및 재시작
+
             sudo nginx -t && sudo systemctl restart nginx
           fi
         "
-        
-        # 임시 파일 정리
+
         rm -f private_key.pem
