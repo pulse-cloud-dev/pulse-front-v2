@@ -64,7 +64,7 @@ export const DynamicForm = forwardRef<HTMLFormElement, DynamicFormProps>((props,
         />
       ))}
       {children}
-      <div className="flex_r align_center justify_center gap_8">
+      <div className="flex_r align_center justify_center gap_8 m-t-40">
         {cancelTitle !== "cancel" && (
           <button type="button" className={cancelClass} onClick={onClickCancel}>
             {cancelTitle}
