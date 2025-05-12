@@ -13,7 +13,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '22' # pulse-front의 node 버전
+        node-version: '22' # pulse node 버전 : 22.2.0
         
     - name: Install dependencies
       run: npm ci
@@ -21,11 +21,35 @@ jobs:
     - name: Build
       run: npm run build
       
-    - name: Deploy build files to EC2
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.EC2_IP }}
-        username: ec2-user
-        key: ${{ secrets.EC2_SSH_KEY }}
-        source: "build/"
-        target: "/pulse-front"
+    - name: Debug build directory
+      run: |
+        echo "현재 디렉토리 목록:"
+        ls -la
+        echo "빌드 디렉토리 확인:"
+        ls -la build || echo "build 디렉토리 없음"
+        echo "dist 디렉토리 확인:"
+        ls -la dist || echo "dist 디렉토리 없음"
+      
+    - name: Deploy to EC2
+      run: |
+        echo "${{ secrets.EC2_SSH_KEY }}" > private_key.pem
+        chmod 600 private_key.pem
+        
+        # 빌드 디렉토리가 있는지 확인하고 해당 디렉토리 사용
+        if [ -d "build" ]; then
+          BUILD_DIR="build"
+        elif [ -d "dist" ]; then
+          BUILD_DIR="dist"
+        else
+          echo "빌드 디렉토리를 찾을 수 없습니다."
+          exit 1
+        fi
+        
+        # EC2에 디렉토리 생성
+        ssh -i private_key.pem -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_IP }} "mkdir -p /pulse-front"
+        
+        # 빌드 파일 전송
+        scp -i private_key.pem -o StrictHostKeyChecking=no -r ${BUILD_DIR}/* ec2-user@${{ secrets.EC2_IP }}:/pulse-front/
+        
+        # 임시 파일 정리
+        rm -f private_key.pem
