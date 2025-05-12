@@ -45,7 +45,7 @@ const ShowEmailIdStep = ({ onNext, onSignIn }: { onNext?: () => void; onSignIn?:
         <button className="find_reset__button" onClick={onNext}>
           비밀번호 재설정
         </button>
-        <button className={`fs_16 btn__primary btn_xl flex1`} onClick={onSignIn}>
+        <button className={`fs_16 btn__primary btn_l flex1`} onClick={onSignIn}>
           로그인하기
         </button>
       </div>
@@ -77,7 +77,7 @@ const ResetAccountPasswordStep = ({ onNext, onMain }: { onNext?: () => void; onM
       cancelClass="find_reset__button  m-l-27"
       cancelTitle="취소"
       onClickCancel={onMain}
-      submitClass="fs_16 btn__primary btn_xl flex1 m-r-27"
+      submitClass="fs_16 btn__primary btn_l flex1 m-r-27"
       submitTitle="다음"
     ></DynamicForm>
   );
