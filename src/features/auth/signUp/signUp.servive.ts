@@ -1,21 +1,25 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 import { userApis } from "@/networks";
-import { SignUpRequestDTO } from "@/contracts";
+import { JoinSocialRequestDTO } from "@/contracts";
 
-const usejoinSocial = (domain:SignUpRequestDTO) => {
-	const { refetch, data, isLoading, isError, error } = useQuery({
-		queryKey:["socialSignUp"],
-		queryFn: async () => {
-      const res = await userApis.joinSocial(domain);
-      return res;
-    },
-    enabled: false,
-    refetchOnWindowFocus : false,
-    retry:3
-	})
-  return { refetch, data, isLoading, isError, error };
-};
+const usejoinSocial = () => {
+  const mutation = useMutation({
+      mutationFn: (social:JoinSocialRequestDTO) => userApis.joinSocial(social.domain),
+  })
+
+  const requestJoinSocial = (social:JoinSocialRequestDTO, onNext:()=> void) => {
+    mutation.mutate(social,{
+      onSuccess: () => {
+        onNext();
+      },
+      onError: (error) => {
+        console.error("소셜 가입 실패", error);
+      }
+    })};
+
+    return { mutation, requestJoinSocial };
+  }
 
 export const signUpService = {
   usejoinSocial

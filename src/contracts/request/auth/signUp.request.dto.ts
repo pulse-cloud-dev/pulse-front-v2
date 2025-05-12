@@ -4,6 +4,6 @@
  *
  * @property {string} domain - 회원가입에 사용되는 도메인
  */
-export interface SignUpRequestDTO {
+export interface JoinSocialRequestDTO {
   domain: string;
 }

@@ -6,7 +6,7 @@ import { signUpService } from "./signUp.servive";
 export const SignUpController = () => {
   // View에서 사용되어질 상태관리
   const [step, setStep] = useState<"consent" | "certification" | "form">("consent");
-  const { refetch: handleJoinSocial } = signUpService.usejoinSocial({domain:""});
+  const { requestJoinSocial : handleJoinSocial } = signUpService.usejoinSocial();
 
   // Controller에서 View로 내려질 Props
   const props = {

@@ -32,9 +32,9 @@ const logOutUser = async (id: Id) => {
 };
 
 //소셜 로그인 인증
-const joinSocial = async (domain:SignUpRequestDTO) => {
+const joinSocial = async (domain:string) => {
   try {
-    const endPoint = userApiRouter.joinSocial+{domain}
+    const endPoint = userApiRouter.joinSocial + domain;
     return await publicClient.get(endPoint);
   }
   catch (error: any){
