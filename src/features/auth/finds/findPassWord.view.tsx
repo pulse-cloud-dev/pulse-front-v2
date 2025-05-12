@@ -74,10 +74,10 @@ const ResetAccountPasswordStep = ({ onNext, onMain }: { onNext?: () => void; onM
         password: 6,
         "password-check": 6,
       }}
-      cancelClass="find__auth__button cancel m-l-60 flex1"
+      cancelClass="find_reset__button  m-l-27"
       cancelTitle="취소"
       onClickCancel={onMain}
-      submitClass="find__auth__button flex1 m-r-60"
+      submitClass="fs_16 btn__primary btn_xl flex1 m-r-27"
       submitTitle="다음"
     ></DynamicForm>
   );
@@ -87,6 +87,7 @@ import { urlConst } from "@/shared/constants";
 import { Icon } from "@/shared/components";
 
 export const FindPassWordView = ({ state }: { state: Record<string, any> }) => {
+  console.log(state);
   return (
     //"인증선택" | "이매일아이디보여주기" | "비밀번호재설정"
     <article className="sub-layout__content">
@@ -98,8 +99,8 @@ export const FindPassWordView = ({ state }: { state: Record<string, any> }) => {
           <Heading as="h3" className="title-32 text-center m-t-20 m-b-20">
             계정/비밀번호 찾기
           </Heading>
-          {state?.step === "인증선택" && <AuthenticationSelectionStep onNext={state?.handleOauthLogin} />}
-          {state?.step === "이매일아이디보여주기" && <ShowEmailIdStep onNext={state.handleOauthLogin} onSignIn={() => state?.navigation.goToPage(`/${urlConst.auth.main}/${urlConst.auth.signIn}`)} />}
+          {state?.step === "인증선택" && <AuthenticationSelectionStep onNext={() => state.setStep("이매일아이디보여주기")} />}
+          {state?.step === "이매일아이디보여주기" && <ShowEmailIdStep onNext={() => state.setStep("비밀번호재설정")} onSignIn={() => state?.navigation.goToPage(`/${urlConst.auth.main}/${urlConst.auth.signIn}`)} />}
           {state?.step === "비밀번호재설정" && <ResetAccountPasswordStep onNext={state.handleResetPassword} onMain={() => state?.navigation.goHome()} />}
         </div>
       </section>
