@@ -10,6 +10,7 @@ export default defineConfig(({ mode }: ConfigEnv) => {
 
   // Common settings
   const commonSettings = {
+    base: "./",
     plugins: [react(), tsconfigPaths()],
     resolve: {
       alias: {
