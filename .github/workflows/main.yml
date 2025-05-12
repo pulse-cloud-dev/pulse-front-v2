@@ -18,9 +18,7 @@ jobs:
       run: npm run build
     - name: Debug build directory
       run: |
-        echo "현재 디렉토리 목록:"
-        ls -la
-        echo "빌드 디렉토리 확인:"
+        echo "현재 디렉토리 확인:"
         ls -la build || echo "build 디렉토리 없음"
         echo "dist 디렉토리 확인:"
         ls -la dist || echo "dist 디렉토리 없음"
@@ -39,22 +37,3 @@ jobs:
         ssh -i private_key.pem -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_IP }} "mkdir -p /home/ec2-user/pulse-front"
         scp -i private_key.pem -o StrictHostKeyChecking=no -r ${BUILD_DIR}/* ec2-user@${{ secrets.EC2_IP }}:/home/ec2-user/pulse-front/
         ssh -i private_key.pem -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_IP }} 'bash -s' << 'ENDSSH'
-        if ! command -v nginx &> /dev/null; then
-          echo 'Nginx가 설치되어 있지 않습니다.'
-        else
-          sudo tee /etc/nginx/conf.d/pulse-front.conf > /dev/null << 'EOF'
-server {
-    listen 80;
-    server_name pulse-dev.shop www.pulse-dev.shop;
-  
-    location / {
-      root /home/ec2-user/pulse-front;
-      index index.html index.htm;
-      try_files $uri $uri/ /index.html;
-    }
-}
-EOF
-          sudo nginx -t && sudo systemctl restart nginx
-        fi
-ENDSSH
-        rm -f private_key.pem
