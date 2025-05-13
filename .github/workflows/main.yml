@@ -39,6 +39,4 @@ jobs:
         chmod 600 private_key.pem
         # dist 디렉토리만 사용하도록 명확하게 지정
         scp -i private_key.pem -o StrictHostKeyChecking=no -r dist/* ec2-user@${{ secrets.EC2_IP }}:/home/ec2-user/pulse-front/
-        ssh -i private_key.pem -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_IP }} 'bash -s' << 'ENDSSH'
-          # Nginx 설정이 있다면 재시작
-          sudo systemctl restart nginx ENDSSH
+        ssh -i private_key.pem -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_IP }} 'sudo systemctl restart nginx'
