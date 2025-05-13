@@ -37,14 +37,8 @@ jobs:
       run: |
         echo "${{ secrets.EC2_SSH_KEY }}" > private_key.pem
         chmod 600 private_key.pem
-        if [ -d "build" ]; then
-          BUILD_DIR="build"
-        elif [ -d "dist" ]; then
-          BUILD_DIR="dist"
-        else
-          echo "빌드 디렉토리를 찾을 수 없습니다."
-          exit 1
-        fi
-        ssh -i private_key.pem -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_IP }} "mkdir -p /home/ec2-user/pulse-front"
-        scp -i private_key.pem -o StrictHostKeyChecking=no -r ${BUILD_DIR}/* ec2-user@${{ secrets.EC2_IP }}:/home/ec2-user/pulse-front/
+        # dist 디렉토리만 사용하도록 명확하게 지정
+        scp -i private_key.pem -o StrictHostKeyChecking=no -r dist/* ec2-user@${{ secrets.EC2_IP }}:/home/ec2-user/pulse-front/
         ssh -i private_key.pem -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_IP }} 'bash -s' << 'ENDSSH'
+          # Nginx 설정이 있다면 재시작
+          sudo systemctl restart nginx ENDSSH
