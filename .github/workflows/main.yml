@@ -30,13 +30,14 @@ jobs:
     - name: Debug build directory
       run: |
         echo "현재 디렉토리 확인:"
-        ls -la build || echo "build 디렉토리 없음"
-        echo "dist 디렉토리 확인:"
+        ls -la
+        echo "빌드 디렉토리 확인:"
         ls -la dist || echo "dist 디렉토리 없음"
     - name: Deploy to EC2
       run: |
         echo "${{ secrets.EC2_SSH_KEY }}" > private_key.pem
         chmod 600 private_key.pem
-        # dist 디렉토리만 사용하도록 명확하게 지정
-        scp -i private_key.pem -o StrictHostKeyChecking=no -r dist/* ec2-user@${{ secrets.EC2_IP }}:/home/ec2-user/pulse-front/
+        BUILD_DIR="dist"  # vite 프로젝트이므로 dist 디렉토리에 빌드되도록 변경
+        ssh -i private_key.pem -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_IP }} "rm -rf /home/ec2-user/pulse-front/*"
+        scp -i private_key.pem -o StrictHostKeyChecking=no -r ${BUILD_DIR}/* ec2-user@${{ secrets.EC2_IP }}:/home/ec2-user/pulse-front/
         ssh -i private_key.pem -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_IP }} 'sudo systemctl restart nginx'
