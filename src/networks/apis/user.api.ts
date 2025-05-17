@@ -1,5 +1,5 @@
 import { privateClient, publicClient } from "@/networks/client";
-import { SignInRequestDTO, SignInResponseDTO, SignUpRequestDTO, UserDTO } from "@/contracts";
+import { SignInRequestDTO, SignInResponseDTO, UserDTO } from "@/contracts";
 
 const userApiRouter = {
   login: "/members/login",
@@ -32,6 +32,7 @@ const logOutUser = async (id: Id) => {
 };
 
 //소셜 로그인 인증
+// const joinSocial = async (domain:string) : Promise<{ body: string }>=> {
 const joinSocial = async (domain:string) => {
   try {
     const endPoint = userApiRouter.joinSocial + domain;

@@ -2,6 +2,8 @@ import type { ViewEventProps, Void } from "@/shared/types";
 import { usePageNavigation } from "@/shared/lib/hooks";
 import { checkboxConst, formConstant, socialConstant } from "@/shared/constants";
 import { Accordion, BaseButton, CheckboxGroup, CheckboxProvider, DynamicForm, Heading, Icon, Linker, useCheckboxGroup } from "@/shared/components";
+import { UseMutationResult } from "@tanstack/react-query";
+import { AxiosResponse } from "axios";
 
 type SignUpStepProps = {
   onPrev?: () => void;
@@ -78,7 +80,7 @@ const SignUpConsentStep = ({ onNext }: SignUpStepProps) => {
 
 // Step 2
 const SignUpCertificationStep = ({ handleJoinSocial, onNext }: {  
-    handleJoinSocial: (param: string) => void,
+    handleJoinSocial:  UseMutationResult<AxiosResponse<any, any>, Error, string, unknown>;
     onNext: () => void;
   }) => {
 
@@ -86,9 +88,18 @@ const SignUpCertificationStep = ({ handleJoinSocial, onNext }: {
   
   
   return (
+    // <div className="m-t-40 w-100 flex_c align_center justify_center">
+    //   {socialLogin.map((item) => (
+    //     <BaseButton className="w400 m-b-30 border gap_8" size="xl" onClick={() => handleJoinSocial.mutate(item.domain)}>
+    //       <Icon src={item.icon} alt={item.alt} />
+    //       {item.text}
+    //     </BaseButton>
+    //   ))}
+    // </div>
+
     <div className="m-t-40 w-100 flex_c align_center justify_center">
       {socialLogin.map((item) => (
-        <BaseButton className="w400 m-b-30 border gap_8" size="xl" onClick={() => handleJoinSocial(item.domain, onNext)}>
+        <BaseButton className="w400 m-b-30 border gap_8" size="xl" onClick={() => onNext()}>
           <Icon src={item.icon} alt={item.alt} />
           {item.text}
         </BaseButton>
@@ -111,6 +122,7 @@ const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
       handleSubmit={handleSubmit}
       // 글자수 disabled상태
       schema={{
+        test:3,
         email: 4,
         username: 4,
         password: 6,
@@ -142,6 +154,9 @@ interface SignUpViewProps extends ViewEventProps {
     step: "consent" | "certification" | "form";
     setStep: React.Dispatch<React.SetStateAction<"consent" | "certification" | "form">>;
   };
+  mutate: {
+    joinSocialMutation: UseMutationResult<AxiosResponse<any, any>, Error, string, unknown>
+  }
 }
 
 export const SignUpView = (props: SignUpViewProps) => {
@@ -164,9 +179,9 @@ export const SignUpView = (props: SignUpViewProps) => {
             </CheckboxProvider>
           )}
 
-          {props.state?.step === "certification" && (
+          {props.state?.step === "certification" && props.mutate?.joinSocialMutation && (
             <SignUpCertificationStep
-              handleJoinSocial={props.event!.handleJoinSocial}
+              handleJoinSocial={props.mutate.joinSocialMutation}
               onNext={() => props.state?.setStep("form")} // 회원가입 폼으로 가기..
             />
           )}
