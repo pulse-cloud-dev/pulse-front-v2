@@ -33,7 +33,7 @@ const logOutUser = async (id: Id) => {
 
 //소셜 로그인 인증
 // const joinSocial = async (domain:string) : Promise<{ body: string }>=> {
-const joinSocial = async (domain:string) => {
+const joinSocial = async (domain: string): Promise<{ body: string; message: string }> => {
   try {
     const endPoint = userApiRouter.joinSocial + domain;
     return await publicClient.get(endPoint);

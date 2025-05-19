@@ -8,22 +8,13 @@ export const useJoinSocial = (options = {}) => {
   const mutation = useMutation({
     mutationFn: (domain: string): Promise<{ body: string, message: string }> => userApis.joinSocial(domain),
     onSuccess: ( response:  {body: string, message: string }) => {
-      console.log(response.body,"================")
-      // 응답이 문자열 URL이라면
-      // const query = response?.body;
-      // const parsing = new URLSearchParams(query);
-      
-      // if (typeof redirectUrl === "string") {
-      //   window.location.href = redirectUrl; // 외부로 리디렉트
-      // } else {
-      //   console.error("리다이렉트 URL이 유효하지 않습니다.");
-      // }
+      const redirect = response?.body;
+      window.location.href = redirect;
     },
     onError: (error) => {
       console.error("Join social failed:", error);
     },
   });
-
   return { mutation };
 };
 
