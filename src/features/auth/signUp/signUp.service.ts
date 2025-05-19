@@ -6,10 +6,11 @@ import { CheckboxItem } from "@/shared/components";
 //소셜인증(step2)
 export const useJoinSocial = (options = {}) => {
   const mutation = useMutation({
-    mutationFn: (domain: string) => userApis.joinSocial(domain),
-    onSuccess: (response) => {
+    mutationFn: (domain: string): Promise<{ body: string, message: string }> => userApis.joinSocial(domain),
+    onSuccess: ( response:  {body: string, message: string }) => {
+      console.log(response.body,"================")
       // 응답이 문자열 URL이라면
-      // const query = response.body;
+      // const query = response?.body;
       // const parsing = new URLSearchParams(query);
       
       // if (typeof redirectUrl === "string") {
