@@ -6,7 +6,8 @@
   "sideEffects": false,
   "author": [
     "taetaeo <ohtk1119@gmail.com> (https://github.com/taetaeo)",
-    "Hyesu-Choi <email@gmail.com> (https://github.com/Hyesu-Choi)"
+    "Hyesu-Choi <email@gmail.com> (https://github.com/Hyesu-Choi)",
+    "Klaxon9718 <you9718@naver.com> (https://github.com/Klaxon9718)"
   ],
   "devDependencies": {
     "@tanstack/react-query-devtools": "^5.62.15",
