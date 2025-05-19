@@ -36,7 +36,7 @@ const registerUser = async (userData: { name: string; email: string; password: s
 const getUser = async () : Promise<string> => {
   try {
     const { data } = await axios.get("/api/v1/members/find-id/NAVER");
-    // window.location.href = data.body; // 네이버 로그인 URL로 이동
+    window.location.href = data.body; // 네이버 로그인 URL로 이동
     return data.body;
   } catch (error) {
     console.error("네이버 로그인 URL 요청 실패:", error);
