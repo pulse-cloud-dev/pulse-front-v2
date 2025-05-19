@@ -109,6 +109,7 @@
 }
 
 /* placeholder */
+
 input::-moz-placeholder,
 textarea::-moz-placeholder {
   color: var(--white-w_40);
@@ -135,6 +136,10 @@ textarea:-moz-input-placeholder {
 
 input[type="password"] {
   letter-spacing: 1px;
+}
+input::placeholder {
+  color: rgb(58, 9, 9);
+  font-style: italic;
 }
 
 /*scroll*/
