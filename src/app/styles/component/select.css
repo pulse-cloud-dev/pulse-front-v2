@@ -1,0 +1,23 @@
+.select {
+  width: 200px;
+  height: 44px;
+  padding: 0 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-repeat: no-repeat;
+
+  appearance: none; /* 크롬, 사파리 등 */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: url("../icons/arrow_down.svg") no-repeat right 12px center;
+  background-size: 16px 16px !important;
+  padding-right: 2.5rem; /* 화살표와 텍스트 간 간격 확보 */
+}
+
+/* 선택했을 때 강조 */
+.select:focus {
+  outline: none;
+  border-color: #999;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
