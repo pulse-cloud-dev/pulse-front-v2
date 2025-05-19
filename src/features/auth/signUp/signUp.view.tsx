@@ -1,6 +1,12 @@
+import type { ViewEventProps, Void } from "@/shared/types";
 import { usePageNavigation } from "@/shared/lib/hooks";
-import { checkboxConst, formConstant } from "@/shared/constants";
-import { Accordion, BaseButton, CheckboxGroup, CheckboxProvider, DynamicForm, Heading, Icon, Linker, useCheckboxGroup } from "@/shared/components";
+import { checkboxConst, formConstant, socialConstant } from "@/shared/constants";
+import { Accordion, BaseButton, CheckboxGroup, CheckboxItem, CheckboxProvider, DynamicForm, Heading, Icon, Linker, useCheckboxGroup } from "@/shared/components";
+import { UseMutationResult } from "@tanstack/react-query";
+import { AxiosResponse } from "axios";
+import { DynamicFormV2 } from "@/shared/components";
+import { SignUpRequestDTO } from "@/contracts";
+import { useSignUp } from "./signUp.service";
 
 type SignUpStepProps = {
   onPrev?: () => void;
@@ -61,7 +67,13 @@ const SignUpConsentStep = ({ onNext }: SignUpStepProps) => {
         <button className="fs_16 btn__line gray btn_xl flex1" onClick={goBack}>
           취소
         </button>
-        <button className={`fs_16 btn__primary btn_xl flex1 ${isActiveNext ? "" : "disabled"}`} onClick={onNext} disabled={!isActiveNext}>
+        <button className={`fs_16 btn__primary btn_xl flex1 ${isActiveNext ? "" : "disabled"}`} 
+                onClick={() => {
+                  const uncheckedItem = checkboxItems.filter((item) => item.id !== "all").find((item) => !item.checked);
+                  if (uncheckedItem === undefined) {onNext?.()}
+                  else if (uncheckedItem?.id === "1") { alert("이용약관 동의는 필수로 동의해야 회원가입이 가능합니다.");}
+                  else if (uncheckedItem?.id === "2") { alert("개인정보 수집 이용에 대한 동의는 필수로 동의해야 회원가입이 가능합니다.");}
+                }}>
           다음
         </button>
       </div>
@@ -70,13 +82,22 @@ const SignUpConsentStep = ({ onNext }: SignUpStepProps) => {
 };
 
 // Step 2
-const SignUpCertificationStep = ({ onNext }: SignUpStepProps) => {
+const SignUpCertificationStep = ({ handleJoinSocial, onNext }: {  
+    handleJoinSocial:  UseMutationResult<AxiosResponse<any, any>, Error, string, unknown>;
+    onNext: () => void;
+  }) => {
+
+  const socialLogin = socialConstant.socialLogin;
+  
+  
   return (
-    <div className="m-t-40 w-100 flex_r align_center justify_center">
-      <BaseButton className="w400 border gap_8" size="xl" onClick={onNext}>
-        <Icon src="logo_naver" alt="네이버 로고" />
-        네이버 로그인으로 본인인증
-      </BaseButton>
+    <div className="m-t-40 w-100 flex_c align_center justify_center">
+      {socialLogin.map((item) => (
+        <BaseButton className="w400 m-b-30 border gap_8" size="xl" onClick={() => handleJoinSocial.mutate(item.domain)}>
+          <Icon src={item.icon} alt={item.alt} />
+          {item.text}
+        </BaseButton>
+      ))}
     </div>
   );
 };
@@ -84,21 +105,36 @@ const SignUpCertificationStep = ({ onNext }: SignUpStepProps) => {
 // Step 3
 const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
   const { items: checkboxItems } = useCheckboxGroup();
+  const { mutation , requestSignUp} = useSignUp()
 
-  const handleSubmit = (data: { [key: string]: string }) => console.log("Form Submitted:", data);
+  // const handleSubmit = (data: { [key: string]: string }) => console.log("Form Submitted:", data);
+  // const handleSubmit = (data: { [key: string]: string }) => {
+  //   const uncheckedItem = checkboxItems.find((item) => !item.checked);
+
+  //   if (uncheckedItem?.id === "1") { alert("이용약관 동의는 필수로 동의해야 회원가입이 가능합니다.");}
+  //   else if (uncheckedItem?.id === "2") { alert("개인정보 수집 이용에 대한 동의는 필수로 동의해야 회원가입이 가능합니다.");}
+  //   return
+  // };
 
   return (
-    <DynamicForm
+    <DynamicFormV2
       id="signUp-form"
       className="form__auth"
       fields={formConstant.signUp}
-      handleSubmit={handleSubmit}
+      handleSubmit={(formData:SignUpRequestDTO) => {
+        // const uncheckedItem = checkboxItems.find((item) => !item.checked);
+        // if (uncheckedItem?.id === "1") { alert("선택1");}
+        // else if (uncheckedItem?.id === "2") { alert("선택2");}
+        requestSignUp(formData);
+      }}
       // 글자수 disabled상태
       schema={{
-        email: 4,
-        username: 4,
-        password: 6,
-        "password-check": 6,
+        email: 5,
+        password: 5,
+        phone_number: 5,
+        birth: 5,
+        name: 5,
+        nick_name: 5
       }}
       cancelClass="auth__button cancel"
       cancelTitle="취소"
@@ -117,11 +153,21 @@ const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
           </div>
         ))}
       </div>
-    </DynamicForm>
+    </DynamicFormV2>
   );
 };
 
-export const SignUpView = ({ state }: { state: Record<string, any> }) => {
+
+interface SignUpViewProps extends ViewEventProps {
+  state: { 
+    step: "consent" | "certification" | "form";
+    setStep: React.Dispatch<React.SetStateAction<"consent" | "certification" | "form">>;
+  };
+  mutate: {
+    joinSocialMutation: UseMutationResult<AxiosResponse<any, any>, Error, string, unknown>
+  }
+}
+export const SignUpView = (props: SignUpViewProps) => {
   return (
     <article className="sub-layout__content">
       <section className="section__auth">
@@ -133,25 +179,27 @@ export const SignUpView = ({ state }: { state: Record<string, any> }) => {
             시작하기
           </Heading>
 
-          {state?.step === "consent" && (
+          {props.state?.step === "consent" && (
             <CheckboxProvider initialItems={checkboxConst.SIGN_UP_STEP_1}>
               <SignUpConsentStep
-                onNext={() => state?.setStep("certification")} // 인증으로 가기..
+                onNext={() => props.state?.setStep("certification")} // 인증으로 가기..
               />
             </CheckboxProvider>
           )}
 
-          {state?.step === "certification" && (
+          {props.state?.step === "certification" && props.mutate?.joinSocialMutation && (
             <SignUpCertificationStep
-              onNext={() => state?.setStep("form")} // 회원가입 폼으로 가기..
+              handleJoinSocial={props.mutate.joinSocialMutation}
+              onNext={() => props.state?.setStep("form")} // 회원가입 폼으로 가기..
             />
           )}
 
-          {state?.step === "form" && (
+          {props.state?.step === "form" && (
             <CheckboxProvider initialItems={checkboxConst.SIGN_UP_STEP_2}>
               <SignUpFormStep
-                onPrev={() => state?.setStep("certification")} // 인증으로 돌아가기..
+                onPrev={() => props.state?.setStep("certification")} // 인증으로 돌아가기..
                 onNext={() => alert("회원가입중입니다...")} // 회원가입 시도하기..
+
               />
             </CheckboxProvider>
           )}
