@@ -1445,6 +1445,9 @@ w-mc {
 .h360 {
   height: 360px !important;
 }
+.h502 {
+  height: 504px !important;
+}
 .text_bk_wh {
   color: var(--text) !important;
 }
