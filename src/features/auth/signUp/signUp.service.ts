@@ -1,7 +1,9 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { userApis } from "@/networks";
-import { JoinSocialRequestDTO } from "@/contracts";
+import { JoinSocialRequestDTO, SignUpRequestDTO } from "@/contracts";
+import { CheckboxItem } from "@/shared/components";
 
+//소셜인증(step2)
 export const useJoinSocial = (options = {}) => {
   const mutation = useMutation({
     mutationFn: (domain: string) => userApis.joinSocial(domain),
@@ -23,6 +25,47 @@ export const useJoinSocial = (options = {}) => {
 
   return { mutation };
 };
+
+
+
+//회원가입(step3)
+export const useSignUp = () => {
+  const mutation = useMutation({
+    mutationFn: (userData: SignUpRequestDTO) => userApis.registerUser(userData),
+    onSuccess: (a) => {
+     
+    },
+    onError: (error) => {
+      console.error("Error in SignUp :", error);
+    },
+  });
+
+  const requestSignUp = (userData: SignUpRequestDTO) => {
+      mutation.mutate(userData);
+  };
+
+  return { mutation, requestSignUp };
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

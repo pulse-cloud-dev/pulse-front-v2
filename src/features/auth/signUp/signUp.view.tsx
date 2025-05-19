@@ -1,9 +1,12 @@
 import type { ViewEventProps, Void } from "@/shared/types";
 import { usePageNavigation } from "@/shared/lib/hooks";
 import { checkboxConst, formConstant, socialConstant } from "@/shared/constants";
-import { Accordion, BaseButton, CheckboxGroup, CheckboxProvider, DynamicForm, Heading, Icon, Linker, useCheckboxGroup } from "@/shared/components";
+import { Accordion, BaseButton, CheckboxGroup, CheckboxItem, CheckboxProvider, DynamicForm, Heading, Icon, Linker, useCheckboxGroup } from "@/shared/components";
 import { UseMutationResult } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
+import { DynamicFormV2 } from "@/shared/components";
+import { SignUpRequestDTO } from "@/contracts";
+import { useSignUp } from "./signUp.service";
 
 type SignUpStepProps = {
   onPrev?: () => void;
@@ -111,22 +114,36 @@ const SignUpCertificationStep = ({ handleJoinSocial, onNext }: {
 // Step 3
 const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
   const { items: checkboxItems } = useCheckboxGroup();
+  const { mutation , requestSignUp} = useSignUp()
 
-  const handleSubmit = (data: { [key: string]: string }) => console.log("Form Submitted:", data);
+  // const handleSubmit = (data: { [key: string]: string }) => console.log("Form Submitted:", data);
+  // const handleSubmit = (data: { [key: string]: string }) => {
+  //   const uncheckedItem = checkboxItems.find((item) => !item.checked);
+
+  //   if (uncheckedItem?.id === "1") { alert("이용약관 동의는 필수로 동의해야 회원가입이 가능합니다.");}
+  //   else if (uncheckedItem?.id === "2") { alert("개인정보 수집 이용에 대한 동의는 필수로 동의해야 회원가입이 가능합니다.");}
+  //   return
+  // };
 
   return (
-    <DynamicForm
+    <DynamicFormV2
       id="signUp-form"
       className="form__auth"
       fields={formConstant.signUp}
-      handleSubmit={handleSubmit}
+      handleSubmit={(formData:SignUpRequestDTO) => {
+        // const uncheckedItem = checkboxItems.find((item) => !item.checked);
+        // if (uncheckedItem?.id === "1") { alert("선택1");}
+        // else if (uncheckedItem?.id === "2") { alert("선택2");}
+        requestSignUp(formData);
+      }}
       // 글자수 disabled상태
       schema={{
-        test:3,
-        email: 4,
-        username: 4,
-        password: 6,
-        "password-check": 6,
+        email: 5,
+        password: 5,
+        phone_number: 5,
+        birth: 5,
+        name: 5,
+        nick_name: 5
       }}
       cancelClass="auth__button cancel"
       cancelTitle="취소"
@@ -145,9 +162,10 @@ const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
           </div>
         ))}
       </div>
-    </DynamicForm>
+    </DynamicFormV2>
   );
 };
+
 
 interface SignUpViewProps extends ViewEventProps {
   state: { 
@@ -158,7 +176,6 @@ interface SignUpViewProps extends ViewEventProps {
     joinSocialMutation: UseMutationResult<AxiosResponse<any, any>, Error, string, unknown>
   }
 }
-
 export const SignUpView = (props: SignUpViewProps) => {
   return (
     <article className="sub-layout__content">
@@ -191,6 +208,7 @@ export const SignUpView = (props: SignUpViewProps) => {
               <SignUpFormStep
                 onPrev={() => props.state?.setStep("certification")} // 인증으로 돌아가기..
                 onNext={() => alert("회원가입중입니다...")} // 회원가입 시도하기..
+
               />
             </CheckboxProvider>
           )}

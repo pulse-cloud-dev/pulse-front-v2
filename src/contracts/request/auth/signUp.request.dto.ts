@@ -7,3 +7,13 @@
 export interface JoinSocialRequestDTO {
   domain: string;
 }
+
+
+export interface SignUpRequestDTO {
+  email: string;
+  password: string;
+  phone: string;
+  birth: string;
+  name: string;
+  nick_name: string;
+}
