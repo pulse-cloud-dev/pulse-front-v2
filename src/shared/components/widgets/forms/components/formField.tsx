@@ -24,7 +24,7 @@ interface FormFieldProps extends HTMLAttributes<HTMLElement> {
   labelClass?: string;
   inputClass?: string;
   errorClass?: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, forwardedRef) => {
@@ -42,8 +42,7 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, fo
         {/* 필수 필드 표시 */}
         {required && (
           <span className="color__error fs_12" aria-hidden="true">
-            {" "}
-            *{" "}
+            *
           </span>
         )}
         {/* 필수 필드 표시 */}
