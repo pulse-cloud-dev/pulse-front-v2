@@ -1,7 +1,6 @@
 import { CheckboxGroup, useCheckboxGroup } from "@/shared/components";
 import { SignUpStepProps } from "./signupsteptype";
 import { FormField } from "@/shared/components";
-import { useState } from "react";
 
 // Step 3
 export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
@@ -17,7 +16,6 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
       <FormField type={"text"} label={"닉네임"} name={"이름"} value={""} placeholder="사용할 닉네임을 작성해 주세요." required={true} labelClass={"labelClass"} />
       <FormField type={"password"} label={"비밀번호"} name={"비밀번호"} value={""} required={true} placeholder="숫자, 영문, 특수문자 포함 8자 이상 작성해 주세요" />
       <FormField type={"password"} label={"비밀번호확인"} name={"비밀번호확인"} value={""} required={true} labelClass={"labelClass"} placeholder="입력한 비밀번호를 입력해주세요." />
-
       <div className="signUp__step3">
         {checkboxItems.map((item) => (
           <div>
@@ -30,11 +28,11 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
         ))}
       </div>
       <div className="flex_r align_center justify_center gap_8 m-t-40">
-        <button type="button" className="auth__button cancel">
+        <button type="button" className="auth__button cancel" onClick={onPrev}>
           취소
         </button>
 
-        <button type="submit" className="auth__button">
+        <button type="submit" className="auth__button" onClick={onNext}>
           다음
         </button>
       </div>
