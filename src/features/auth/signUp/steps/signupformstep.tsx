@@ -27,7 +27,7 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
           </div>
         ))}
       </div>
-      <div className="flex_r align_center justify_center gap_8 m-t-40">
+      <div className="flex_r align_center justify_center gap_8 m-t-40 w200" style={{ margin: "auto" }}>
         <button type="button" className="auth__button cancel" onClick={onPrev}>
           취소
         </button>
