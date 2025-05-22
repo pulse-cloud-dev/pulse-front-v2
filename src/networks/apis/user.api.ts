@@ -6,7 +6,7 @@ const userApiRouter = {
   logOut: "/logout",
   joinSocial: "/members/join/",
   registerUser: "/members/join/",
-  oauth: (social: "NAVER" | "KAKAO") => `/members/find-id/${social}`,
+  findidbyoauth: (social: "NAVER" | "KAKAO") => `/members/find-id/${social}`,
   getuserinfo: "/social/naver/join-info",
   resetpassword: "/members/reset-password",
 };
@@ -32,7 +32,7 @@ const logOutUser = async (id: Id) => {
   return await privateClient.post(userApiRouter.logOut, { id });
 };
 
-//소셜 로그인 인증
+//소셜 로그인(네이버) 회원가입용
 const joinSocial = async (domain: JoinSocialRequestDTO): Promise<JoinSocialResponseDTO> => {
   try {
     const endPoint = userApiRouter.joinSocial + domain;
@@ -79,10 +79,10 @@ const deleteUser = async (): Promise<void> => {
   await publicClient.delete("/user");
 };
 
-//소셜 로그인(네이버)
+//소셜 로그인(네이버) 아이디 비번 찾기용
 const getUserByOauth = async (): Promise<OauthResponseDTO> => {
   try {
-    return await publicClient.get(userApiRouter.oauth("NAVER"));
+    return await publicClient.get(userApiRouter.findidbyoauth("NAVER"));
   } catch (error: any) {
     // 에러 처리: 서버에서 응답 실패 시 예외 처리
     if (error.response) {
@@ -96,7 +96,7 @@ const getUserByOauth = async (): Promise<OauthResponseDTO> => {
   }
 };
 
-//oauth로  회원 데이터 얻어오기
+//oauthcode로  회원 데이터 얻어오기 회원가입용
 const getSocialUser = async (code: string): Promise<{ name: string; email: string; phonenumber: string }> => {
   try {
     // 쿼리 파라미터로 code 전달
