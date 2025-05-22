@@ -84,7 +84,7 @@ const initialFields: FormState = {
     value: "",
     error: "",
     errormessage: "닉네임을 입력해주세요.",
-    schema: (value) => value.length >= 2,
+    schema: (value) => /^[가-힣a-zA-Z]{2,10}$/.test(value),
   },
   password: {
     value: "",

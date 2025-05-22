@@ -10,8 +10,6 @@ const useAuthCode = () => {
     return params.get("code");
   };
 
-  const useJoinSocial = () => {};
-
   const [code, setCode] = useState<string | null>(() => getCodeFromSearch(location.search));
 
   useEffect(() => {
