@@ -1,5 +1,5 @@
 import { privateClient, publicClient } from "@/networks/client";
-import { SignInRequestDTO, SignInResponseDTO, UserDTO, OauthResponseDTO, ResetPasswordrequestDTO } from "@/contracts";
+import { SignInRequestDTO, JoinSocialRequestDTO, SignInResponseDTO, UserDTO, OauthResponseDTO, ResetPasswordrequestDTO, JoinSocialResponseDTO } from "@/contracts";
 
 const userApiRouter = {
   login: "/members/login",
@@ -7,6 +7,7 @@ const userApiRouter = {
   joinSocial: "/members/join/",
   registerUser: "/members/join/",
   oauth: (social: "NAVER" | "KAKAO") => `/members/find-id/${social}`,
+  getuserinfo: "/social/naver/join-info",
   resetpassword: "/members/reset-password",
 };
 
@@ -32,13 +33,11 @@ const logOutUser = async (id: Id) => {
 };
 
 //소셜 로그인 인증
-// const joinSocial = async (domain:string) : Promise<{ body: string }>=> {
-const joinSocial = async (domain:string) => {
+const joinSocial = async (domain: JoinSocialRequestDTO): Promise<JoinSocialResponseDTO> => {
   try {
     const endPoint = userApiRouter.joinSocial + domain;
     return await publicClient.get(endPoint);
-  }
-  catch (error: any){
+  } catch (error: any) {
     // 에러 처리: 서버에서 응답 실패 시 예외 처리
     if (error.response) {
       // 서버에서 반환된 오류 처리
@@ -49,15 +48,14 @@ const joinSocial = async (domain:string) => {
     }
     throw error.response; // 에러를 다시 던져서 상위 컴포넌트에서 처리할 수 있게 함
   }
-}
+};
 
 // 회원가입 요청
 const registerUser = async (userData: { name: string; email: string; password: string }) => {
   try {
     const response = await publicClient.post(userApiRouter.registerUser, userData);
     return response.data;
-  }
-  catch (error: any){
+  } catch (error: any) {
     // 에러 처리: 서버에서 응답 실패 시 예외 처리
     if (error.response) {
       // 서버에서 반환된 오류 처리
@@ -68,12 +66,6 @@ const registerUser = async (userData: { name: string; email: string; password: s
     }
     throw error.response; // 에러를 다시 던져서 상위 컴포넌트에서 처리할 수 있게 함
   }
-};
-
-// 유저 정보 가져오기
-const getUser = async (): Promise<UserDTO> => {
-  const response = await publicClient.get("/user");
-  return response.data;
 };
 
 // 유저 정보 업데이트
@@ -104,6 +96,20 @@ const getUserByOauth = async (): Promise<OauthResponseDTO> => {
   }
 };
 
+//oauth로  회원 데이터 얻어오기
+const getSocialUser = async (code: string): Promise<{ name: string; email: string; phonenumber: string }> => {
+  try {
+    // 쿼리 파라미터로 code 전달
+    return await publicClient.get(userApiRouter.getuserinfo, { params: { code } });
+  } catch (error: any) {
+    if (error.response) {
+      console.error("oauth failed:", error.response.data);
+    } else {
+      console.error("Network or other error:", error.message);
+    }
+    throw error.response;
+  }
+};
 //비밀번호 수정
 const resetUserPassword = async ({ member_id, new_password }: ResetPasswordrequestDTO): Promise<any> => {
   try {
@@ -127,9 +133,9 @@ export const userApis = {
   logOutUser,
   joinSocial,
   registerUser,
-  getUser,
   updateUser,
   getUserByOauth,
   deleteUser,
   resetUserPassword,
+  getSocialUser,
 };

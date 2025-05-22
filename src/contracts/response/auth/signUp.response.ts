@@ -4,6 +4,8 @@
  * @property {string} body
  * @property {string} message - 응답 메시지, 예: "로그인 성공" 등의 상태 메시지
  */
-interface JoinSocialResponseDTO {
+
+export interface JoinSocialResponseDTO {
   body: string;
+  message: string;
 }

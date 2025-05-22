@@ -1,13 +1,12 @@
 import { usePageNavigation } from "@/shared/lib/hooks";
 import { Accordion, CheckboxGroup, Icon, useCheckboxGroup } from "@/shared/components";
 import { SignUpStepProps } from "./signupsteptype";
-
 // Step 1
 export const SignUpConsentStep = ({ onNext }: SignUpStepProps) => {
   const { items: checkboxItems } = useCheckboxGroup();
   const { goBack } = usePageNavigation();
-
   const isActiveNext = checkboxItems[0].checked;
+
   return (
     <div className="p-30">
       <div className="border-b m-t-10">
