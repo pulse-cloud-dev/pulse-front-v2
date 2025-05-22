@@ -117,10 +117,13 @@ const getNaverLoginUrl = async (): Promise<string> => {
 };
 
 const getEmailByOauthCode = async (code: string): Promise<{ email: string; name: string }> => {
-  const { data } = await axios.get("/api/v1/social/naver/find-email", {
-    params: { code },
-  });
-  return data.body; 
+  const { data } = await axios.get(
+    "http://13.209.104.215:8080/api/v1/social/naver/find-email",
+    {
+      params: { code },
+    }
+  );
+  return data.body;
 };
 
 //비밀번호 수정
