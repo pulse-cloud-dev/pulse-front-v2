@@ -116,7 +116,7 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
     <form className="form__auth" onSubmit={onsubmit}>
       <FormField type={"text"} label={"이름"} name={"이름"} value={name} required={true} style={{ backgroundColor: "var(--palette-gray-100)" }} />
       <FormField type={"text"} label={"휴대폰번호"} name={phonenumber} value={phonenumber} required={true} style={{ backgroundColor: "var(--palette-gray-100)" }} />
-      <FormField type={"text"} label={"이름"} name={"이메일"} value={email} required={true} style={{ backgroundColor: "var(--palette-gray-100)" }} />
+      <FormField type={"text"} label={"이메일"} name={"이메일"} value={email} required={true} style={{ backgroundColor: "var(--palette-gray-100)" }} />
       <FormField
         type={"text"}
         label={"닉네임"}
