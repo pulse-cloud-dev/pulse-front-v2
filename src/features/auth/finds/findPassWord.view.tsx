@@ -8,21 +8,29 @@ import { useSearchParams } from "react-router-dom";
 //step1
 const AuthenticationSelectionStep = () => {
   const handleNaverLogin = async () => {
-    try {
-
-    // 1. 네이버 세션 초기화 (로그아웃 URL 호출)
+  try {
+    console.log("🧼 네이버 세션 초기화 중...");
     await new Promise((resolve) => {
-      const img = new Image();
-      img.src = "https://nid.naver.com/nidlogin.logout";
-      img.onload = resolve;
-    });
+  const img = new Image();
+  img.src = `https://nid.naver.com/nidlogin.logout?ts=${Date.now()}`; // ✅ 캐시 무력화
+  img.onload = () => setTimeout(resolve, 300);
+});
+    
+    console.log("🌐 로그인 URL 요청 중...");
+    const url = await userApis.getNaverLoginUrl();
+    console.log("✅ 받은 로그인 URL:", url);
 
-      const url = await userApis.getNaverLoginUrl();
-      window.location.href = url; // 네이버 로그인 창으로 이동
-    } catch (err) {
-      console.error("네이버 로그인 요청 중 오류 발생:", err);
+    if (!url) {
+      alert("네이버 로그인 URL을 받아오지 못했습니다.");
+      return;
     }
-  };
+
+    window.location.href = url; // 또는 window.open(url)
+  } catch (err) {
+    console.error("❌ 네이버 로그인 요청 중 오류 발생:", err);
+    alert("네이버 로그인에 실패했습니다.");
+  }
+};
   
   return (
     <div className="w-100 flex_r align_center justify_center m-t-40">
