@@ -26,15 +26,15 @@ export const SignUpController = () => {
   // View에서 사용되어질 상태관리
   const [step, setStep] = useState<"consent" | "certification" | "form">("consent");
 
-  //step 1
+  //step 1에서 쓰는 네트워크 함수
   const { requestJoinSocial } = useJoinSocial();
 
-  //step 2
+  //step 2애서 사용하는 네트워크 하수
   const { requestSignUp } = useSignUp();
 
   const socialLoginMutation = useSocialUserInfo({
-    onSuccess: () => setStep("certification"),
-    onError: () => setStep("form"),
+    onSuccess: () => setStep("form"),
+    onError: () => setStep("certification"),
   });
 
   const code = useAuthCode();
