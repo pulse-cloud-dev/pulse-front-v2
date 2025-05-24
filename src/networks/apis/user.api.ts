@@ -123,6 +123,7 @@ const getEmailByOauthCode = async (code: string): Promise<{ email: string; name:
       params: { code },
     }
   );
+  console.log(data.body);
   return data.body;
 };
 
