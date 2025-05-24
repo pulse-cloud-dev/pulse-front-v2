@@ -9,6 +9,14 @@ import { useSearchParams } from "react-router-dom";
 const AuthenticationSelectionStep = () => {
   const handleNaverLogin = async () => {
     try {
+
+    // 1. 네이버 세션 초기화 (로그아웃 URL 호출)
+    await new Promise((resolve) => {
+      const img = new Image();
+      img.src = "https://nid.naver.com/nidlogin.logout";
+      img.onload = resolve;
+    });
+
       const url = await userApis.getNaverLoginUrl();
       window.location.href = url; // 네이버 로그인 창으로 이동
     } catch (err) {
@@ -120,7 +128,7 @@ export const FindPassWordView = ({ state }: { state: Record<string, any> }) => {
     const fetchEmail = async () => {
       try {
         const response = await userApis.getEmailByOauthCode(code); // 이메일 요청 API
-        console.log("✅ [2] API 응답 받은 이메일 정보:", response); 
+        console.log("✅ [2] API 응답 받은 이메일 정보:", response, response.name); 
         setEmailInfo({ email: response.email, name: response.name }); // response는 { email, name }
         state.setStep("이매일아이디보여주기");
       } catch (error) {
