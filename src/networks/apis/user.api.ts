@@ -9,6 +9,7 @@ const userApiRouter = {
   findidbyoauth: (social: "NAVER" | "KAKAO") => `/members/find-id/${social}`,
   getuserinfo: "/social/naver/join-info",
   resetpassword: "/members/reset-password",
+  nicknameCheck: "/members/duplicate",
 };
 
 // 로그인 요청
@@ -131,6 +132,23 @@ const resetUserPassword = async ({ member_id, new_password }: ResetPasswordreque
   }
 };
 
+//닉네임 확인
+export const nicknameCheck = async (nickname: string): Promise<any> => {
+  try {
+    return await publicClient.get(userApiRouter.nicknameCheck, {
+      params: { nickname },
+    });
+  } catch (error: any) {
+    if (error.response) {
+      // 서버에서 응답이 왔지만 오류 상태 코드
+      console.error("닉네임 중복 확인 실패:", error.response.data);
+    } else {
+      // 네트워크 오류 또는 다른 문제
+      console.error("네트워크 또는 기타 오류:", error.message);
+    }
+    throw error.response; // 상위에서 try-catch 가능하게
+  }
+};
 export const userApis = {
   loginUser,
   logOutUser,
@@ -141,4 +159,5 @@ export const userApis = {
   deleteUser,
   resetUserPassword,
   getSocialUser,
+  nicknameCheck,
 };

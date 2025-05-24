@@ -40,6 +40,12 @@ export const useSocialUserInfo = ({ onSuccess, onError }: { onSuccess?: () => vo
 };
 
 //닉네임 중복 확인 Api
+export const useNicknameCheck = () => {
+  const checknickname = useMutation({
+    mutationFn: (nickname: string) => userApis.nicknameCheck(nickname),
+  });
+  return { checknickname };
+};
 
 //회원가입(step3)회원가입용 api
 export const useSignUp = () => {
