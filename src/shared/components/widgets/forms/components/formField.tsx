@@ -20,15 +20,17 @@ interface FormFieldProps extends HTMLAttributes<HTMLInputElement> {
   placeholder?: string;
   required?: boolean;
   errorMessage?: string; // 에러 메시지
+  successMessage?: string;
   isInvalid?: boolean; // 유효성 상태
   labelClass?: string;
   inputClass?: string;
   errorClass?: string;
+  successClass?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, forwardedRef) => {
-  const { id, type = "text", name, label, value, placeholder, required = false, errorMessage, isInvalid = false, labelClass, inputClass, errorClass, onChange, style, ...rest } = props;
+  const { successClass, successMessage, id, type = "text", name, label, value, placeholder, required = false, errorMessage, isInvalid = false, labelClass, inputClass, errorClass, onChange, style, ...rest } = props;
 
   const inputId = id || name; // 고유한 id 설정
   return (
@@ -55,7 +57,7 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, fo
         placeholder={placeholder}
         required={required}
         aria-invalid={isInvalid} // 유효성 상태
-        aria-describedby={isInvalid && errorMessage ? `${inputId}-error` : undefined} // 에러 메시지 연결
+        aria-describedby={isInvalid && errorMessage ? `${inputId}-error` : successMessage ? `${inputId}-success` : undefined}
         className={inputClass}
         onChange={onChange}
         style={style}
@@ -64,6 +66,12 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, fo
       {isInvalid && errorMessage && (
         <span id={`input-error ${inputId}-error`} className={errorClass} role="alert">
           {errorMessage}
+        </span>
+      )}
+      {/* 성공시 css처리및 변수 설정 */}
+      {!isInvalid && successMessage && (
+        <span id={`${inputId}-success`} className={successClass} role="alert">
+          {successMessage}
         </span>
       )}
     </div>
