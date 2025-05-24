@@ -3,6 +3,19 @@ import { userApis } from "@/networks";
 import { JoinSocialRequestDTO, SignUpRequestDTO } from "@/contracts";
 //소셜인증(step2)
 export const useJoinSocial = () => {
+
+  // 네이버 세션 초기화 함수
+  const clearNaverSession = (): Promise<void> => {
+    return new Promise((resolve) => {
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = 'https://nid.naver.com/nidlogin.logout';
+      document.body.appendChild(iframe);
+      
+      setTimeout(() => { document.body.removeChild(iframe); resolve(); }, 1000);
+    });
+  };
+
   const mutation = useMutation({
     mutationFn: (domain: JoinSocialRequestDTO): Promise<{ body: string; message: string }> => userApis.joinSocial(domain),
     onSuccess: (response: { body: string; message: string }) => {
@@ -13,7 +26,13 @@ export const useJoinSocial = () => {
       console.error("Join social failed:", error);
     },
   });
-  const requestJoinSocial = (domain: JoinSocialRequestDTO) => {
+  
+  const requestJoinSocial = async (domain: JoinSocialRequestDTO) => {
+    // 네이버인 경우 세션 초기화 먼저 실행
+    if (domain.domain === 'naver') {
+      await clearNaverSession();
+    }
+    
     mutation.mutate(domain);
   };
 
