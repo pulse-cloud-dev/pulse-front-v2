@@ -1,6 +1,6 @@
 import { privateClient, publicClient } from "@/networks/client";
-import { SignInRequestDTO, JoinSocialRequestDTO, SignInResponseDTO, UserDTO, OauthResponseDTO, ResetPasswordrequestDTO, JoinSocialResponseDTO } from "@/contracts";
-
+import { SignInRequestDTO, JoinSocialRequestDTO, SignInResponseDTO, UserDTO, OauthResponseDTO, ResetPasswordrequestDTO, JoinSocialResponseDTO, SimplifiedUserlResponseDTO } from "@/contracts";
+import { plainToClass } from "class-transformer";
 const userApiRouter = {
   login: "/members/login",
   logOut: "/logout",
@@ -27,7 +27,7 @@ const loginUser = async ({ email, password }: SignInRequestDTO): Promise<SignInR
     throw error.response; // 에러를 다시 던져서 상위 컴포넌트에서 처리할 수 있게 함
   }
 };
-
+//로그아웃
 const logOutUser = async (id: Id) => {
   return await privateClient.post(userApiRouter.logOut, { id });
 };
@@ -95,12 +95,14 @@ const getUserByOauth = async (): Promise<OauthResponseDTO> => {
     throw error.response; // 에러를 다시 던져서 상위 컴포넌트에서 처리할 수 있게 함
   }
 };
-
-//oauthcode로  회원 데이터 얻어오기 회원가입용
-const getSocialUser = async (code: string): Promise<{ name: string; email: string; phonenumber: string }> => {
+// oauthcode로 회원 데이터 얻어오기 회원가입용
+const getSocialUser = async (code: string): Promise<SimplifiedUserlResponseDTO> => {
   try {
-    // 쿼리 파라미터로 code 전달
-    return await publicClient.get(userApiRouter.getuserinfo, { params: { code } });
+    return await publicClient.get(userApiRouter.getuserinfo, { params: { code } }).then((response: any) =>
+      plainToClass(SimplifiedUserlResponseDTO, response.body, {
+        excludeExtraneousValues: true,
+      })
+    );
   } catch (error: any) {
     if (error.response) {
       console.error("oauth failed:", error.response.data);
@@ -110,6 +112,7 @@ const getSocialUser = async (code: string): Promise<{ name: string; email: strin
     throw error.response;
   }
 };
+
 //비밀번호 수정
 const resetUserPassword = async ({ member_id, new_password }: ResetPasswordrequestDTO): Promise<any> => {
   try {

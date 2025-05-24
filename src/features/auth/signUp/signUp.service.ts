@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { userApis } from "@/networks";
-import { JoinSocialRequestDTO, SignUpRequestDTO } from "@/contracts";
+import { JoinSocialRequestDTO, SignUpRequestDTO, SimplifiedUserlResponseDTO } from "@/contracts";
+import { useQueryClient } from "@tanstack/react-query";
 //소셜인증(step2)
 export const useJoinSocial = () => {
   const mutation = useMutation({
@@ -20,12 +21,15 @@ export const useJoinSocial = () => {
   return { requestJoinSocial };
 };
 
-// useSocialUserInfo 훅 수정
-export const useSocialUserInfo = ({ onSuccess, onError }: { onSuccess?: (data: any) => void; onError?: (error: any) => void }) => {
+// 소셜 인증후 code전송하여 데이터 불러오기
+export const useSocialUserInfo = ({ onSuccess, onError }: { onSuccess?: () => void; onError?: (error: any) => void }) => {
+  const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: (code: string): Promise<{ name: string; email: string; phonenumber: string }> => userApis.getSocialUser(code),
+    mutationFn: (code: string): Promise<SimplifiedUserlResponseDTO> => userApis.getSocialUser(code),
     onSuccess: (data) => {
-      onSuccess?.(data); // data 넘기기
+      //쿼리 키로 데이터 저장(step3에서 호출)
+      queryClient.setQueryData(["auth", "signup", "userinfo"], data);
+      onSuccess?.(); //다음으로 이동
     },
     onError: (error) => {
       onError?.(error); // error 넘기기
@@ -35,11 +39,15 @@ export const useSocialUserInfo = ({ onSuccess, onError }: { onSuccess?: (data: a
   return mutation;
 };
 
-//회원가입(step3)
+//닉네임 중복 확인 Api
+
+//회원가입(step3)회원가입용 api
 export const useSignUp = () => {
   const mutation = useMutation({
     mutationFn: (userData: SignUpRequestDTO) => userApis.registerUser(userData),
-    onSuccess: (a) => {},
+    onSuccess: (a) => {
+      console.log("회원가입 성공");
+    },
     onError: (error) => {
       console.error("Error in SignUp :", error);
     },

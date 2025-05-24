@@ -2,7 +2,8 @@ import { CheckboxGroup, useCheckboxGroup } from "@/shared/components";
 import { SignUpStepProps } from "./signupsteptype";
 import { FormField } from "@/shared/components";
 import { useState, FormEvent, ChangeEvent } from "react";
-
+import { useQueryClient } from "@tanstack/react-query";
+import { SimplifiedUserlResponseDTO } from "@/contracts";
 type SchemaFunction = (value: string, form?: FormState) => boolean;
 
 type InputFieldState = {
@@ -106,17 +107,28 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
   const { items: checkboxItems } = useCheckboxGroup();
 
   const { formState, handleInputChange, handleBlur, handleFocus, isFormValid } = useFormFields(initialFields);
+  //usedebounceutil입력값:시간,onchange,두번쨰 인자값이 시간지난후에 발동되는 함수 출력값:state:성공,실패,->이건 Utill함수로 해도 좋을듯
+  //usemitation함수의 mutate를 usedebouncutil입력값으로 넣음
+  //여기서 나온 에러(실패시:mutationerror,성공시:mutation success.data.message)와 formState.nickname.error를 통해서 나온 에러를 통헤 나온값을 formfield에 전달 인데 좀 다듬어줘
+  //아래 두줄은 무시해도 됨
 
-  const { name, phonenumber, email } = { name: "김펄스", phonenumber: "010-1234-1234", email: "id@pulse.com" };
+  // const queryClient = useQueryClient();
+  // const { name, phone_number, email } = queryClient.getQueryData(["auth", "signup", "userinfo"]) as SimplifiedUserlResponseDTO;
+
+  const { name, phone_number, email } = { name: "김펄스", phone_number: "010-1234-1234", email: "id@pulse.com" };
   const onsubmit = (e: FormEvent) => {
     alert("submitted");
   };
 
+  /*
+   onblur:스키마 검사
+   onfocus:에러 초기화
+  */
   return (
     <form className="form__auth" onSubmit={onsubmit}>
-      <FormField type={"text"} label={"이름"} name={"이름"} value={name} required={true} style={{ backgroundColor: "var(--palette-gray-100)" }} />
-      <FormField type={"text"} label={"휴대폰번호"} name={phonenumber} value={phonenumber} required={true} style={{ backgroundColor: "var(--palette-gray-100)" }} />
-      <FormField type={"text"} label={"이메일"} name={"이메일"} value={email} required={true} style={{ backgroundColor: "var(--palette-gray-100)" }} />
+      <FormField type={"text"} label={"이름"} name={name} value={name} required={true} style={{ backgroundColor: "var(--palette-gray-100)" }} />
+      <FormField type={"text"} label={"휴대폰번호"} name={phone_number} value={phone_number} required={true} style={{ backgroundColor: "var(--palette-gray-100)" }} />
+      <FormField type={"text"} label={"이메일"} name={email} value={email} required={true} style={{ backgroundColor: "var(--palette-gray-100)" }} />
       <FormField
         type={"text"}
         label={"닉네임"}
@@ -124,11 +136,11 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
         value={formState.nickname.value}
         placeholder="사용할 닉네임을 작성해 주세요."
         required={true}
-        onChange={handleInputChange("nickname")}
+        onChange={handleInputChange("nickname")} //닉네임에 대한 state변경 + 변화후 debounce를 통한 api call
         onBlur={handleBlur("nickname")}
-        onFocus={handleFocus("nickname")}
-        errorMessage={formState.nickname.error}
-        isInvalid={true}
+        onFocus={handleFocus("nickname")} /*Nickname에 대한 클라이언트 데이터 서버 데이터 초기화 */
+        errorMessage={formState.nickname.error} //성공 메세지도 추가할듯
+        isInvalid={true} //status로 바꾸어야 할듯
       />
       <FormField
         type={"password"}
