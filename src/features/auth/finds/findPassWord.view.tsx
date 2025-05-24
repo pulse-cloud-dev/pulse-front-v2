@@ -9,12 +9,12 @@ import { useSearchParams } from "react-router-dom";
 const AuthenticationSelectionStep = () => {
   const handleNaverLogin = async () => {
   try {
-    console.log("🧼 네이버 세션 초기화 중...");
-    await new Promise((resolve) => {
-  const img = new Image();
-  img.src = `https://nid.naver.com/nidlogin.logout?ts=${Date.now()}`; // ✅ 캐시 무력화
-  img.onload = () => setTimeout(resolve, 300);
-});
+//     console.log("🧼 네이버 세션 초기화 중...");
+//     await new Promise((resolve) => {
+//   const img = new Image();
+//   img.src = `https://nid.naver.com/nidlogin.logout?ts=${Date.now()}`; // ✅ 캐시 무력화
+//   img.onload = () => setTimeout(resolve, 300);
+// });
     
     console.log("🌐 로그인 URL 요청 중...");
     const url = await userApis.getNaverLoginUrl();
