@@ -83,8 +83,8 @@ const initialFields: FormState = {
   nickname: {
     value: "",
     error: "",
-    errormessage: "닉네임을 입력해주세요.",
-    schema: (value) => value.length >= 2,
+    errormessage: "닉네임은 2~10자 이내의 영문 또는 한글로 설정할 수 있으며, 특수문자는 사용할 수 없습니다",
+    schema: (value) => /^[가-힣a-zA-Z]{2,10}$/.test(value),
   },
   password: {
     value: "",
@@ -111,6 +111,7 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
   const onsubmit = (e: FormEvent) => {
     alert("submitted");
   };
+
   return (
     <form className="form__auth" onSubmit={onsubmit}>
       <FormField type={"text"} label={"이름"} name={"이름"} value={name} required={true} style={{ backgroundColor: "var(--palette-gray-100)" }} />
@@ -127,6 +128,7 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
         onBlur={handleBlur("nickname")}
         onFocus={handleFocus("nickname")}
         errorMessage={formState.nickname.error}
+        isInvalid={true}
       />
       <FormField
         type={"password"}

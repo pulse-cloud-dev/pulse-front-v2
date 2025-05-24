@@ -4,7 +4,7 @@ import { SignUpCertificationStep } from "./steps/signupcertificationstep";
 import { SignUpConsentStep } from "./steps/signupconsentstep";
 import { SignUpFormStep } from "./steps/signupformstep";
 
-export const SignUpView = (props: { state: Record<string, any> }) => {
+export const SignUpView = (props: { state: Record<string, any>; mutate: Record<string, any> }) => {
   return (
     <article className="sub-layout__content">
       <section className="section__auth">
@@ -26,7 +26,7 @@ export const SignUpView = (props: { state: Record<string, any> }) => {
 
           {props.state?.step === "certification" && (
             <SignUpCertificationStep
-              handleJoinSocial={() => console.log("move next")} // 소셜 로그인 시도하기..
+              handleJoinSocial={() => props.mutate.requestJoinSocial("NAVER")} // 소셜 로그인 시도하기..
               onNext={() => props.state?.setStep("form")} // 회원가입 폼으로 가기..
             />
           )}
