@@ -135,9 +135,7 @@ const resetUserPassword = async ({ member_id, new_password }: ResetPasswordreque
 //닉네임 확인
 export const nicknameCheck = async (nickname: string): Promise<any> => {
   try {
-    return await publicClient.get(userApiRouter.nicknameCheck, {
-      params: { nickname },
-    });
+    return await publicClient.get(`${userApiRouter.nicknameCheck}/${encodeURIComponent(nickname)}`);
   } catch (error: any) {
     if (error.response) {
       // 서버에서 응답이 왔지만 오류 상태 코드

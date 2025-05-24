@@ -1,9 +1,11 @@
 import { CheckboxGroup, useCheckboxGroup } from "@/shared/components";
 import { SignUpStepProps } from "./signupsteptype";
 import { FormField } from "@/shared/components";
-import { useState, FormEvent, ChangeEvent } from "react";
-import { useQueryClient } from "@tanstack/react-query";
-import { SimplifiedUserlResponseDTO } from "@/contracts";
+import { useState, FormEvent, ChangeEvent, useEffect } from "react";
+import { useNicknameCheck } from "../signUp.service";
+// import { useQueryClient } from "@tanstack/react-query";
+// import { SimplifiedUserlResponseDTO } from "@/contracts";
+
 type SchemaFunction = (value: string, form?: FormState) => boolean;
 
 type InputFieldState = {
@@ -12,6 +14,7 @@ type InputFieldState = {
   schema?: SchemaFunction;
   errormessage: string;
   dependencies?: (keyof FormState)[];
+  isValid: boolean;
 };
 
 type FormState = {
@@ -35,31 +38,37 @@ const useFormFields = (initialState: FormState) => {
   const handleBlur = (field: keyof FormState) => () => {
     const { value, schema, errormessage } = formState[field];
     let errorlog = "";
+    let isValid = true;
 
     if (schema && typeof schema === "function") {
-      const isValid = schema(value, formState);
+      isValid = schema(value, formState);
       if (!isValid) {
         errorlog = errormessage;
       }
     }
-    Object.entries(formState).forEach(([key, inputField]) => {
+
+    const updatedFormState = {
+      ...formState,
+      [field]: {
+        ...formState[field],
+        error: errorlog,
+        isValid,
+      },
+    };
+
+    Object.entries(updatedFormState).forEach(([key, inputField]) => {
       if (inputField.dependencies?.includes(field)) {
-        const isValid = inputField.schema?.(inputField.value, formState);
-        formState[key] = {
+        const depValid = inputField.schema?.(inputField.value, updatedFormState) ?? true;
+        updatedFormState[key] = {
           ...inputField,
-          error: isValid ? "" : inputField.errormessage,
+          error: depValid ? "" : inputField.errormessage,
+          isValid: depValid,
         };
       }
     });
-    setFormState((prev) => ({
-      ...prev,
-      [field]: {
-        ...prev[field],
-        error: errorlog,
-      },
-    }));
-  };
 
+    setFormState(updatedFormState);
+  };
   const handleFocus = (field: keyof FormState) => () => {
     setFormState((prev) => ({
       ...prev,
@@ -82,18 +91,21 @@ const useFormFields = (initialState: FormState) => {
 };
 const initialFields: FormState = {
   nickname: {
+    isValid: false,
     value: "",
     error: "",
     errormessage: "닉네임은 2~10자 이내의 영문 또는 한글로 설정할 수 있으며, 특수문자는 사용할 수 없습니다",
     schema: (value) => /^[가-힣a-zA-Z]{2,10}$/.test(value),
   },
   password: {
+    isValid: false,
     value: "",
     error: "",
     schema: (value) => /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value),
     errormessage: "비밀번호 형식이 올바르지 않습니다.",
   },
   confirmPassword: {
+    isValid: false,
     value: "",
     error: "",
     schema: (value, form) => value === form?.password.value,
@@ -107,11 +119,19 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
   const { items: checkboxItems } = useCheckboxGroup();
 
   const { formState, handleInputChange, handleBlur, handleFocus, isFormValid } = useFormFields(initialFields);
-  //usedebounceutil입력값:시간,onchange,두번쨰 인자값이 시간지난후에 발동되는 함수 출력값:state:성공,실패,->이건 Utill함수로 해도 좋을듯
-  //usemitation함수의 mutate를 usedebouncutil입력값으로 넣음
-  //여기서 나온 에러(실패시:mutationerror,성공시:mutation success.data.message)와 formState.nickname.error를 통해서 나온 에러를 통헤 나온값을 formfield에 전달 인데 좀 다듬어줘
-  //아래 두줄은 무시해도 됨
+  const { checknickname } = useNicknameCheck();
 
+  useEffect(() => {
+    //닉네임이 변경될 때마다 검증 로직 실행
+    if (formState.nickname.schema && formState.nickname.schema(formState.nickname.value)) {
+      const timer = setTimeout(() => {
+        //닉네임이 schema 통과하고 일정시간이 지난다면 닉네임 중복 api 호출
+        checknickname.mutate(formState.nickname.value);
+      }, 500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [formState.nickname.value]);
   // const queryClient = useQueryClient();
   // const { name, phone_number, email } = queryClient.getQueryData(["auth", "signup", "userinfo"]) as SimplifiedUserlResponseDTO;
 
@@ -119,11 +139,7 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
   const onsubmit = (e: FormEvent) => {
     alert("submitted");
   };
-
-  /*
-   onblur:스키마 검사
-   onfocus:에러 초기화
-  */
+  console.log("닉 확인", formState.nickname);
   return (
     <form className="form__auth" onSubmit={onsubmit}>
       <FormField type={"text"} label={"이름"} name={name} value={name} required={true} style={{ backgroundColor: "var(--palette-gray-100)" }} />
@@ -136,11 +152,33 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
         value={formState.nickname.value}
         placeholder="사용할 닉네임을 작성해 주세요."
         required={true}
-        onChange={handleInputChange("nickname")} //닉네임에 대한 state변경 + 변화후 debounce를 통한 api call
-        onBlur={handleBlur("nickname")}
-        onFocus={handleFocus("nickname")} /*Nickname에 대한 클라이언트 데이터 서버 데이터 초기화 */
-        errorMessage={formState.nickname.error} //성공 메세지도 추가할듯
-        isInvalid={true} //status로 바꾸어야 할듯
+        onChange={
+          //닉네임에 대한 state변경 + 변화후 debounce를 통한 api 호출
+          handleInputChange("nickname")
+        }
+        onBlur={() => {
+          //닉네임 에러 검증
+          handleBlur("nickname");
+        }}
+        onFocus={() => {
+          /*Nickname에 대한 클라이언트 데이터 초기화 */
+          handleFocus("nickname");
+          //닉네임 중복체크 서버 데이터 초기화
+          checknickname.reset();
+        }}
+        errorMessage={
+          //닉네임 에러 메세지 + 서버에서 온 메세지 노출-> 검증
+          formState.nickname.error || (checknickname.isError ? checknickname.error.message : "")
+        }
+        successMessage={
+          //서버에서 온 메세지 노출
+          checknickname.data?.message
+        }
+        isInvalid={
+          //검증 실패: 프론트 스키마 검증 또는 서버 중복 검증)
+          //검증 성공: 프론트 스키마 검증 성공이고 서버 중복 검증성공)
+          !!formState.nickname.isValid || checknickname.isError
+        }
       />
       <FormField
         type={"password"}
