@@ -172,7 +172,7 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
         onBlur={handleBlur("nick_name")}
         onFocus={() => {
           /*Nickname에 대한 클라이언트 데이터 초기화 */
-          handleFocus("nick_name");
+          handleFocus("nick_name")();
           //닉네임 중복체크 서버 데이터 초기화
           checknickname.reset();
         }}
