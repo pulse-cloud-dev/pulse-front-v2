@@ -2,24 +2,6 @@ import { useMutation } from "@tanstack/react-query";
 import { userApis } from "@/networks";
 import { JoinSocialRequestDTO, SignUpRequestDTO, SimplifiedUserlResponseDTO } from "@/contracts";
 import { useQueryClient } from "@tanstack/react-query";
-//소셜인증(step2)
-export const useJoinSocial = () => {
-  const mutation = useMutation({
-    mutationFn: (domain: JoinSocialRequestDTO): Promise<{ body: string; message: string }> => userApis.joinSocial(domain),
-    onSuccess: (response: { body: string; message: string }) => {
-      const url = response?.body;
-      window.open(url);
-    },
-    onError: (error) => {
-      console.error("Join social failed:", error);
-    },
-  });
-  const requestJoinSocial = (domain: JoinSocialRequestDTO) => {
-    mutation.mutate(domain);
-  };
-
-  return { requestJoinSocial };
-};
 
 // 소셜 인증후 code전송하여 데이터 불러오기
 export const useSocialUserInfo = ({ onSuccess, onError }: { onSuccess?: () => void; onError?: (error: any) => void }) => {
@@ -38,18 +20,36 @@ export const useSocialUserInfo = ({ onSuccess, onError }: { onSuccess?: () => vo
 
   return mutation;
 };
+//소셜인증(step2)
+export const useJoinSocial = () => {
+  const mutation = useMutation({
+    mutationFn: (domain: JoinSocialRequestDTO): Promise<{ body: string; message: string }> => userApis.joinSocial(domain),
+    onSuccess: (response: { body: string; message: string }) => {
+      const url = response?.body;
+      window.open(url);
+    },
+    onError: (error) => {
+      console.error("Join social failed:", error);
+    },
+  });
+  const requestJoinSocial = (domain: JoinSocialRequestDTO) => {
+    mutation.mutate(domain);
+  };
 
+  return { requestJoinSocial };
+};
+//step3용 api
 //닉네임 중복 확인 Api
 export const useNicknameCheck = () => {
   const checknickname = useMutation({
-    mutationFn: (nickname: string) => userApis.nicknameCheck(nickname),
+    mutationFn: (nick_name: string) => userApis.nicknameCheck(nick_name),
   });
   return { checknickname };
 };
 
 //회원가입(step3)회원가입용 api
 export const useSignUp = () => {
-  const mutation = useMutation({
+  const requestSignUp = useMutation({
     mutationFn: (userData: SignUpRequestDTO) => userApis.registerUser(userData),
     onSuccess: (a) => {
       console.log("회원가입 성공");
@@ -58,10 +58,6 @@ export const useSignUp = () => {
       console.error("Error in SignUp :", error);
     },
   });
-
-  const requestSignUp = (userData: SignUpRequestDTO) => {
-    mutation.mutate(userData);
-  };
 
   return { requestSignUp };
 };

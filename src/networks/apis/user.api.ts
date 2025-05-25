@@ -1,11 +1,11 @@
 import { privateClient, publicClient } from "@/networks/client";
-import { SignInRequestDTO, JoinSocialRequestDTO, SignInResponseDTO, UserDTO, OauthResponseDTO, ResetPasswordrequestDTO, JoinSocialResponseDTO, SimplifiedUserlResponseDTO } from "@/contracts";
+import { SignInRequestDTO, JoinSocialRequestDTO, SignInResponseDTO, UserDTO, OauthResponseDTO, ResetPasswordrequestDTO, JoinSocialResponseDTO, SimplifiedUserlResponseDTO, SignUpRequestDTO } from "@/contracts";
 import { plainToClass } from "class-transformer";
 const userApiRouter = {
   login: "/members/login",
   logOut: "/logout",
   joinSocial: "/members/join/",
-  registerUser: "/members/join/",
+  registerUser: "/members/join",
   findidbyoauth: (social: "NAVER" | "KAKAO") => `/members/find-id/${social}`,
   getuserinfo: "/social/naver/join-info",
   resetpassword: "/members/reset-password",
@@ -28,6 +28,7 @@ const loginUser = async ({ email, password }: SignInRequestDTO): Promise<SignInR
     throw error.response; // 에러를 다시 던져서 상위 컴포넌트에서 처리할 수 있게 함
   }
 };
+
 //로그아웃
 const logOutUser = async (id: Id) => {
   return await privateClient.post(userApiRouter.logOut, { id });
@@ -52,10 +53,9 @@ const joinSocial = async (domain: JoinSocialRequestDTO): Promise<JoinSocialRespo
 };
 
 // 회원가입 요청
-const registerUser = async (userData: { name: string; email: string; password: string }) => {
+const registerUser = async (userData: SignUpRequestDTO) => {
   try {
-    const response = await publicClient.post(userApiRouter.registerUser, userData);
-    return response.data;
+    return await publicClient.post(userApiRouter.registerUser, userData);
   } catch (error: any) {
     // 에러 처리: 서버에서 응답 실패 시 예외 처리
     if (error.response) {

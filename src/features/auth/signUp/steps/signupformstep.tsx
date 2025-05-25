@@ -2,7 +2,7 @@ import { CheckboxGroup, useCheckboxGroup } from "@/shared/components";
 import { SignUpStepProps } from "./signupsteptype";
 import { FormField } from "@/shared/components";
 import { useState, FormEvent, ChangeEvent, useEffect } from "react";
-import { useNicknameCheck } from "../signUp.service";
+import { useNicknameCheck, useSignUp } from "../signUp.service";
 // import { useQueryClient } from "@tanstack/react-query";
 // import { SimplifiedUserlResponseDTO } from "@/contracts";
 
@@ -137,16 +137,20 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
   // const { name, phone_number, email } = queryClient.getQueryData(["auth", "signup", "userinfo"]) as SimplifiedUserlResponseDTO;
 
   const { name, phone_number, email } = { name: "김펄스", phone_number: "010-1234-1234", email: "id@pulse.com" };
+  const { requestSignUp } = useSignUp();
 
   const onsubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log({
-      name,
-      phone_number,
-      email,
-      nickname: formState.nick_name.value,
-      password: formState.password.value,
-    });
+    requestSignUp.mutate(
+      {
+        name,
+        phone_number,
+        email,
+        nick_name: formState.nick_name.value,
+        password: formState.password.value,
+      },
+      { onSuccess: onNext }
+    );
   };
 
   return (
@@ -227,7 +231,7 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
           취소
         </button>
 
-        <button type="submit" className="auth__button" onClick={onNext} disabled={!isFormValid}>
+        <button type="submit" className="auth__button" disabled={!isFormValid}>
           다음
         </button>
       </div>
