@@ -96,23 +96,6 @@ const getUserByOauth = async (): Promise<OauthResponseDTO> => {
     throw error.response; // 에러를 다시 던져서 상위 컴포넌트에서 처리할 수 있게 함
   }
 };
-// oauthcode로 회원 데이터 얻어오기 회원가입용
-const getSocialUser = async (code: string): Promise<SimplifiedUserlResponseDTO> => {
-  try {
-    return await publicClient.get(userApiRouter.getuserinfo, { params: { code } }).then((response: any) =>
-      plainToClass(SimplifiedUserlResponseDTO, response.body, {
-        excludeExtraneousValues: true,
-      })
-    );
-  } catch (error: any) {
-    if (error.response) {
-      console.error("oauth failed:", error.response.data);
-    } else {
-      console.error("Network or other error:", error.message);
-    }
-    throw error.response;
-  }
-};
 
 //비밀번호 수정
 const resetUserPassword = async ({ member_id, new_password }: ResetPasswordrequestDTO): Promise<any> => {
@@ -156,6 +139,4 @@ export const userApis = {
   getUserByOauth,
   deleteUser,
   resetUserPassword,
-  getSocialUser,
-  nicknameCheck,
 };

@@ -1,12 +1,40 @@
 import { Heading, Typography } from "@/shared/components";
 import { Linker } from "@/shared/components";
 import { BaseButton } from "@/shared/components";
+import { userApis } from "@/networks/apis/user.api";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 //step1
-const AuthenticationSelectionStep = ({ onNext }: { onNext?: () => void }) => {
+const AuthenticationSelectionStep = () => {
+  const handleNaverLogin = async () => {
+  try {
+//     console.log("🧼 네이버 세션 초기화 중...");
+//     await new Promise((resolve) => {
+//   const img = new Image();
+//   img.src = `https://nid.naver.com/nidlogin.logout?ts=${Date.now()}`; // ✅ 캐시 무력화
+//   img.onload = () => setTimeout(resolve, 300);
+// });
+    
+    console.log("🌐 로그인 URL 요청 중...");
+    const url = await userApis.getNaverLoginUrl();
+    console.log("✅ 받은 로그인 URL:", url);
+
+    if (!url) {
+      alert("네이버 로그인 URL을 받아오지 못했습니다.");
+      return;
+    }
+
+    window.location.href = url; // 또는 window.open(url)
+  } catch (err) {
+    console.error("❌ 네이버 로그인 요청 중 오류 발생:", err);
+    alert("네이버 로그인에 실패했습니다.");
+  }
+};
+  
   return (
     <div className="w-100 flex_r align_center justify_center m-t-40">
-      <BaseButton className="w400 border gap_8" size="xl" onClick={onNext}>
+      <BaseButton className="w400 border gap_8" size="xl" onClick={handleNaverLogin}>
         <Icon src="logo_naver" alt="네이버 로고" />
         네이버 로그인으로 본인인증
       </BaseButton>
@@ -32,15 +60,20 @@ const FoundAccountPanel = ({ email, name }: { email: string; name: string }) => 
 };
 
 //step2
-const ShowEmailIdStep = ({ onNext, onSignIn }: { onNext?: () => void; onSignIn?: () => void }) => {
-  const data = {
-    email: "hong12***@naver.com",
-    name: "김펄스",
-  };
-
+const ShowEmailIdStep = ({
+  email,
+  name,
+  onNext,
+  onSignIn,
+}: {
+  email: string;
+  name: string;
+  onNext?: () => void;
+  onSignIn?: () => void;
+}) => {
   return (
     <>
-      <FoundAccountPanel {...data} />
+      <FoundAccountPanel email={email} name={name} />
       <div className="w-80 m-t-40 flex_r align_center justify_center gap_8" style={{ margin: "auto" }}>
         <button className="find_reset__button" onClick={onNext}>
           비밀번호 재설정
@@ -52,6 +85,7 @@ const ShowEmailIdStep = ({ onNext, onSignIn }: { onNext?: () => void; onSignIn?:
     </>
   );
 };
+
 
 import { DynamicForm } from "@/shared/components";
 import { formConstant } from "@/shared/constants";
@@ -88,6 +122,31 @@ import { Icon } from "@/shared/components";
 
 export const FindPassWordView = ({ state }: { state: Record<string, any> }) => {
   console.log(state);
+  const [emailInfo, setEmailInfo] = useState<{ email: string; name: string } | null>(null);
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    console.log("🚀 useEffect 실행됨");
+    const code = searchParams.get("code");
+    console.log("🔍 [2] URL에서 받은 code:", code);
+    
+    if (!code) return;
+
+    // 네이버 code로 이메일 정보 요청
+    const fetchEmail = async () => {
+      try {
+        const response = await userApis.getEmailByOauthCode(code); // 이메일 요청 API
+        console.log("✅ [2] API 응답 받은 이메일 정보:", response, response.name); 
+        setEmailInfo({ email: response.email, name: response.name }); // response는 { email, name }
+        state.setStep("이매일아이디보여주기");
+      } catch (error) {
+        console.error("이메일 요청 실패", error);
+      }
+    };
+
+    fetchEmail();
+  }, []);
+
   return (
     //"인증선택" | "이매일아이디보여주기" | "비밀번호재설정"
     <article className="sub-layout__content">
@@ -99,8 +158,18 @@ export const FindPassWordView = ({ state }: { state: Record<string, any> }) => {
           <Heading as="h3" className="title-32 text-center m-t-20 m-b-20">
             계정/비밀번호 찾기
           </Heading>
-          {state?.step === "인증선택" && <AuthenticationSelectionStep onNext={() => state.setStep("이매일아이디보여주기")} />}
-          {state?.step === "이매일아이디보여주기" && <ShowEmailIdStep onNext={() => state.setStep("비밀번호재설정")} onSignIn={() => state?.navigation.goToPage(`/${urlConst.auth.main}/${urlConst.auth.signIn}`)} />}
+          {state?.step === "인증선택" && <AuthenticationSelectionStep/>}
+          {state?.step === "이매일아이디보여주기" &&
+  emailInfo && (
+    <ShowEmailIdStep
+      email={emailInfo.email}
+      name={emailInfo.name}
+      onNext={() => state.setStep("비밀번호재설정")}
+      onSignIn={() =>
+        state?.navigation.goToPage(`/${urlConst.auth.main}/${urlConst.auth.signIn}`)
+      }
+    />
+  )}
           {state?.step === "비밀번호재설정" && <ResetAccountPasswordStep onNext={state.handleResetPassword} onMain={() => state?.navigation.goHome()} />}
         </div>
       </section>
