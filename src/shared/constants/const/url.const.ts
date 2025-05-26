@@ -34,7 +34,7 @@ export const urlConst = {
     default: "",
     main: "auth",
     signIn: "signIn",
-    signUp: "signUp",
+    signUp: "sign-up",
   },
 
   // Admin Page Url
