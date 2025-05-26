@@ -64,13 +64,13 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, fo
         {...rest}
       />
       {isInvalid && errorMessage && (
-        <span id={`input-error ${inputId}-error`} className={errorClass} role="alert">
+        <span id={` ${inputId}-error`} className="text-field__error m-t-10" role="alert">
           {errorMessage}
         </span>
       )}
       {/* 성공시 css처리및 변수 설정 */}
       {!isInvalid && successMessage && (
-        <span id={`${inputId}-success`} className={successClass} role="alert">
+        <span id={`${inputId}-success`} className="text-field__success m-t-10" role="alert">
           {successMessage}
         </span>
       )}
