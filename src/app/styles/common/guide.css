@@ -139,7 +139,6 @@ input[type="password"] {
 }
 input::placeholder {
   color: rgb(58, 9, 9);
-  font-style: italic;
 }
 
 /*scroll*/
