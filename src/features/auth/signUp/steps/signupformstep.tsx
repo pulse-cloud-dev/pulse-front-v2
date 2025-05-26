@@ -231,7 +231,7 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
           취소
         </button>
 
-        <button type="submit" className="auth__button" disabled={!isFormValid}>
+        <button type="submit" className={`auth__button ${!isFormValid || checknickname.isError ? "disabled" : ""}`} disabled={!isFormValid || checknickname.isError}>
           다음
         </button>
       </div>
