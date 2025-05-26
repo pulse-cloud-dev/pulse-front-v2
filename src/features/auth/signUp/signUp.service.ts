@@ -10,7 +10,7 @@ export const useSocialUserInfo = ({ onSuccess, onError }: { onSuccess?: () => vo
     mutationFn: (code: string): Promise<SimplifiedUserlResponseDTO> => userApis.getSocialUser(code),
     onSuccess: (data) => {
       //쿼리 키로 데이터 저장(step3에서 호출)
-      queryClient.setQueryData(["auth", "signup", "userinfo"], data);
+      queryClient.setQueryData(["auth", "sign-up", "userinfo"], data);
       onSuccess?.(); //다음으로 이동
     },
     onError: (error) => {
