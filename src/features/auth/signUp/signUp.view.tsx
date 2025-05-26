@@ -28,7 +28,6 @@ export const SignUpView = (props: { state: Record<string, any>; mutate: Record<s
             <SignUpCertificationStep
               handleJoinSocial={() => {
                 props.state?.setStep("form");
-                console.log("되나?");
               }} // 소셜 로그인 시도하기..
             />
           )}
