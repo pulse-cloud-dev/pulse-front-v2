@@ -34,8 +34,8 @@ const logOutUser = async (id: Id) => {
   return await privateClient.post(userApiRouter.logOut, { id });
 };
 
-//소셜 로그인(네이버) 회원가입용
-const joinSocial = async (domain: JoinSocialRequestDTO): Promise<JoinSocialResponseDTO> => {
+//소셜 로그인 인증
+const joinSocial = async (domain: JoinSocialRequestDTO): Promise<{ body: string; message: string }> => {
   try {
     const endPoint = userApiRouter.joinSocial + domain;
     return await publicClient.get(endPoint);

@@ -16,4 +16,9 @@ export const formConstant = {
     { name: "password", label: "비밀번호", type: "password", required: true, placeholder: "비밀번호를 입력하세요" },
     { name: "password-check", label: "비밀번호 확인", type: "password", required: true, placeholder: "비밀번호을 확인해주세요." },
   ],
+  find: [
+    { name: "email", label: "이메일", type: "email", required: true, placeholder: "이메일을 입력해주세요." },
+    { name: "password", label: "비밀번호", type: "password", required: true, placeholder: "비밀번호를 입력하세요" },
+    { name: "password-check", label: "비밀번호 확인", type: "password", required: true, placeholder: "비밀번호을 확인해주세요." },
+  ],
 };

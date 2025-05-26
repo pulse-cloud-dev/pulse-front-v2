@@ -2,7 +2,7 @@ import { socialConstant } from "@/shared/constants";
 import { BaseButton, Icon } from "@/shared/components";
 
 // Step 2
-export const SignUpCertificationStep = ({ handleJoinSocial, onNext }: { handleJoinSocial: () => void; onNext: () => void }) => {
+export const SignUpCertificationStep = ({ handleJoinSocial }: { handleJoinSocial: () => void }) => {
   const socialLogin = socialConstant.socialLogin;
 
   return (
