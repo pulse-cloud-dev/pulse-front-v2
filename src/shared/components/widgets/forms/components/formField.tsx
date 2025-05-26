@@ -11,7 +11,7 @@ import { forwardRef } from "react";
  * 2) 에러 메시지를 읽어주기 위해 aria-describedby 연결.
  *
  */
-interface FormFieldProps extends HTMLAttributes<HTMLElement> {
+interface FormFieldProps extends HTMLAttributes<HTMLInputElement> {
   type?: string;
   id?: string; // 명시적으로 id를 받을 수 있도록 수정
   label: string;
@@ -24,14 +24,13 @@ interface FormFieldProps extends HTMLAttributes<HTMLElement> {
   labelClass?: string;
   inputClass?: string;
   errorClass?: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, forwardedRef) => {
   const { id, type = "text", name, label, value, placeholder, required = false, errorMessage, isInvalid = false, labelClass, inputClass, errorClass, onChange, style, ...rest } = props;
 
   const inputId = id || name; // 고유한 id 설정
-
   return (
     <div>
       <label htmlFor={inputId} className={labelClass}>
@@ -42,8 +41,7 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, fo
         {/* 필수 필드 표시 */}
         {required && (
           <span className="color__error fs_12" aria-hidden="true">
-            {" "}
-            *{" "}
+            *
           </span>
         )}
         {/* 필수 필드 표시 */}
