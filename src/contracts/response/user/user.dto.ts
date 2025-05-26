@@ -1,4 +1,4 @@
-import { Exclude, Expose } from "class-transformer";
+import { Expose } from "class-transformer";
 import { BaseDTO } from "../../shared";
 
 export class UserDTO extends BaseDTO {

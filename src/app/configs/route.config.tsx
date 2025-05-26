@@ -175,7 +175,7 @@ const createRoutes = (): Routers => {
       children: [
         { path: "", element: <Navigate to={urlConst.auth.signIn} /> },
         { path: "signIn", element: <Controller.SigInController /> },
-        { path: "signUp", element: <Controller.SignUpController /> },
+        { path: "sign-up", element: <Controller.SignUpController /> },
         {
           path: "find-password",
           element: <Controller.FindController />,

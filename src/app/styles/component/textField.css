@@ -49,6 +49,11 @@
   font-size: 12px;
 }
 
+.text-field__success {
+  color: blue;
+  font-size: 12px;
+}
+
 /* 비활성화 상태 */
 .text-field--disabled .text-field__input {
   background-color: #f5f5f5;
