@@ -4,7 +4,7 @@ import { plainToClass } from "class-transformer";
 const userApiRouter = {
   login: "/members/login",
   logOut: "/logout",
-  joinSocial: "/members/join/",
+  joinSocial: "/members/join",
   registerUser: "/members/join",
   findidbyoauth: (social: "NAVER" | "KAKAO") => `/members/find-id/${social}`,
   getuserinfo: "/social/naver/join-info",
