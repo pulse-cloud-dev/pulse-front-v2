@@ -3,8 +3,8 @@ import { SignUpStepProps } from "./signupsteptype";
 import { FormField } from "@/shared/components";
 import { useState, FormEvent, ChangeEvent, useEffect } from "react";
 import { useNicknameCheck, useSignUp } from "../signUp.service";
-// import { useQueryClient } from "@tanstack/react-query";
-// import { SimplifiedUserlResponseDTO } from "@/contracts";
+import { useQueryClient } from "@tanstack/react-query";
+import { SimplifiedUserlResponseDTO } from "@/contracts";
 
 type SchemaFunction = (value: string, form?: FormState) => boolean;
 
@@ -133,10 +133,10 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
       return () => clearTimeout(timer);
     }
   }, [formState.nick_name.value]);
-  // const queryClient = useQueryClient();
-  // const { name, phone_number, email } = queryClient.getQueryData(["auth", "sign-up", "userinfo"]) as SimplifiedUserlResponseDTO;
+  const queryClient = useQueryClient();
+  const { name, phone_number, email } = queryClient.getQueryData(["auth", "sign-up", "userinfo"]) as SimplifiedUserlResponseDTO;
 
-  const { name, phone_number, email } = { name: "김펄스", phone_number: "010-1234-1234", email: "id@pulse.com" };
+  // const { name, phone_number, email } = { name: "김펄스", phone_number: "010-1234-1234", email: "id@pulse.com" };
   const { requestSignUp } = useSignUp();
 
   const onsubmit = (e: FormEvent) => {
