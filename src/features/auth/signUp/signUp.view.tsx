@@ -26,13 +26,7 @@ export const SignUpView = (props: { state: Record<string, any>; mutate: Record<s
           {/* () => props.mutate.requestJoinSocial("NAVER")}  다음에 일어날일 이 코드 수정 필요 */}
           {props.state?.step === "certification" && (
             <SignUpCertificationStep
-              handleJoinSocial={
-                () => props.mutate.requestJoinSocial("NAVER")
-                //   () => {
-                //   props.state?.setStep("form");
-                //
-                // }
-              } // 소셜 로그인 시도하기..
+              handleJoinSocial={() => props.mutate.requestJoinSocial("NAVER")} // 소셜 로그인 시도하기..
             />
           )}
 
