@@ -12,6 +12,24 @@ const userApiRouter = {
   nicknameCheck: "/members/duplicate",
 };
 
+// oauthcode로 회원 데이터 얻어오기 회원가입용
+const getSocialUser = async (code: string): Promise<SimplifiedUserlResponseDTO> => {
+  try {
+    return await publicClient.get(userApiRouter.getuserinfo, { params: { code } }).then((response: any) =>
+      plainToClass(SimplifiedUserlResponseDTO, response.body, {
+        excludeExtraneousValues: true,
+      })
+    );
+  } catch (error: any) {
+    if (error.response) {
+      console.error("oauth failed:", error.response.data);
+    } else {
+      console.error("Network or other error:", error.message);
+    }
+    throw error.response;
+  }
+};
+
 // 로그인 요청
 const loginUser = async ({ email, password }: SignInRequestDTO): Promise<SignInResponseDTO> => {
   try {
@@ -139,4 +157,6 @@ export const userApis = {
   getUserByOauth,
   deleteUser,
   resetUserPassword,
+  nicknameCheck,
+  getSocialUser,
 };
