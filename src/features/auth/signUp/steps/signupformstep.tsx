@@ -143,11 +143,11 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
     e.preventDefault();
     requestSignUp.mutate(
       {
-        "name": name,
-        "phone_number": phone_number,
-        "email": email,
-        "nick_name": formState.nick_name.value,
-        "password": formState.password.value,
+        name: name,
+        phone_number: phone_number.replace(/-/g, ""),
+        email: email,
+        nick_name: formState.nick_name.value,
+        password: formState.password.value,
       },
       { onSuccess: onNext }
     );
