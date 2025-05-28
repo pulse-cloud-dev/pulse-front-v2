@@ -133,26 +133,21 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
       return () => clearTimeout(timer);
     }
   }, [formState.nick_name.value]);
+
   const queryClient = useQueryClient();
   const { name, phone_number, email } = queryClient.getQueryData(["auth", "sign-up", "userinfo"]) as SimplifiedUserlResponseDTO;
-
-  // const { name, phone_number, email } = { name: "김펄스", phone_number: "010-1234-1234", email: "id@pulse.com" };
-  const { requestSignUp } = useSignUp();
-
+  // const { name, phone_number, email } = { name: "김펄스", phone_number: "010-1234-1224", email: "mrki23@pulse.com" };
+   const { requestSignUp } = useSignUp({ onSuccess: onNext, onError: () => ("error") });
   const onsubmit = (e: FormEvent) => {
     e.preventDefault();
-    requestSignUp.mutate(
-      {
-        name: name,
-        phone_number: phone_number.replace(/-/g, ""),
-        email: email,
-        nick_name: formState.nick_name.value,
-        password: formState.password.value,
-      },
-      { onSuccess: onNext }
-    );
+    requestSignUp.mutate({
+      name: name,
+      phone_number: phone_number.replace(/-/g, ""), //전화번호 형식 -없이
+      email: email,
+      nick_name: formState.nick_name.value,
+      password: formState.password.value,
+    });
   };
-
   return (
     <form className="form__auth" onSubmit={onsubmit}>
       <FormField type={"text"} label={"이름"} name={name} value={name} required={true} style={{ backgroundColor: "var(--palette-gray-100)" }} />
