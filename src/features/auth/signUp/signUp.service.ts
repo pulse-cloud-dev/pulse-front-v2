@@ -48,14 +48,14 @@ export const useNicknameCheck = () => {
 };
 
 //회원가입(step3)회원가입용 api
-export const useSignUp = () => {
+export const useSignUp = ({ onSuccess, onError }: { onSuccess?: () => void; onError?: (error: any) => void }) => {
   const requestSignUp = useMutation({
     mutationFn: (userData: SignUpRequestDTO) => userApis.registerUser(userData),
-    onSuccess: (a) => {
-      console.log("회원가입 성공");
+    onSuccess: (data) => {
+      onSuccess?.();
     },
     onError: (error) => {
-      console.error("Error in SignUp :", error);
+      onError?.(error);
     },
   });
 

@@ -144,7 +144,7 @@ const nicknameCheck = async (nickname: string): Promise<any> => {
       // 네트워크 오류 또는 다른 문제
       console.error("네트워크 또는 기타 오류:", error.message);
     }
-    throw error.response; // 상위에서 try-catch 가능하게
+    throw error.response.data; // 상위에서 try-catch 가능하게
   }
 };
 export const userApis = {

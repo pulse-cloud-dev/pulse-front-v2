@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { SignUpView } from "./signUp.view";
-import { useJoinSocial, useSignUp, useSocialUserInfo } from "./signUp.service";
+import { useJoinSocial, useSocialUserInfo } from "./signUp.service";
 import { useLocation } from "react-router-dom";
-
+import { usePageNavigation } from "@/shared/lib/hooks";
 const useAuthCode = () => {
   const location = useLocation();
   const getCodeFromSearch = (search: string) => {
@@ -26,11 +26,8 @@ export const SignUpController = () => {
   // View에서 사용되어질 상태관리
   const [step, setStep] = useState<"consent" | "certification" | "form">("consent");
 
-  //step 1에서 쓰는 네트워크 함수
+  //step 2에서 쓰는 네트워크 함수
   const { requestJoinSocial } = useJoinSocial();
-
-  //step 2애서 사용하는 네트워크 하수
-  const { requestSignUp } = useSignUp();
 
   const socialLoginMutation = useSocialUserInfo({
     onSuccess: () => setStep("form"),
@@ -45,10 +42,13 @@ export const SignUpController = () => {
     }
   }, [code]);
 
+  const { goToPage } = usePageNavigation();
   // Controller에서 View로 내려질 Props
   const props = {
     state: { step, setStep },
-    mutate: { requestJoinSocial, requestSignUp },
+    mutate: { requestJoinSocial },
+    goToPage: () => goToPage("/auth/signIn"),
   };
+
   return <SignUpView {...props} />;
 };

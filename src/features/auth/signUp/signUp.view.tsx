@@ -4,7 +4,7 @@ import { SignUpCertificationStep } from "./steps/signupcertificationstep";
 import { SignUpConsentStep } from "./steps/signupconsentstep";
 import { SignUpFormStep } from "./steps/signupformstep";
 
-export const SignUpView = (props: { state: Record<string, any>; mutate: Record<string, any> }) => {
+export const SignUpView = (props: { state: Record<string, any>; mutate: Record<string, any>; goToPage: () => void }) => {
   return (
     <article className="sub-layout__content">
       <section className="section__auth">
@@ -23,10 +23,12 @@ export const SignUpView = (props: { state: Record<string, any>; mutate: Record<s
               />
             </CheckboxProvider>
           )}
-          {/* () => props.mutate.requestJoinSocial("NAVER")}  다음에 일어날일 이 코드 수정 필요 */}
+
           {props.state?.step === "certification" && (
             <SignUpCertificationStep
-              handleJoinSocial={() => props.mutate.requestJoinSocial("NAVER")} // 소셜 로그인 시도하기..
+              handleJoinSocial={() => {
+                props.mutate.requestJoinSocial("NAVER");
+              }} // 소셜 로그인 시도하기..
             />
           )}
 
@@ -34,7 +36,7 @@ export const SignUpView = (props: { state: Record<string, any>; mutate: Record<s
             <CheckboxProvider initialItems={checkboxConst.SIGN_UP_STEP_2}>
               <SignUpFormStep
                 onPrev={() => props.state?.setStep("certification")} // 인증으로 돌아가기..
-                onNext={() => alert("회원가입중입니다...")} // 회원가입 시도하기..
+                onNext={() => props.goToPage()} // 회원가입 시도하기..
               />
             </CheckboxProvider>
           )}
