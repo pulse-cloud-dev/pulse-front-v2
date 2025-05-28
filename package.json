@@ -6,10 +6,13 @@
   "sideEffects": false,
   "author": [
     "taetaeo <ohtk1119@gmail.com> (https://github.com/taetaeo)",
-    "Hyesu-Choi <email@gmail.com> (https://github.com/Hyesu-Choi)"
+    "Hyesu-Choi <email@gmail.com> (https://github.com/Hyesu-Choi)",
+    "Klaxon9718 <you9718@naver.com> (https://github.com/Klaxon9718)"
   ],
   "devDependencies": {
     "@tanstack/react-query-devtools": "^5.62.15",
+    "@types/draft-js": "^0.11.18",
+    "@types/navermaps": "^3.7.9",
     "@types/node": "^22.7.0",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
@@ -29,10 +32,13 @@
     "@tanstack/react-query": "^5.62.15",
     "axios": "^1.6.8",
     "class-transformer": "^0.5.1",
+    "draft-js": "^0.11.7",
+    "draftjs-to-html": "^0.9.1",
     "query-string": "^9.1.1",
     "react": "^18.2.0",
+    "react-datepicker": "^8.3.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.54.1",
+    "react-hook-form": "^7.56.4",
     "react-hot-toast": "^2.5.1",
     "taeo-hooks": "^1.1.2",
     "taeo-utils": "^2.0.23",
