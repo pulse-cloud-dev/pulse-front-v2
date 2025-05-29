@@ -6,13 +6,17 @@ import { useNicknameCheck, useSignUp } from "../signUp.service";
 import { useQueryClient } from "@tanstack/react-query";
 import { SimplifiedUserlResponseDTO } from "@/contracts";
 
-type SchemaFunction = (value: string, form?: FormState) => boolean;
+type ValidationSchema = {
+  [key: string]: {
+    validate: (value: string, form?: FormState) => boolean;
+    message: string;
+  };
+};
 
 type InputFieldState = {
   value: string;
-  error: string;
-  schema?: SchemaFunction;
-  errormessage: string;
+  errors: string[]; // 여러 에러 메시지를 저장하는 배열
+  schema: ValidationSchema; // 스키마와 에러 메시지를 하나로 묶음
   dependencies?: (keyof FormState)[];
   isValid: boolean;
 };
@@ -35,33 +39,43 @@ const useFormFields = (initialState: FormState) => {
     }));
   };
 
-  const handleBlur = (field: keyof FormState) => () => {
-    const { value, schema, errormessage } = formState[field];
-    let errorlog = "";
-    let isValid = true;
+  const validateField = (field: keyof FormState, updatedFormState?: FormState) => {
+    const currentState = updatedFormState || formState;
+    const fieldState = currentState[field];
+    const { value, schema } = fieldState;
 
-    if (schema && typeof schema === "function") {
-      isValid = schema(value, formState);
-      if (!isValid) {
-        errorlog = errormessage;
+    // 첫 번째 에러만 반환
+    for (const [key, rule] of Object.entries(schema)) {
+      if (!rule.validate(value, currentState)) {
+        return {
+          errors: [rule.message],
+          isValid: false,
+        };
       }
     }
+
+    return { errors: [], isValid: true };
+  };
+
+  const handleBlur = (field: keyof FormState) => () => {
+    const { errors, isValid } = validateField(field);
 
     const updatedFormState = {
       ...formState,
       [field]: {
         ...formState[field],
-        error: errorlog,
+        errors,
         isValid,
       },
     };
 
+    // 의존성이 있는 필드들도 재검증
     Object.entries(updatedFormState).forEach(([key, inputField]) => {
       if (inputField.dependencies?.includes(field)) {
-        const depValid = inputField.schema?.(inputField.value, updatedFormState) ?? true;
+        const { errors: depErrors, isValid: depValid } = validateField(key, updatedFormState);
         updatedFormState[key] = {
           ...inputField,
-          error: depValid ? "" : inputField.errormessage,
+          errors: depErrors,
           isValid: depValid,
         };
       }
@@ -69,16 +83,20 @@ const useFormFields = (initialState: FormState) => {
 
     setFormState(updatedFormState);
   };
+
   const handleFocus = (field: keyof FormState) => () => {
     setFormState((prev) => ({
       ...prev,
       [field]: {
         ...prev[field],
-        error: "",
+        errors: [],
       },
     }));
   };
-  const isFormValid = Object.values(formState).every((field) => (field.schema ? field.schema(field.value, formState) : true));
+
+  const isFormValid = Object.values(formState).every((field) => {
+    return Object.values(field.schema).every((rule) => rule.validate(field.value, formState));
+  });
 
   return {
     formState,
@@ -87,29 +105,83 @@ const useFormFields = (initialState: FormState) => {
     handleBlur,
     handleFocus,
     isFormValid,
+    validateField,
   };
 };
+
 const initialFields: FormState = {
   nick_name: {
     isValid: false,
     value: "",
-    error: "",
-    errormessage: "닉네임은 2~10자 이내의 영문 또는 한글로 설정할 수 있으며, 특수문자는 사용할 수 없습니다",
-    schema: (value) => /^[가-힣a-zA-Z]{2,10}$/.test(value),
+    errors: [],
+    schema: {
+      required: {
+        validate: (value) => value.trim().length > 0,
+        message: "닉네임을 입력해주세요.",
+      },
+      length: {
+        validate: (value) => value.length >= 2 && value.length <= 10,
+        message: "닉네임은 2~10자 이내로 입력해주세요.",
+      },
+      format: {
+        validate: (value) => /^[가-힣a-zA-Z]+$/.test(value),
+        message: "닉네임은 영문 또는 한글만 사용할 수 있습니다.",
+      },
+      noSpecialChars: {
+        validate: (value) => !/[^가-힣a-zA-Z]/.test(value),
+        message: "특수문자는 사용할 수 없습니다.",
+      },
+    },
   },
   password: {
     isValid: false,
     value: "",
-    error: "",
-    schema: (value) => /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value),
-    errormessage: "비밀번호 형식이 올바르지 않습니다.",
+    errors: [],
+    schema: {
+      required: {
+        validate: (value) => value.trim().length > 0,
+        message: "비밀번호를 입력해주세요.",
+      },
+      minLength: {
+        validate: (value) => value.length >= 8,
+        message: "비밀번호는 8자 이상이어야 합니다.",
+      },
+      hasUppercase: {
+        validate: (value) => /[A-Z]/.test(value),
+        message: "대문자를 포함해야 합니다.",
+      },
+      hasLowercase: {
+        validate: (value) => /[a-z]/.test(value),
+        message: "소문자를 포함해야 합니다.",
+      },
+      hasNumber: {
+        validate: (value) => /\d/.test(value),
+        message: "숫자를 포함해야 합니다.",
+      },
+      hasSpecial: {
+        validate: (value) => /[@$!%*?&]/.test(value),
+        message: "특수문자(@$!%*?&)를 포함해야 합니다.",
+      },
+      notStartWithSpecial: {
+        validate: (value) => !/^[@$!%*?&]/.test(value),
+        message: "특수문자로 시작할 수 없습니다.",
+      },
+    },
   },
   confirmPassword: {
     isValid: false,
     value: "",
-    error: "",
-    schema: (value, form) => value === form?.password.value,
-    errormessage: "비밀번호가 일치하지 않습니다.",
+    errors: [],
+    schema: {
+      required: {
+        validate: (value) => value.trim().length > 0,
+        message: "비밀번호 확인을 입력해주세요.",
+      },
+      match: {
+        validate: (value, form) => value === form?.password.value,
+        message: "비밀번호가 일치하지 않습니다.",
+      },
+    },
     dependencies: ["password"],
   },
 };
@@ -124,9 +196,11 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
   //debounce를 사용하여 닉네임 중복체크 api 호출
   useEffect(() => {
     //닉네임이 변경될 때마다 검증 로직 실행
-    if (formState.nick_name.schema && formState.nick_name.schema(formState.nick_name.value)) {
+    const isNickNameValid = Object.values(formState.nick_name.schema).every((rule) => rule.validate(formState.nick_name.value));
+
+    if (isNickNameValid && formState.nick_name.value.trim()) {
       const timer = setTimeout(() => {
-        //닉네임이 schema 통과하고 일정시간이 지난다면 닉네임 중복 api 호출
+        //닉네임이 모든 규칙을 통과하고 일정시간이 지난다면 닉네임 중복 api 호출
         checknickname.mutate(formState.nick_name.value);
       }, 500);
 
@@ -137,7 +211,8 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
   const queryClient = useQueryClient();
   const { name, phone_number, email } = queryClient.getQueryData(["auth", "sign-up", "userinfo"]) as SimplifiedUserlResponseDTO;
   // const { name, phone_number, email } = { name: "김펄스", phone_number: "010-1234-1224", email: "mrki23@pulse.com" };
-   const { requestSignUp } = useSignUp({ onSuccess: onNext, onError: () => ("error") });
+  const { requestSignUp } = useSignUp({ onSuccess: onNext, onError: () => "error" });
+
   const onsubmit = (e: FormEvent) => {
     e.preventDefault();
     requestSignUp.mutate({
@@ -148,6 +223,16 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
       password: formState.password.value,
     });
   };
+
+  // 에러 메시지들을 하나의 문자열로 결합하는 헬퍼 함수
+  const getErrorMessage = (errors: string[], serverError?: string) => {
+    const allErrors = [...errors];
+    if (serverError) {
+      allErrors.push(serverError);
+    }
+    return allErrors.join("\n"); // 줄바꿈으로 구분하거나 ', '로 구분할 수 있음
+  };
+
   return (
     <form className="form__auth" onSubmit={onsubmit}>
       <FormField type={"text"} label={"이름"} name={name} value={name} required={true} style={{ backgroundColor: "var(--palette-gray-100)" }} />
@@ -156,7 +241,7 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
       <FormField
         type={"text"}
         label={"닉네임"}
-        name={"이름"}
+        name={"닉네임"}
         value={formState.nick_name.value}
         placeholder="사용할 닉네임을 작성해 주세요."
         required={true}
@@ -171,14 +256,10 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
           //닉네임 중복체크 서버 데이터 초기화
           checknickname.reset();
         }}
-        errorMessage={
-          //닉네임 에러 메세지 + 서버에서 온 메세지 노출-> 검증
-          formState.nick_name.error || (checknickname.isError ? checknickname.error.message : "")
-        }
-        successMessage={
-          //서버에서 온 메세지 노출
-          checknickname.data?.message
-        }
+        //닉네임 에러 메세지 + 서버에서 온 메세지 노출-> 검증
+        errorMessage={getErrorMessage(formState.nick_name.errors, checknickname.isError ? checknickname.error.message : undefined)}
+        //서버에서 온 메세지 노출
+        successMessage={checknickname.data?.message}
         isInvalid={
           //검증 성공: 프론트 스키마 검증 성공(formState.nick_name.isValid===false )이고 서버 중복 검증성공(checknickname.success===true)):isvalid:true
           !(formState.nick_name.isValid && checknickname.isSuccess)
@@ -194,8 +275,8 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
         onChange={handleInputChange("password")}
         onBlur={handleBlur("password")}
         onFocus={handleFocus("password")}
-        errorMessage={formState.password.error}
-        isInvalid={true}
+        errorMessage={getErrorMessage(formState.password.errors)}
+        isInvalid={formState.password.errors.length > 0}
       />
       <FormField
         type={"password"}
@@ -207,12 +288,12 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
         onChange={handleInputChange("confirmPassword")}
         onBlur={handleBlur("confirmPassword")}
         onFocus={handleFocus("confirmPassword")}
-        errorMessage={formState.confirmPassword.error}
-        isInvalid={true}
+        errorMessage={getErrorMessage(formState.confirmPassword.errors)}
+        isInvalid={formState.confirmPassword.errors.length > 0}
       />
       <div className="signUp__step3">
         {checkboxItems.map((item) => (
-          <div>
+          <div key={item.id}>
             <CheckboxGroup type="item" id={item.id} />
             <span>
               <p>{item.label}</p>
