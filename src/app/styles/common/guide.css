@@ -209,6 +209,9 @@ input::placeholder {
 .text_error {
   color: #ff1f55 !important;
 }
+.error-border {
+  border: 1px solid #ff1f55 !important;
+}
 
 .fc_black99 {
   color: rgba(0, 0, 0, 0.6) !important;
