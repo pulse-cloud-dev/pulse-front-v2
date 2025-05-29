@@ -10,15 +10,12 @@ import { AuthenticationSelectionStep } from "@/shared/components/widgets/rePassw
 import { ShowEmailIdStep } from "@/shared/components/widgets/rePassword/step/showEmail"
 
 
-
 export const FindPassWordView = ({ state }: { state: Record<string, any> }) => {
   const [emailInfo, setEmailInfo] = useState<{ email: string; name: string } | null>(null);
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    console.log("🚀 useEffect 실행됨");
     const code = searchParams.get("code");
-    console.log("🔍 [2] URL에서 받은 code:", code);
     
     if (!code) return;
 
@@ -26,7 +23,6 @@ export const FindPassWordView = ({ state }: { state: Record<string, any> }) => {
     const fetchEmail = async () => {
       try {
         const response = await userApis.getEmailByOauthCode(code); // 이메일 요청 API
-        console.log("✅ [2] API 응답 받은 이메일 정보:", response, response.name); 
         setEmailInfo({ email: response.email, name: response.name }); // response는 { email, name }
         state.setStep("이매일아이디보여주기");
       } catch (error) {

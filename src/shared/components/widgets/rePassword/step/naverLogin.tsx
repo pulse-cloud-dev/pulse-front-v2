@@ -5,10 +5,7 @@ import { Icon } from "@/shared/components";
 export const AuthenticationSelectionStep = () => {
   const handleNaverLogin = async () => {
   try {
-    
-    console.log("🌐 로그인 URL 요청 중...");
     const url = await userApis.getNaverLoginUrl();
-    console.log("✅ 받은 로그인 URL:", url);
 
     if (!url) {
       alert("네이버 로그인 URL을 받아오지 못했습니다.");
@@ -17,7 +14,6 @@ export const AuthenticationSelectionStep = () => {
 
     window.location.href = url; 
   } catch (err) {
-    console.error("❌ 네이버 로그인 요청 중 오류 발생:", err);
     alert("네이버 로그인에 실패했습니다.");
   }
 };
