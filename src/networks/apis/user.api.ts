@@ -1,6 +1,7 @@
 import { privateClient, publicClient } from "@/networks/client";
 import { SignInRequestDTO, JoinSocialRequestDTO, SignInResponseDTO, UserDTO, OauthResponseDTO, ResetPasswordrequestDTO, JoinSocialResponseDTO, SimplifiedUserlResponseDTO, SignUpRequestDTO } from "@/contracts";
 import { plainToClass } from "class-transformer";
+
 const userApiRouter = {
   login: "/members/login",
   logOut: "/logout",
@@ -10,7 +11,9 @@ const userApiRouter = {
   getuserinfo: "/social/naver/join-info",
   resetpassword: "/members/reset-password",
   nicknameCheck: "/members/duplicate",
+  emailCheck: "members/duplicate/email",
 };
+
 // oauthcode로 회원 데이터 얻어오기 회원가입용
 const getSocialUser = async (code: string): Promise<SimplifiedUserlResponseDTO> => {
   try {
@@ -139,14 +142,31 @@ const nicknameCheck = async (nickname: string): Promise<any> => {
   } catch (error: any) {
     if (error.response) {
       // 서버에서 응답이 왔지만 오류 상태 코드
-      console.error("닉네임 중복 확인 실패:", error.response.data);
+      throw error.response.data;
     } else {
-      // 네트워크 오류 또는 다른 문제
-      console.error("네트워크 또는 기타 오류:", error.message);
+      // 네트워크 오류 또는 다른 문제(에러메세지 커스텀 Ex 괌리자문의)
+      throw new Error("네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
     }
-    throw error.response.data; // 상위에서 try-catch 가능하게
   }
 };
+
+// //이메일로 회원
+// const emailCheck = async (email: string): Promise<any> => {
+//   try {
+//     return await publicClient.post(`${userApiRouter.emailCheck}`);
+//   } catch (error: any) {
+//     if (error.response) {
+//       // 서버에서 응답이 왔지만 오류 상태 코드
+
+//       console.error("닉네임 중복 확인 실패:", error.response.data);
+//     } else {
+//       // 네트워크 오류 또는 다른 문제
+//       console.error("네트워크 또는 기타 오류:", error.message);
+//     }
+//     throw error.response.data; // 상위에서 try-catch 가능하게
+//   }
+// };
+
 export const userApis = {
   loginUser,
   logOutUser,
@@ -158,4 +178,5 @@ export const userApis = {
   resetUserPassword,
   nicknameCheck,
   getSocialUser,
+  // emailCheck,
 };

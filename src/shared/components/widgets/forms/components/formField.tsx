@@ -58,7 +58,7 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, fo
         required={required}
         aria-invalid={isInvalid} // 유효성 상태
         aria-describedby={isInvalid && errorMessage ? `${inputId}-error` : successMessage ? `${inputId}-success` : undefined}
-        className={inputClass}
+        className={`inputClass ${isInvalid && errorMessage ? "error-border" : ""}`}
         onChange={onChange}
         style={style}
         {...rest}
