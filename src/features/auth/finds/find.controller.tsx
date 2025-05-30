@@ -24,3 +24,4 @@ export const FindController = () => {
   };
   return <FindPassWordView {...props} />;
 };
+
