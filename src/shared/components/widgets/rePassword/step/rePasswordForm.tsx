@@ -2,6 +2,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { resetPasswordSchema, FormValues } from "../type/useRePasswordForm";
 import { userApis } from "@/networks/apis/user.api";
+import { usePageNavigation } from "@/shared/lib/hooks";
+
+const { goHome } = usePageNavigation();
 
 export const ResetAccountPasswordStep = ({ onNext, onMain }: { onNext?: () => void; onMain?: () => void }) => {
   const {
@@ -77,7 +80,7 @@ export const ResetAccountPasswordStep = ({ onNext, onMain }: { onNext?: () => vo
         <button
           type="button"
           className="find_reset__button"
-          onClick={() => window.location.href = "/"}
+          onClick={goHome}
         >
           메인으로 이동
         </button>
