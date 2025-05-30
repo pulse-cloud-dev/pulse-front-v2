@@ -63,7 +63,7 @@ export const HeaderMainNavigation = (props: HeaderMainMenuProps) => {
                 </Linker>
               </li>
               <li className="user-actions__linker signup">
-                <Linker href={"/auth/signUp"}>회원가입</Linker>
+                <Linker href={"/auth/sign-up"}>회원가입</Linker>
               </li>
             </ul>
           )}
