@@ -11,6 +11,11 @@ export const useSocialUserInfo = ({ onSuccess, onError }: { onSuccess?: () => vo
     onSuccess: (data) => {
       //쿼리 키로 데이터 저장(step3에서 호출)
       queryClient.setQueryData(["auth", "sign-up", "userinfo"], data);
+      // 또는 쿼리 무효화 시간 설정
+      queryClient.setQueryDefaults(["auth", "sign-up", "userinfo"], {
+        staleTime: 0, // 항상 새로운 데이터 요청
+        gcTime: 1000 * 60 * 60 * 2, // 2시간
+      });
       onSuccess?.(); //다음으로 이동
     },
     onError: (error) => {

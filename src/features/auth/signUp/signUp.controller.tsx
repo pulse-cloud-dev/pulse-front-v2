@@ -31,7 +31,7 @@ export const SignUpController = () => {
 
   const socialLoginMutation = useSocialUserInfo({
     onSuccess: () => setStep("form"),
-    onError: () => setStep("certification"),
+    onError: () => setStep("consent"),
   });
 
   const code = useAuthCode();
