@@ -5,10 +5,10 @@ interface BaseButtonProps extends PropsWithChildren, HTMLAttributes<HTMLButtonEl
   size?: "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
 }
 
-export const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>((props) => {
+export const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>((props, ref) => {
   const { className, size = "md", style, children, ...restProps } = props;
   return (
-    <button className={`btn btn--base ${size} ${className}`} style={style} {...restProps}>
+    <button ref= {ref} className={`btn btn--base ${size} ${className}`} style={style} {...restProps}>
       {children}
     </button>
   );

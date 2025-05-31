@@ -1,6 +1,6 @@
 import { privateClient, publicClient } from "@/networks/client";
 
-import { SignInRequestDTO, SignInResponseDTO, UserDTO, OauthResponseDTO, ResetPasswordrequestDTO } from "@/contracts";
+import { SignInRequestDTO, SignInResponseDTO, UserDTO } from "@/contracts";
 
 import axios from "axios";
 
@@ -102,21 +102,21 @@ const deleteUser = async (): Promise<void> => {
 };
 
 //소셜 로그인(네이버)
-const getUserByOauth = async (): Promise<OauthResponseDTO> => {
-  try {
-    return await publicClient.get(userApiRouter.oauth("NAVER"));
-  } catch (error: any) {
-    // 에러 처리: 서버에서 응답 실패 시 예외 처리
-    if (error.response) {
-      // 서버에서 반환된 오류 처리
-      console.error("oauth failed:", error.response.data);
-    } else {
-      // 네트워크 오류 등 기타 오류 처리
-      console.error("Network or other error:", error.message);
-    }
-    throw error.response; // 에러를 다시 던져서 상위 컴포넌트에서 처리할 수 있게 함
-  }
-};
+// const getUserByOauth = async (): Promise<OauthResponseDTO> => {
+//   try {
+//     return await publicClient.get(userApiRouter.oauth("NAVER"));
+//   } catch (error: any) {
+//     // 에러 처리: 서버에서 응답 실패 시 예외 처리
+//     if (error.response) {
+//       // 서버에서 반환된 오류 처리
+//       console.error("oauth failed:", error.response.data);
+//     } else {
+//       // 네트워크 오류 등 기타 오류 처리
+//       console.error("Network or other error:", error.message);
+//     }
+//     throw error.response; // 에러를 다시 던져서 상위 컴포넌트에서 처리할 수 있게 함
+//   }
+// };
 
 // 네이버 로그인 URL 받아오기
 const getNaverLoginUrl = async (): Promise<string> => {
@@ -166,7 +166,7 @@ export const userApis = {
   registerUser,
   getUser,
   updateUser,
-  getUserByOauth,
+  // getUserByOauth,
   deleteUser,
   resetUserPassword,
   getNaverLoginUrl,
