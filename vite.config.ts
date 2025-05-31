@@ -10,11 +10,15 @@ export default defineConfig(({ mode }: ConfigEnv) => {
 
   // Common settings
   const commonSettings = {
+    base: '/',
     plugins: [react(), tsconfigPaths()],
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
       },
+    },
+    define: {
+      global: "window",
     },
   };
 
@@ -24,8 +28,10 @@ export default defineConfig(({ mode }: ConfigEnv) => {
       server: {
         port: parseInt(env.VITE_PORT),
         headers: {
-          "Cross-Origin-Embedder-Policy": "require-corp",
+          // "Cross-Origin-Embedder-Policy": "require-corp",
           "Cross-Origin-Opener-Policy": "same-origin",
+          "Cross-Origin-Embedder-Policy": "unsafe-none",
+          "Cross-Origin-Resource-Policy": "cross-origin",
         },
         proxy: {
           "/api": {
@@ -45,6 +51,15 @@ export default defineConfig(({ mode }: ConfigEnv) => {
                 return `vendor`;
               }
             },
+          },
+        },
+      },
+      server: {
+        proxy: {
+          "/api": {
+            target: env.VITE_PROD_API_URL,
+            changeOrigin: true,
+            secure: false,
           },
         },
       },

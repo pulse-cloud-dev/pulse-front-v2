@@ -1,61 +1,43 @@
-name: CI/CD Pipeline
+name: pulse-front
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    branches: [main, dev]  # dev 브랜치로의 PR도 명시적으로 감지
   push:
-    branches: [main, dev]
-
+    branches: [ main ]
 jobs:
-  test-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      
-      - name: Debug Info
-        run: |
-          echo "Event name: ${{ github.event_name }}"
-          echo "Ref: ${{ github.ref }}"
-          echo "Base ref: ${{ github.base_ref }}"
-          echo "Head ref: ${{ github.head_ref }}"
-      
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          cache: 'npm'
-      
-      - name: Install dependencies
-        run: npm ci
-      
-      - name: Run tests
-        run: npm test
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '22'
         
-      - name: Run linting
-        run: npm run lint
-      
-      - name: Build project
-        run: npm run build
-      
-      # Vercel 배포 (Production - main 브랜치인 경우)
-      - name: Deploy to Vercel (Production)
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: amondnet/vercel-action@v20
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          vercel-args: '--prod'
-      
-      # Vercel 배포 (Preview - PR이나 dev 브랜치 푸시인 경우)
-      - name: Deploy to Vercel (Preview)
-        if: (github.event_name == 'pull_request') || (github.event_name == 'push' && github.ref == 'refs/heads/dev')
-        uses: amondnet/vercel-action@v20
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+    # 환경 변수 파일 생성 부분
+    - name: env
+      run: |
+        touch .env.production
+        echo "MODE=production" >> .env.production
+        echo "DOMAIN=http://pulse-dev.shop" >> .env.production
+        echo "VITE_PROD_API_URL=${{ secrets.VITE_PROD_API_URL }}" >> .env.production
+        echo "VERSION=v1" >> .env.production
+        echo "VITE_NAVER_CLIENT_ID=${{ secrets.VITE_NAVER_CLIENT_ID }}" >> .env.production
+        
+    - name: Install dependencies
+      run: npm ci
+    - name: Build
+      run: npm run build
+    - name: Debug build directory
+      run: |
+        echo "현재 디렉토리 확인:"
+        ls -la
+        echo "빌드 디렉토리 확인:"
+        ls -la dist || echo "dist 디렉토리 없음"
+    - name: Deploy to EC2
+      run: |
+        echo "${{ secrets.EC2_SSH_KEY }}" > private_key.pem
+        chmod 600 private_key.pem
+        BUILD_DIR="dist"  # vite 프로젝트이므로 dist 디렉토리에 빌드되도록 변경
+        ssh -i private_key.pem -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_IP }} "rm -rf /home/ec2-user/pulse-front/*"
+        scp -i private_key.pem -o StrictHostKeyChecking=no -r ${BUILD_DIR}/* ec2-user@${{ secrets.EC2_IP }}:/home/ec2-user/pulse-front/
+        ssh -i private_key.pem -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_IP }} 'sudo systemctl restart nginx'

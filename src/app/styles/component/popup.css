@@ -1,0 +1,177 @@
+/* 
+========================================================
+                     분야 선택 Popup
+========================================================
+ */
+.popup--field {
+  width: 632px;
+  height: 514px;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+.popup--field__header {
+  background-color: red;
+}
+.popup--field__body {
+  border-bottom: 1px solid var(--border);
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  height: 90%;
+}
+.popup--field__body > .popup--field__body--top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  overflow-y: auto;
+  height: 60%;
+  padding: 10px;
+}
+.popup--field__body > .popup--field__body--top > .check-field-module {
+  flex: 1 1 calc(50% - 10px);
+  max-width: calc(50% - 10px);
+  box-sizing: border-box;
+}
+
+.popup--field__body--bottom {
+  border-top: 1px solid var(--border);
+  height: 40%;
+}
+.popup--field__body--bottom .no-data {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  height: 100%;
+}
+.popup--field__footer {
+  margin-top: 1rem;
+  height: calc(10% - 1rem);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.popup--field__footer > .popup--field__footer--left {
+  display: flex;
+  gap: 8px;
+}
+.popup--field__footer > .popup--field__footer--right {
+  display: flex;
+  gap: 8px;
+}
+/* 
+========================================================
+                     온/오프라인
+========================================================
+ */
+.popup--online {
+  width: 480px;
+  height: 300px;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+.popup--online__body {
+  height: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.popup--online__footer {
+  margin-top: 1rem;
+  height: calc(20% - 1rem);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+
+  box-sizing: border-box;
+}
+.popup--online__footer > .popup--online__footer--left {
+  display: flex;
+  gap: 6px;
+}
+.popup--online__footer > .popup--online__footer--right {
+  display: flex;
+  gap: 6px;
+}
+
+/* 
+========================================================
+                     Mentor Detail
+========================================================
+ */
+.popup--mentorDetail {
+  padding: 20px;
+  width: 784px;
+  /* height: 600px; */
+  box-sizing: border-box;
+}
+.popup--mentorDetail__header {
+  height: 160px;
+  border-bottom: 1px solid var(--border);
+}
+.popup--mentorDetail__header > .content__tag {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: -0.02em;
+  color: #757575;
+}
+.popup--mentorDetail__header .tag__img {
+  width: 30px;
+  height: 30px;
+  margin-right: 6px;
+}
+
+.popup--mentorDetail__header .tag__title {
+  margin-left: 6px;
+  font-weight: 700;
+}
+
+.popup--mentorDetail__body {
+  margin-top: 10px;
+  border-bottom: 1px solid var(--border);
+  height: 400px;
+  overflow-y: scroll;
+}
+.popup--mentorDetail__footer {
+  margin-top: 10px;
+  flex: 1;
+  display: flex;
+}
+.mentor-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 14px;
+  color: #333;
+}
+
+.mentor-info__item {
+  display: flex;
+  gap: 8px;
+  min-width: 200px; /* 레이아웃 조정을 위한 최소 너비 */
+}
+
+.mentor-info__title {
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.mentor-info__detail {
+  font-weight: normal;
+}
+.popup--mentorDetail__footer .btn__group {
+  width: 30%;
+  height: auto;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}

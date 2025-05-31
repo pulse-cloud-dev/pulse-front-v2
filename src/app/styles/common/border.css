@@ -10,3 +10,9 @@
 .border-circle {
   border-radius: 50%;
 }
+.radius_8 {
+  border-radius: 8px;
+}
+.radius_12 {
+  border-radius: 12px;
+}

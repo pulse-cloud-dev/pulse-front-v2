@@ -61,6 +61,5 @@ export const FindPassWordView = ({ state }: { state: Record<string, any> }) => {
       </section>
     </article>
   );
-
 };
 

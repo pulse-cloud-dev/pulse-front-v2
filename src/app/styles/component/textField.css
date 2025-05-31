@@ -1,0 +1,61 @@
+/* BEM 구조 적용 */
+.text-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.text-field__label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+.text-field__label.xs {
+  font-size: 10px;
+}
+.text-field__label.sm {
+  font-size: 12px;
+}
+.text-field__label.md {
+  font-size: 16px;
+}
+.text-field__label.lg {
+  font-size: 18px;
+}
+.text-field__label.xl {
+  font-size: 22px;
+}
+
+.text-field__input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.text-field__input:focus {
+  border-color: #007bff;
+}
+
+/* 에러 상태 */
+.text-field--error .text-field__input {
+  border-color: red;
+}
+
+.text-field__error {
+  color: red;
+  font-size: 12px;
+}
+
+.text-field__success {
+  color: blue;
+  font-size: 12px;
+}
+
+/* 비활성화 상태 */
+.text-field--disabled .text-field__input {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}

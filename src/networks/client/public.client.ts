@@ -1,10 +1,11 @@
 import $axios from "axios";
 
 import { envConst } from "@/shared/constants";
+//api endpoint 수정 백엔드와 이야기 필요..
+const baseUrl = import.meta.env.MODE === "production" ? `/api` : `/api/${envConst.version}`;
 
-const baseURL = `/api/${envConst.version}`;
-
-const publicClient = $axios.create({ baseURL });
+const publicClient = $axios.create({ baseURL: baseUrl });
+// const publicClient = $axios.create({ baseURL });
 
 publicClient.interceptors.request.use(async (config) => {
   const headers = {

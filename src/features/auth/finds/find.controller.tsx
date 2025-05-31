@@ -1,4 +1,3 @@
-
 import { FindPassWordView } from "./findPassWord.view";
 import { useState } from "react";
 import { usePageNavigation } from "@/shared/lib/hooks";
@@ -24,6 +23,5 @@ export const FindController = () => {
     state: { step, setStep, handleOauthLogin, handleResetPassword, navigation },
   };
   return <FindPassWordView {...props} />;
-
 };
 

@@ -14,7 +14,7 @@
   justify-content: center;
   padding: 8px 16px;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 14px;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
@@ -69,14 +69,37 @@
   height: 56px;
   min-width: 120px;
 }
-
+/* 
+========================================================
+                Button Color Style
+========================================================
+ */
+.btn.bk {
+  background-color: #000;
+  color: #fff;
+}
+.btn.reverse {
+  border: 1px solid var(--border);
+  background-color: #fff;
+  color: #000;
+}
+.btn.default {
+  background-color: #fff;
+  color: #000;
+}
+.btn.primary {
+  border: none;
+  background-color: var(--primary-60);
+  color: var(--text-wh);
+}
 /* 
 ========================================================
                 Button Shape Style
                 - round
 ========================================================
  */
-
+.btn--base {
+}
 .btn--round {
   border-radius: 20px;
   padding: 10px 20px;

@@ -1,18 +1,9 @@
-import {
-  createBrowserRouter,
-  Navigate,
-  type RouteObject,
-} from "react-router-dom";
+import { createBrowserRouter, Navigate, type RouteObject } from "react-router-dom";
 
 // Controllers
 import * as Controller from "@/features";
 // Layouts...
-import {
-  AdminLayout,
-  AuthLayout,
-  MainLayout,
-  WithAuthLayout,
-} from "@/shared/layouts";
+import { AdminLayout, AuthLayout, MainLayout, MentorLayout, WithAuthLayout } from "@/shared/layouts";
 // Shared
 import { urlConst } from "@/shared/constants";
 
@@ -28,14 +19,6 @@ const createRoutes = (): Routers => {
 
         {
           /**
-           * @description Mentor Find (멘토링 찾기)
-           */
-          path: "mentor-find",
-          children: [{ path: "", element: <Controller.MentorController /> }],
-        },
-
-        {
-          /**
            * @description Mentee Find (멘티 찾기)
            */
           path: "mentee-find",
@@ -48,6 +31,7 @@ const createRoutes = (): Routers => {
           path: "community",
           children: [{ path: "", element: <Controller.CommunityController /> }],
         },
+
         /**
          * @description Notice (공지사항)
          */
@@ -57,19 +41,59 @@ const createRoutes = (): Routers => {
         },
 
         {
-          // 이용약관
+          path: "notice",
+          children: [{ path: "", element: <Controller.NoticeController /> }],
+        },
+
+        /**
+         * @description 이용약관
+         */
+        {
           path: "terms-and-conditions-for-service",
           element: <Controller.UnderConstructionController />,
         },
+
+        /**
+         * @description 개인정보 처리방침
+         */
         {
-          // 개인정보 처리방침
           path: "privacy-policy-for-users",
           element: <Controller.UnderConstructionController />,
         },
+
+        /**
+         * @description 고객센터
+         */
         {
-          // 고객센터
           path: "customer-support-faq",
           element: <Controller.UnderConstructionController />,
+        },
+      ],
+    },
+
+    {
+      path: urlConst.home.default, // ""
+      element: <MentorLayout />,
+      children: [
+        {
+          /**
+           * @description Mentor Find (멘토링 찾기)
+           */
+          path: "mentor-find",
+          children: [{ path: "", element: <Controller.MentorController /> }],
+        },
+
+        /**
+         * @description 모집글 등록
+         */
+        {
+          path: "posts",
+          children: [{ path: "", element: <Controller.PostsController /> }],
+        },
+
+        {
+          path: "bookmarks",
+          children: [{ path: "", element: <Controller.BookmarkController /> }],
         },
       ],
     },
@@ -140,9 +164,7 @@ const createRoutes = (): Routers => {
     {
       path: "my-page",
       element: <WithAuthLayout />,
-      children: [
-        { path: "", element: <Controller.UnderConstructionController /> },
-      ],
+      children: [{ path: "", element: <Controller.UnderConstructionController /> }],
     },
     /**
      * @description Auth
@@ -153,7 +175,7 @@ const createRoutes = (): Routers => {
       children: [
         { path: "", element: <Navigate to={urlConst.auth.signIn} /> },
         { path: "signIn", element: <Controller.SigInController /> },
-        { path: "signUp", element: <Controller.SignUpController /> },
+        { path: "sign-up", element: <Controller.SignUpController /> },
         {
           path: "find-password",
           element: <Controller.FindController />,

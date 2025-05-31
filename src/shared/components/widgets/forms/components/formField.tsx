@@ -11,7 +11,7 @@ import { forwardRef } from "react";
  * 2) 에러 메시지를 읽어주기 위해 aria-describedby 연결.
  *
  */
-interface FormFieldProps extends HTMLAttributes<HTMLElement> {
+interface FormFieldProps extends HTMLAttributes<HTMLInputElement> {
   type?: string;
   id?: string; // 명시적으로 id를 받을 수 있도록 수정
   label: string;
@@ -20,18 +20,19 @@ interface FormFieldProps extends HTMLAttributes<HTMLElement> {
   placeholder?: string;
   required?: boolean;
   errorMessage?: string; // 에러 메시지
+  successMessage?: string;
   isInvalid?: boolean; // 유효성 상태
   labelClass?: string;
   inputClass?: string;
   errorClass?: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  successClass?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, forwardedRef) => {
-  const { id, type = "text", name, label, value, placeholder, required = false, errorMessage, isInvalid = false, labelClass, inputClass, errorClass, onChange, style, ...rest } = props;
+  const { successClass, successMessage, id, type = "text", name, label, value, placeholder, required = false, errorMessage, isInvalid = false, labelClass, inputClass, errorClass, onChange, style, ...rest } = props;
 
   const inputId = id || name; // 고유한 id 설정
-
   return (
     <div>
       <label htmlFor={inputId} className={labelClass}>
@@ -42,8 +43,7 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, fo
         {/* 필수 필드 표시 */}
         {required && (
           <span className="color__error fs_12" aria-hidden="true">
-            {" "}
-            *{" "}
+            *
           </span>
         )}
         {/* 필수 필드 표시 */}
@@ -57,15 +57,21 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, fo
         placeholder={placeholder}
         required={required}
         aria-invalid={isInvalid} // 유효성 상태
-        aria-describedby={isInvalid && errorMessage ? `${inputId}-error` : undefined} // 에러 메시지 연결
-        className={inputClass}
+        aria-describedby={isInvalid && errorMessage ? `${inputId}-error` : successMessage ? `${inputId}-success` : undefined}
+        className={`inputClass ${isInvalid && errorMessage ? "error-border" : ""}`}
         onChange={onChange}
         style={style}
         {...rest}
       />
       {isInvalid && errorMessage && (
-        <span id={`input-error ${inputId}-error`} className={errorClass} role="alert">
+        <span id={` ${inputId}-error`} className="text-field__error m-t-10" role="alert">
           {errorMessage}
+        </span>
+      )}
+      {/* 성공시 css처리및 변수 설정 */}
+      {!isInvalid && successMessage && (
+        <span id={`${inputId}-success`} className="text-field__success m-t-10" role="alert">
+          {successMessage}
         </span>
       )}
     </div>

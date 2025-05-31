@@ -3,8 +3,9 @@ import axios from "axios";
 import { localStorageManager } from "taeo-utils";
 
 const { server, server_port } = envConst;
-const baseUrl = server + server_port + "/api/v1";
 
+const baseUrl = import.meta.env.MODE === "production" ? "/api/v1" : server + server_port + "/api/v1";
+//백엔드와 프로덕션환경에 대해 이야기 해보아야함
 const privateClient = axios.create({
   baseURL: baseUrl,
 });

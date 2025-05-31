@@ -138,6 +138,7 @@
 /* fs_16 btn__line btn_xl flex1  */
 /* css   */
 
+
 /*커스텀*/
 .form__find {
   padding: 20px;
@@ -202,6 +203,12 @@
   border-radius: 8px;
   font-size: 8px;
   background: transparent;
+
+  /* color: var(--text);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 16px !important; */
+
   color: #616161;
   border-radius: 8px;
   /* border: 1px solid var(--border); */
@@ -213,6 +220,7 @@
   background-color: var(--palette-white-30);
   color: var(--text);
 }
+
 .find_reset__button:hover {
   background-color: var(--palette-white-50);
 }
@@ -286,6 +294,7 @@
   letter-spacing: normal;
   padding: 5px;
 } */
+
 
 
 

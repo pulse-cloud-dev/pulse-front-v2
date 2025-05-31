@@ -1,16 +1,37 @@
 import { privateClient, publicClient } from "@/networks/client";
-
-import { SignInRequestDTO, SignInResponseDTO, UserDTO } from "@/contracts";
-
+import { SignInRequestDTO, JoinSocialRequestDTO, SignInResponseDTO, UserDTO, OauthResponseDTO, ResetPasswordrequestDTO, JoinSocialResponseDTO, SimplifiedUserlResponseDTO, SignUpRequestDTO } from "@/contracts";
+import { plainToClass } from "class-transformer";
 import axios from "axios";
+
 
 const userApiRouter = {
   login: "/members/login",
   logOut: "/logout",
   joinSocial: "/members/join/",
-  registerUser: "/members/join/",
-  oauth: (social: "NAVER" | "KAKAO") => `/members/find-id/${social}`,
+  registerUser: "/members/join",
+  findidbyoauth: (social: "NAVER" | "KAKAO") => `/members/find-id/${social}`,
+  getuserinfo: "/social/naver/join-info",
   resetpassword: "/members/reset-password",
+  nicknameCheck: "/members/duplicate",
+  emailCheck: "members/duplicate/email",
+};
+
+// oauthcode로 회원 데이터 얻어오기 회원가입용
+const getSocialUser = async (code: string): Promise<SimplifiedUserlResponseDTO> => {
+  try {
+    return await publicClient.get(userApiRouter.getuserinfo, { params: { code } }).then((response: any) =>
+      plainToClass(SimplifiedUserlResponseDTO, response.body, {
+        excludeExtraneousValues: true,
+      })
+    );
+  } catch (error: any) {
+    if (error.response) {
+      console.error("oauth failed:", error.response.data);
+    } else {
+      console.error("Network or other error:", error.message);
+    }
+    throw error.response;
+  }
 };
 
 // 로그인 요청
@@ -30,11 +51,18 @@ const loginUser = async ({ email, password }: SignInRequestDTO): Promise<SignInR
   }
 };
 
+//로그아웃
 const logOutUser = async (id: Id) => {
   return await privateClient.post(userApiRouter.logOut, { id });
 };
 
 //소셜 로그인 인증
+// const joinSocial = async (domain: JoinSocialRequestDTO): Promise<{ body: string; message: string }> => {
+//   try {
+//     const endPoint = userApiRouter.joinSocial + domain;
+//     return await publicClient.get(endPoint);
+//   } catch (error: any) {
+
 // const joinSocial = async (domain:string) : Promise<{ body: string }>=> {
 const joinSocial = async (domain: string): Promise<{ body: string; message: string }> => {
   try {
@@ -52,15 +80,13 @@ const joinSocial = async (domain: string): Promise<{ body: string; message: stri
     }
     throw error.response; // 에러를 다시 던져서 상위 컴포넌트에서 처리할 수 있게 함
   }
-}
+};
 
 // 회원가입 요청
-const registerUser = async (userData: { name: string; email: string; password: string }) => {
+const registerUser = async (userData: SignUpRequestDTO) => {
   try {
-    const response = await publicClient.post(userApiRouter.registerUser, userData);
-    return response.data;
-  }
-  catch (error: any){
+    return await publicClient.post(userApiRouter.registerUser, userData);
+  } catch (error: any) {
     // 에러 처리: 서버에서 응답 실패 시 예외 처리
     if (error.response) {
       // 서버에서 반환된 오류 처리
@@ -72,6 +98,7 @@ const registerUser = async (userData: { name: string; email: string; password: s
     throw error.response; // 에러를 다시 던져서 상위 컴포넌트에서 처리할 수 있게 함
   }
 };
+
 
 const getUser = async () : Promise<string> => {
   try {
@@ -90,6 +117,7 @@ const getUser = async () : Promise<string> => {
 //   return response.data;
 // };
 
+
 // 유저 정보 업데이트
 const updateUser = async (userData: Partial<UserDTO>): Promise<UserDTO> => {
   const response = await publicClient.put("/user", userData);
@@ -101,22 +129,35 @@ const deleteUser = async (): Promise<void> => {
   await publicClient.delete("/user");
 };
 
-//소셜 로그인(네이버)
-// const getUserByOauth = async (): Promise<OauthResponseDTO> => {
+
+//소셜 로그인(네이버) 아이디 비번 찾기용
+const getUserByOauth = async (): Promise<OauthResponseDTO> => {
+  try {
+    return await publicClient.get(userApiRouter.findidbyoauth("NAVER"));
+  } catch (error: any) {
+    // 에러 처리: 서버에서 응답 실패 시 예외 처리
+    if (error.response) {
+      // 서버에서 반환된 오류 처리
+      console.error("oauth failed:", error.response.data);
+    } else {
+      // 네트워크 오류 등 기타 오류 처리
+      console.error("Network or other error:", error.message);
+    }
+    throw error.response; // 에러를 다시 던져서 상위 컴포넌트에서 처리할 수 있게 함
+  }
+};
+
+
+//비밀번호 수정
+// const resetUserPassword = async ({ member_id, new_password }: ResetPasswordrequestDTO): Promise<any> => {
 //   try {
-//     return await publicClient.get(userApiRouter.oauth("NAVER"));
+//     const response = await publicClient.post(userApiRouter.resetpassword, { member_id, new_password });
+//     return response.data;
 //   } catch (error: any) {
 //     // 에러 처리: 서버에서 응답 실패 시 예외 처리
 //     if (error.response) {
 //       // 서버에서 반환된 오류 처리
-//       console.error("oauth failed:", error.response.data);
-//     } else {
-//       // 네트워크 오류 등 기타 오류 처리
-//       console.error("Network or other error:", error.message);
-//     }
-//     throw error.response; // 에러를 다시 던져서 상위 컴포넌트에서 처리할 수 있게 함
-//   }
-// };
+//       console.error("비밀번호 수정 failed:", error.response.data);
 
 // 네이버 로그인 URL 받아오기
 const getNaverLoginUrl = async (): Promise<string> => {
@@ -159,16 +200,51 @@ const resetUserPassword = async (userData: { email: string; password: string }) 
   }
 };
 
+
+//닉네임 확인
+const nicknameCheck = async (nickname: string): Promise<any> => {
+  try {
+    return await publicClient.get(`${userApiRouter.nicknameCheck}/${encodeURIComponent(nickname)}`);
+  } catch (error: any) {
+    if (error.response) {
+      // 서버에서 응답이 왔지만 오류 상태 코드
+      throw error.response.data;
+    } else {
+      // 네트워크 오류 또는 다른 문제(에러메세지 커스텀 Ex 괌리자문의)
+      throw new Error("네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+    }
+  }
+};
+
+// //이메일로 회원
+// const emailCheck = async (email: string): Promise<any> => {
+//   try {
+//     return await publicClient.post(`${userApiRouter.emailCheck}`);
+//   } catch (error: any) {
+//     if (error.response) {
+//       // 서버에서 응답이 왔지만 오류 상태 코드
+
+//       console.error("닉네임 중복 확인 실패:", error.response.data);
+//     } else {
+//       // 네트워크 오류 또는 다른 문제
+//       console.error("네트워크 또는 기타 오류:", error.message);
+//     }
+//     throw error.response.data; // 상위에서 try-catch 가능하게
+//   }
+// };
+
 export const userApis = {
   loginUser,
   logOutUser,
   joinSocial,
   registerUser,
-  getUser,
   updateUser,
   // getUserByOauth,
   deleteUser,
   resetUserPassword,
+  nicknameCheck,
+  getSocialUser,
+  // emailCheck,
   getNaverLoginUrl,
   getEmailByOauthCode
 };

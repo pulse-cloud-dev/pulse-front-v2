@@ -13,6 +13,7 @@ const SignInDynamicForm = ({ handleSubmit }: { handleSubmit: Void }) => {
           handleSubmit(formData);
         }
       }}
+      cancelTitle=""
       submitTitle="로그인"
       submitClass="auth__button"
       schema={{ email: 4, password: 5 }}
@@ -51,7 +52,7 @@ export const SignInView = (props: SignInViewProps) => {
           <div className="flex_r align_center">
             <span className="fs_14">
               아직 회원이 아니신가요?{" "}
-              <Linker href="/auth/signUp" className="color__primary-70 fw_700">
+              <Linker href="/auth/sign-up" className="color__primary-70 fw_700">
                 회원가입
               </Linker>
             </span>
