@@ -4,7 +4,6 @@ import { resetPasswordSchema, FormValues } from "../type/useRePasswordForm";
 import { userApis } from "@/networks/apis/user.api";
 import { usePageNavigation } from "@/shared/lib/hooks";
 
-const { goHome } = usePageNavigation();
 
 export const ResetAccountPasswordStep = ({ onNext, onMain }: { onNext?: () => void; onMain?: () => void }) => {
   const {
@@ -16,6 +15,7 @@ export const ResetAccountPasswordStep = ({ onNext, onMain }: { onNext?: () => vo
     mode: "onSubmit",
     resolver: zodResolver(resetPasswordSchema),
   });
+const { goHome } = usePageNavigation();
 
   const onSubmit = async (data: FormValues) => {
     const { email, password } = data;
