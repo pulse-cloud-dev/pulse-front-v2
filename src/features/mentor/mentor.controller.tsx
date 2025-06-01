@@ -3,7 +3,6 @@ import { useLocation } from "react-router-dom";
 import { Modal, useModal } from "@/shared/modules";
 import { FieldPopup, OnlineStatusPopup } from "@/shared/components";
 import { MentorView } from "./mentor.view";
-import { Alert, useAlert, AlertInterface } from "@/shared/modules";
 
 const useModals = () => {
   return {
@@ -25,29 +24,9 @@ const useModals = () => {
   };
 };
 
-
-
-
 export const MentorController = () => {
   const modals = useModals();
   const location = useLocation();
-
-  const { isOpen, alertProps, showAlert, hideAlert } = useAlert();
-
-  const handleDeleteClick = () => {
-    showAlert({
-      title: '삭제 확인',
-      body: '정말로 이 항목을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.',
-      cancelText: '취소',
-      confirmText: '삭제',
-      onCancel: () => {
-        console.log('삭제가 취소되었습니다.');
-      },
-      onConfirm: () => {
-        console.log('삭제가 완료되었습니다!');
-      }
-    });
-  };
 
   const props = {
     event: {
@@ -57,12 +36,5 @@ export const MentorController = () => {
     },
   };
 
-  // return <MentorView {...props} />;
-  
-  return (
-    <>
-    <button onClick={handleDeleteClick}>버튼</button>
-    {isOpen && <Alert {...alertProps} />}
-  </>
-  )  
+  return <MentorView {...props} />;
 };
