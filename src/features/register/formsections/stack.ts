@@ -250,7 +250,7 @@ export const createInitialEducationSchema = (): RegisterSchema => ({
 
 export const createInitialJobSchema = (): RegisterSchema => ({
   직업: {
-    label: "직업",
+    label: "직무.직업",
     type: "dropdown",
     value: "",
     status: "pending",
@@ -258,7 +258,7 @@ export const createInitialJobSchema = (): RegisterSchema => ({
     validate: (v: string) => v.trim().length > 0,
   },
   직무상세: {
-    label: "직무 상세",
+    label: "직무.직업 상세",
     type: "dropdown",
     value: "",
     status: "pending",
