@@ -25,7 +25,6 @@ export const RegisterView: React.FC<RegisterViewProps> = ({ job, career, educati
     e.preventDefault();
     onSubmit();
   };
-  console.log({ Job, Career, Education, Certificate, Introduction });
   return (
     <article className="sub-layout__content">
       <header>
