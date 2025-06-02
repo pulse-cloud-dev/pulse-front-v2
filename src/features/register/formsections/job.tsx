@@ -1,74 +1,45 @@
 import { UseStackReturn, RegisterSchema } from "./stack";
+import { Typography } from "@/shared/components";
 
-export const Job = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError }: UseStackReturn<RegisterSchema>) => {
+export const Job = ({ stacks, updateStackField, resetStatus, checkError }: UseStackReturn<RegisterSchema>) => {
   return (
-    <>
-      <section>
-        <h3 style={{ fontSize: "1.25rem", fontWeight: "bold", marginBottom: "10px" }}>직업</h3>
-        {stacks.map((stack, i) => (
-          <div
-            key={i}
-            style={{
-              border: "1px solid #ccc",
-              margin: "10px 0",
-              padding: "10px",
-              borderRadius: "8px",
-            }}
-          >
-            {Object.entries(stack).map(([key, field]) => {
-              const isError = field.status === "fail";
+    <section>
+      <Typography weight="semi-bold">직업</Typography>
+      {stacks.map((stack, i) => (
+        <div key={i} className="register-fieldset" style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "flex-start", gap: "8px" }}>
+          {Object.entries(stack).map(([key, field]) => {
+            const isError = field.status === "fail";
 
-              return (
-                <div key={key} style={{ marginBottom: "12px" }}>
-                  <label
-                    style={{
-                      display: "block",
-                      marginBottom: "4px",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {field.label}
-                  </label>
-
-                  {field.type === "dropdown" && "list" in field && (
-                    <>
-                      <select
-                        value={field.value}
-                        onChange={(e) => updateStackField(i, key as keyof RegisterSchema, e.target.value)}
-                        onBlur={() => checkError(i, key as keyof RegisterSchema)}
-                        onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
-                        style={{
-                          width: "100%",
-                          padding: "8px",
-                          borderRadius: "4px",
-                          border: isError ? "1px solid red" : "1px solid #ccc",
-                        }}
-                      >
-                        <option value="">선택하세요</option>
-                        {field.list.map((option) => (
-                          <option key={option} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </select>
-                      {isError && <div style={{ color: "red", marginTop: "4px" }}>입력값을 확인해주세요.</div>}
-                    </>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        ))}
-      </section>
-
-      <div style={{ marginTop: "16px" }}>
-        <button onClick={pushStack} style={{ marginRight: "10px" }}>
-          직업 추가
-        </button>
-        <button onClick={popStack} disabled={stacks.length <= 1}>
-          마지막 직업 삭제
-        </button>
-      </div>
-    </>
+            return (
+              <div key={key} style={{ flex: 1 }}>
+                <label style={{ display: "block" }}>{field.label}</label>
+                <select
+                  value={field.value as string}
+                  onChange={(e) => updateStackField(i, key as keyof RegisterSchema, e.target.value)}
+                  onBlur={() => checkError(i, key as keyof RegisterSchema)}
+                  onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
+                  style={{
+                    width: "100%",
+                    padding: "8px",
+                    borderRadius: "10px",
+                    height: "48px",
+                    border: isError ? "1px solid red" : "1px solid #ccc",
+                  }}
+                >
+                  <option value="">직무 . 직업 선택</option>
+                  {field.type === "dropdown" &&
+                    field.list.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                </select>
+                {isError && <div style={{ color: "red", marginTop: "4px" }}>입력값을 확인해주세요.</div>}
+              </div>
+            );
+          })}
+        </div>
+      ))}
+    </section>
   );
 };
