@@ -2,37 +2,13 @@ interface IntroductionProps {
   introduction: string;
   setIntroduction: (value: string) => void;
 }
-
+import { Typography } from "@/shared/components";
 export const Introduction: React.FC<IntroductionProps> = ({ introduction, setIntroduction }) => {
   return (
-    <section style={{ width: "100%", margin: "20px auto", padding: "10px" }}>
-      <h3
-        style={{
-          fontSize: "1.5rem",
-          fontWeight: "bold",
-          marginBottom: "12px",
-          color: "#333",
-        }}
-      >
-        멘토 소개
-      </h3>
-      <textarea
-        placeholder="멘토 소개글을 작성하세요"
-        value={introduction}
-        onChange={(e) => setIntroduction(e.target.value)}
-        style={{
-          width: "100%",
-          minHeight: "120px",
-          padding: "12px",
-          fontSize: "1rem",
-          borderRadius: "8px",
-          border: "1px solid #ccc",
-          resize: "vertical",
-          boxSizing: "border-box",
-          fontFamily: "inherit",
-          color: "#333",
-        }}
-      />
+    //border top border bottom색 다르게 주기
+    <section style={{ width: "100%", margin: "24px auto" }}>
+      <Typography> 멘토 소개</Typography>
+      <textarea className="textarea-introduction" placeholder="멘티가 멘토님을 더 잘 이해할 수 있도록, 경험과 전문 분야를 소개해 주세요." value={introduction} onChange={(e) => setIntroduction(e.target.value)} />
     </section>
   );
 };

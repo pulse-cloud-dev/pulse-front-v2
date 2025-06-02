@@ -1,0 +1,21 @@
+/* 
+========================================================
+   
+                 Textarea Style Guide
+                 -Textarea Style for mentor-register
+
+========================================================
+ */
+
+.textarea-introduction {
+  width: 100%;
+  height: 360px;
+  padding: 12px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  border: 1px solid var(--palette-grey-05);
+}
+
+::placeholder {
+  color: darkgrey;
+}

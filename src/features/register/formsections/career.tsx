@@ -1,10 +1,10 @@
 import { RegisterSchema, UseStackReturn } from "./stack";
-
+import { Typography } from "@/shared/components";
 export const Career = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError }: UseStackReturn<RegisterSchema>) => {
   return (
     <>
       <section>
-        <h3>경력</h3>
+        <Typography>경력</Typography>
         {stacks.map((stack, i) => {
           const isWorking = stack.isWorking.value;
 

@@ -301,15 +301,15 @@
 
   /* Gray */
   --palette-gray-05: #fafafa;
-  --palette-gray-10: #f0f0f0;
-  --palette-gray-20: #d9d9d9;
-  --palette-gray-30: #bfbfbf;
-  --palette-gray-40: #a6a6a6;
-  --palette-gray-50: #808080;
-  --palette-gray-60: #595959;
-  --palette-gray-70: #404040;
-  --palette-gray-80: #262626;
-  --palette-gray-90: #0d0d0d;
+  --palette-gray-10: #f4f4f4;
+  --palette-gray-20: #eeeeee;
+  --palette-gray-30: #e0e0e0;
+  --palette-gray-40: #cecece;
+  --palette-gray-50: #9e9e9e;
+  --palette-gray-60: #757575;
+  --palette-gray-70: #616161;
+  --palette-gray-80: #424242;
+  --palette-gray-90: #212121;
   --palette-gray-100: #f4f4f4;
   /* White */
   --palette-white-05: #ffffff;
