@@ -1,19 +1,60 @@
 import { UseStackReturn, RegisterSchema } from "./stack";
 import { Typography } from "@/shared/components";
 
+const getFlexRatio = (key: string) => {
+  switch (key) {
+    case "대학구분":
+      return "0 0 12.9%";
+    case "학교명":
+      return "0 0 23%";
+    case "전공":
+      return "0 0 23%";
+    case "졸업여부":
+      return "0 0 12%";
+    case "입학년월":
+      return "0 0 10%";
+    case "졸업년월":
+      return "0 0 10%";
+    default:
+      return "1 1 100%";
+  }
+};
+
 export const Education = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError }: UseStackReturn<RegisterSchema>) => {
   return (
     <>
       <section className="m-t-24">
         <Typography weight="semi-bold">학력</Typography>
         {stacks.map((stack, i) => (
-          <div key={i} className="register-fieldset">
+          <div
+            key={i}
+            className="register-fieldset"
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "12px",
+              marginBottom: "24px",
+              paddingTop: "24px",
+              paddingBottom: "28px",
+              borderBottom: "1px solid var(--palette-gray-30)",
+              width: "100%",
+              marginTop: "16px",
+              borderTop: i === 0 ? "1px solid #000" : undefined,
+            }}
+          >
             {Object.entries(stack).map(([key, field]) => {
               const isError = field.status === "fail";
 
               return (
-                <div key={key} style={{ marginBottom: "12px" }}>
+                <div
+                  key={key}
+                  style={{
+                    flex: getFlexRatio(key),
+                    marginBottom: "12px",
+                  }}
+                >
                   <label
+                    className="fs_14_medium"
                     style={{
                       display: "block",
                       marginBottom: "4px",
@@ -26,7 +67,7 @@ export const Education = ({ stacks, pushStack, popStack, updateStackField, reset
                   {field.type === "input" && (
                     <>
                       <input
-                        type={key === "입학년월" || key === "졸업년월" ? "month" : "text"}
+                        type={["입학년월", "졸업년월"].includes(key) ? "month" : "text"}
                         value={field.value}
                         onChange={(e) => updateStackField(i, key as keyof RegisterSchema, e.target.value)}
                         onBlur={() => checkError(i, key as keyof RegisterSchema)}
@@ -34,7 +75,8 @@ export const Education = ({ stacks, pushStack, popStack, updateStackField, reset
                         style={{
                           width: "100%",
                           padding: "8px",
-                          borderRadius: "4px",
+                          borderRadius: "10px",
+                          height: "48px",
                           border: isError ? "1px solid red" : "1px solid #ccc",
                         }}
                       />
@@ -51,7 +93,8 @@ export const Education = ({ stacks, pushStack, popStack, updateStackField, reset
                       style={{
                         width: "100%",
                         padding: "8px",
-                        borderRadius: "4px",
+                        borderRadius: "10px",
+                        height: "48px",
                         border: isError ? "1px solid red" : "1px solid #ccc",
                       }}
                     >
