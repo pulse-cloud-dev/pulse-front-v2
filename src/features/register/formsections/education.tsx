@@ -12,9 +12,9 @@ const getFlexRatio = (key: string) => {
     case "졸업여부":
       return "0 0 12%";
     case "입학년월":
-      return "0 0 10%";
+      return "0 0 8%";
     case "졸업년월":
-      return "0 0 10%";
+      return "0 0 8%";
     default:
       return "1 1 100%";
   }
