@@ -8,7 +8,9 @@ export const Introduction: React.FC<IntroductionProps> = ({ introduction, setInt
     //border top border bottom색 다르게 주기
     <section style={{ width: "100%", margin: "24px auto" }}>
       <Typography> 멘토 소개</Typography>
-      <textarea className="textarea-introduction" placeholder="멘티가 멘토님을 더 잘 이해할 수 있도록, 경험과 전문 분야를 소개해 주세요." value={introduction} onChange={(e) => setIntroduction(e.target.value)} />
+      <div className="textarea-introduction-wrapper">
+        <textarea className="textarea-introduction" placeholder="멘티가 멘토님을 더 잘 이해할 수 있도록, 경험과 전문 분야를 소개해 주세요." value={introduction} onChange={(e) => setIntroduction(e.target.value)} />
+      </div>
     </section>
   );
 };
