@@ -3,21 +3,13 @@ import { Typography } from "@/shared/components";
 export const Career = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError }: UseStackReturn<RegisterSchema>) => {
   return (
     <>
-      <section>
-        <Typography>경력</Typography>
+      <section className="m-t-24 ">
+        <Typography weight="semi-bold">경력</Typography>
         {stacks.map((stack, i) => {
           const isWorking = stack.isWorking.value;
 
           return (
-            <div
-              key={i}
-              style={{
-                border: "1px solid #ccc",
-                margin: "10px 0",
-                padding: "10px",
-                borderRadius: "8px",
-              }}
-            >
+            <div key={i} className="register-fieldset">
               {Object.entries(stack).map(([key, field]) => {
                 const shouldShow = key !== "endDate" || (key === "endDate" && isWorking === false);
 

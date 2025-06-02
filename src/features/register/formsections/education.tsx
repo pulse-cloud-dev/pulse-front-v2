@@ -1,21 +1,13 @@
 import { UseStackReturn, RegisterSchema } from "./stack";
+import { Typography } from "@/shared/components";
 
 export const Education = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError }: UseStackReturn<RegisterSchema>) => {
   return (
     <>
-      <section>
-        <h3>학력</h3>
-
+      <section className="m-t-24">
+        <Typography weight="semi-bold">학력</Typography>
         {stacks.map((stack, i) => (
-          <div
-            key={i}
-            style={{
-              border: "1px solid #ccc",
-              margin: "10px 0",
-              padding: "10px",
-              borderRadius: "8px",
-            }}
-          >
+          <div key={i} className="register-fieldset">
             {Object.entries(stack).map(([key, field]) => {
               const isError = field.status === "fail";
 

@@ -6,15 +6,19 @@
 
 ========================================================
  */
-.textarea-introduction-wrapper {
+
+.register-fieldset {
   padding-top: 24px;
   padding-bottom: 28px;
   box-sizing: border-box;
-  border-top: 1px solid var(--palette-gray-50);
   border-bottom: 1px solid var(--palette-gray-30);
   width: 100%;
   margin-top: 16px;
 }
+.register-fieldset:not(:first-child) {
+  border-top: 1px solid #000;
+}
+
 .textarea-introduction {
   width: 100%;
   height: 360px;
