@@ -1,18 +1,30 @@
 import { RegisterSchema, UseStackReturn } from "./stack";
 import { Typography } from "@/shared/components";
+
 export const Certificate = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError }: UseStackReturn<RegisterSchema>) => {
   return (
     <>
       <section className="m-t-24">
         <Typography weight="semi-bold">자격증</Typography>
+
         {stacks.map((stack, i) => (
-          <div key={i} className="register-fieldset">
+          <div
+            key={i}
+            className="register-fieldset"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "460px 460px 160px 160px",
+              gap: "8px",
+              marginBottom: "24px",
+            }}
+          >
             {Object.entries(stack).map(([key, field]) => {
               const isError = field.status === "fail";
 
               return (
-                <div key={key} style={{ marginBottom: "12px" }}>
+                <div key={key}>
                   <label
+                    className="fs_14_medium"
                     style={{
                       display: "block",
                       marginBottom: "4px",
@@ -25,7 +37,7 @@ export const Certificate = ({ stacks, pushStack, popStack, updateStackField, res
                   {field.type === "input" && (
                     <>
                       <input
-                        type="text"
+                        type={key === "합격년월" ? "month" : "text"}
                         value={field.value}
                         onChange={(e) => updateStackField(i, key as keyof RegisterSchema, e.target.value)}
                         onBlur={() => checkError(i, key as keyof RegisterSchema)}
@@ -33,7 +45,8 @@ export const Certificate = ({ stacks, pushStack, popStack, updateStackField, res
                         style={{
                           width: "100%",
                           padding: "8px",
-                          borderRadius: "4px",
+                          borderRadius: "10px",
+                          height: "48px",
                           border: isError ? "1px solid red" : "1px solid #ccc",
                         }}
                       />
@@ -50,7 +63,8 @@ export const Certificate = ({ stacks, pushStack, popStack, updateStackField, res
                       style={{
                         width: "100%",
                         padding: "8px",
-                        borderRadius: "4px",
+                        borderRadius: "10px",
+                        height: "48px",
                         border: isError ? "1px solid red" : "1px solid #ccc",
                       }}
                     >
