@@ -5,7 +5,6 @@ interface IntroductionProps {
 import { Typography } from "@/shared/components";
 export const Introduction: React.FC<IntroductionProps> = ({ introduction, setIntroduction }) => {
   return (
-    //border top border bottom색 다르게 주기
     <section style={{ width: "100%", margin: "24px auto" }}>
       <Typography weight="semi-bold"> 멘토 소개</Typography>
       <div className="textarea-introduction-wrapper">
