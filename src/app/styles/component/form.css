@@ -10,19 +10,23 @@
 
 /* ================== log-in form style =====================  */
 
-.form__auth {
-  padding: 20px;
+.form-auth {
+  /* padding: 20px; */
   border-radius: 8px;
-  margin: auto;
+  margin: 50px auto;
+  display: flex;
+  flex-direction: column;
+  /* gap: 12px; 입력창 간격 */
 }
-.form__auth > div {
+
+.form-auth > div {
   display: flex;
   flex-direction: column;
   height: auto;
-  margin: 15px 0px;
+  margin: 7px 0px;
 }
 
-.form__auth > label {
+.form-auth > label {
   display: flex;
   gap: 4px;
   padding: 4px;
@@ -31,7 +35,7 @@
   color: var(--text);
 }
 
-.form__auth input {
+.form-auth input {
   width: 400px;
   height: 48px;
   padding: 10px 12px;
@@ -45,9 +49,18 @@
   transition: border-color 0.3s ease;
 }
 
-.form__auth input:focus {
+.form-auth input:focus {
   border-color: var(--primary-70);
   box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+}
+
+.form-auth input[type="email"]::placeholder,
+.form-auth input[type="password"]::placeholder {
+  font-size: 14px; 
+  color: #b0b0b0;
+  letter-spacing: normal;
+  padding: 5px;
+  opacity: 1;
 }
 
 .auth__button {
@@ -94,6 +107,18 @@
   font-weight: normal; /* 원하는 두께 */
 }
 
+/* 유효성 검사 */
+.form-auth__border {
+  border: 1.3px solid #ff6969 !important;
+}
+
+.form-auth__error-message {
+  color: #ff8383 !important;
+  font-size: 13px;
+  margin: 5px 3px;
+  font-weight: 550;
+}
+
 /* ================== sign-up form style =====================  */
 
 .form__signUp {
@@ -138,21 +163,28 @@
 /* fs_16 btn__line btn_xl flex1  */
 /* css   */
 
-
-/*커스텀*/
-.form__find {
-  padding: 20px;
+.form-find {
+  /* padding: 20px; */
   border-radius: 8px;
   margin: auto;
+  
 }
-.form__find > div {
+.form-find > div {
   display: flex;
   flex-direction: column;
   height: auto;
   margin: 15px 0px;
 }
 
-.form__find label {
+.form-find img {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  right: 3%;
+  top: 25%;
+}
+
+.form-find label {
   display: flex;
   gap: 4px;
   padding: 4px;
@@ -161,10 +193,10 @@
   color: #515151;
 }
 
-.form__find input {
+.form-find input {
   width: 400px;
   height: 48px;
-  padding: 10px 12px;
+  padding: 10px 40px 10px 12px;
 
   font-size: 14px;
   background: #fff;
@@ -175,22 +207,22 @@
   transition: border-color 0.3s ease;
 }
 
-.form__find input[type="password"] {
-  font-size: 20px; 
+.form-find input[type="password"] {
+  font-size: 14px; 
   letter-spacing: 1px;
 }
 
-.form__find input:focus {
+.form-find input:focus {
   border-color: var(--primary-70);
   box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
 }
 
-.form__find label:last-of-type {
+.form-find label:last-of-type {
   margin-bottom: 7px; /* 비밀번호 필드 아래 마진 추가 */
 }
 
 
-.find_reset__button {
+.form-find__reset-button {
   height: 40px;
   font-weight: 600;
   letter-spacing: 0.0316px;
@@ -216,12 +248,12 @@
   background-color: var(--palette-white-30);
 }
 
-.find_reset__button.cancel {
+.form-find__reset-button.cancel {
   background-color: var(--palette-white-30);
   color: var(--text);
 }
 
-.find_reset__button:hover {
+.form-find__reset-button:hover {
   background-color: var(--palette-white-50);
 }
 
@@ -238,6 +270,7 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+
 .find__auth__button.cancel {
   background-color: var(--palette-white-30);
   color: var(--text);
@@ -249,8 +282,9 @@
   background-color: var(--primary-70);
 }
 
+
 /* 비밀번호 재설정 버튼 */
-.find_submit_button {
+.form-find__submit-button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -262,12 +296,12 @@
   color: var(--text-wh);
 }
 
-.find_submit_button:hover {
+.form-find__submit-button:hover {
   background-color: #00B8A8;
 }
 
-.form__find input[type="email"]::placeholder,
-.form__find input[type="password"]::placeholder {
+.form-find input[type="email"]::placeholder,
+.form-find input[type="password"]::placeholder {
   font-size: 14px; 
   color: #b0b0b0;
   letter-spacing: normal;
@@ -275,29 +309,17 @@
   opacity: 1;
 }
 
-/* 비밀번호 불일치 ux*/
-.form_find_border-red-500 {
+/* 유효성 검사 */
+.form-find__border {
   border: 1.3px solid #ff6969 !important;
 }
 
-.form_find_text-red-500 {
+.form-find__error-message {
   color: #ff8383 !important;
   font-size: 13px;
   margin: 5px 3px;
   font-weight: 550;
 }
-
-
-/* .find_custom__placeholder::placeholder {
-  color: #b0b0b0;
-  opacity: 1;
-  letter-spacing: normal;
-  padding: 5px;
-} */
-
-
-
-
 
 /*
 =======================================
@@ -315,15 +337,22 @@
 
 /* 휴대폰: 480px ~ 767px */
 @media (min-width: 480px) and (max-width: 767px) {
-  .form__auth input,
+  .form-auth input,
+  .form-find input,
   .auth__button {
     width: 350px;
   }
-}
+
+  .form-find input[type="email"]::placeholder,
+  .form-find input[type="password"]::placeholder {
+    letter-spacing : -1px;
+  }
+  }
 
 /* 소형 휴대폰: 479px 이하 */
 @media (max-width: 479px) {
-  .form__auth input,
+  .form-auth input,
+  .form-find input,
   .auth__button {
     width: 250px;
   }
