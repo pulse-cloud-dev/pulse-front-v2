@@ -17,7 +17,7 @@ const Body = (props: BodyProps) => {
   const { className, children, ...restProps } = props;
   const { checkedItems, toggle } = useCheckFieldGroup({
     initialValues: {
-      option1: true,
+      option1: false,
       option2: false,
     },
   });
@@ -26,25 +26,27 @@ const Body = (props: BodyProps) => {
     <div className={`popup--online__body ${className}`} {...restProps}>
       <CheckField className="check-field-module" variant="circle">
         <CheckField.Input checkId="option1" name="option1" isChecked={checkedItems.option1} onChange={() => toggle("option1")} />
-        <CheckField.Label checkId="option1">분야 텍스트</CheckField.Label>
+        <CheckField.Label checkId="option1">온라인</CheckField.Label>
       </CheckField>
       <CheckField className="check-field-module" variant="circle">
-        <CheckField.Input checkId="option2" name="option2" isChecked={checkedItems.option1} onChange={() => toggle("option1")} />
-        <CheckField.Label checkId="option2">분야 텍스트</CheckField.Label>
+        <CheckField.Input checkId="option2" name="option2" isChecked={checkedItems.option2} onChange={() => toggle("option2")} />
+        <CheckField.Label checkId="option2">오프라인</CheckField.Label>
       </CheckField>{" "}
     </div>
   );
 };
 
+import { ResetSelection } from "../../atoms/reset/resetSelection";
+
 interface FooterProps extends HTMLAttributes<HTMLElement>, PropsWithChildren {}
 const Footer = (props: FooterProps) => {
-  const { className, children, ...restProps } = props;
+  const { className = "online", children, ...restProps } = props;
   return (
     <footer className={`popup--online__footer ${className}`} {...restProps}>
-      <div className="popup--online__footer--left">선택 초기화</div>
+      <ResetSelection className={className}/>
       <div className="popup--online__footer--right">
         <BaseButton color="reverse">닫기</BaseButton>
-        <BaseButton color="primary">신청</BaseButton>
+        <BaseButton color="teal">적용</BaseButton>
       </div>
     </footer>
   );

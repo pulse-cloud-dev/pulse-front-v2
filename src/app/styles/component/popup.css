@@ -9,12 +9,27 @@
   padding: 1rem;
   box-sizing: border-box;
 }
+
+.popup--field__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.popup--field__subtitle {
+  font-size: 13px;
+  font-weight: 530;
+  color: #9E9E9E;
+  margin: 5px;
+  align-items: center;
+  text-align: left;
+}
+
 .popup--field__header {
   background-color: red;
 }
 .popup--field__body {
   border-bottom: 1px solid var(--border);
-
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -26,7 +41,7 @@
   flex-wrap: wrap;
   gap: 10px;
   overflow-y: auto;
-  height: 60%;
+  height: 100%;
   padding: 10px;
 }
 .popup--field__body > .popup--field__body--top > .check-field-module {
@@ -38,7 +53,44 @@
 .popup--field__body--bottom {
   border-top: 1px solid var(--border);
   height: 40%;
+  
 }
+
+.popup--field__body--bottom .data{
+  /* border-top: 1px solid var(--border); */
+  height: 40%;
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  text-align: left;
+  padding: 8px;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.popup--field__body--bottom .data span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  border-radius: 999px;
+  color: #009e91;
+  font-size: 14px;
+  font-weight: 500;
+  max-width: fit-content;
+}
+
+.popup--field__body--bottom .data span button {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  line-height: 1;
+  color: #9e9e9e;
+  cursor: pointer;
+}
+
+
+
 .popup--field__body--bottom .no-data {
   justify-content: center;
   align-items: center;
@@ -48,15 +100,29 @@
 .popup--field__footer {
   margin-top: 1rem;
   height: calc(10% - 1rem);
+  font-size: 13px;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
+/* 선택 초기화 */
 .popup--field__footer > .popup--field__footer--left {
   display: flex;
   gap: 8px;
+  cursor: pointer;
 }
+
+
+/* .popup--field__footer > .popup--field__footer--left p{
+  display: flex;
+  gap: 8px;
+  color: #9e9e9e;
+  font-size: 14px;
+  text-align: center;
+} */
+
 .popup--field__footer > .popup--field__footer--right {
   display: flex;
   gap: 8px;
@@ -68,7 +134,7 @@
  */
 .popup--online {
   width: 480px;
-  height: 300px;
+  height: 250px;
   padding: 1rem;
   box-sizing: border-box;
 }
@@ -93,12 +159,121 @@
 }
 .popup--online__footer > .popup--online__footer--left {
   display: flex;
-  gap: 6px;
+  gap: 5px;
+  cursor: pointer;
+
 }
 .popup--online__footer > .popup--online__footer--right {
   display: flex;
   gap: 6px;
 }
+
+
+/* 
+========================================================
+                          지역
+========================================================
+ */
+ .popup--local {
+  width: 632px;
+  height: 665px;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+ .popup--local__header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 3px 8px 20px 8px;
+}
+
+/* .popup--local__title {
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  gap: 8px;
+} */
+
+/* .popup--local__limit {
+  font-size: 14px;
+  color: #9e9e9e;
+} */
+
+.popup--local__search {
+  position: relative;
+  width: 100%;
+  max-width: 584px;
+}
+
+.popup--local__search input {
+  width: 100%;
+  height: 48px;
+  padding: 0 48px 0 16px;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  background-color: #fff;
+  font-size: 15px;
+  color: #333;
+}
+
+.popup--local__search input::placeholder {
+  color: #e0e0e0;
+}
+
+.popup--local__search-icon {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+}
+
+.popup--local__body {
+  display: flex;
+  width: 100%;
+  height: 356px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  overflow: hidden;
+}
+
+.popup--local__column {
+  flex: 1;
+  padding: 16px 0;
+  overflow-y: auto;
+}
+
+.popup--local__column--left {
+  border-right: 1px solid #e0e0e0;
+  max-width: 50%;
+}
+
+.popup--local__column--right {
+  padding-left: 24px;
+}
+
+.popup--local__item {
+  padding: 12px 24px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #333;
+  transition: background-color 0.2s ease;
+}
+
+.popup--local__item:hover {
+  background-color: #f9f9f9;
+}
+
+.popup--local__item.active {
+  background-color: #e6f7f6;
+  font-weight: 600;
+  color: #009e91;
+}
+
+
 
 /* 
 ========================================================

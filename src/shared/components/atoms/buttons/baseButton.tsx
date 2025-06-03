@@ -3,7 +3,7 @@ import { forwardRef } from "react";
 
 interface BaseButtonProps extends PropsWithChildren, HTMLAttributes<HTMLButtonElement> {
   size?: "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
-  color?: "bk" | "wh" | "default" | "primary" | "reverse";
+  color?: "bk" | "wh" | "default" | "primary" | "reverse" | "teal" ;
 }
 
 export const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>((props, forwardedRef) => {
