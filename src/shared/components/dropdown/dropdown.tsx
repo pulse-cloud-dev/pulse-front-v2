@@ -114,14 +114,16 @@ export const Dropdown = ({ id, label, value, onChange, onBlur, onFocus, errorMes
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-activedescendant={focusedIndex >= 0 ? `${id}-option-${focusedIndex}` : ""}
+        aria-describedby={hasError && errorMessage ? `${id}-error` : undefined}
         className={`dropdown-trigger relative ${hasError ? "dropdown-error" : ""}`}
+        aria-invalid={hasError}
       >
         {value || "선택하세요"}
         <Icon className={`icon__arrow img_to_bk80 absolute ${open ? "" : "on"}`} src="chevron_down_bk_16" alt="화살표" style={{ right: "10px" }} />
       </button>
 
       {open && (
-        <ul role="listbox" className="dropdown-list">
+        <ul role="listbox" className="dropdown-list" style={{ marginBottom: "4px'" }}>
           <DropdownContext.Provider
             value={{
               onSelect: handleSelect,

@@ -340,4 +340,17 @@
 .form-field__label {
   font-size: 14px;
   font-weight: 500;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.certificate-form {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+  grid-template-columns: 2.875fr 2.875fr 1fr 1fr;
+}
+.certificate-footer {
+  grid-column: 4 / 5;
+  justify-self: end;
 }

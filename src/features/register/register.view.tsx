@@ -41,7 +41,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({ job, career, educati
         <Introduction {...introduction} />
 
         <div className="form-actions">
-          <button type="button" onClick={onCancel}>
+          <button type="button" className="btn_secondary btn_l w160" onClick={onCancel}>
             취소
           </button>
           <button type="submit">등록</button>
