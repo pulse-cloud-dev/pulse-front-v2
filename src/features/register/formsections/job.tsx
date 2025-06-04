@@ -1,7 +1,6 @@
 import { UseStackReturn, RegisterSchema } from "./stack";
 import { Typography } from "@/shared/components";
-import { FormField } from "@/shared/components";
-import { Dropdown, DropdownItem } from "@/shared/components/dropdown/dropdown";
+import { Dropdown, DropdownItem } from "@/shared/components/blocks/dropdown/dropdown";
 
 export const Job = ({ stacks, updateStackField, resetStatus, checkError }: UseStackReturn<RegisterSchema>) => {
   return (
