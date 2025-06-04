@@ -1,5 +1,5 @@
 import { useState, useRef, createContext, ReactElement, useContext, ReactNode, useEffect, Children, isValidElement, useMemo } from "react";
-import { Icon } from "../atoms";
+import { Icon } from "../../atoms";
 
 import React from "react";
 interface DropdownContextProps {
@@ -9,7 +9,6 @@ interface DropdownContextProps {
   itemsRef: React.MutableRefObject<(HTMLLIElement | null)[]>;
   id: string;
 }
-
 const DropdownContext = createContext<DropdownContextProps | null>(null);
 
 interface DropdownProps {
