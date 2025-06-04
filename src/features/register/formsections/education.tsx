@@ -1,7 +1,7 @@
 import { UseStackReturn, RegisterSchema } from "./stack";
 import { Typography } from "@/shared/components";
 import { FormField } from "@/shared/components";
-import { Dropdown, DropdownItem } from "@/shared/components/dropdown/dropdown";
+import { Dropdown, DropdownItem } from "@/shared/components/blocks/dropdown/dropdown";
 
 // 항목마다 span 비율 정의 (12-column grid 기준)
 const getGridColumnSpan = (key: string): number => {

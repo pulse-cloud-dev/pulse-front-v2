@@ -1,7 +1,7 @@
 import { RegisterSchema, UseStackReturn } from "./stack";
 import { Typography } from "@/shared/components";
 import { FormField } from "@/shared/components";
-import { Dropdown, DropdownItem } from "@/shared/components/dropdown/dropdown";
+import { Dropdown, DropdownItem } from "@/shared/components/blocks/dropdown/dropdown";
 // import { Toggle } from "@/shared/components/toggle/toggle";
 
 // 12-column 기준 span 설정
@@ -115,15 +115,6 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
           );
         })}
       </section>
-
-      <div style={{ marginTop: "16px" }}>
-        <button onClick={pushStack} style={{ marginRight: "10px" }}>
-          경력 추가
-        </button>
-        <button onClick={popStack} disabled={stacks.length <= 1}>
-          마지막 경력 삭제
-        </button>
-      </div>
     </>
   );
 };

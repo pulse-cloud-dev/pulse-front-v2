@@ -1,8 +1,7 @@
 import { RegisterSchema, UseStackReturn } from "./stack";
 import { Typography } from "@/shared/components";
 import { FormField } from "@/shared/components";
-import { Dropdown, DropdownItem } from "@/shared/components/dropdown/dropdown";
-
+import { Dropdown, DropdownItem } from "@/shared/components/blocks/dropdown/dropdown";
 export const Certificate = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError }: UseStackReturn<RegisterSchema>) => {
   return (
     <>
