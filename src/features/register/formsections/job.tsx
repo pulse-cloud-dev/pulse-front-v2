@@ -1,5 +1,7 @@
 import { UseStackReturn, RegisterSchema } from "./stack";
 import { Typography } from "@/shared/components";
+import { FormField } from "@/shared/components";
+import { Dropdown, DropdownItem } from "@/shared/components/dropdown/dropdown";
 
 export const Job = ({ stacks, updateStackField, resetStatus, checkError }: UseStackReturn<RegisterSchema>) => {
   return (
@@ -15,48 +17,32 @@ export const Job = ({ stacks, updateStackField, resetStatus, checkError }: UseSt
             justifyContent: "center",
             alignItems: "flex-start",
             gap: "8px",
+            marginTop: "10px",
           }}
         >
           {Object.entries(stack).map(([key, field]) => {
             const isError = field.status === "fail";
-            const isPlaceholder = field.value === "";
 
             return (
               <div key={key} style={{ flex: 1 }}>
-                <label
-                  className="fs_14_medium "
-                  style={{
-                    display: "block",
-                    marginBottom: "10px",
-                  }}
-                >
-                  {field.label}
-                </label>
-                <select
-                  value={field.value as string}
-                  onChange={(e) => updateStackField(i, key as keyof RegisterSchema, e.target.value)}
-                  onBlur={() => checkError(i, key as keyof RegisterSchema)}
-                  onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
-                  style={{
-                    color: isPlaceholder ? "gray" : "black",
-                    width: "100%",
-                    padding: "8px",
-                    borderRadius: "10px",
-                    height: "48px",
-                    border: isError ? "1px solid red" : "1px solid #ccc",
-                  }}
-                >
-                  <option value="" disabled hidden>
-                    직무 · 직업 선택
-                  </option>
-                  {field.type === "dropdown" &&
-                    field.list.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
+                {field.type === "dropdown" && "list" in field && (
+                  <Dropdown
+                    id={`${key}-${i}`}
+                    label={field.label}
+                    value={field.value}
+                    onChange={(val) => updateStackField(i, key as keyof RegisterSchema, val)}
+                    onBlur={() => checkError(i, key as keyof RegisterSchema)}
+                    onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
+                    hasError={isError}
+                    errorMessage="입력값을 확인해주세요."
+                  >
+                    {field.list.map((item) => (
+                      <DropdownItem key={item} value={item}>
+                        {item}
+                      </DropdownItem>
                     ))}
-                </select>
-                {isError && <div style={{ color: "red", marginTop: "4px" }}>입력값을 확인해주세요.</div>}
+                  </Dropdown>
+                )}
               </div>
             );
           })}

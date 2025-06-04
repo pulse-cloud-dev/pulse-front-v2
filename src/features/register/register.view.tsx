@@ -3,6 +3,7 @@ import React from "react";
 import { Typography } from "@/shared/components";
 import { Job, Career, Education, Certificate, Introduction } from "./formsections";
 import { RegisterSchema, UseStackReturn } from "./formsections/stack";
+import { BaseButton } from "@/shared/components";
 
 interface IntroductionState {
   introduction: string;
@@ -40,11 +41,9 @@ export const RegisterView: React.FC<RegisterViewProps> = ({ job, career, educati
         <Certificate {...certificate} />
         <Introduction {...introduction} />
 
-        <div className="form-actions">
-          <button type="button" className="btn_secondary btn_l w160" onClick={onCancel}>
-            취소
-          </button>
-          <button type="submit">등록</button>
+        <div className="m-t-30 flex_r flex_jend gap_4">
+          <BaseButton color="reverse">취소</BaseButton>
+          <BaseButton className="primary">신청</BaseButton>
         </div>
       </form>
     </article>

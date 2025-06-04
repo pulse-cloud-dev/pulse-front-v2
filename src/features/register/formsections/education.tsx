@@ -98,7 +98,7 @@ export const Education = ({ stacks, pushStack, popStack, updateStackField, reset
             })}
 
             {i === stacks.length - 1 && (
-              <div style={{ gridColumn: "span 12", textAlign: "right", marginTop: "16px" }}>
+              <div style={{ gridColumn: "span 12", textAlign: "right" }}>
                 <button onClick={popStack} disabled={stacks.length <= 1} className="btn border">
                   삭제
                 </button>
