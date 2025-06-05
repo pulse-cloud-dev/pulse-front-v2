@@ -2,24 +2,7 @@ import { UseStackReturn, RegisterSchema } from "./stack";
 import { Typography } from "@/shared/components";
 import { FormField } from "@/shared/components";
 import { Dropdown, DropdownItem } from "@/shared/components/blocks/dropdown/dropdown";
-
-// 항목마다 span 비율 정의 (12-column grid 기준)
-const getGridColumnSpan = (key: string): number => {
-  switch (key) {
-    case "대학구분":
-      return 2;
-    case "학교명":
-    case "전공":
-      return 3;
-    case "졸업여부":
-      return 2;
-    case "입학년월":
-    case "졸업년월":
-      return 1;
-    default:
-      return 12;
-  }
-};
+import { DatePickerField } from "@/shared/components/blocks/datepicker/DatePickerField";
 
 export const Education = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError }: UseStackReturn<RegisterSchema>) => {
   return (
@@ -44,20 +27,18 @@ export const Education = ({ stacks, pushStack, popStack, updateStackField, reset
             className="register-fieldset"
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(12, 1fr)",
+              gridTemplateColumns: "160fr 280fr 280fr 160fr 180fr 180fr",
               gap: "8px",
               paddingTop: "24px",
-
               borderBottom: "1px solid var(--palette-gray-30)",
               marginTop: "16px",
             }}
           >
             {Object.entries(stack).map(([key, field]) => {
               const isError = field.status === "fail";
-              const span = getGridColumnSpan(key);
 
               return (
-                <div key={key} style={{ gridColumn: `span ${span}` }}>
+                <div key={key}>
                   {field.type === "input" && (
                     <FormField
                       labelClass="form-field__label"
@@ -74,7 +55,21 @@ export const Education = ({ stacks, pushStack, popStack, updateStackField, reset
                       onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
                     />
                   )}
-
+                  {field.type === "date" ? (
+                    <DatePickerField
+                      id={`${key}-${i}`}
+                      name={key}
+                      labelClass="form-field__label"
+                      inputClass="form-field__input m-t-4"
+                      label={field.label}
+                      selected={field.value ? new Date(field.value) : null}
+                      onChange={(date) => updateStackField(i, key as keyof RegisterSchema, date)}
+                      onBlur={() => checkError(i, key as keyof RegisterSchema)}
+                      onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
+                      isInvalid={isError}
+                      errorMessage={isError ? "입력값을 확인해주세요." : ""}
+                    />
+                  ) : null}
                   {field.type === "dropdown" && "list" in field && (
                     <Dropdown
                       id={`${key}-${i}`}
@@ -98,7 +93,7 @@ export const Education = ({ stacks, pushStack, popStack, updateStackField, reset
             })}
 
             {i === stacks.length - 1 && (
-              <div style={{ gridColumn: "span 12", textAlign: "right" }}>
+              <div style={{ gridColumn: "1 / -1", textAlign: "right", marginTop: "16px" }}>
                 <button onClick={popStack} disabled={stacks.length <= 1} className="btn border">
                   삭제
                 </button>
