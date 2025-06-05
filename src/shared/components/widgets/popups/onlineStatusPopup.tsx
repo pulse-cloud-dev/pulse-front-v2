@@ -6,7 +6,7 @@ interface HeaderProps extends HTMLAttributes<HTMLElement>, PropsWithChildren {}
 const Header = (props: HeaderProps) => {
   const { className, children, ...restProps } = props;
   return (
-    <header className={`popup--online__header ${className}`} {...restProps}>
+    <header className={`popup-online__header ${className}`} {...restProps}>
       {children}
     </header>
   );
@@ -23,7 +23,7 @@ const Body = (props: BodyProps) => {
   });
 
   return (
-    <div className={`popup--online__body ${className}`} {...restProps}>
+    <div className={`popup-online__body ${className}`} {...restProps}>
       <CheckField className="check-field-module" variant="circle">
         <CheckField.Input checkId="option1" name="option1" isChecked={checkedItems.option1} onChange={() => toggle("option1")} />
         <CheckField.Label checkId="option1">온라인</CheckField.Label>
@@ -42,9 +42,9 @@ interface FooterProps extends HTMLAttributes<HTMLElement>, PropsWithChildren {}
 const Footer = (props: FooterProps) => {
   const { className = "online", children, ...restProps } = props;
   return (
-    <footer className={`popup--online__footer ${className}`} {...restProps}>
+    <footer className={`popup-online__footer ${className}`} {...restProps}>
       <ResetSelection className={className}/>
-      <div className="popup--online__footer--right">
+      <div className="popup-online__footer-right">
         <BaseButton color="reverse">닫기</BaseButton>
         <BaseButton color="teal">적용</BaseButton>
       </div>
@@ -54,7 +54,7 @@ const Footer = (props: FooterProps) => {
 
 export function OnlineStatusPopup() {
   return (
-    <div className="popup--online">
+    <div className="popup-online">
       <Header />
       <Body />
       <Footer />

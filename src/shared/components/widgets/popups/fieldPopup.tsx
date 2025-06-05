@@ -4,7 +4,7 @@ import type { HTMLAttributes, PropsWithChildren } from "react";
 
 
 const Header = () => {
-  return <header className="popup--field__header"></header>;
+  return <header className="popup-field__header"></header>;
 };
 
 const Body = ({
@@ -31,8 +31,8 @@ const Body = ({
   const selectedItems = options.filter(({ key }) => checkedItems[key]);
 
   return (
-    <div className="popup--field__body">
-      <div className="popup--field__body--top">
+    <div className="popup-field__body">
+      <div className="popup-field__body-top">
         {options.map(({ key, label }) => (
           <CheckField key={key} className="check-field-module" variant="circle">
             <CheckField.Input
@@ -47,7 +47,7 @@ const Body = ({
         ))}
       </div>
 
-      <div className="popup--field__body--bottom">
+      <div className="popup-field__body-bottom">
         {selectedItems.length > 0 ? (
           <div className="data">
             {selectedItems.map(({ key, label }) => (
@@ -92,9 +92,9 @@ interface FooterProps extends React.HTMLAttributes<HTMLElement> {
 const Footer = ({ className = "field", onReset, ...restProps }: FooterProps) => {
   
   return (
-    <footer className="popup--field__footer">
+    <footer className="popup-field__footer">
       <ResetSelection className={className}/>
-      <div className="popup--field__footer--right">
+      <div className="popup-field__footer-right">
         <BaseButton color="reverse">닫기</BaseButton>
         <BaseButton color="teal">적용</BaseButton>
       </div>
@@ -117,7 +117,7 @@ export const FieldPopup = () => {
   const { checkedItems, toggle, reset } = useCheckFieldGroup({ initialValues });
 
   return (
-    <div className="popup--field">
+    <div className="popup-field">
       <Header />
       <Body options={options} checkedItems={checkedItems} toggle={toggle} />
       <Footer onReset={reset} />
