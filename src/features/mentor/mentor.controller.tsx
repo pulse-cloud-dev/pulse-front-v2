@@ -4,6 +4,7 @@ import { Modal, useModal } from "@/shared/modules";
 import { FieldPopup, OnlineStatusPopup, LocalPopup  } from "@/shared/components";
 import { MentorView } from "./mentor.view";
 
+import { useState } from "react";
 const useModals = () => {
   return {
     first: useModal(Modal, {
@@ -29,6 +30,8 @@ const useModals = () => {
 export const MentorController = () => {
   const modals = useModals();
   const location = useLocation();
+  const [keyword, setKeyword] = useState("");
+
 
   const props = {
     event: {
@@ -36,6 +39,8 @@ export const MentorController = () => {
       openSecondModal: modals.second.openModal,
       openThirdModal: modals.third.openModal,
     },
+    state: { keyword },
+  actions: { setKeyword },
   };
 
   return <MentorView {...props} />;

@@ -1,5 +1,5 @@
 export * from "./fieldPopup";
 export * from "./mentorDetailPopup";
 export * from "./onlineStatusPopup";
-export * from "./localPopup";
+export * from "./local/popup/localPopup";
 

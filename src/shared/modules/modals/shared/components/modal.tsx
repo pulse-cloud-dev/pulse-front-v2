@@ -24,7 +24,7 @@ export const Modal = (props: ModalProps) => {
         <div className="modal_top m-b-05">
           <div className="modal_title-wrap">
             <p className="modal_title">{title || "제목없음"}</p>
-            <p className="modal_subtitle">{subtitle || "제목없음"}</p>
+            <p className="modal_subtitle">{subtitle || ""}</p>
           </div>
           <button type="button" className="modal_close w24 h24" onClick={() => closeModal?.(id)}>
             <Icon src="close_line_fff_20" alt="검색 닫기" />
