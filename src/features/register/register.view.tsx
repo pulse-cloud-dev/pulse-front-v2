@@ -1,4 +1,3 @@
-// RegisterView.tsx
 import React from "react";
 import { Typography } from "@/shared/components";
 import { Job, Career, Education, Certificate, Introduction } from "./formsections";
@@ -40,11 +39,10 @@ export const RegisterView: React.FC<RegisterViewProps> = ({ job, career, educati
         <Education {...education} />
         <Certificate {...certificate} />
         <Introduction {...introduction} />
-
-        <div className="m-t-30 flex_r flex_jend gap_4">
+        <footer className="m-t-30 flex_r flex_jend gap_4">
           <BaseButton color="reverse">취소</BaseButton>
           <BaseButton className="primary">신청</BaseButton>
-        </div>
+        </footer>
       </form>
     </article>
   );

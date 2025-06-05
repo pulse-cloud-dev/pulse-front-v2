@@ -142,6 +142,14 @@ export const createInitialCareerSchema = (): RegisterSchema => ({
     status: "pending",
     validate: (v: string) => v.trim().length > 0,
   },
+  role: {
+    label: "직책",
+    type: "dropdown",
+    value: "",
+    status: "pending",
+    list: ["팀원", "팀장", "파트장", "임원"],
+    validate: (v: string) => v !== "",
+  },
   isWorking: {
     label: "재직중",
     type: "toggle",
@@ -161,14 +169,6 @@ export const createInitialCareerSchema = (): RegisterSchema => ({
     value: null,
     status: "pending",
     validate: (v: Date | null) => v === null || v !== null, // 재직중일 경우 null 허용
-  },
-  role: {
-    label: "직책",
-    type: "dropdown",
-    value: "",
-    status: "pending",
-    list: ["팀원", "팀장", "파트장", "임원"],
-    validate: (v: string) => v !== "",
   },
 });
 
