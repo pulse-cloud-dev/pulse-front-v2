@@ -50,7 +50,7 @@ const SignInDynamicForm = ({ handleSubmit }: { handleSubmit: Void }) => {
           aria-invalid={!!errors.password}
           aria-describedby="password-error"
         />
-        {errors.password && <p className="form-auth__error-message text-sm">{errors.password.message}</p>}
+        {errors.password && <p id="password-error" className="form-auth__error-message text-sm">{errors.password.message}</p>}
       </div>
 
       <div className="flex_r justify_space-between">

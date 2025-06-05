@@ -16,7 +16,8 @@ export const ResetAccountPasswordStep = ({ onNext, onMain }: { onNext?: () => vo
     mode: "onSubmit",
     resolver: zodResolver(resetPasswordSchema),
   });
-const { goHome } = usePageNavigation();
+
+  const { goHome } = usePageNavigation();
 
   const onSubmit = async (data: FormValues) => {
     const { email, password } = data;
@@ -43,10 +44,12 @@ const { goHome } = usePageNavigation();
           id="email"
           type="email"
           placeholder="ex) id@pulse.com"
+          aria-invalid={!!errors.email}
+          aria-describedby="email-error"
           {...register("email")}
           className={`${isSubmitted && errors.email ? "form-find__border" : ""}`}
         />
-        {errors.email && <p className="form-find__error-message text-sm">{errors.email.message}</p>}
+        {errors.email && <p id="email-error" className="form-find__error-message text-sm">{errors.email.message}</p>}
       </div>
 
       {/* 비밀번호 */}
@@ -56,11 +59,13 @@ const { goHome } = usePageNavigation();
           id="password"
           type="password"
           placeholder="숫자, 영문, 특수문자 포함 8자 이상 작성해 주세요."
+          aria-invalid={!!errors.password}
+          aria-describedby="password-error"
           {...register("password")}
           onBlur={() => trigger("password")}
           className={`${isSubmitted && errors.password ? "form-find__border" : ""}`}
         />
-        {errors.password && <p className="form-find__error-message text-sm">{errors.password.message}</p>}
+        {errors.password && <p id="password-error" className="form-find__error-message text-sm">{errors.password.message}</p>}
       </div>
 
       {/* 비밀번호 확인 */}
@@ -71,6 +76,8 @@ const { goHome } = usePageNavigation();
             id="passwordCheck"
             type="password"
             placeholder="입력한 비밀번호를 확인해 주세요."
+            aria-invalid={!!errors.passwordCheck}
+            aria-describedby="passwordCheck-error"
             {...register("passwordCheck")}
             onBlur={() => trigger("passwordCheck")}
             className={`${(isSubmitted || touchedFields.passwordCheck) && errors.passwordCheck ? "form_find_border-red-500" : ""}`}
@@ -78,7 +85,7 @@ const { goHome } = usePageNavigation();
           {password && passwordCheck === password && !errors.passwordCheck && (
               <img
                 src="/png/Check.png"
-                alt="비밀번호 일치 확인 아이콘"
+                alt=""
                 aria-hidden="true"
               />
           )}
