@@ -4,7 +4,7 @@ interface ResetSelectionProps {
 
 export const ResetSelection = ({ className } : ResetSelectionProps) => {
     return (
-        <div className={`popup--${className}__footer--left`}>
+        <div className={`popup-${className}__footer-left`}>
         <svg
             width={18}
             height={18}
