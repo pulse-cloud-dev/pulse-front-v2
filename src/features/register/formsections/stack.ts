@@ -1,5 +1,7 @@
+import { useState } from "react";
+
 type Status = "pending" | "success" | "fail";
-type FieldType = "input" | "dropdown" | "toggle";
+type FieldType = "input" | "dropdown" | "toggle" | "date";
 
 interface BaseField<T> {
   label: string;
@@ -22,7 +24,11 @@ interface ToggleField extends BaseField<boolean> {
   type: "toggle";
 }
 
-type StackField = InputField | DropdownField | ToggleField;
+interface DateField extends BaseField<Date | null> {
+  type: "date";
+}
+
+type StackField = InputField | DropdownField | ToggleField | DateField;
 
 export type RegisterSchema = Record<string, StackField>;
 
@@ -33,9 +39,6 @@ export interface StackState<T> {
   updateItem: (index: number, item: T) => void;
 }
 
-import { useState } from "react";
-
-// useStack 훅의 리턴 타입 정의
 export interface UseStackReturn<T extends RegisterSchema> {
   stacks: T[];
   pushStack: () => void;
@@ -45,16 +48,11 @@ export interface UseStackReturn<T extends RegisterSchema> {
   checkError: <K extends keyof T>(i: number, key: K) => void;
 }
 
-export const useStack = <T extends RegisterSchema>(createInitial: () => T) => {
+export const useStack = <T extends RegisterSchema>(createInitial: () => T): UseStackReturn<T> => {
   const [stacks, setStacks] = useState<T[]>([createInitial()]);
 
-  const pushStack = () => {
-    setStacks((prev) => [...prev, createInitial()]);
-  };
-
-  const popStack = () => {
-    setStacks((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev));
-  };
+  const pushStack = () => setStacks((prev) => [...prev, createInitial()]);
+  const popStack = () => setStacks((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev));
 
   const updateStackField = <K extends keyof T>(i: number, key: K, value: T[K]["value"]) => {
     setStacks((prev) =>
@@ -65,7 +63,7 @@ export const useStack = <T extends RegisterSchema>(createInitial: () => T) => {
               [key]: {
                 ...stack[key],
                 value,
-              },
+              } as T[K],
             }
           : stack
       )
@@ -80,8 +78,8 @@ export const useStack = <T extends RegisterSchema>(createInitial: () => T) => {
               ...stack,
               [key]: {
                 ...stack[key],
-                status: "pending",
-              },
+                status: "pending" as Status,
+              } as T[K],
             }
           : stack
       )
@@ -93,14 +91,25 @@ export const useStack = <T extends RegisterSchema>(createInitial: () => T) => {
       prev.map((stack, idx) => {
         if (idx !== i) return stack;
         const field = stack[key];
-        const isValid = typeof field.value === "boolean" ? true : field.validate?.(field.value) ?? true;
+        let isValid = true;
+
+        if (field.validate) {
+          // 타입 안전성을 위해 각 필드 타입별로 검증
+          if (field.type === "date") {
+            isValid = field.validate(field.value as Date | null);
+          } else if (field.type === "toggle") {
+            isValid = field.validate(field.value as boolean);
+          } else {
+            isValid = field.validate(field.value as string);
+          }
+        }
 
         return {
           ...stack,
           [key]: {
             ...field,
             status: isValid ? "success" : "fail",
-          },
+          } as T[K],
         };
       })
     );
@@ -116,75 +125,77 @@ export const useStack = <T extends RegisterSchema>(createInitial: () => T) => {
   };
 };
 
+// === 스키마들 ===
+
 export const createInitialCareerSchema = (): RegisterSchema => ({
   company: {
     label: "회사명",
     type: "input",
     value: "",
     status: "pending",
-    validate: (v) => v.trim().length > 0,
+    validate: (v: string) => v.trim().length > 0,
   },
   department: {
     label: "근무부서",
     type: "input",
     value: "",
     status: "pending",
-    validate: (v) => v.trim().length > 0,
+    validate: (v: string) => v.trim().length > 0,
   },
   isWorking: {
     label: "재직중",
     type: "toggle",
-    value: true,
+    value: false,
     status: "pending",
   },
   startDate: {
     label: "입사 년월",
-    type: "input",
-    value: "",
+    type: "date",
+    value: null,
     status: "pending",
-    validate: (v) => /^\d{4}-\d{2}$/.test(v),
+    validate: (v: Date | null) => v !== null,
   },
   endDate: {
     label: "퇴사 년월",
-    type: "input",
-    value: "",
+    type: "date",
+    value: null,
     status: "pending",
-    validate: (v) => /^\d{4}-\d{2}$/.test(v),
+    validate: (v: Date | null) => v === null || v !== null, // 재직중일 경우 null 허용
   },
   position: {
     label: "직급",
     type: "dropdown",
     value: "",
     status: "pending",
-    list: ["사원", "대리", "과장", "차장"],
-    validate: (v) => v !== "",
+    list: ["사원", "대리", "과장", "차장", "부장", "임원"],
+    validate: (v: string) => v !== "",
   },
   role: {
     label: "직책",
     type: "dropdown",
     value: "",
     status: "pending",
-    list: ["팀원", "팀장", "임원"],
-    validate: (v) => v !== "",
+    list: ["팀원", "팀장", "파트장", "임원"],
+    validate: (v: string) => v !== "",
   },
 });
 
 export const createInitialCertificateSchema = (): RegisterSchema => ({
-  자격증명: {
+  certificateName: {
     label: "자격증명",
     type: "input",
     value: "",
     status: "pending",
     validate: (v: string) => v.trim().length > 0,
   },
-  발행기관: {
+  issuer: {
     label: "발행기관",
     type: "input",
     value: "",
     status: "pending",
     validate: (v: string) => v.trim().length > 0,
   },
-  합격구분: {
+  passStatus: {
     label: "합격구분",
     type: "dropdown",
     value: "",
@@ -192,77 +203,77 @@ export const createInitialCertificateSchema = (): RegisterSchema => ({
     list: ["합격", "불합격"],
     validate: (v: string) => v.trim().length > 0,
   },
-  합격년월: {
+  passDate: {
     label: "합격년월",
-    type: "input",
-    value: "",
+    type: "date",
+    value: null,
     status: "pending",
-    validate: (v: string) => /^\d{4}-\d{2}$/.test(v), // YYYY-MM 형식 검증
+    validate: (v: Date | null) => v !== null,
   },
 });
 
 export const createInitialEducationSchema = (): RegisterSchema => ({
-  대학구분: {
+  schoolType: {
     label: "대학구분",
     type: "dropdown",
     value: "",
     status: "pending",
-    list: ["4년제", "2년제", "기타"],
+    list: ["4년제", "2년제", "대학원", "기타"],
     validate: (v: string) => v.trim().length > 0,
   },
-  학교명: {
+  schoolName: {
     label: "학교명",
     type: "input",
     value: "",
     status: "pending",
     validate: (v: string) => v.trim().length > 0,
   },
-  전공: {
+  major: {
     label: "전공",
     type: "input",
     value: "",
     status: "pending",
     validate: (v: string) => v.trim().length > 0,
   },
-  졸업여부: {
+  graduationStatus: {
     label: "졸업여부",
     type: "dropdown",
     value: "",
     status: "pending",
-    list: ["재학중", "안 재학중"],
+    list: ["재학중", "졸업", "졸업예정", "중퇴", "휴학"],
     validate: (v: string) => v.trim().length > 0,
   },
-  입학년월: {
+  admissionDate: {
     label: "입학연월",
-    type: "input",
-    value: "",
+    type: "date",
+    value: null,
     status: "pending",
-    validate: (v: string) => /^\d{4}-\d{2}$/.test(v), // YYYY-MM 형식
+    validate: (v: Date | null) => v !== null,
   },
-  졸업년월: {
+  graduationDate: {
     label: "졸업연월",
-    type: "input",
-    value: "",
+    type: "date",
+    value: null,
     status: "pending",
-    validate: (v: string) => /^\d{4}-\d{2}$/.test(v), // YYYY-MM 형식
+    validate: (v: Date | null) => v === null || v !== null, // 재학중/휴학일 경우 null 허용
   },
 });
 
 export const createInitialJobSchema = (): RegisterSchema => ({
-  직업: {
+  jobCategory: {
     label: "직무.직업",
     type: "dropdown",
     value: "",
     status: "pending",
-    list: ["개발자", "디자이너", "기획자", "기타"],
+    list: ["개발자", "디자이너", "기획자", "마케터", "영업", "경영", "기타"],
     validate: (v: string) => v.trim().length > 0,
   },
-  직무상세: {
+  jobDetail: {
     label: "직무.직업 상세",
     type: "dropdown",
     value: "",
     status: "pending",
-    list: ["프론트엔드", "백엔드", "UI/UX", "PM", "기타"],
+    list: ["프론트엔드", "백엔드", "풀스택", "모바일", "UI/UX", "PM", "PO", "QA", "데브옵스", "기타"],
     validate: (v: string) => v.trim().length > 0,
   },
 });
