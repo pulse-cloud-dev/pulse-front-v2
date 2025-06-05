@@ -13,8 +13,19 @@ export const AuthenticationSelectionStep = () => {
     }
 
     window.location.href = url; 
-  } catch (err) {
-    alert("네이버 로그인에 실패했습니다.");
+  } catch (err: any) {
+    if (err.response) {
+      const status = err.response.status;
+
+      if (status === 401 || status === 403) {
+        alert("로그인이 필요하거나 권한이 없습니다. 다시 로그인해주세요.");
+      } else {
+        alert("서버 오류로 인해 네이버 로그인에 실패했습니다. 잠시 후 다시 시도해주세요.");
+      }
+    } else {
+      alert("네트워크 오류로 로그인 요청을 처리할 수 없습니다.");
+    }
+    
   }
 };
   

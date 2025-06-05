@@ -1,0 +1,90 @@
+.alert {
+	position: fixed;               
+  top: 50%;                      
+  left: 50%;                     
+	transform: translate(-50%, -50%);
+  display: flex;
+
+  flex-direction: column;
+	align-content: flex-start;
+	justify-content: flex-start;
+
+	min-width: 432px;
+  min-height: 220px;
+
+  background: #ffffff;
+  box-shadow: 0px 0px 20px rgba(18, 18, 18, 0.15);
+  border-radius: 20px;
+
+  flex: none;
+  order: 0;
+  align-self: stretch;
+  flex-grow: 0;
+}
+
+/*	본문 영역		*/
+.alert__TextArea {
+	flex-direction: column;
+	justify-content: flex-start;
+	align-content: flex-start;
+	display: flex;
+	padding: 32px 24px;
+	width: 432px;
+	height: 124px;
+	gap: 16px;
+}
+
+
+.alert__TextArea--title  {
+	font-family: "Pretendard";
+  font-weight: bold;
+  font-size: 18px;
+	color: #333;
+}
+
+.alert__TextArea--body  {
+	font-family: "Pretendard";
+  font-size: 14px;
+	color: #333;
+}
+
+
+/*	버튼영역	*/
+.alert__buttonArea {
+	width: 432px;
+	height: 96px;
+	justify-content: flex-end;
+	align-content: flex-start;
+	display: flex;
+	padding: 24px 24px;
+	gap:8px;
+}
+
+
+.alert__buttonArea > button {
+	width: 112px;
+	height: 48px;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	padding: 18px 24px;
+	border-radius: 10px;
+	gap:6px;
+	font-size: 16px;
+}
+
+/* 취소버튼 */
+.alert__buttonArea > button.cancel {
+	font-family: "Pretendard";
+	color:#666;
+	background-color: #fff;
+	border: 1px solid #CECECE;
+}
+
+/* 확인버튼 */
+.alert__buttonArea > button.confirm{
+	font-family: "Pretendard";
+	color:#fff;
+	background-color: #00CBBA;
+}
+

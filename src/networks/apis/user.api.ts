@@ -239,7 +239,7 @@ export const userApis = {
   joinSocial,
   registerUser,
   updateUser,
-  getUserByOauth,
+  // getUserByOauth,
   deleteUser,
   resetUserPassword,
   nicknameCheck,
