@@ -8,7 +8,7 @@ import ToggleBtn from "@/shared/components/blocks/togglebutton/togglebutton";
 const careerGridStyle = {
   display: "grid",
   gridTemplateColumns: "263fr 263fr 263fr  90fr 180fr 180fr",
-  gap: "16px",
+  gap: "8px",
   alignItems: "bottom",
   marginTop: "16px",
   padding: "16px 0",
@@ -55,6 +55,8 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
                 <div key={key} style={careerFieldStyle}>
                   {field.type === "date" ? (
                     <DatePickerField
+                      labelClass="form-field__label"
+                      inputClass="form-field__input m-t-4"
                       id={`${key}-${i}`}
                       name={key}
                       label={field.label}

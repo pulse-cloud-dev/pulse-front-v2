@@ -5,7 +5,7 @@ interface ToggleButtonProps {
 
 const ToggleBtn = ({ isOn, onToggle }: ToggleButtonProps) => {
   return (
-    <div className="toggle-wrapper" style={{ marginBottom: "14px" }} onClick={() => onToggle(!isOn)} role="switch" aria-checked={isOn} tabIndex={0}>
+    <div className="toggle-wrapper" style={{ marginTop: "30px" }} onClick={() => onToggle(!isOn)} role="switch" aria-checked={isOn} tabIndex={0}>
       <div className={`toggle-switch ${isOn ? "on" : ""}`}>
         <div className="toggle-circle" />
       </div>

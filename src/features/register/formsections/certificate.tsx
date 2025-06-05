@@ -49,7 +49,14 @@ export const Certificate = ({ stacks, pushStack, popStack, updateStackField, res
               case "date":
                 return (
                   <div key={key}>
-                    <DatePickerField id={`${key}-${i}`} {...commonProps} selected={field.value ? new Date(field.value) : null} onChange={(date) => updateStackField(i, key as keyof RegisterSchema, date)} />
+                    <DatePickerField
+                      labelClass="form-field__label"
+                      inputClass="form-field__input m-t-4"
+                      id={`${key}-${i}`}
+                      {...commonProps}
+                      selected={field.value ? new Date(field.value) : null}
+                      onChange={(date) => updateStackField(i, key as keyof RegisterSchema, date)}
+                    />
                   </div>
                 );
 
