@@ -1,6 +1,8 @@
 import { CheckField, useCheckFieldGroup } from "@/shared/modules/select-ui";
 import type { HTMLAttributes, PropsWithChildren } from "react";
 import { BaseButton } from "../../atoms";
+import { useState, useEffect } from "react";
+import { categoryApis } from "@/networks";
 
 interface HeaderProps extends HTMLAttributes<HTMLElement>, PropsWithChildren {}
 const Header = (props: HeaderProps) => {
@@ -12,52 +14,109 @@ const Header = (props: HeaderProps) => {
   );
 };
 
-interface BodyProps extends HTMLAttributes<HTMLDivElement>, PropsWithChildren {}
-const Body = (props: BodyProps) => {
-  const { className, children, ...restProps } = props;
-  const { checkedItems, toggle } = useCheckFieldGroup({
+interface BodyProps extends HTMLAttributes<HTMLDivElement>, PropsWithChildren {
+  selected: string | null;
+  onOptionSelect: (option: string ) => void;
+  lectureTypes: string[];
+}
+
+const Body = ({
+  selected,
+  onOptionSelect,
+  lectureTypes = [],
+}: BodyProps) => {
+  const labelMap : Record<string, string> ={
+    ONLINE: "온라인",
+    OFFLINE: "오프라인",
+  }
+ 
+  return (
+    <div className="popup-online__body">
+      {lectureTypes.map((type) => (
+      <CheckField key = {type} className="check-field-module" variant="circle">
+        <CheckField.Input
+          checkId= {type}
+          name={type}
+          isChecked={selected === type}
+          onChange={() => onOptionSelect(type)}
+        />
+        <CheckField.Label checkId={type}>
+          {labelMap[type] || type}
+        </CheckField.Label>
+      </CheckField>
+      ))}
+    </div>
+  );
+};
+
+
+import { ResetSelection } from "../../atoms/reset/resetSelection";
+
+interface FooterProps extends HTMLAttributes<HTMLElement>, PropsWithChildren {
+  className?: string;
+  onReset: () => void;
+  onClose: () => void;
+  onApply: () => void;
+}
+
+const Footer = ({ className = "online", onReset, onClose, onApply, ...restProps }: FooterProps) => {
+  return (
+    <footer className={`popup-online__footer ${className}`} {...restProps}>
+      <ResetSelection className={className} onClick={onReset} />
+      <div className="popup-online__footer-right">
+        <BaseButton color="reverse" onClick={onClose}>닫기</BaseButton>
+        <BaseButton color="teal" onClick={onApply}>적용</BaseButton>
+      </div>
+    </footer>
+  );
+};
+
+export function OnlineStatusPopup({ onOnlineSelected,
+  closeModal,
+}: {
+  onOnlineSelected?: (isOnline: boolean) => void;
+  closeModal?: () => void; }) {
+  const { checkedItems, toggle, reset } = useCheckFieldGroup({
     initialValues: {
       option1: false,
       option2: false,
     },
   });
 
-  return (
-    <div className={`popup-online__body ${className}`} {...restProps}>
-      <CheckField className="check-field-module" variant="circle">
-        <CheckField.Input checkId="option1" name="option1" isChecked={checkedItems.option1} onChange={() => toggle("option1")} />
-        <CheckField.Label checkId="option1">온라인</CheckField.Label>
-      </CheckField>
-      <CheckField className="check-field-module" variant="circle">
-        <CheckField.Input checkId="option2" name="option2" isChecked={checkedItems.option2} onChange={() => toggle("option2")} />
-        <CheckField.Label checkId="option2">오프라인</CheckField.Label>
-      </CheckField>{" "}
-    </div>
-  );
+  const [lectureTypes, setLectureTypes] = useState<string[]>([]);
+
+useEffect(() => {
+  categoryApis.lectureTypes().then(setLectureTypes);
+}, []);
+
+const handleReset = () => {
+  reset();              // 내부 hook 값 초기화
+  setSelected(null);    // local state도 초기화
+};
+  const [selected, setSelected] = useState<string | null>(null);
+
+const handleSelect = (option: string) => {
+  const next = selected === option ? null : option;
+  setSelected(next);
+  onOnlineSelected?.(next === "ONLINE");
 };
 
-import { ResetSelection } from "../../atoms/reset/resetSelection";
+  const handleApply = () => {
+    closeModal?.();
+    console.log("적용된 상태:", selected);
+  };
 
-interface FooterProps extends HTMLAttributes<HTMLElement>, PropsWithChildren {}
-const Footer = (props: FooterProps) => {
-  const { className = "online", children, ...restProps } = props;
-  return (
-    <footer className={`popup-online__footer ${className}`} {...restProps}>
-      <ResetSelection className={className}/>
-      <div className="popup-online__footer-right">
-        <BaseButton color="reverse">닫기</BaseButton>
-        <BaseButton color="teal">적용</BaseButton>
-      </div>
-    </footer>
-  );
-};
+  const handleClose = () => {
+    closeModal?.();
+    console.log("모달 닫기");
+  };
 
-export function OnlineStatusPopup() {
   return (
     <div className="popup-online">
       <Header />
-      <Body />
-      <Footer />
+      <Body selected={selected} onOptionSelect={handleSelect} lectureTypes={lectureTypes} />
+      <Footer onReset={handleReset} onClose={handleClose} onApply={handleApply} />
     </div>
   );
 }
+
