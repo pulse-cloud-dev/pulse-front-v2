@@ -1,6 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
 
-
 // 컴포넌트
 import { Header } from "../components/localPopupHeader";
 import { Body } from "../components/localPopupBody";
@@ -30,7 +29,7 @@ export function LocalPopup({closeModal} : { closeModal?: () => void; }) {
 
   const handleApply = () => {
     const appliedItems = selectedItems;
-    handleClose(); //모달 닫기
+    handleClose(); 
   };
 
   const handleClose = () => {
@@ -56,7 +55,7 @@ export function LocalPopup({closeModal} : { closeModal?: () => void; }) {
         if (key === "전국-전국") {
         return { key, label: "전국" };
       }
-      
+
         return { key, label: `${city} > ${district}` };
       });
   }, [checkedItems]);
