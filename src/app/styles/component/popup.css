@@ -222,11 +222,14 @@
   width: 356px;
 }
 
+.popup-local__column-right {
+  padding-top: 30px;
+}
+
 .popup-local__column-right > .check-field-module {
   height: 47px;
-  padding-top: 25px;
-  padding-left: 25px;
-
+  padding-left: 25px; 
+  padding-bottom: 33px;
 }
 
 .popup-local__item {
