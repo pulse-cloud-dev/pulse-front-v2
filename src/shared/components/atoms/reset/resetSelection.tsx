@@ -1,10 +1,14 @@
 interface ResetSelectionProps {
     className?: string;
+    onClick?: () => void;
 }
 
-export const ResetSelection = ({ className } : ResetSelectionProps) => {
+export const ResetSelection = ({ className, onClick } : ResetSelectionProps) => {
     return (
-        <div className={`popup-${className}__footer-left`}>
+        <div 
+            className={`popup-${className}__footer-left`}
+            onClick={onClick}
+        >
         <svg
             width={18}
             height={18}
