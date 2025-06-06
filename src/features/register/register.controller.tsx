@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useStack, createInitialJobSchema, createInitialCareerSchema, createInitialEducationSchema, createInitialCertificateSchema } from "./formsections/stack";
 import { RegisterView } from "./register.view";
 import { RegisterSchema } from "./formsections/stack";
+import { useModal, Modal } from "@/shared/modules";
+import { Stepper } from "./stepper/stepper";
 
 export const RegisterContainer = () => {
   const jobState = useStack<RegisterSchema>(createInitialJobSchema);
@@ -10,6 +12,12 @@ export const RegisterContainer = () => {
   const certificateState = useStack<RegisterSchema>(createInitialCertificateSchema);
 
   const [introduction, setIntroduction] = useState<string>("");
+
+  const stepper = useModal(Modal, {
+    title: "분야",
+    variant: "default",
+    children: <Stepper />,
+  });
 
   return (
     <RegisterView
@@ -22,7 +30,7 @@ export const RegisterContainer = () => {
         console.log("Registration cancelled");
       }}
       onSubmit={() => {
-        console.log("Registration submitted");
+        stepper.openModal();
       }}
     />
   );

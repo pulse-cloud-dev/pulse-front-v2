@@ -41,7 +41,9 @@ export const RegisterView: React.FC<RegisterViewProps> = ({ job, career, educati
         <Introduction {...introduction} />
         <footer className="m-t-30 flex_r flex_jend gap_4">
           <BaseButton color="reverse">취소</BaseButton>
-          <BaseButton className="primary">신청</BaseButton>
+          <BaseButton className="primary" type="submit">
+            신청
+          </BaseButton>
         </footer>
       </form>
     </article>
