@@ -1,21 +1,23 @@
 interface ResetSelectionProps {
     className?: string;
     onClick?: () => void;
+    label?: string;
 }
 
-export const ResetSelection = ({ className, onClick } : ResetSelectionProps) => {
+export const ResetSelection = ({ className, onClick, label = "선택 초기화" } : ResetSelectionProps) => {
     return (
         <div 
-            className={`popup-${className}__footer-left`}
+            className={`flex items-center gap-1 cursor-pointer ${className}`}
             onClick={onClick}
         >
         <svg
-            width={18}
-            height={18}
+            width={16}
+            height={16}
             viewBox="0 0 18 18"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className="flex-grow-0 flex-shrink-0 w-[18px] h-[18px] relative "
+            // className="cursor-pointer"
+            style={{cursor: "pointer"}}
             preserveAspectRatio="none"
         >
             <path
@@ -23,7 +25,7 @@ export const ResetSelection = ({ className, onClick } : ResetSelectionProps) => 
             fill="#9E9E9E"
             />
         </svg>
-        <div className={`popup--${className}__footer--left`} style={{color: "#9E9E9E"}}>선택 초기화</div>
+        <div className="m-l-6" style={{color: "#9E9E9E", fontSize: 14, cursor: "pointer"}}>{label}</div>
       </div>
     )
 }
