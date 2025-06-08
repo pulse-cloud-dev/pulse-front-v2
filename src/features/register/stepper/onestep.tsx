@@ -1,10 +1,47 @@
 import { StepProps } from "./type/stepstype";
+import { BaseButton, Typography } from "@/shared/components";
+import { HTMLAttributes, PropsWithChildren } from "react";
+import { Modal } from "@/shared/modules";
+// FooterProps 타입 정의
+interface FooterProps extends HTMLAttributes<HTMLElement>, PropsWithChildren {
+  onPrev: () => void;
+  onNext: () => void;
+}
 
+// Footer 컴포넌트 정의
+const Footer = ({ className = "", children, onPrev, onNext, ...restProps }: FooterProps) => {
+  return (
+    <footer className={`popup--online__footer ${className}`} {...restProps}>
+      <div className="popup--online__footer--right">
+        <BaseButton color="reverse" onClick={onPrev}>
+          나중에
+        </BaseButton>
+        <BaseButton color="primary" onClick={onNext}>
+          지금등록
+        </BaseButton>
+      </div>
+      {children}
+    </footer>
+  );
+};
+
+interface BodyProps extends HTMLAttributes<HTMLDivElement>, PropsWithChildren {}
+const Body = (props: BodyProps) => {
+  const { className, children, ...restProps } = props;
+  return (
+    <div className={`popup--online__body ${className}`} {...restProps}>
+      <Typography>2가지만 더 등록하면 맞춤 알림을 받아보실 수 있어요</Typography>
+    </div>
+  );
+};
+// OneStep 컴포넌트 정의
 export const OneStep: React.FC<StepProps> = ({ onNext, onPrev }) => (
   <div>
-    <button onClick={onPrev} disabled>
-      첫번쨰 스탭
-    </button>
-    <button onClick={onNext}>Next</button>
+    <div className="popup--online">
+      <Modal id="1">
+        <Body />
+        <Footer onNext={onNext} onPrev={onPrev} />
+      </Modal>
+    </div>
   </div>
 );

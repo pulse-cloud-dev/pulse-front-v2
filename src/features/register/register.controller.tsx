@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useStack, createInitialJobSchema, createInitialCareerSchema, createInitialEducationSchema, createInitialCertificateSchema } from "./formsections/stack";
 import { RegisterView } from "./register.view";
 import { RegisterSchema } from "./formsections/stack";
-import { useModal, Modal } from "@/shared/modules";
+import { useModal } from "@/shared/modules";
 import { Stepper } from "./stepper/stepper";
 
 export const RegisterContainer = () => {
@@ -13,11 +13,7 @@ export const RegisterContainer = () => {
 
   const [introduction, setIntroduction] = useState<string>("");
 
-  const stepper = useModal(Modal, {
-    title: "분야",
-    variant: "default",
-    children: <Stepper />,
-  });
+  const stepper = useModal(Stepper);
 
   return (
     <RegisterView
