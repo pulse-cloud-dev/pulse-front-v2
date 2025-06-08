@@ -17,8 +17,7 @@ export const Body = ({
   setSelectedCity: (city: string) => void;
   checkedItems: Record<string, boolean>;
   handleToggle: (key: string) => void;
-  cities: { name: string; code: string }[];
-  setCities: React.Dispatch<React.SetStateAction<{ name: string; code: string }[]>>;
+
 }) => {
   const [cities, setCities] = useState<{ name: string; code: string }[]>([]);
   const [districts, setDistricts] = useState<{ name: string; code: string }[]>([]);
@@ -39,14 +38,14 @@ export const Body = ({
   if (selected) {
     categoryApis.subRegions(selected.code)
       .then((res) => {
-        // ✅ 세종/전국은 수동으로 하위 항목 지정
+        // 세종/전국은 수동으로 하위 항목 지정
         if (res.length === 0) {
           if (selectedCity === "세종") {
             setDistricts([{ name: "전체", code: "SEJONG-전체" }]);
           } else if (selectedCity === "전국") {
             setDistricts([{ name: "전국", code: "ALL-전국" }]);
           } else {
-            setDistricts([]); // 기타 지역인데 진짜로 없음
+            setDistricts([]); // 기타 지역
           }
         } else {
           setDistricts(res);

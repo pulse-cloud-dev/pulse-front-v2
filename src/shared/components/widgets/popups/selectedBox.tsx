@@ -1,4 +1,4 @@
-import { Typography } from "../../../../atoms";
+import { Typography } from "../../atoms";
 
 interface SelectedItem {
   key: string;
@@ -12,7 +12,7 @@ interface SelectedItemsProps {
 
 export const SelectedItems = ({ selectedItems, handleToggle }: SelectedItemsProps) => {
   return (
-    <div className="popup-local__body-bottom">
+    <div className="selected-box">
       {selectedItems.length > 0 ? (
         <div className="data flex flex-wrap gap-5">
           {selectedItems.map(({ key, label }) => (

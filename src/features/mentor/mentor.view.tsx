@@ -2,6 +2,8 @@ import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { getSearchParams } from "@/shared/lib";
 import { PageNation } from "@/shared/components/widgets";
+import { ResetSelection } from "@/shared/components/atoms/reset/resetSelection";
+
 import {
   Breadcrumb,
   MentorCard,
@@ -14,36 +16,84 @@ import { Typography } from "@/shared/components/atoms";
 import { TabConst } from "@/shared/constants";
 import type { ViewEventProps } from "@/shared/types";
 import { Icon } from "@/shared/components";
+import { DeleteIcon } from "@/shared/components/atoms/deletes/delete";
+import { fi } from "zod/v4/locales";
 
 
 interface FilterProps {
   event: ViewEventProps['event'];
   keyword: string;
   setKeyword: (value: string) => void;
+  selectedFields: string[];
+  selectedRegions: string[];
+  onlineStatus: string | null;
+  removeField: (field: string) => void;
+  removeRegion: (region: string) => void;
+  onReset?: () => void;
 }
 
 // 검색 + 필터
-const FilterBar = ({ event, keyword, setKeyword } : FilterProps) => (
-  <div className="flex_r gap_6 m-t-30">
-    <PopupSearch title="분야" openPopup={event?.openFirstModal} />
-    <PopupSearch title="온/오프라인" openPopup={event?.openSecondModal} />
-    <PopupSearch title="지역" openPopup={event?.openThirdModal} />
+const FilterBar = ({ 
+  event,
+  keyword,
+  setKeyword,
+  selectedFields,
+  selectedRegions,
+  onlineStatus,
+  removeField,
+  removeRegion,
+  onReset
+ } : FilterProps) => {
 
-    <div className="btn-search">
-    <input
-      type="text"
-      // className="flex-1 bg-transparent text-sm outline-none border-none"
-      placeholder="검색"
-    />
-    <button>
-      <Icon src="search_18" alt="검색 아이콘" />
-    </button>
+
+  return (
+  <>
+    <div className="flex_r gap_6 m-t-30">
+      <PopupSearch title="분야" openPopup={event?.openFirstModal} count={selectedFields.length} />
+      <PopupSearch title="온/오프라인" openPopup={event?.openSecondModal} />
+      <PopupSearch title="지역" openPopup={event?.openThirdModal} count={selectedRegions.length} />
+      <div className="btn-search">
+        <input placeholder="검색" />
+        <button><Icon src="search_18" alt="검색 아이콘" /></button>
+      </div>
     </div>
-  </div>
+
+
+    {/* 선택된 필터 표시 영역 */}
+    <div className="selected-filters flex gap-2 flex-wrap m-t-16 " >
+      {(selectedFields.length > 0 || selectedRegions.length > 0) && (
+        <ResetSelection className="m-l-5" onClick={onReset} label="초기화"  />
+      )}
+      {selectedFields.map((field, idx) => (
+        <span key={idx} className="tag">
+          {field}
+          <DeleteIcon size={12} color="#9E9E9E" className="m-l-4" onClick={() => removeField(field)} />
+        </span>
+      ))}
+      {selectedRegions.map((region, idx) => (
+        <span key={idx} className="tag">
+          {region}
+          <DeleteIcon size={12} color="#9E9E9E" className="m-l-4" onClick={() => removeRegion(region)} />
+        </span>
+      ))}
+    </div>
+  </>
 );
+ };
 
 // 지도 탭
-const MentorViewMap = ({ event, keyword, setKeyword } : FilterProps) => {
+const MentorViewMap = ({ 
+  event,
+  keyword,
+  setKeyword,
+  selectedFields,
+  selectedRegions,
+  onlineStatus,
+  removeField,
+  removeRegion,
+  onReset
+
+ } : FilterProps) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
 
   return (
@@ -60,7 +110,17 @@ const MentorViewMap = ({ event, keyword, setKeyword } : FilterProps) => {
       </div>
 
       <div style={{ position: "absolute", top: "16px", left: "16px" }}>
-        <FilterBar event={event} keyword={keyword} setKeyword={setKeyword} />
+        <FilterBar 
+        event={event}
+        keyword={keyword}
+        setKeyword={setKeyword}
+        selectedFields={selectedFields}
+        selectedRegions={selectedRegions}
+        removeField={removeField}
+        removeRegion={removeRegion}
+        onlineStatus={onlineStatus}
+        onReset={onReset}
+        />
       </div>
 
       <BaseDrawer isOpen={isDrawerOpen} onToggle={() => setIsDrawerOpen(!isDrawerOpen)}>
@@ -75,10 +135,29 @@ const MentorViewMap = ({ event, keyword, setKeyword } : FilterProps) => {
 };
 
 // 모집글 탭
-const MentorViewPosts = ({ event, keyword, setKeyword } : FilterProps) => {
+const MentorViewPosts = ({ 
+  event,
+  keyword,
+  setKeyword,
+  selectedFields,
+  selectedRegions,
+  onlineStatus,
+  removeField,
+  removeRegion,
+  onReset
+ } : FilterProps) => {
   return (
     <>
-      <FilterBar event={event} keyword={keyword} setKeyword={setKeyword} />
+      <FilterBar event={event}
+        keyword={keyword}
+        setKeyword={setKeyword}
+        selectedFields={selectedFields}
+        selectedRegions={selectedRegions}
+        onlineStatus={onlineStatus} 
+        removeField={removeField}
+        removeRegion={removeRegion}
+        onReset={onReset}
+  />
 
       <section className="flex__box m-t-30">
         {Array.from({ length: 30 }).map((_, index) => (
@@ -96,8 +175,24 @@ const MentorViewPosts = ({ event, keyword, setKeyword } : FilterProps) => {
 // 메인 뷰
 export const MentorView = (props: ViewEventProps & { state: any; actions: any }) => {
   const menu = getSearchParams("menu") || "posts";
-  const { keyword } = props.state;
-  const { setKeyword } = props.actions;
+
+  
+  // state값
+const {
+  keyword,
+  selectedFields,
+  selectedRegions,
+  onlineStatus,
+  
+} = props.state;
+
+// actions값
+const {
+  setKeyword,
+  removeField,
+  removeRegion,
+  resetFilters
+} = props.actions;
 
   return (
     <article className="sub-layout__content">
@@ -112,10 +207,30 @@ export const MentorView = (props: ViewEventProps & { state: any; actions: any })
       </section>
 
       {menu === "posts" && (
-        <MentorViewPosts event={props.event} keyword={keyword} setKeyword={setKeyword} />
+        <MentorViewPosts 
+        event={props.event}
+        keyword={keyword}
+        setKeyword={setKeyword}
+        selectedFields={selectedFields}
+        selectedRegions={selectedRegions}
+        onlineStatus={onlineStatus}
+        removeField={removeField}
+        removeRegion={removeRegion}
+        onReset={resetFilters}
+        />
       )}
       {menu === "map" && (
-        <MentorViewMap event={props.event} keyword={keyword} setKeyword={setKeyword} />
+        <MentorViewMap 
+        event={props.event}
+        keyword={keyword}
+        setKeyword={setKeyword}
+        selectedFields={selectedFields}
+        selectedRegions={selectedRegions}
+        onlineStatus={onlineStatus}
+        removeField={removeField}
+        removeRegion={removeRegion}
+        onReset={resetFilters}
+        />
       )}
     </article>
   );

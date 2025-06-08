@@ -3,34 +3,40 @@ import { useState, useMemo, useEffect } from "react";
 // 컴포넌트
 import { Header } from "../components/localPopupHeader";
 import { Body } from "../components/localPopupBody";
-import { SelectedItems } from "../components/localSelected";
-import { Footer } from "../components/localPopupFooter";
+import { SelectedItems } from "../../selectedBox";
+import { Footer } from "../../popupFooter";
 import { useCheckFieldGroup } from "@/shared/modules/select-ui";
 
-export function LocalPopup({closeModal} : { closeModal?: () => void; }) {
+export function LocalPopup({
+  closeModal,
+  onApply,
+  initialCheckedItems = {},
+}: {
+  closeModal?: () => void;
+  onApply?: (selected: string[], checkedItems: Record<string, boolean>) => void;
+  initialCheckedItems?: Record<string, boolean>;
+})
+  {
   const { reset } = useCheckFieldGroup ({
     initialValues : {
       option: false
     }
   })
-  const [selectedCity, setSelectedCity] = useState("서울특별시");
-  const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
+
+  const [selectedCity, setSelectedCity] = useState("서울");
+  const [selected, setSelected] = useState(null);
+  const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>(initialCheckedItems);
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [cities, setCities] = useState<{ name: string; code: string }[]>([]);
+
 
   const handleReset = () => {
     reset();
     setCheckedItems({});
-    setSelected(null);
-    setSelectedCity("서울특별시");
+    // setSelected(null);
+    setSelectedCity("서울");
     setSearchKeyword("");
   }  
-
-  const [selected, setSelected] = useState(null);
-
-  const handleApply = () => {
-    const appliedItems = selectedItems;
-    handleClose(); 
-  };
 
   const handleClose = () => {
     closeModal?.();
@@ -46,6 +52,8 @@ export function LocalPopup({closeModal} : { closeModal?: () => void; }) {
     setCheckedItems({ ...checkedItems, [key]: !checkedItems[key] });
   };
 
+
+
   const selectedItems = useMemo(() => {
     return Object.entries(checkedItems)
       .filter(([, isChecked]) => isChecked)
@@ -60,7 +68,13 @@ export function LocalPopup({closeModal} : { closeModal?: () => void; }) {
       });
   }, [checkedItems]);
 
-  const [cities, setCities] = useState<{ name: string; code: string }[]>([]);
+    const handleApply = () => {
+    const regionList = selectedItems.map(item => item.label); 
+    onApply?.(regionList, checkedItems);
+    // setRegionChecked(checkedItems);
+    closeModal?.();
+  };
+
 
 // 검색어 변경 시 도시 선택
 useEffect(() => {
@@ -76,8 +90,6 @@ useEffect(() => {
     <div className="popup-local">
       <Header onSearch={setSearchKeyword} />
       <Body
-        cities={cities}
-        setCities={setCities}
         selectedCity={selectedCity}
         setSelectedCity={setSelectedCity}
         checkedItems={checkedItems}

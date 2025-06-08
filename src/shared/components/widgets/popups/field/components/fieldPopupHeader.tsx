@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Icon } from "@/shared/components";
 
 
-//Header
+// Header
 export const Header = ({
   className = "",
   onSearch,
@@ -22,11 +22,11 @@ export const Header = ({
   };
 
   return (
-    <header className={`popup-local__header ${className}`} {...props}>
-      <div className="popup-local__search">
+    <header className={`popup-field__header ${className}`} {...props}>
+      <div className="popup-field__search">
         <input
           type="text"
-          placeholder="찾으시는 지역을 검색해 주세요"
+          placeholder="찾으시는 분야를 검색해 주세요"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -34,7 +34,7 @@ export const Header = ({
         <Icon
           src="search_18"
           alt="검색 아이콘"
-          className="popup-local__search-icon"
+          className="popup-field__search-icon"
           onClick={handleSearch}
         />
       </div>

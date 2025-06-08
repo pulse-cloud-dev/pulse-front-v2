@@ -1,5 +1,32 @@
 import axios from "axios";
 
+// 분야 불러오기
+const fieldItems = async (): Promise<{ name: string; code: string }[]> => {
+  try {
+    const { data } = await axios.get(
+      "/api/v1/category/item-list/JOB",
+      { headers: { Accept: "application/json" } }
+    );
+    return data.body;
+  } catch (error) {
+    console.error("직무직업 리스트 불러오기 실패:", error);
+    throw error;
+  }
+};
+
+// 상세 분야 불러오기
+const subFields = async (jobCode: string): Promise<{ name: string; code: string }[]> => {
+  try {
+    const { data } = await axios.get(
+      `/api/v1/category/meta-list/${jobCode}`,
+      { headers: { Accept: "application/json" } }
+    );
+    return data.body;
+  } catch (error) {
+    console.error("하위 행정구역 불러오기 실패:", error);
+    throw error;
+  }
+};
 
 // 강의유형 - 온/오프라인
 const lectureTypes = async (): Promise<string[]> => {
@@ -46,6 +73,8 @@ const subRegions = async (regionCode: string): Promise<{ name: string; code: str
 };
 
 export const categoryApis = {
+    fieldItems,
+    subFields,
     lectureTypes,
     regionItems,
     subRegions
