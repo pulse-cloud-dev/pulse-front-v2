@@ -26,10 +26,10 @@ export const Stepper = (props: ModalProps) => {
   };
   console.log("현재 스텝", step);
   return (
-    <>
+    <div className="step_layout">
       {step === "one" && <OneStep onNext={goNext} onPrev={oneprev} />}
       {step === "two" && <TwoStep onNext={goNext} onPrev={goPrev} />}
       {step === "three" && <ThreeStep onNext={goNext} onPrev={goPrev} />}
-    </>
+    </div>
   );
 };
