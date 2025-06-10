@@ -67,7 +67,7 @@
   width: 100%;
   padding: 12px;
   margin-top: 10px;
-  background-color: var(--primary-50);
+  background-color: #00cbba;
   border: none;
   border-radius: 10px;
   color: var(--palette-white-05);
@@ -84,7 +84,7 @@
   background-color: var(--palette-white-60);
 }
 .auth__button:hover {
-  background-color: var(--primary-70);
+  background-color: #00b8a8;
 }
 
 .form__auth label:last-of-type {

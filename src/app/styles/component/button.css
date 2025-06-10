@@ -140,13 +140,13 @@ button.disabled .img_on {
   padding: 2px 12px 0;
   border-radius: 8px;
   font-size: 8px;
-  background: var(--primary-50);
+  background: #00cbba;
   color: var(--text-wh);
   border-radius: 8px;
 }
 .btn__primary:hover:not(.disabled),
 .btn__primary.hover {
-  background: var(--primary-70);
+  background: #00b8a8
 }
 .btn__primary.disabled {
   background: var(--grayscale-50);
@@ -233,9 +233,9 @@ button.disabled .img_on {
   padding: 2px 12px 0;
   border-radius: 8px;
   font-size: 8px;
-  background: transparent;
+  background: #f4f4f4;
   color: var(--text);
-  border: 1px solid var(--primary-50);
+  /* border: 1px solid var(--primary-50); */
   border-radius: 8px;
 }
 .btn__line.pri:hover,
@@ -280,11 +280,11 @@ button.disabled .img_on {
 }
 .btn__line.gray {
   color: var(--text);
-  border: 1px solid var(--grayscale-50);
+  /* border: 1px solid var(--grayscale-50); */
 }
 .btn__line.gray:hover {
   font-weight: 700;
-  border: 1px solid var(--grayscale-70);
+  /* border: 1px solid var(--grayscale-70); */
 }
 .btn__text {
   font-size: 14px;
