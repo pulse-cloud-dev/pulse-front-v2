@@ -146,7 +146,7 @@ button.disabled .img_on {
 }
 .btn__primary:hover:not(.disabled),
 .btn__primary.hover {
-  background: #00b8a8
+  background: var(--primary-70);
 }
 .btn__primary.disabled {
   background: var(--grayscale-50);
@@ -233,7 +233,7 @@ button.disabled .img_on {
   padding: 2px 12px 0;
   border-radius: 8px;
   font-size: 8px;
-  background: #f4f4f4;
+  background: var(--palette-gray-100);
   color: var(--text);
   /* border: 1px solid var(--primary-50); */
   border-radius: 8px;

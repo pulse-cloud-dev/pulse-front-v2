@@ -67,7 +67,7 @@
   width: 100%;
   padding: 12px;
   margin-top: 10px;
-  background-color: #00cbba;
+  background-color: var(--primary-50);
   border: none;
   border-radius: 10px;
   color: var(--palette-white-05);
