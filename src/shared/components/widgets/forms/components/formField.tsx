@@ -37,7 +37,7 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, fo
     <div>
       <label htmlFor={inputId} className={labelClass}>
         {/* 라벨 */}
-        <span className="color__grayscale-50 fs_12">{label}</span>
+        <span>{label}</span>
         {/* 라벨 */}
 
         {/* 필수 필드 표시 */}
@@ -58,7 +58,7 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, fo
         required={required}
         aria-invalid={isInvalid} // 유효성 상태
         aria-describedby={isInvalid && errorMessage ? `${inputId}-error` : successMessage ? `${inputId}-success` : undefined}
-        className={`inputClass ${isInvalid && errorMessage ? "error-border" : ""}`}
+        className={`${inputClass} ${isInvalid && errorMessage ? "error-border" : ""}`}
         onChange={onChange}
         style={style}
         {...rest}
