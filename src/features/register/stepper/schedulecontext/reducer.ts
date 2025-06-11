@@ -20,7 +20,7 @@ export const scheduleReducer = (state: ScheduleState, action: ScheduleAction): S
 
     case "UPDATE_SCHEDULE_DATE": {
       const newDays = new Set(state.days);
-      newDays.add(action.payload);
+      newDays.has(action.payload) ? newDays.delete(action.payload) : newDays.add(action.payload);
       return {
         ...state,
         days: newDays,

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { OneStep } from "./onestep";
 import { TwoStep } from "./twostep";
 import { ThreeStep } from "./threestep";
+import { ScheduleProvider } from "./schedulecontext/context";
 type Step = "one" | "two" | "three";
 
 import { ModalProps } from "@/shared/modules";
@@ -24,12 +25,13 @@ export const Stepper = (props: ModalProps) => {
       closeModal(id as string);
     }
   };
-  console.log("현재 스텝", step);
   return (
     <div className="step_layout">
-      {step === "one" && <OneStep onNext={goNext} onPrev={oneprev} />}
-      {step === "two" && <TwoStep onNext={goNext} onPrev={goPrev} />}
-      {step === "three" && <ThreeStep onNext={goNext} onPrev={goPrev} />}
+      <ScheduleProvider>
+        {step === "one" && <OneStep onNext={goNext} onPrev={oneprev} />}
+        {step === "two" && <TwoStep onNext={goNext} onPrev={goPrev} />}
+        {step === "three" && <ThreeStep onNext={goNext} onPrev={goPrev} />}
+      </ScheduleProvider>
     </div>
   );
 };

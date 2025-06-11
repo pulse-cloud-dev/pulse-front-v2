@@ -19,6 +19,6 @@ export type ScheduleAction =
   | { type: "DELETE_SCHEDULE_DATE"; payload: string };
 
 export interface ScheduleContextType {
-  schedule: ScheduleState | null;
+  schedule: ScheduleState;
   dispatch: React.Dispatch<ScheduleAction>;
 }
