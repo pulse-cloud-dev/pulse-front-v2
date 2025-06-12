@@ -30,15 +30,17 @@ const Body = (props: BodyProps) => {
   const { className, children, ...restProps } = props;
   return (
     <div className={`popup--online__body ${className}`} {...restProps}>
-      <Typography>2가지만 더 등록하면 맞춤 알림을 받아보실 수 있어요</Typography>
+      <Typography size="14" weight="regular">
+        2가지만 더 등록하면 맞춤 알림을 받아보실 수 있어요
+      </Typography>
     </div>
   );
 };
 // OneStep 컴포넌트 정의
 export const OneStep: React.FC<StepProps> = ({ onNext, onPrev }) => (
   <div>
-    <div className="popup--online">
-      <Modal id="1">
+    <div className="modal-layout">
+      <Modal id="1" title="멘토등록이 완료되었어요">
         <Body />
         <Footer onNext={onNext} onPrev={onPrev} />
       </Modal>

@@ -1,7 +1,6 @@
 import { StepProps } from "./type/stepstype";
 import { BaseButton, Typography } from "@/shared/components";
 import { HTMLAttributes, PropsWithChildren } from "react";
-import { Modal } from "@/shared/modules";
 import { useSchedule } from "./schedulecontext/context";
 // FooterProps 타입 정의
 interface FooterProps extends HTMLAttributes<HTMLElement>, PropsWithChildren {
@@ -14,7 +13,7 @@ interface FooterProps extends HTMLAttributes<HTMLElement>, PropsWithChildren {
 const Footer = ({ className = "", children, onPrev, onNext, ...restProps }: FooterProps) => {
   return (
     <footer className={`popup--online__footer ${className}`} {...restProps}>
-      <div className="popup--online__footer--right">
+      <div style={{ marginLeft: "auto", display: "flex", gap: "8px", marginTop: "16px" }}>
         <BaseButton color="reverse" onClick={onPrev}>
           나중에
         </BaseButton>
@@ -22,7 +21,6 @@ const Footer = ({ className = "", children, onPrev, onNext, ...restProps }: Foot
           지금등록
         </BaseButton>
       </div>
-      {children}
     </footer>
   );
 };
@@ -38,10 +36,13 @@ const Body = (props: BodyProps) => {
   const week = ["월", "화", "수", "목", "금", "토", "일"];
   schedule.region;
   return (
-    <div className={`popup--online__body ${className}`} {...restProps}>
-      <div className="mode-buttons">
+    <>
+      <Typography>강의 형식 선택</Typography>
+      <div style={{ display: "flex", gap: "8px", justifyItems: "center", marginTop: "10px", marginBottom: "10px" }}>
         <BaseButton
-          color={schedule.mode ? "default" : "reverse"}
+          size="lg"
+          style={{ flex: 1 }}
+          color={schedule.mode ? "primary" : "reverse"}
           onClick={() => {
             if (!schedule.mode) {
               dispatch({ type: "TOGGLE_ONLINE_OFFLINE_MODE" });
@@ -51,7 +52,9 @@ const Body = (props: BodyProps) => {
           온라인
         </BaseButton>
         <BaseButton
-          color={!schedule.mode ? "default" : "reverse"}
+          size="lg"
+          style={{ flex: 1 }}
+          color={!schedule.mode ? "primary" : "reverse"}
           onClick={() => {
             if (schedule.mode) {
               dispatch({ type: "TOGGLE_ONLINE_OFFLINE_MODE" });
@@ -61,46 +64,65 @@ const Body = (props: BodyProps) => {
           오프라인
         </BaseButton>
       </div>
-
-      <div className="day-buttons">
-        {week.map((day, index) => {
-          const isSelected = schedule?.days.has(day);
-          return (
-            <BaseButton
-              key={`day-${index}`}
-              color={isSelected ? "default" : "reverse"}
-              onClick={() => {
-                dispatch({
-                  type: isSelected ? "DELETE_SCHEDULE_DATE" : "UPDATE_SCHEDULE_DATE",
-                  payload: day,
-                });
-              }}
-            >
-              {day}
-            </BaseButton>
-          );
-        })}
+      {schedule.mode === false && (
+        <div className="popup--step2__body_bottm" style={{ marginBottom: "10px" }}>
+          <Typography>지역 선택</Typography>
+          <div
+            onClick={onNext}
+            style={{
+              padding: "10px",
+              width: "100%",
+              height: "48px",
+              borderRadius: "10px",
+              border: "1px solid #ccc",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              cursor: "pointer",
+            }}
+          >
+            {Array.from(schedule.region)
+              .map((region) => `${region.city}>${region.district}`)
+              .join(", ")}
+          </div>
+        </div>
+      )}
+      <div className="popup--step2__body_bottm">
+        <Typography>멘토링 가능 요일</Typography>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "6px", marginTop: "10px", marginBottom: "10px" }}>
+          {week.map((day, index) => {
+            const isSelected = schedule?.days.has(day);
+            return (
+              <BaseButton
+                style={{ flex: 1 }}
+                size="lg"
+                key={`day-${index}`}
+                color={isSelected ? "primary" : "reverse"}
+                onClick={() => {
+                  dispatch({
+                    type: isSelected ? "DELETE_SCHEDULE_DATE" : "UPDATE_SCHEDULE_DATE",
+                    payload: day,
+                  });
+                }}
+              >
+                {day}
+              </BaseButton>
+            );
+          })}
+        </div>
       </div>
-      <ul>
-        {Array.from(schedule.region).map((region, index) => (
-          <li key={index}>
-            <strong>{region.city}</strong> - {region.district}
-          </li>
-        ))}
-      </ul>
-      <button onClick={onNext}>지역선택</button>
-    </div>
+    </>
   );
 };
 
 export const TwoStep: React.FC<StepProps> = ({ onNext, onPrev }) => {
   return (
     <div>
-      <div className="popup--online">
-        <Modal id="2">
+      <div className="modal_box on">
+        <div className={`popup--step2__body`}>
           <Body onNext={onNext} />
-          <Footer onNext={onNext} onPrev={onPrev} />
-        </Modal>
+          <Footer onNext={onNext} onPrev={onPrev} style={{ borderTop: "1px solid #eee", marginBottom: "16px" }} />
+        </div>
       </div>
     </div>
   );

@@ -1,2 +1,26 @@
-.step_layout {
+.popup--step2__body {
+  flex-direction: column;
+  gap: 10px;
+  align-items: start;
+  justify-content: center;
+  padding: 16px;
+  width: 480px;
+  height: auto;
+  border-radius: 20px;
+  background-color: white;
+}
+
+.popup--step2__body_top {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.popup--step2__body_bottm {
+}
+
+.popup--step2__body_bottm .day-button-group > button {
+  padding: 10px 20px;
+  font-size: 16px;
+  height: 48px;
 }

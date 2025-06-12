@@ -60,7 +60,7 @@
   padding: 10px 20px;
   font-size: 16px;
   height: 48px;
-  min-width: 96px;
+  /* min-width: 96px; */
 }
 
 .btn.xl {
@@ -88,7 +88,7 @@
   color: #000;
 }
 .btn.primary {
-  border: none;
+  border: 1px solid var(--border);
   background-color: var(--primary-60);
   color: var(--text-wh);
 }
