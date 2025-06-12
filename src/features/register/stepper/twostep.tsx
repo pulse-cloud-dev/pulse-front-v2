@@ -12,7 +12,7 @@ interface FooterProps extends HTMLAttributes<HTMLElement>, PropsWithChildren {
 
 const Footer = ({ className = "", children, onPrev, onNext, ...restProps }: FooterProps) => {
   return (
-    <footer className={`popup--online__footer ${className}`} {...restProps}>
+    <footer className={`popup--online-step2__footer ${className}`} {...restProps}>
       <div style={{ marginLeft: "auto", display: "flex", gap: "8px", marginTop: "16px" }}>
         <BaseButton color="reverse" onClick={onPrev}>
           나중에
@@ -34,7 +34,7 @@ const Body = (props: BodyProps) => {
   const { schedule, dispatch } = useSchedule();
 
   const week = ["월", "화", "수", "목", "금", "토", "일"];
-  schedule.region;
+
   return (
     <>
       <Typography>강의 형식 선택</Typography>
@@ -70,15 +70,17 @@ const Body = (props: BodyProps) => {
           <div
             onClick={onNext}
             style={{
+              lineHeight: "24px",
               padding: "10px",
               width: "100%",
               height: "48px",
               borderRadius: "10px",
-              border: "1px solid #ccc",
+              border: "1px solid  #eee",
               whiteSpace: "nowrap",
               overflow: "hidden",
               textOverflow: "ellipsis",
               cursor: "pointer",
+              verticalAlign: "middle",
             }}
           >
             {Array.from(schedule.region)
@@ -119,9 +121,9 @@ export const TwoStep: React.FC<StepProps> = ({ onNext, onPrev }) => {
   return (
     <div>
       <div className="modal_box on">
-        <div className={`popup--step2__body`}>
+        <div className={`popup--step2__layout`}>
           <Body onNext={onNext} />
-          <Footer onNext={onNext} onPrev={onPrev} style={{ borderTop: "1px solid #eee", marginBottom: "16px" }} />
+          <Footer onNext={onNext} onPrev={onPrev} style={{ borderTop: "1px solid #eee" }} />
         </div>
       </div>
     </div>

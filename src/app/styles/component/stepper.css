@@ -1,4 +1,4 @@
-.popup--step2__body {
+.popup--step2__layout {
   flex-direction: column;
   gap: 10px;
   align-items: start;
@@ -23,4 +23,16 @@
   padding: 10px 20px;
   font-size: 16px;
   height: 48px;
+}
+
+.popup--online-step2__footer {
+  margin-top: 1rem;
+  height: calc(20% - 1rem);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+
+  box-sizing: border-box;
 }
