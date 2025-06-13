@@ -9,27 +9,24 @@ interface FooterProps extends HTMLAttributes<HTMLElement>, PropsWithChildren {
 }
 
 // Footer 컴포넌트 정의
-const Footer = ({ className = "", children, onPrev, onNext, ...restProps }: FooterProps) => {
+const Footer = ({ onPrev, onNext }: FooterProps) => {
   return (
-    <footer className={`popup--online__footer ${className}`} {...restProps}>
-      <div
-        style={{
-          marginLeft: "auto",
-          display: "flex",
-          gap: "8px",
-          justifyContent: "flex-end",
-          alignItems: "center",
-          padding: "24px",
-        }}
-      >
-        <BaseButton color="reverse" onClick={onPrev}>
-          나중에
-        </BaseButton>
-        <BaseButton color="primary" onClick={onNext}>
-          지금등록
-        </BaseButton>
-      </div>
-      {children}
+    <footer
+      style={{
+        marginLeft: "auto",
+        display: "flex",
+        gap: "8px",
+        justifyContent: "flex-end",
+        alignItems: "center",
+        padding: "24px",
+      }}
+    >
+      <BaseButton color="reverse" onClick={onPrev}>
+        나중에
+      </BaseButton>
+      <BaseButton color="primary" onClick={onNext}>
+        지금등록
+      </BaseButton>
     </footer>
   );
 };
