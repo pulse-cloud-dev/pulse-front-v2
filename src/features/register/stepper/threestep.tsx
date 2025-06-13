@@ -344,7 +344,7 @@ const Header = () => {
 export const ThreeStep: React.FC<StepProps> = ({ onNext, onPrev }) => {
   return (
     <div className="modal_box on">
-      <div className={`popup--step3__layout`}>
+      <div className={`popup--step__layout`}>
         <Header />
         <Body />
         <Footer onNext={onNext} onPrev={onPrev} style={{ borderTop: "1px solid #eee", padding: "16px" }} />
