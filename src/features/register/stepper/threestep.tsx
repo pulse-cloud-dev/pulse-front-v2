@@ -3,6 +3,31 @@ import { BaseButton, Typography } from "@/shared/components";
 import { HTMLAttributes, PropsWithChildren, useState } from "react";
 import { useSchedule } from "./schedulecontext/context";
 import { CheckField } from "@/shared/modules/select-ui";
+import { Icon } from "@/shared/components";
+
+import React, { forwardRef } from "react";
+type Region = {
+  city: string;
+  district: string;
+};
+
+type RemovableRegiobuttonProps = {
+  region: Region;
+  onRemove?: () => void;
+};
+
+const RemovableRegiobutton = forwardRef<HTMLButtonElement, RemovableRegiobuttonProps>(({ region, onRemove }, ref) => {
+  return (
+    <button ref={ref} type="button" onClick={onRemove} aria-label={`Remove ${region.city} ${region.district}`} style={{}}>
+      <Typography size="14" weight="medium" color="primary" colorscale="40" style={{ display: "inline-block" }}>
+        {region.city}
+        {region.district}
+      </Typography>
+      <span style={{ marginLeft: 4, fontSize: 16 }}>×</span>
+    </button>
+  );
+});
+
 // FooterProps 타입 정의
 interface FooterProps extends HTMLAttributes<HTMLElement>, PropsWithChildren {
   onPrev: () => void;
@@ -10,32 +35,35 @@ interface FooterProps extends HTMLAttributes<HTMLElement>, PropsWithChildren {
 }
 
 // Footer 컴포넌트 정의
-const Footer = ({ className = "", children, onPrev, onNext, ...restProps }: FooterProps) => {
-  //선택된거 리스트보여주기
+
+const Footer = ({ className = "", onPrev, onNext, ...restProps }: FooterProps) => {
   const { schedule, dispatch } = useSchedule();
-  //schedule.region을 이용하여 선택된 지역과 구를 보여줄 수 있습니다.
+
   return (
-    <footer className={`popup--online__footer ${className}`} {...restProps}>
-      <div>
-        {Array.from(schedule.region).map((region, index) => (
-          <button
-            key={index}
-            className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm hover:bg-blue-200 transition-colors mr-2"
-            onClick={() => {
-              dispatch({ type: "DELETE_REGION", payload: region });
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <Typography size="14" weight="medium" color="primary" colorscale="40" style={{ display: "inline-block" }}>
-                {region.city}
-                {region.district}
-              </Typography>
-              <div style={{ display: "inline-block", marginLeft: "2px" }}>x</div>
-            </div>
-          </button>
+    <footer className={`popup--online__footer ${className}`} {...restProps} style={{ display: "flex", flexDirection: "column" }}>
+      <div
+        style={{
+          width: "100%",
+          height: "98px",
+          borderBottom: "1px solid var(--palette-gray-30)",
+          padding: "16px 24px", // 상하 16px, 좌우 24px
+        }}
+      >
+        {Array.from(schedule.region).map((region) => (
+          <RemovableRegiobutton key={`${region.city}-${region.district}`} region={region} onRemove={() => dispatch({ type: "DELETE_REGION", payload: region })} />
         ))}
       </div>
-      <div className="popup--online__footer--right">
+      <div
+        style={{
+          marginTop: "10px",
+          marginLeft: "auto",
+          display: "flex",
+          gap: "8px",
+          justifyContent: "flex-end",
+          alignItems: "center",
+          padding: "16px 24px",
+        }}
+      >
         <BaseButton color="reverse" onClick={onPrev}>
           나중에
         </BaseButton>
@@ -43,7 +71,6 @@ const Footer = ({ className = "", children, onPrev, onNext, ...restProps }: Foot
           지금등록
         </BaseButton>
       </div>
-      {children}
     </footer>
   );
 };
@@ -243,7 +270,7 @@ const Body = (props: BodyProps) => {
   const { schedule, dispatch } = useSchedule();
 
   return (
-    <div className={`popup--step3__body ${className}`} {...restProps} style={{ display: "flex", height: "356px" }}>
+    <div className={`popup--step3__body ${className}`} {...restProps} style={{ display: "flex", height: "356px", borderTop: "1px solid var(--palette-gray-30)", borderBottom: "1px solid var(--palette-gray-30)" }}>
       <div style={{ display: "flex", flex: "1", width: "full", overflow: "scroll", flexDirection: "column" }}>
         {regions.map((region) => (
           <div
@@ -252,17 +279,15 @@ const Body = (props: BodyProps) => {
               display: "flex",
               justifyContent: "start",
               alignItems: "center",
-              boxSizing: "border-box",
               backgroundColor: city === region.city ? "var(--palette-gray-30)" : "var(--palette-white-05)",
               border: "0.5px solid var(--palette-gray-30)",
               cursor: "pointer",
               minHeight: "54px",
               width: "100%",
-              padding: "auto",
             }}
             onClick={() => setCity(region.city)}
           >
-            <Typography weight="medium" size="16">
+            <Typography weight="medium" size="16" style={{ marginLeft: "10px" }}>
               {region.city}
             </Typography>
           </div>
@@ -293,7 +318,30 @@ const Body = (props: BodyProps) => {
 };
 
 const Header = () => {
-  return <></>;
+  return (
+    <div>
+      <div
+        style={{
+          paddingTop: "16px",
+          paddingRight: "16px",
+          paddingBottom: "0px",
+          paddingLeft: "16px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          gap: "4px",
+        }}
+      >
+        <Typography>지역</Typography>
+        <Typography size="14" weight="regular">
+          최대 5개 선택
+        </Typography>
+      </div>
+      <div style={{ padding: "16px" }}>
+        <HeaderSearchbar style={{ width: "100%" }} />
+      </div>
+    </div>
+  );
 };
 
 export const ThreeStep: React.FC<StepProps> = ({ onNext, onPrev }) => {
@@ -302,8 +350,56 @@ export const ThreeStep: React.FC<StepProps> = ({ onNext, onPrev }) => {
       <div className={`popup--step3__layout`}>
         <Header />
         <Body />
-        <Footer onNext={onNext} onPrev={onPrev} style={{ borderTop: "1px solid #eee" }} />
+        <Footer onNext={onNext} onPrev={onPrev} style={{ borderTop: "1px solid #eee", padding: "16px" }} />
       </div>
     </div>
   );
 };
+
+type SearchbarElement = HTMLInputElement;
+
+interface HeaderSearchbarProps extends HTMLAttributes<SearchbarElement> {
+  placeholder?: string;
+}
+
+export const HeaderSearchbar = forwardRef<HTMLInputElement, HeaderSearchbarProps>(({ id = "search-input", placeholder, className, style, ...rest }, ref) => {
+  return (
+    <div
+      role="search"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "8px",
+        width: "100%", // ✅ 가로 100%
+        height: "48px",
+        padding: "0 18px",
+        border: "1px solid var(--palette-gray-30)",
+        borderRadius: "10px",
+        backgroundColor: "var(--palette-white-100)",
+        boxSizing: "border-box",
+        ...style,
+      }}
+      className={className}
+    >
+      <label htmlFor={id} className="visually-hidden">
+        검색어 입력
+      </label>
+      <Icon src="search_18" alt="search icon" />
+      <input
+        id={id}
+        ref={ref}
+        type="text"
+        placeholder={placeholder || "검색어를 입력해주세요."}
+        aria-label="Search"
+        style={{
+          flex: 1,
+          border: "none",
+          outline: "none",
+          fontSize: "14px",
+          backgroundColor: "transparent",
+        }}
+        {...rest}
+      />
+    </div>
+  );
+});

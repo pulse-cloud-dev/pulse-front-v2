@@ -38,11 +38,13 @@ export const scheduleReducer = (state: ScheduleState, action: ScheduleAction): S
     case "UPDATE_REGION": {
       const exists = state.region.some((r) => r.city === action.payload.city && r.district === action.payload.district);
 
-      const newRegionArray = exists ? state.region.filter((r) => !(r.city === action.payload.city && r.district === action.payload.district)) : [...state.region, action.payload]; // 없으면 추가
-
       return {
         ...state,
-        region: newRegionArray,
+        region: exists
+          ? state.region.filter((r) => !(r.city === action.payload.city && r.district === action.payload.district))
+          : state.region.length >= 5
+          ? state.region // 5개 이상이면 그대로 반환
+          : [...state.region, action.payload],
       };
     }
 
