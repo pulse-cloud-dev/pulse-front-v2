@@ -1,9 +1,9 @@
 import { ScheduleAction, ScheduleState, Region } from "./types";
 
-// 초기 상태는 Set으로 올바르게 초기화합니다.
+// 초기 상태를 region은 배열로 변경합니다.
 export const initialScheduleState: ScheduleState = {
   mode: true,
-  region: new Set<Region>(),
+  region: [] as Region[], // 배열로 변경
   days: new Set<string>(),
 };
 
@@ -28,21 +28,21 @@ export const scheduleReducer = (state: ScheduleState, action: ScheduleAction): S
     }
 
     case "DELETE_REGION": {
-      const newRegionSet = new Set(state.region);
-      newRegionSet.delete(action.payload);
+      const newRegionArray = state.region.filter((region) => region !== action.payload);
       return {
         ...state,
-        region: new Set(newRegionSet),
+        region: newRegionArray,
       };
     }
 
     case "UPDATE_REGION": {
-      const newRegionSet = new Set(state.region);
-      newRegionSet.add(action.payload);
+      const exists = state.region.some((r) => r.city === action.payload.city && r.district === action.payload.district);
+
+      const newRegionArray = exists ? state.region.filter((r) => !(r.city === action.payload.city && r.district === action.payload.district)) : [...state.region, action.payload]; // 없으면 추가
 
       return {
         ...state,
-        region: newRegionSet,
+        region: newRegionArray,
       };
     }
 

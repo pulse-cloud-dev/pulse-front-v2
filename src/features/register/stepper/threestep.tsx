@@ -1,8 +1,8 @@
 import { StepProps } from "./type/stepstype";
 import { BaseButton, Typography } from "@/shared/components";
 import { HTMLAttributes, PropsWithChildren, useState } from "react";
-import { Modal } from "@/shared/modules";
 import { useSchedule } from "./schedulecontext/context";
+import { CheckField } from "@/shared/modules/select-ui";
 // FooterProps 타입 정의
 interface FooterProps extends HTMLAttributes<HTMLElement>, PropsWithChildren {
   onPrev: () => void;
@@ -11,8 +11,30 @@ interface FooterProps extends HTMLAttributes<HTMLElement>, PropsWithChildren {
 
 // Footer 컴포넌트 정의
 const Footer = ({ className = "", children, onPrev, onNext, ...restProps }: FooterProps) => {
+  //선택된거 리스트보여주기
+  const { schedule, dispatch } = useSchedule();
+  //schedule.region을 이용하여 선택된 지역과 구를 보여줄 수 있습니다.
   return (
     <footer className={`popup--online__footer ${className}`} {...restProps}>
+      <div>
+        {Array.from(schedule.region).map((region, index) => (
+          <button
+            key={index}
+            className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm hover:bg-blue-200 transition-colors mr-2"
+            onClick={() => {
+              dispatch({ type: "DELETE_REGION", payload: region });
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <Typography size="14" weight="medium" color="primary" colorscale="40" style={{ display: "inline-block" }}>
+                {region.city}
+                {region.district}
+              </Typography>
+              <div style={{ display: "inline-block", marginLeft: "2px" }}>x</div>
+            </div>
+          </button>
+        ))}
+      </div>
       <div className="popup--online__footer--right">
         <BaseButton color="reverse" onClick={onPrev}>
           나중에
@@ -30,6 +52,7 @@ interface BodyProps extends HTMLAttributes<HTMLDivElement>, PropsWithChildren {}
 const Body = (props: BodyProps) => {
   const { className, children, ...restProps } = props;
   const [city, setCity] = useState("서울특별시");
+
   const regions = [
     {
       city: "서울특별시",
@@ -218,37 +241,68 @@ const Body = (props: BodyProps) => {
     },
   ];
   const { schedule, dispatch } = useSchedule();
-  console.log(schedule);
-  return (
-    <div className={`popup--online__body ${className}`} {...restProps}>
-      <ul>
-        {regions.map((region) => (
-          <li key={region.city} style={{ color: city === region.city ? "red" : "black", cursor: "pointer" }} onClick={() => setCity(region.city)}>
-            {region.city}
-          </li>
-        ))}
-      </ul>
 
-      <ul>
+  return (
+    <div className={`popup--step3__body ${className}`} {...restProps} style={{ display: "flex", height: "356px" }}>
+      <div style={{ display: "flex", flex: "1", width: "full", overflow: "scroll", flexDirection: "column" }}>
+        {regions.map((region) => (
+          <div
+            key={region.city}
+            style={{
+              display: "flex",
+              justifyContent: "start",
+              alignItems: "center",
+              boxSizing: "border-box",
+              backgroundColor: city === region.city ? "var(--palette-gray-30)" : "var(--palette-white-05)",
+              border: "0.5px solid var(--palette-gray-30)",
+              cursor: "pointer",
+              minHeight: "54px",
+              width: "100%",
+              padding: "auto",
+            }}
+            onClick={() => setCity(region.city)}
+          >
+            <Typography weight="medium" size="16">
+              {region.city}
+            </Typography>
+          </div>
+        ))}
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", flex: "1", overflow: "scroll" }}>
         {regions
           .find((region) => region.city === city)
           ?.district.map((district) => (
-            <li key={district} onClick={() => dispatch({ type: "UPDATE_REGION", payload: { city, district } })}>
-              <Typography>{district}</Typography>
-            </li>
+            <div key={district} style={{ cursor: "pointer", height: "54px", width: "100%", padding: "10px", minHeight: "54px", boxSizing: "border-box" }}>
+              <CheckField className="check-field-module" variant="circle">
+                <CheckField.Input
+                  checkId={district}
+                  name={district}
+                  isChecked={[...schedule.region].some((r) => r.city === city && r.district === district)}
+                  onChange={() => {
+                    dispatch({ type: "UPDATE_REGION", payload: { city, district } });
+                  }}
+                />
+                <CheckField.Label checkId={district}>{district}</CheckField.Label>
+              </CheckField>
+            </div>
           ))}
-      </ul>
+      </div>
     </div>
   );
 };
+
+const Header = () => {
+  return <></>;
+};
+
 export const ThreeStep: React.FC<StepProps> = ({ onNext, onPrev }) => {
   return (
-    <div>
-      <div className="popup--online">
-        <Modal id="2" title="step3">
-          <Body />
-          <Footer onNext={onNext} onPrev={onPrev} />
-        </Modal>
+    <div className="modal_box on">
+      <div className={`popup--step3__layout`}>
+        <Header />
+        <Body />
+        <Footer onNext={onNext} onPrev={onPrev} style={{ borderTop: "1px solid #eee" }} />
       </div>
     </div>
   );

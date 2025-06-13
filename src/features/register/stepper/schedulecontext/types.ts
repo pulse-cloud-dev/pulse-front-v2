@@ -5,7 +5,7 @@ export interface Region {
 
 export interface ScheduleState {
   mode: boolean; // online/offline 모드
-  region: Set<Region>; // Region 객체의 Set
+  region: Array<Region>; // Region 객체의 Set
   days: Set<string>; // 문자열 Set (선택된 요일들)
 }
 
