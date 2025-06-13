@@ -28,13 +28,10 @@ const RemovableRegiobutton = forwardRef<HTMLButtonElement, RemovableRegiobuttonP
   );
 });
 
-// FooterProps 타입 정의
 interface FooterProps extends HTMLAttributes<HTMLElement>, PropsWithChildren {
   onPrev: () => void;
   onNext: () => void;
 }
-
-// Footer 컴포넌트 정의
 
 const Footer = ({ className = "", onPrev, onNext, ...restProps }: FooterProps) => {
   const { schedule, dispatch } = useSchedule();
@@ -46,7 +43,7 @@ const Footer = ({ className = "", onPrev, onNext, ...restProps }: FooterProps) =
           width: "100%",
           height: "98px",
           borderBottom: "1px solid var(--palette-gray-30)",
-          padding: "16px 24px", // 상하 16px, 좌우 24px
+          padding: "16px 24px",
         }}
       >
         {Array.from(schedule.region).map((region) => (
@@ -67,7 +64,7 @@ const Footer = ({ className = "", onPrev, onNext, ...restProps }: FooterProps) =
         <BaseButton color="reverse" onClick={onPrev}>
           나중에
         </BaseButton>
-        <BaseButton color="primary" onClick={onNext}>
+        <BaseButton color="primary" onClick={onPrev}>
           지금등록
         </BaseButton>
       </div>

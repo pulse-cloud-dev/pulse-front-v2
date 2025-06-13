@@ -12,7 +12,16 @@ interface FooterProps extends HTMLAttributes<HTMLElement>, PropsWithChildren {
 const Footer = ({ className = "", children, onPrev, onNext, ...restProps }: FooterProps) => {
   return (
     <footer className={`popup--online__footer ${className}`} {...restProps}>
-      <div className="popup--online__footer--right">
+      <div
+        style={{
+          marginLeft: "auto",
+          display: "flex",
+          gap: "8px",
+          justifyContent: "flex-end",
+          alignItems: "center",
+          padding: "24px",
+        }}
+      >
         <BaseButton color="reverse" onClick={onPrev}>
           나중에
         </BaseButton>
@@ -27,9 +36,8 @@ const Footer = ({ className = "", children, onPrev, onNext, ...restProps }: Foot
 
 interface BodyProps extends HTMLAttributes<HTMLDivElement>, PropsWithChildren {}
 const Body = (props: BodyProps) => {
-  const { className, children, ...restProps } = props;
   return (
-    <div className={`popup--online__body ${className}`} {...restProps}>
+    <div style={{ marginTop: "16px", marginLeft: "24px", marginRight: "24px" }}>
       <Typography size="14" weight="regular">
         2가지만 더 등록하면 맞춤 알림을 받아보실 수 있어요
       </Typography>
@@ -38,12 +46,19 @@ const Body = (props: BodyProps) => {
 };
 // OneStep 컴포넌트 정의
 export const OneStep: React.FC<StepProps> = ({ onNext, onPrev }) => (
-  <div>
-    <div className="modal-layout">
-      <Modal id="1" title="멘토등록이 완료되었어요">
-        <Body />
-        <Footer onNext={onNext} onPrev={onPrev} />
-      </Modal>
+  <div className="modal_box on">
+    <div className="popup--step3__layout">
+      <Header />
+      <Body />
+      <Footer onNext={onNext} onPrev={onPrev} />
     </div>
   </div>
 );
+
+const Header = () => {
+  return (
+    <div style={{ marginTop: "32px", marginRight: "24px", marginLeft: "24px" }}>
+      <Typography>멘토등록이 완료되었어요</Typography>
+    </div>
+  );
+};
