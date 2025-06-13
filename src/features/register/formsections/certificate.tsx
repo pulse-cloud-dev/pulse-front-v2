@@ -15,7 +15,9 @@ export const Certificate = ({ stacks, pushStack, popStack, updateStackField, res
         }}
       >
         <Typography weight="semi-bold">자격증</Typography>
-        <button onClick={pushStack}>+</button>
+        <button type="button" onClick={pushStack}>
+          +
+        </button>
       </div>
 
       {stacks.map((stack, i) => (

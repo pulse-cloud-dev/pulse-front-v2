@@ -18,7 +18,9 @@ export const Education = ({ stacks, pushStack, popStack, updateStackField, reset
           }}
         >
           <Typography weight="semi-bold">학력</Typography>
-          <button onClick={pushStack}>+</button>
+          <button type="button" onClick={pushStack}>
+            +
+          </button>
         </div>
 
         {stacks.map((stack, i) => (

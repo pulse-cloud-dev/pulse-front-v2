@@ -4,7 +4,7 @@ import { FormField } from "@/shared/components";
 import { Dropdown, DropdownItem } from "@/shared/components/blocks/dropdown/dropdown";
 import { DatePickerField } from "@/shared/components/blocks/datepicker/DatePickerField";
 import ToggleBtn from "@/shared/components/blocks/togglebutton/togglebutton";
-
+import { Icon } from "@/shared/components";
 const careerGridStyle = {
   display: "grid",
   gridTemplateColumns: "263fr 263fr 263fr  90fr 180fr 180fr",
@@ -38,7 +38,9 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
         }}
       >
         <Typography weight="semi-bold">경력</Typography>
-        <button onClick={pushStack}>+</button>
+        <button type="button" onClick={pushStack}>
+          +
+        </button>
       </div>
 
       {stacks.map((stack, i) => {
