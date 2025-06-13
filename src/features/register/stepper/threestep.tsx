@@ -18,12 +18,12 @@ type RemovableRegiobuttonProps = {
 
 const RemovableRegiobutton = forwardRef<HTMLButtonElement, RemovableRegiobuttonProps>(({ region, onRemove }, ref) => {
   return (
-    <button ref={ref} type="button" onClick={onRemove} aria-label={`Remove ${region.city} ${region.district}`} style={{}}>
+    <button ref={ref} type="button" onClick={onRemove} aria-label={`Remove ${region.city} ${region.district}`} style={{ display: "inline-flex", justifyContent: "center", alignItems: "center" }}>
       <Typography size="14" weight="medium" color="primary" colorscale="40" style={{ display: "inline-block" }}>
         {region.city}
         {region.district}
       </Typography>
-      <span style={{ marginLeft: 4, fontSize: 16 }}>×</span>
+      <Icon src="close_line_bk_24" alt="지역 제거" style={{ width: "10px", height: "10px" }} />
     </button>
   );
 });
@@ -370,7 +370,7 @@ export const HeaderSearchbar = forwardRef<HTMLInputElement, HeaderSearchbarProps
         display: "flex",
         alignItems: "center",
         gap: "8px",
-        width: "100%", // ✅ 가로 100%
+        width: "100%",
         height: "48px",
         padding: "0 18px",
         border: "1px solid var(--palette-gray-30)",
@@ -384,7 +384,7 @@ export const HeaderSearchbar = forwardRef<HTMLInputElement, HeaderSearchbarProps
       <label htmlFor={id} className="visually-hidden">
         검색어 입력
       </label>
-      <Icon src="search_18" alt="search icon" />
+
       <input
         id={id}
         ref={ref}
@@ -400,6 +400,7 @@ export const HeaderSearchbar = forwardRef<HTMLInputElement, HeaderSearchbarProps
         }}
         {...rest}
       />
+      <Icon src="search_18" alt="search icon" />
     </div>
   );
 });
