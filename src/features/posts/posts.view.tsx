@@ -1,65 +1,297 @@
-// 리팩토링된 PostsView 컴포넌트
+// 리팩토링된 PostsView 컴포넌트 (onBlur 유효성 검사 추가)
 import type { Dispatch, SetStateAction } from "react";
 import type { EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import type { ViewEventProps } from "@/shared/types";
 import { TextEditorView, useTextEditor } from "@/shared/modules/text-editor";
-import { BaseButton, BaseTextField, Typography } from "@/shared/components";
+import { BaseButton, Typography } from "@/shared/components";
 import { DatePickerField } from "@/shared/components/blocks/datepicker/DatePickerField";
 import { useState } from "react";
+import { FormField } from "@/shared/components";
 
-interface FormState {
-  title: string;
-  content: string;
-  dueDate: Date | null;
-  dueTime: string;
-  startDate: Date | null;
-  endDate: Date | null;
-  lectureFormat: "온라인" | "오프라인";
-  onlinePlatform: string;
-  offlineAddress: string;
-  offlineDetailAddress: string;
-  recruitCount: string;
-  mentorFee: string;
-}
+type FieldState<value> = {
+  value: value;
+  errorMessage: string;
+  pattern?: RegExp;
+  state: "valid" | "invalid" | "pending";
+  dependsOn?: string[];
+  customValidator?: (value: any, formData: FormState) => boolean;
+};
+
+type FormState = {
+  title: FieldState<string>;
+  content: FieldState<string>;
+  dueDate: FieldState<Date>;
+  dueTime: FieldState<string>;
+  startDate: FieldState<Date>;
+  endDate: FieldState<Date>;
+  lectureFormat: FieldState<"온라인" | "오프라인">;
+  onlinePlatform: FieldState<string>;
+  offlineAddress: FieldState<string>;
+  offlineDetailAddress: FieldState<string>;
+  recruitCount: FieldState<string>;
+  mentorFee: FieldState<string>;
+};
 
 interface PostsViewProps extends ViewEventProps {
   textEditorState: [EditorState, Dispatch<SetStateAction<EditorState>>];
 }
 
-const textFieldClass = "m-t-30 m-b-30 gap_12";
+const textFieldClass = "m-t-30 m-b-30 gap_12 ";
+const textFieldlabelClass = "fs_16_bold";
 
 const lectureFormatOptions = [
   { value: "온라인" as const, label: "온라인" },
   { value: "오프라인" as const, label: "오프라인" },
 ];
 
+// 커스텀 훅 정의 (onBlur 유효성 검사 추가)
 const useFormState = () => {
   const [formData, setFormData] = useState<FormState>({
-    title: "",
-    content: "",
-    dueDate: new Date(),
-    dueTime: "00:00",
-    startDate: new Date(),
-    endDate: new Date(),
-    lectureFormat: "온라인",
-    onlinePlatform: "",
-    offlineAddress: "",
-    offlineDetailAddress: "",
-    recruitCount: "",
-    mentorFee: "",
+    title: {
+      value: "",
+      errorMessage: "제목은 1자 이상 100자 이하로 입력해주세요.",
+      pattern: /^.{1,100}$/,
+      state: "pending",
+    },
+    content: {
+      value: "",
+      errorMessage: "내용을 입력해주세요.",
+      state: "pending",
+    },
+    dueDate: {
+      value: new Date(),
+      errorMessage: "마감일을 입력해주세요.",
+      state: "pending",
+      customValidator: (value: Date) => value > new Date(),
+    },
+    dueTime: {
+      value: "00:00",
+      errorMessage: "마감 시간을 입력해주세요.",
+      state: "pending",
+    },
+    startDate: {
+      value: new Date(),
+      errorMessage: "시작일을 입력해주세요.",
+      state: "pending",
+    },
+    endDate: {
+      value: new Date(),
+      errorMessage: "종료일은 시작일보다 늦어야 합니다.",
+      state: "pending",
+      dependsOn: ["startDate"],
+      customValidator: (value: Date, formData: FormState) => {
+        const startDate = formData.startDate.value as Date;
+        return value >= startDate;
+      },
+    },
+    lectureFormat: {
+      value: "온라인",
+      errorMessage: "강의 형식을 선택해주세요.",
+      state: "pending",
+    },
+    onlinePlatform: {
+      value: "",
+      errorMessage: "온라인 플랫폼을 입력해주세요.",
+      state: "pending",
+    },
+    offlineAddress: {
+      value: "",
+      errorMessage: "오프라인 주소를 입력해주세요.",
+      state: "pending",
+    },
+    offlineDetailAddress: {
+      value: "",
+      errorMessage: "상세 주소를 입력해주세요.",
+      state: "pending",
+    },
+    recruitCount: {
+      value: "",
+      errorMessage: "1명 이상의 숫자를 입력해주세요.",
+      pattern: /^[1-9][0-9]*$/,
+      state: "pending",
+    },
+    mentorFee: {
+      value: "",
+      errorMessage: "숫자만 입력해주세요.",
+      pattern: /^[0-9]+$/,
+      state: "pending",
+    },
   });
 
-  const updateField = <K extends keyof FormState>(key: K, value: FormState[K]) => {
-    setFormData((prev) => ({ ...prev, [key]: value }));
+  console.log("formdata", formData);
+
+  // 필드 값 업데이트 함수
+  const updateField = <Key extends keyof FormState>(key: Key, value: FormState[Key]["value"]) => {
+    setFormData((prev) => ({
+      ...prev,
+      [key]: {
+        ...prev[key],
+        value,
+        state: "pending",
+      },
+    }));
   };
 
-  const isDueDateValid = !formData.dueDate || formData.dueDate > new Date();
-  const isValidDateRange = !formData.startDate || !formData.endDate || formData.startDate <= formData.endDate;
+  // 개별 필드 유효성 검사 함수
+  const validateField = (key: keyof FormState, field: FieldState<any>, formData: FormState): boolean => {
+    const { value, pattern, customValidator } = field;
 
-  const isFormValid = formData.title && formData.recruitCount && formData.mentorFee && isDueDateValid && isValidDateRange;
+    // 1. 필수 필드 검사 (빈 값 체크)
+    if (typeof value === "string" && value.trim() === "") {
+      // 특정 필드들은 조건부로 필수가 아닐 수 있음
+      if (key === "onlinePlatform" && formData.lectureFormat.value === "오프라인") {
+        return true;
+      }
+      if ((key === "offlineAddress" || key === "offlineDetailAddress") && formData.lectureFormat.value === "온라인") {
+        return true;
+      }
+      return false;
+    }
 
-  return { formData, updateField, isDueDateValid, isValidDateRange, isFormValid };
+    // 2. 패턴 검사
+    if (pattern && typeof value === "string" && !pattern.test(value)) {
+      return false;
+    }
+
+    // 3. 커스텀 유효성 검사
+    if (customValidator && !customValidator(value, formData)) {
+      return false;
+    }
+
+    return true;
+  };
+
+  // 전체 폼 유효성 검사 함수
+  const checkError = (formData: FormState): [boolean, FormState] => {
+    let hasError = false;
+    const newFormData = { ...formData };
+
+    (Object.keys(formData) as Array<keyof FormState>).forEach((key) => {
+      const field = formData[key];
+      const isValid = validateField(key, field, formData);
+
+      if (!isValid) {
+        (newFormData[key] as any) = {
+          ...field,
+          state: "invalid",
+        };
+        hasError = true;
+      } else {
+        (newFormData[key] as any) = {
+          ...field,
+          state: "valid",
+        };
+      }
+    });
+
+    return [hasError, newFormData];
+  };
+
+  // 실시간 유효성 검사 함수 (개별 필드용)
+  const validateSingleField = (key: keyof FormState) => {
+    setFormData((prev) => {
+      const field = prev[key];
+      const isValid = validateField(key, field, prev);
+
+      return {
+        ...prev,
+        [key]: {
+          ...field,
+          state: isValid ? "valid" : "invalid",
+        },
+      };
+    });
+  };
+
+  // 값을 받아서 상태 업데이트 + 에러 검증
+  const validateAndUpdate = <Key extends keyof FormState>(key: Key, value: FormState[Key]["value"]) => {
+    setFormData((prev) => {
+      const newFormData = {
+        ...prev,
+        [key]: {
+          ...prev[key],
+          value,
+        },
+      };
+
+      // 업데이트된 값으로 유효성 검사
+      const field = newFormData[key];
+      const isValid = validateField(key, field, newFormData);
+
+      // 검증 결과 반영
+      const finalFormData = {
+        ...newFormData,
+        [key]: {
+          ...field,
+          state: isValid ? "valid" : "invalid",
+        },
+      };
+
+      // 의존성이 있는 필드들도 같이 검사
+      const currentField = prev[key];
+      if (currentField.dependsOn) {
+        currentField.dependsOn.forEach((dependentKey) => {
+          const depKey = dependentKey as keyof FormState;
+          const depField = finalFormData[depKey];
+          const depIsValid = validateField(depKey, depField, finalFormData);
+          (finalFormData[depKey] as any) = {
+            ...depField,
+            state: depIsValid ? "valid" : "invalid",
+          };
+        });
+      }
+
+      // 현재 필드에 의존하는 다른 필드들도 검사
+      (Object.keys(finalFormData) as Array<keyof FormState>).forEach((fieldKey) => {
+        const fieldData = finalFormData[fieldKey];
+        if (fieldData.dependsOn?.includes(key as string)) {
+          const depIsValid = validateField(fieldKey, fieldData, finalFormData);
+          (finalFormData[fieldKey] as any) = {
+            ...fieldData,
+            state: depIsValid ? "valid" : "invalid",
+          };
+        }
+      });
+
+      return finalFormData;
+    });
+  };
+
+  // DatePickerField용 onBlur 핸들러
+  const handleBlur = (fieldKey: keyof FormState) => {
+    const currentValue = formData[fieldKey].value;
+    validateAndUpdate(fieldKey, currentValue);
+  };
+
+  // 폼 제출 가능 여부 확인
+  const isFormValid = (): boolean => {
+    const [hasError] = checkError(formData);
+    return !hasError;
+  };
+
+  // 특정 필드들의 상태 확인 (조건부 필드용)
+  const getRequiredFields = (): (keyof FormState)[] => {
+    const baseRequired: (keyof FormState)[] = ["title", "content", "dueDate", "dueTime", "startDate", "endDate", "lectureFormat", "recruitCount", "mentorFee"];
+
+    if (formData.lectureFormat.value === "온라인") {
+      return [...baseRequired, "onlinePlatform"];
+    } else {
+      return [...baseRequired, "offlineAddress", "offlineDetailAddress"];
+    }
+  };
+
+  return {
+    formData,
+    updateField,
+    checkError,
+    validateSingleField,
+    validateAndUpdate,
+    handleBlur, // 새로 추가된 함수
+    isFormValid,
+    getRequiredFields,
+    setFormData,
+  };
 };
 
 export const PostsView = (props: PostsViewProps) => {
@@ -67,21 +299,21 @@ export const PostsView = (props: PostsViewProps) => {
   const [editorState, setEditorState] = textEditorState;
 
   // 폼 상태 관리 훅 사용
-  const { formData, updateField, isValidDateRange, isDueDateValid, isFormValid } = useFormState();
+  const { formData, updateField, validateAndUpdate, handleBlur, isFormValid } = useFormState();
 
-  const { editorRef, editorState: editorStatess, editorModel, onChange, toggleBlockType, toggleInlineStyle, handleKeyCommand, keyBindingFn, changeHandler } = useTextEditor({ editorState, setEditorState });
+  const { editorRef, editorModel, onChange, toggleBlockType, toggleInlineStyle, handleKeyCommand, keyBindingFn } = useTextEditor({ editorState, setEditorState });
 
   const handleSubmit = () => {
-    if (!isFormValid) {
+    if (!isFormValid()) {
       alert("모든 필드를 올바르게 입력해주세요.");
       return;
     }
-    // 폼 제출 로직
-    console.log("Form Data:", formData);
+
+    console.log("Form Data:", formData, textEditorState);
   };
 
   return (
-    <article className="sub-layout__content">
+    <form className="sub-layout__content">
       <header>
         <Typography variant="title" size="24" weight="bold">
           멘티 모집글 등록
@@ -89,7 +321,17 @@ export const PostsView = (props: PostsViewProps) => {
       </header>
 
       <section className="m-t-30">
-        <BaseTextField label="제목" labelSize="md" className={textFieldClass} placeholder="제목을 입력해주세요" value={formData.title} onChange={(value) => updateField("title", value)} error={formData.title === "" ? "제목을 입력해주세요" : ""} />
+        <FormField
+          className={textFieldClass}
+          name="제목"
+          label="제목"
+          placeholder="제목을 입력해주세요"
+          value={formData.title.value}
+          onChange={(e) => updateField("title", e.target.value)}
+          onBlur={(e) => validateAndUpdate("title", e.target.value)}
+          isInvalid={formData.title.state === "invalid"}
+          errorMessage={formData.title.errorMessage}
+        />
       </section>
 
       <section className="m-t-30">
@@ -97,25 +339,31 @@ export const PostsView = (props: PostsViewProps) => {
           내용
         </Typography>
         <div className="flex_r m-t-10 border-gray p-10 gap_5 items-center justify-center">
-          <button onClick={() => toggleInlineStyle("BOLD")}>B</button>
-          <button onClick={() => toggleInlineStyle("ITALIC")}>I</button>
-          <button onClick={() => toggleInlineStyle("STRIKETHROUGH")}>S</button>
-          <button onClick={() => toggleInlineStyle("UNDERLINE")}>
+          <button type="button" onClick={() => toggleInlineStyle("BOLD")}>
+            B
+          </button>
+          <button type="button" onClick={() => toggleInlineStyle("ITALIC")}>
+            I
+          </button>
+          <button type="button" onClick={() => toggleInlineStyle("STRIKETHROUGH")}>
+            S
+          </button>
+          <button type="button" onClick={() => toggleInlineStyle("UNDERLINE")}>
             <U />
           </button>
-          <button onClick={() => toggleBlockType("header-one")}>
+          <button type="button" onClick={() => toggleBlockType("header-one")}>
             <H1 />
           </button>
-          <button onClick={() => toggleBlockType("header-two")}>
+          <button type="button" onClick={() => toggleBlockType("header-two")}>
             <H2 />
           </button>
-          <button onClick={() => toggleBlockType("header-three")}>
+          <button type="button" onClick={() => toggleBlockType("header-three")}>
             <H3 />
           </button>
-          <button onClick={() => toggleBlockType("unordered-list-item")}>
+          <button type="button" onClick={() => toggleBlockType("unordered-list-item")}>
             <Bullet />
           </button>
-          <button onClick={() => toggleBlockType("ordered-list-item")}>
+          <button type="button" onClick={() => toggleBlockType("ordered-list-item")}>
             <Orderelistitem />
           </button>
         </div>
@@ -133,105 +381,145 @@ export const PostsView = (props: PostsViewProps) => {
         </div>
       </section>
 
-      <section className="m-t-30">
-        <Typography variant="title" size="16" weight="bold">
-          모집 마감 기한
-        </Typography>
+      <div className="m-t-30">
         <div className="flex_r m-t-12">
-          <DatePickerField name="duedate " id="duedate" selected={formData.dueDate} onChange={(date) => updateField("dueDate", date)} placeholderText="모집 마감 기한을 선택해 주세요." />
-          {/* <TimeSelector value={formData.dueTime} onChange={(time) => updateField("dueTime", time)} /> */}
+          <DatePickerField
+            labelSize="md"
+            label=" 모집 마감 기한"
+            name="duedate"
+            selected={formData.dueDate.value}
+            onChange={(date) => updateField("dueDate", date || new Date())}
+            onBlur={() => handleBlur("dueDate")}
+            placeholderText="모집 마감 기한을 선택해 주세요."
+          />
         </div>
 
-        {!isDueDateValid && formData.dueDate && <p className="text-red-500 text-sm m-t-8">마감 기한은 현재 시간 이후여야 합니다.</p>}
-
         <div className="flex_c m-t-32">
-          <div>
-            <Typography variant="title" size="16" weight="bold">
-              멘토링 기간
-            </Typography>
+          <div className="flex_r ai_end  m-t-12">
+            <DatePickerField
+              labelSize="md"
+              label="멘토링기간"
+              name="startdate"
+              selected={formData.startDate.value}
+              onChange={(date) => updateField("startDate", date || new Date())}
+              onBlur={() => handleBlur("startDate")}
+              placeholderText="시작일을 선택해 주세요."
+            />
+            <div className="m-r-16 m-l-16 m-b-13">~</div>
+            <DatePickerField label="" name="enddate" selected={formData.endDate.value} onChange={(date) => updateField("endDate", date || new Date())} onBlur={() => handleBlur("endDate")} placeholderText="종료일을 선택해 주세요." />
           </div>
-          <div className="flex_r ai_center m-t-12">
-            <DatePickerField name="startdate" id="startdate" selected={formData.startDate} onChange={(date) => updateField("startDate", date)} placeholderText="시작일을 선택해 주세요." />
-            <div className="m-r-16 m-l-16">~</div>
-            <DatePickerField name="enddate" id="enddate" selected={formData.endDate} onChange={(date) => updateField("endDate", date)} placeholderText="종료일을 선택해 주세요." />
-          </div>
-
-          {!isValidDateRange && <p className="text-red-500 text-sm m-t-8">종료일은 시작일보다 늦어야 합니다.</p>}
         </div>
 
         <div className="m-t-32">
           <Typography variant="title" size="16" weight="bold">
             강의형식
           </Typography>
-          <div className="m-t-10 m-b-30">{/* <ToggleButtonGroup options={lectureFormatOptions} value={formData.lectureFormat} onChange={(value) => updateField("lectureFormat", value)} /> */}</div>
-        </div>
+          <div className="m-t-10 m-b-30">
+            {lectureFormatOptions.map((option) => {
+              const { value, label } = option;
+              return (
+                <BaseButton
+                  key={value}
+                  type="button"
+                  className={`m-r-8 ${formData.lectureFormat.value === value ? "primary" : "reverse"}`}
+                  onClick={() => {
+                    updateField("lectureFormat", value);
+                    // 강의 형식 변경 시 관련 필드들 재검증
+                    setTimeout(() => {
+                      validateAndUpdate("lectureFormat", value);
+                    }, 0);
+                  }}
+                >
+                  {label}
+                </BaseButton>
+              );
+            })}
+          </div>
 
-        {formData.lectureFormat === "온라인" && (
-          <div>
-            <BaseTextField
+          {formData.lectureFormat.value === "온라인" && (
+            <FormField
+              name="온라인 플랫폼"
               label="온라인 플랫폼"
               className={textFieldClass}
               placeholder="온라인 플랫폼(ex. Zoom, Discord, Google Meets)을 입력해 주세요. 입력하지 않을 경우 '미정'으로 등록됩니다."
-              value={formData.onlinePlatform}
-              onChange={(value) => updateField("onlinePlatform", value)}
-              error={""}
+              value={formData.onlinePlatform.value}
+              onChange={(e) => updateField("onlinePlatform", e.target.value)}
+              onBlur={(e) => validateAndUpdate("onlinePlatform", e.target.value)}
+              isInvalid={formData.onlinePlatform.state === "invalid"}
+              errorMessage={formData.onlinePlatform.errorMessage}
             />
-          </div>
-        )}
+          )}
 
-        {formData.lectureFormat === "오프라인" && (
-          <div className={textFieldClass}>
-            <div className="flex_r ai_end gap_8">
-              <BaseTextField
-                className="gap_12 flex1"
-                label="오프라인 주소"
-                placeholder="일반 주소"
-                value={formData.offlineAddress}
-                onChange={(value) => updateField("offlineAddress", value)}
-                error={formData.offlineAddress === "" ? "주소를 입력해주세요" : ""}
-              />
-              <BaseButton color="reverse" size="md">
-                주소 검색
-              </BaseButton>
+          {formData.lectureFormat.value === "오프라인" && (
+            <div className={textFieldClass}>
+              <div className="flex_r ai_end gap_8">
+                <FormField
+                  name="오프라인 주소"
+                  className={textFieldClass}
+                  label="오프라인 주소"
+                  placeholder="일반 주소"
+                  value={formData.offlineAddress.value}
+                  onChange={(e) => updateField("offlineAddress", e.target.value)}
+                  onBlur={(e) => validateAndUpdate("offlineAddress", e.target.value)}
+                  isInvalid={formData.offlineAddress.state === "invalid"}
+                  errorMessage={formData.offlineAddress.errorMessage}
+                />
+                <BaseButton type="button" color="reverse" size="md">
+                  주소 검색
+                </BaseButton>
+              </div>
+              <div className="flex_r m-t-30">
+                <FormField
+                  label="상세주소"
+                  name="상세주소"
+                  placeholder="상세주소를 입력해주세요."
+                  value={formData.offlineDetailAddress.value}
+                  onBlur={(e) => validateAndUpdate("offlineDetailAddress", e.target.value)}
+                  onChange={(e) => updateField("offlineDetailAddress", e.target.value)}
+                  errorMessage={formData.offlineDetailAddress.errorMessage}
+                  isInvalid={formData.offlineDetailAddress.state === "invalid"}
+                />
+              </div>
             </div>
-            <div className="flex_r m-t-30">
-              <BaseTextField className="flex1" placeholder="상세주소를 입력해주세요." value={formData.offlineDetailAddress} onChange={(value) => updateField("offlineDetailAddress", value)} error={""} />
-            </div>
+          )}
+
+          <FormField
+            name="모집인원"
+            label="모집인원"
+            className={textFieldClass}
+            placeholder="모집인원을 입력해주세요"
+            value={formData.recruitCount.value}
+            onChange={(e) => updateField("recruitCount", e.target.value)}
+            onBlur={(e) => validateAndUpdate("recruitCount", e.target.value)}
+            isInvalid={formData.recruitCount.state === "invalid"}
+            errorMessage={formData.recruitCount.errorMessage}
+          />
+
+          <FormField
+            name="1인 기준 멘토링 비용"
+            label="1인 기준 멘토링 비용"
+            className={textFieldClass}
+            placeholder="금액을 입력해주세요"
+            value={formData.mentorFee.value}
+            onChange={(e) => updateField("mentorFee", e.target.value)}
+            onBlur={(e) => validateAndUpdate("mentorFee", e.target.value)}
+            isInvalid={formData.mentorFee.state === "invalid"}
+            errorMessage={formData.mentorFee.errorMessage}
+          />
+
+          <div className="m-t-30 flex_r flex_jend gap_4">
+            <BaseButton color="reverse">취소</BaseButton>
+            <BaseButton type="submit" className={isFormValid() ? "primary" : "disabled"} onClick={handleSubmit} disabled={!isFormValid()}>
+              신청
+            </BaseButton>
           </div>
-        )}
-
-        <BaseTextField
-          label="모집인원"
-          labelSize="md"
-          className={textFieldClass}
-          placeholder="모집인원을 입력해주세요"
-          value={formData.recruitCount}
-          onChange={(value) => updateField("recruitCount", value)}
-          error={formData.recruitCount === "" ? "모집인원을 입력해주세요" : ""}
-        />
-
-        <BaseTextField
-          labelSize="md"
-          label="1인 기준 멘토링 비용"
-          className={textFieldClass}
-          placeholder="금액을 입력해주세요"
-          value={formData.mentorFee}
-          onChange={(value) => updateField("mentorFee", value)}
-          error={formData.mentorFee === "" ? "멘토링 비용을 입력해주세요" : ""}
-        />
-
-        <div className="m-t-30 flex_r flex_jend gap_4">
-          <BaseButton color="reverse">취소</BaseButton>
-          <BaseButton className={isFormValid ? "primary" : "disabled"} onClick={handleSubmit}>
-            신청
-          </BaseButton>
         </div>
-      </section>
-    </article>
+      </div>
+    </form>
   );
 };
 
-// 아이콘 컴포넌트들 (기존과 동일)
+// 아이콘 컴포넌트들
 import { Icon } from "@/shared/components";
 
 const Bullet = ({ className = "", ...props }) => {
