@@ -316,6 +316,7 @@ export const PostsView = (props: PostsViewProps) => {
 
     console.log("Form Data:", formData, textEditorState);
   };
+  console.log("isFormValid()", isFormValid());
 
   return (
     <div className="sub-layout__content">
@@ -467,7 +468,7 @@ export const PostsView = (props: PostsViewProps) => {
 
             {formData.lectureFormat.value === "오프라인" && (
               <div className={textFieldClass}>
-                <div className="flex_r ai_end gap_8">
+                <div className="flex_r ai_end gap_8" style={{ justifyContent: "end", alignItems: "center" }}>
                   <div style={formfieldlayout}>
                     <FormField
                       name="오프라인 주소"
@@ -506,7 +507,7 @@ export const PostsView = (props: PostsViewProps) => {
                 </div>
               </div>
             )}
-            <div style={formfieldlayout}>
+            <div style={{ ...formfieldlayout, marginTop: "16px" }}>
               <FormField
                 name="모집인원"
                 label="모집인원"
