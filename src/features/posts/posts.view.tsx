@@ -1,13 +1,14 @@
 // 리팩토링된 PostsView 컴포넌트 (onBlur 유효성 검사 추가)
-import type { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction, useMemo } from "react";
 import type { EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import type { ViewEventProps } from "@/shared/types";
 import { TextEditorView, useTextEditor } from "@/shared/modules/text-editor";
 import { BaseButton, Typography } from "@/shared/components";
 import { DatePickerField } from "@/shared/components/blocks/datepicker/DatePickerField";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormField } from "@/shared/components";
+import { Dropdown, DropdownItem } from "@/shared/components/blocks/dropdown/dropdown";
 
 type FieldState<value> = {
   value: value;
@@ -26,7 +27,6 @@ const formfieldlayout: React.CSSProperties = {
 
 type FormState = {
   title: FieldState<string>;
-  content: FieldState<string>;
   dueDate: FieldState<Date>;
   dueTime: FieldState<string>;
   startDate: FieldState<Date>;
@@ -52,6 +52,7 @@ const lectureFormatOptions = [
 
 // 커스텀 훅 정의 (onBlur 유효성 검사 추가)
 const useFormState = () => {
+  const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [formData, setFormData] = useState<FormState>({
     title: {
       value: "",
@@ -59,11 +60,7 @@ const useFormState = () => {
       pattern: /^.{1,100}$/,
       state: "pending",
     },
-    content: {
-      value: "",
-      errorMessage: "내용을 입력해주세요.",
-      state: "pending",
-    },
+
     dueDate: {
       value: new Date(),
       errorMessage: "마감일을 입력해주세요.",
@@ -126,6 +123,21 @@ const useFormState = () => {
 
   console.log("formdata", formData);
 
+  // formData 변화를 감지하여 isFormValid 업데이트
+  useEffect(() => {
+    const [hasError, updatedFormData] = checkError(formData);
+
+    if (hasError) {
+      const invalidFields = Object.entries(updatedFormData)
+        .filter(([_, field]) => field.state === "invalid")
+        .map(([key]) => key);
+
+      console.log("유효하지 않은 필드들:", invalidFields);
+    }
+
+    setIsFormValid(!hasError);
+  }, [formData]);
+
   // 필드 값 업데이트 함수
   const updateField = <Key extends keyof FormState>(key: Key, value: FormState[Key]["value"]) => {
     setFormData((prev) => ({
@@ -142,15 +154,22 @@ const useFormState = () => {
   const validateField = (key: keyof FormState, field: FieldState<any>, formData: FormState): boolean => {
     const { value, pattern, customValidator } = field;
 
+    // lectureFormat에 따른 조건부 검사
+    const isOnline = formData.lectureFormat.value === "온라인";
+    const isOffline = formData.lectureFormat.value === "오프라인";
+
+    // 온라인일 때 오프라인 필드는 검사하지 않음
+    if (isOnline && (key === "offlineAddress" || key === "offlineDetailAddress")) {
+      return true;
+    }
+
+    // 오프라인일 때 온라인 필드는 검사하지 않음
+    if (isOffline && key === "onlinePlatform") {
+      return true;
+    }
+
     // 1. 필수 필드 검사 (빈 값 체크)
     if (typeof value === "string" && value.trim() === "") {
-      // 특정 필드들은 조건부로 필수가 아닐 수 있음
-      if (key === "onlinePlatform" && formData.lectureFormat.value === "오프라인") {
-        return true;
-      }
-      if ((key === "offlineAddress" || key === "offlineDetailAddress") && formData.lectureFormat.value === "온라인") {
-        return true;
-      }
       return false;
     }
 
@@ -172,7 +191,20 @@ const useFormState = () => {
     let hasError = false;
     const newFormData = { ...formData };
 
+    // lectureFormat에 따른 검사할 필드 결정
+    const isOnline = formData.lectureFormat.value === "온라인";
+    const excludeFields = isOnline ? ["offlineAddress", "offlineDetailAddress"] : ["onlinePlatform"];
+
     (Object.keys(formData) as Array<keyof FormState>).forEach((key) => {
+      // 조건부로 제외할 필드는 검사하지 않음
+      if (excludeFields.includes(key as string)) {
+        (newFormData[key] as any) = {
+          ...formData[key],
+          state: "valid", // 제외된 필드는 valid로 설정
+        };
+        return;
+      }
+
       const field = formData[key];
       const isValid = validateField(key, field, formData);
 
@@ -269,22 +301,7 @@ const useFormState = () => {
     validateAndUpdate(fieldKey, currentValue);
   };
 
-  // 폼 제출 가능 여부 확인
-  const isFormValid = (): boolean => {
-    const [hasError] = checkError(formData);
-    return !hasError;
-  };
-
-  // 특정 필드들의 상태 확인 (조건부 필드용)
-  const getRequiredFields = (): (keyof FormState)[] => {
-    const baseRequired: (keyof FormState)[] = ["title", "content", "dueDate", "dueTime", "startDate", "endDate", "lectureFormat", "recruitCount", "mentorFee"];
-
-    if (formData.lectureFormat.value === "온라인") {
-      return [...baseRequired, "onlinePlatform"];
-    } else {
-      return [...baseRequired, "offlineAddress", "offlineDetailAddress"];
-    }
-  };
+  // 폼 제출 가능 여부 확인 (함수 제거됨 - 이제 isFormValid 변수 사용)
 
   return {
     formData,
@@ -292,13 +309,11 @@ const useFormState = () => {
     checkError,
     validateSingleField,
     validateAndUpdate,
-    handleBlur, // 새로 추가된 함수
+    handleBlur,
     isFormValid,
-    getRequiredFields,
     setFormData,
   };
 };
-
 export const PostsView = (props: PostsViewProps) => {
   const { event, textEditorState } = props;
   const [editorState, setEditorState] = textEditorState;
@@ -309,15 +324,13 @@ export const PostsView = (props: PostsViewProps) => {
   const { editorRef, editorModel, onChange, toggleBlockType, toggleInlineStyle, handleKeyCommand, keyBindingFn } = useTextEditor({ editorState, setEditorState });
 
   const handleSubmit = () => {
-    if (!isFormValid()) {
+    if (!isFormValid) {
       alert("모든 필드를 올바르게 입력해주세요.");
       return;
     }
 
     console.log("Form Data:", formData, textEditorState);
   };
-  console.log("isFormValid()", isFormValid());
-
   return (
     <div className="sub-layout__content">
       <form className="postform">
@@ -393,20 +406,40 @@ export const PostsView = (props: PostsViewProps) => {
         </section>
 
         <div className="m-t-30">
-          <div className="flex_r m-t-12">
+          <div className="flex_r m-t-12" style={{ gap: "8px" }}>
             <DatePickerField
               labelSize="sm"
               label=" 모집 마감 기한"
               name="duedate"
+              isValid={formData.dueDate.state === "invalid"}
+              error={formData.dueDate.errorMessage}
               selected={formData.dueDate.value}
               onChange={(date) => updateField("dueDate", date || new Date())}
               onBlur={() => handleBlur("dueDate")}
               placeholderText="모집 마감 기한을 선택해 주세요."
             />
+            <div style={{ width: "180px" }}>
+              <Dropdown
+                id="hour-selector"
+                label="시간 선택"
+                value={formData.dueTime.value}
+                onChange={(val) => updateField("dueTime", val)}
+                onBlur={() => handleBlur("dueTime")}
+                onFocus={() => console.log("HourSelector focused")}
+                hasError={formData.dueTime.state === "invalid"}
+                errorMessage={formData.dueTime.errorMessage}
+              >
+                {generateHours().map((hour) => (
+                  <DropdownItem key={hour} value={hour}>
+                    {hour}
+                  </DropdownItem>
+                ))}
+              </Dropdown>
+            </div>
           </div>
 
           <div className="flex_c m-t-32">
-            <div className="flex_r ai_end  m-t-12">
+            <div style={{ height: "70px", display: "flex", flexDirection: "row", alignItems: "start" }}>
               <DatePickerField
                 labelSize="md"
                 label="멘토링기간"
@@ -415,9 +448,20 @@ export const PostsView = (props: PostsViewProps) => {
                 onChange={(date) => updateField("startDate", date || new Date())}
                 onBlur={() => handleBlur("startDate")}
                 placeholderText="시작일을 선택해 주세요."
+                isValid={formData.startDate.state === "invalid"}
+                error={formData.startDate.errorMessage}
               />
-              <div className="m-r-16 m-l-16 m-b-13">~</div>
-              <DatePickerField label="" name="enddate" selected={formData.endDate.value} onChange={(date) => updateField("endDate", date || new Date())} onBlur={() => handleBlur("endDate")} placeholderText="종료일을 선택해 주세요." />
+              <div className="m-r-16 m-l-16 m-t-35">~</div>
+              <DatePickerField
+                className="m-t-20"
+                isValid={formData.endDate.state === "invalid"}
+                name="enddate"
+                selected={formData.endDate.value}
+                onChange={(date) => updateField("endDate", date || new Date())}
+                onBlur={() => handleBlur("endDate")}
+                error={formData.endDate.errorMessage}
+                placeholderText="종료일을 선택해 주세요."
+              />
             </div>
           </div>
 
@@ -539,7 +583,7 @@ export const PostsView = (props: PostsViewProps) => {
             </div>
             <div className="m-t-30 flex_r flex_jend gap_4">
               <BaseButton color="reverse">취소</BaseButton>
-              <BaseButton type="submit" className={isFormValid() ? "primary " : "disabled"} onClick={handleSubmit} disabled={!isFormValid()}>
+              <BaseButton type="submit" className={isFormValid ? "primary " : "disabled"} onClick={handleSubmit} disabled={!isFormValid}>
                 신청
               </BaseButton>
             </div>
@@ -575,4 +619,31 @@ const H3 = ({ className = "", ...props }) => {
 
 const U = ({ className = "", ...props }) => {
   return <Icon src="underline" alt="밑줄" className={`w15 h15 ${className}`} {...props} />;
+};
+
+const generateHours = () => {
+  return Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, "0") + ":00");
+};
+
+export const HourSelector = (onsl) => {
+  const [selectedHour, setSelectedHour] = useState("");
+
+  return (
+    <Dropdown
+      id="hour-selector"
+      label="시간 선택"
+      value={selectedHour}
+      onChange={(val) => setSelectedHour(val)}
+      onBlur={() => console.log("HourSelector blurred")}
+      onFocus={() => console.log("HourSelector focused")}
+      hasError={selectedHour === ""}
+      errorMessage="시간을 선택하세요"
+    >
+      {generateHours().map((hour) => (
+        <DropdownItem key={hour} value={hour}>
+          {hour}
+        </DropdownItem>
+      ))}
+    </Dropdown>
+  );
 };
