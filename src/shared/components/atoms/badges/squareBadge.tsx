@@ -3,7 +3,7 @@ import type { BadgeProps } from "./badge.type";
 
 interface SquareBadgeProps extends BadgeProps {
   title?: string;
-  color?: "blue" | "purple";
+  color?: "blue" | "orange";
 }
 export const SquareBadge = forwardRef<HTMLElement, SquareBadgeProps>((props, forwardedRef) => {
   const { title = "제목없음", color = "blue", className, style, children, ...rest } = props;
