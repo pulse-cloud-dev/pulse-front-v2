@@ -1,5 +1,5 @@
 .check-field-module input[type="checkbox"]:checked + label::after {
-  background: url("/images/checkbox_checked_light.svg") 2px center no-repeat;
+  background: var(--palette-teal-40) url("/images/checkbox_checked_light.svg") 2px center no-repeat;
   background-size: 0.625rem auto;
 }
 
@@ -14,8 +14,6 @@
   background-color: #fff;
   border: 1px solid #ccc;
 }
-/* 
-/* .square 스타일  */
-/* .check-field-module input[type="checkbox"]:checked + label::after {
+.check-field-module input[type="checkbox"]:checked + label::after {
   filter: brightness(0) saturate(100%) invert(25%) sepia(88%) saturate(2007%) hue-rotate(201deg) brightness(99%) contrast(107%);
-} */
+}

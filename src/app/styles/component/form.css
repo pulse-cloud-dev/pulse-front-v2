@@ -324,6 +324,16 @@
   }
 }
 
+/* ================== post form style =====================  */
+.postform {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: var(--palette-white-05);
+}
+
 /* ================== register-form style =====================  */
 
 .form-field__input {
@@ -339,8 +349,8 @@
   transition: border-color 0.3s ease;
 }
 .form-field__label {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 600;
   margin-bottom: 4px;
   display: block;
 }

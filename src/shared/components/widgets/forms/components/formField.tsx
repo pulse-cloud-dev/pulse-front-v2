@@ -34,7 +34,7 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, fo
 
   const inputId = id || name; // 고유한 id 설정
   return (
-    <div>
+    <div className="" style={{ width: "100%" }}>
       <label htmlFor={inputId} className={labelClass}>
         {/* 라벨 */}
         <span>{label}</span>

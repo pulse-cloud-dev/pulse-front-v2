@@ -58,9 +58,9 @@ export const DatePickerField = forwardRef<HTMLInputElement, DatePickerFieldProps
     };
 
     return (
-      <div className={`text-field ${error ? "text-field--error" : ""} ${disabled ? "text-field--disabled" : ""} ${className}`}>
+      <div className={` ${error ? "text-field--error" : ""} ${disabled ? "text-field--disabled" : ""} ${className}`} style={{ display: "flex", flexDirection: "column", gap: "0px" }}>
         {label && (
-          <label htmlFor={inputId} className={`text-field__label ${labelSize}`} style={{ marginBottom: "8px" }}>
+          <label htmlFor={inputId} className={`form-field__label ${labelSize}`}>
             {label}
           </label>
         )}
@@ -80,7 +80,7 @@ export const DatePickerField = forwardRef<HTMLInputElement, DatePickerFieldProps
             minDate={minDate}
             maxDate={maxDate}
             disabled={disabled}
-            className={`text-field__input ${error ? "border-red-500" : ""}`}
+            className={`form-field__input ${error ? "border-red-500" : ""}`}
             aria-invalid={error ? "true" : "false"}
             aria-describedby={error ? errorId : undefined}
             open={isOpen}

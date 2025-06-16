@@ -17,6 +17,12 @@ type FieldState<value> = {
   dependsOn?: string[];
   customValidator?: (value: any, formData: FormState) => boolean;
 };
+const formfieldlayout: React.CSSProperties = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "flex-start",
+  width: "100%",
+};
 
 type FormState = {
   title: FieldState<string>;
@@ -38,7 +44,6 @@ interface PostsViewProps extends ViewEventProps {
 }
 
 const textFieldClass = "m-t-30 m-b-30 gap_12 ";
-const textFieldlabelClass = "fs_16_bold";
 
 const lectureFormatOptions = [
   { value: "온라인" as const, label: "온라인" },
@@ -313,209 +318,233 @@ export const PostsView = (props: PostsViewProps) => {
   };
 
   return (
-    <form className="sub-layout__content">
-      <header>
-        <Typography variant="title" size="24" weight="bold">
-          멘티 모집글 등록
-        </Typography>
-      </header>
-
-      <section className="m-t-30">
-        <FormField
-          className={textFieldClass}
-          name="제목"
-          label="제목"
-          placeholder="제목을 입력해주세요"
-          value={formData.title.value}
-          onChange={(e) => updateField("title", e.target.value)}
-          onBlur={(e) => validateAndUpdate("title", e.target.value)}
-          isInvalid={formData.title.state === "invalid"}
-          errorMessage={formData.title.errorMessage}
-        />
-      </section>
-
-      <section className="m-t-30">
-        <Typography variant="title" size="16" weight="bold">
-          내용
-        </Typography>
-        <div className="flex_r m-t-10 border-gray p-10 gap_5 items-center justify-center">
-          <button type="button" onClick={() => toggleInlineStyle("BOLD")}>
-            B
-          </button>
-          <button type="button" onClick={() => toggleInlineStyle("ITALIC")}>
-            I
-          </button>
-          <button type="button" onClick={() => toggleInlineStyle("STRIKETHROUGH")}>
-            S
-          </button>
-          <button type="button" onClick={() => toggleInlineStyle("UNDERLINE")}>
-            <U />
-          </button>
-          <button type="button" onClick={() => toggleBlockType("header-one")}>
-            <H1 />
-          </button>
-          <button type="button" onClick={() => toggleBlockType("header-two")}>
-            <H2 />
-          </button>
-          <button type="button" onClick={() => toggleBlockType("header-three")}>
-            <H3 />
-          </button>
-          <button type="button" onClick={() => toggleBlockType("unordered-list-item")}>
-            <Bullet />
-          </button>
-          <button type="button" onClick={() => toggleBlockType("ordered-list-item")}>
-            <Orderelistitem />
-          </button>
-        </div>
-        <div className="border-gray p-10 h502">
-          <TextEditorView
-            ref={editorRef}
-            editorState={editorState!}
-            handleChange={onChange}
-            handleKeyCommand={handleKeyCommand}
-            keyBindingFn={keyBindingFn}
-            blockStyleFn={editorModel.handleBlockStyleFn}
-            placeholder={"내용을 입력해주세요."}
-            style={{ height: "504px", overflowY: "auto" }}
-          />
-        </div>
-      </section>
-
-      <div className="m-t-30">
-        <div className="flex_r m-t-12">
-          <DatePickerField
-            labelSize="md"
-            label=" 모집 마감 기한"
-            name="duedate"
-            selected={formData.dueDate.value}
-            onChange={(date) => updateField("dueDate", date || new Date())}
-            onBlur={() => handleBlur("dueDate")}
-            placeholderText="모집 마감 기한을 선택해 주세요."
-          />
-        </div>
-
-        <div className="flex_c m-t-32">
-          <div className="flex_r ai_end  m-t-12">
-            <DatePickerField
-              labelSize="md"
-              label="멘토링기간"
-              name="startdate"
-              selected={formData.startDate.value}
-              onChange={(date) => updateField("startDate", date || new Date())}
-              onBlur={() => handleBlur("startDate")}
-              placeholderText="시작일을 선택해 주세요."
-            />
-            <div className="m-r-16 m-l-16 m-b-13">~</div>
-            <DatePickerField label="" name="enddate" selected={formData.endDate.value} onChange={(date) => updateField("endDate", date || new Date())} onBlur={() => handleBlur("endDate")} placeholderText="종료일을 선택해 주세요." />
-          </div>
-        </div>
-
-        <div className="m-t-32">
-          <Typography variant="title" size="16" weight="bold">
-            강의형식
+    <div className="sub-layout__content">
+      <form className="postform">
+        <header>
+          <Typography variant="title" size="24" weight="bold">
+            멘티 모집글 등록
           </Typography>
-          <div className="m-t-10 m-b-30">
-            {lectureFormatOptions.map((option) => {
-              const { value, label } = option;
-              return (
-                <BaseButton
-                  key={value}
-                  type="button"
-                  className={`m-r-8 ${formData.lectureFormat.value === value ? "primary" : "reverse"}`}
-                  onClick={() => {
-                    updateField("lectureFormat", value);
-                    // 강의 형식 변경 시 관련 필드들 재검증
-                    setTimeout(() => {
-                      validateAndUpdate("lectureFormat", value);
-                    }, 0);
-                  }}
-                >
-                  {label}
-                </BaseButton>
-              );
-            })}
+        </header>
+
+        <section className="m-t-30">
+          <div style={formfieldlayout}>
+            <FormField
+              labelClass="form-field__label"
+              errorClass="text-field__error"
+              inputClass="form-field__input"
+              name="제목"
+              label="제목"
+              placeholder="제목을 입력해주세요"
+              value={formData.title.value}
+              onChange={(e) => updateField("title", e.target.value)}
+              onBlur={(e) => validateAndUpdate("title", e.target.value)}
+              isInvalid={formData.title.state === "invalid"}
+              errorMessage={formData.title.errorMessage}
+            />
+          </div>
+        </section>
+
+        <section className="m-t-30">
+          <Typography variant="title" size="16" weight="bold">
+            내용
+          </Typography>
+          <div className="flex_r m-t-10 border-gray p-10 gap_5 items-center justify-center">
+            <button type="button" onClick={() => toggleInlineStyle("BOLD")}>
+              B
+            </button>
+            <button type="button" onClick={() => toggleInlineStyle("ITALIC")}>
+              I
+            </button>
+            <button type="button" onClick={() => toggleInlineStyle("STRIKETHROUGH")}>
+              S
+            </button>
+            <button type="button" onClick={() => toggleInlineStyle("UNDERLINE")}>
+              <U />
+            </button>
+            <button type="button" onClick={() => toggleBlockType("header-one")}>
+              <H1 />
+            </button>
+            <button type="button" onClick={() => toggleBlockType("header-two")}>
+              <H2 />
+            </button>
+            <button type="button" onClick={() => toggleBlockType("header-three")}>
+              <H3 />
+            </button>
+            <button type="button" onClick={() => toggleBlockType("unordered-list-item")}>
+              <Bullet />
+            </button>
+            <button type="button" onClick={() => toggleBlockType("ordered-list-item")}>
+              <Orderelistitem />
+            </button>
+          </div>
+          <div className="border-gray p-10 h502">
+            <TextEditorView
+              ref={editorRef}
+              editorState={editorState!}
+              handleChange={onChange}
+              handleKeyCommand={handleKeyCommand}
+              keyBindingFn={keyBindingFn}
+              blockStyleFn={editorModel.handleBlockStyleFn}
+              placeholder={"내용을 입력해주세요."}
+              style={{ height: "504px", overflowY: "auto" }}
+            />
+          </div>
+        </section>
+
+        <div className="m-t-30">
+          <div className="flex_r m-t-12">
+            <DatePickerField
+              labelSize="sm"
+              label=" 모집 마감 기한"
+              name="duedate"
+              selected={formData.dueDate.value}
+              onChange={(date) => updateField("dueDate", date || new Date())}
+              onBlur={() => handleBlur("dueDate")}
+              placeholderText="모집 마감 기한을 선택해 주세요."
+            />
           </div>
 
-          {formData.lectureFormat.value === "온라인" && (
-            <FormField
-              name="온라인 플랫폼"
-              label="온라인 플랫폼"
-              className={textFieldClass}
-              placeholder="온라인 플랫폼(ex. Zoom, Discord, Google Meets)을 입력해 주세요. 입력하지 않을 경우 '미정'으로 등록됩니다."
-              value={formData.onlinePlatform.value}
-              onChange={(e) => updateField("onlinePlatform", e.target.value)}
-              onBlur={(e) => validateAndUpdate("onlinePlatform", e.target.value)}
-              isInvalid={formData.onlinePlatform.state === "invalid"}
-              errorMessage={formData.onlinePlatform.errorMessage}
-            />
-          )}
-
-          {formData.lectureFormat.value === "오프라인" && (
-            <div className={textFieldClass}>
-              <div className="flex_r ai_end gap_8">
-                <FormField
-                  name="오프라인 주소"
-                  className={textFieldClass}
-                  label="오프라인 주소"
-                  placeholder="일반 주소"
-                  value={formData.offlineAddress.value}
-                  onChange={(e) => updateField("offlineAddress", e.target.value)}
-                  onBlur={(e) => validateAndUpdate("offlineAddress", e.target.value)}
-                  isInvalid={formData.offlineAddress.state === "invalid"}
-                  errorMessage={formData.offlineAddress.errorMessage}
-                />
-                <BaseButton type="button" color="reverse" size="md">
-                  주소 검색
-                </BaseButton>
-              </div>
-              <div className="flex_r m-t-30">
-                <FormField
-                  label="상세주소"
-                  name="상세주소"
-                  placeholder="상세주소를 입력해주세요."
-                  value={formData.offlineDetailAddress.value}
-                  onBlur={(e) => validateAndUpdate("offlineDetailAddress", e.target.value)}
-                  onChange={(e) => updateField("offlineDetailAddress", e.target.value)}
-                  errorMessage={formData.offlineDetailAddress.errorMessage}
-                  isInvalid={formData.offlineDetailAddress.state === "invalid"}
-                />
-              </div>
+          <div className="flex_c m-t-32">
+            <div className="flex_r ai_end  m-t-12">
+              <DatePickerField
+                labelSize="md"
+                label="멘토링기간"
+                name="startdate"
+                selected={formData.startDate.value}
+                onChange={(date) => updateField("startDate", date || new Date())}
+                onBlur={() => handleBlur("startDate")}
+                placeholderText="시작일을 선택해 주세요."
+              />
+              <div className="m-r-16 m-l-16 m-b-13">~</div>
+              <DatePickerField label="" name="enddate" selected={formData.endDate.value} onChange={(date) => updateField("endDate", date || new Date())} onBlur={() => handleBlur("endDate")} placeholderText="종료일을 선택해 주세요." />
             </div>
-          )}
+          </div>
 
-          <FormField
-            name="모집인원"
-            label="모집인원"
-            className={textFieldClass}
-            placeholder="모집인원을 입력해주세요"
-            value={formData.recruitCount.value}
-            onChange={(e) => updateField("recruitCount", e.target.value)}
-            onBlur={(e) => validateAndUpdate("recruitCount", e.target.value)}
-            isInvalid={formData.recruitCount.state === "invalid"}
-            errorMessage={formData.recruitCount.errorMessage}
-          />
+          <div className="m-t-32">
+            <Typography variant="title" size="16" weight="bold">
+              강의형식
+            </Typography>
+            <div className="m-t-10 m-b-30">
+              {lectureFormatOptions.map((option) => {
+                const { value, label } = option;
+                return (
+                  <BaseButton
+                    key={value}
+                    type="button"
+                    color="reverse"
+                    className={`m-r-8 ${formData.lectureFormat.value === value ? "primary" : "reverse"}`}
+                    onClick={() => {
+                      updateField("lectureFormat", value);
+                      setTimeout(() => {
+                        validateAndUpdate("lectureFormat", value);
+                      }, 0);
+                    }}
+                  >
+                    {label}
+                  </BaseButton>
+                );
+              })}
+            </div>
 
-          <FormField
-            name="1인 기준 멘토링 비용"
-            label="1인 기준 멘토링 비용"
-            className={textFieldClass}
-            placeholder="금액을 입력해주세요"
-            value={formData.mentorFee.value}
-            onChange={(e) => updateField("mentorFee", e.target.value)}
-            onBlur={(e) => validateAndUpdate("mentorFee", e.target.value)}
-            isInvalid={formData.mentorFee.state === "invalid"}
-            errorMessage={formData.mentorFee.errorMessage}
-          />
+            {formData.lectureFormat.value === "온라인" && (
+              <div style={formfieldlayout}>
+                <FormField
+                  name="온라인 플랫폼"
+                  label="온라인 플랫폼"
+                  labelClass="form-field__label"
+                  errorClass="text-field__error"
+                  inputClass="form-field__input"
+                  placeholder="온라인 플랫폼(ex. Zoom, Discord, Google Meets)을 입력해 주세요. 입력하지 않을 경우 '미정'으로 등록됩니다."
+                  value={formData.onlinePlatform.value}
+                  onChange={(e) => updateField("onlinePlatform", e.target.value)}
+                  onBlur={(e) => validateAndUpdate("onlinePlatform", e.target.value)}
+                  isInvalid={formData.onlinePlatform.state === "invalid"}
+                  errorMessage={formData.onlinePlatform.errorMessage}
+                />
+              </div>
+            )}
 
-          <div className="m-t-30 flex_r flex_jend gap_4">
-            <BaseButton color="reverse">취소</BaseButton>
-            <BaseButton type="submit" className={isFormValid() ? "primary" : "disabled"} onClick={handleSubmit} disabled={!isFormValid()}>
-              신청
-            </BaseButton>
+            {formData.lectureFormat.value === "오프라인" && (
+              <div className={textFieldClass}>
+                <div className="flex_r ai_end gap_8">
+                  <div style={formfieldlayout}>
+                    <FormField
+                      name="오프라인 주소"
+                      labelClass="form-field__label"
+                      errorClass="text-field__error"
+                      inputClass="form-field__input"
+                      label="오프라인 주소"
+                      placeholder="일반 주소"
+                      value={formData.offlineAddress.value}
+                      onChange={(e) => updateField("offlineAddress", e.target.value)}
+                      onBlur={(e) => validateAndUpdate("offlineAddress", e.target.value)}
+                      isInvalid={formData.offlineAddress.state === "invalid"}
+                      errorMessage={formData.offlineAddress.errorMessage}
+                    />
+                  </div>
+                  <BaseButton type="button" color="reverse" size="md">
+                    주소 검색
+                  </BaseButton>
+                </div>
+                <div className="flex_r m-t-30">
+                  <div style={formfieldlayout}>
+                    <FormField
+                      label="상세주소"
+                      name="상세주소"
+                      labelClass="form-field__label"
+                      errorClass="text-field__error"
+                      inputClass="form-field__input"
+                      placeholder="상세주소를 입력해주세요."
+                      value={formData.offlineDetailAddress.value}
+                      onBlur={(e) => validateAndUpdate("offlineDetailAddress", e.target.value)}
+                      onChange={(e) => updateField("offlineDetailAddress", e.target.value)}
+                      errorMessage={formData.offlineDetailAddress.errorMessage}
+                      isInvalid={formData.offlineDetailAddress.state === "invalid"}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+            <div style={formfieldlayout}>
+              <FormField
+                name="모집인원"
+                label="모집인원"
+                labelClass="form-field__label"
+                errorClass="text-field__error"
+                inputClass="form-field__input"
+                placeholder="모집인원을 입력해주세요"
+                value={formData.recruitCount.value}
+                onChange={(e) => updateField("recruitCount", e.target.value)}
+                onBlur={(e) => validateAndUpdate("recruitCount", e.target.value)}
+                isInvalid={formData.recruitCount.state === "invalid"}
+                errorMessage={formData.recruitCount.errorMessage}
+              />
+            </div>
+            <div style={formfieldlayout}>
+              <FormField
+                name="1인 기준 멘토링 비용"
+                label="1인 기준 멘토링 비용"
+                labelClass="form-field__label"
+                errorClass="text-field__error"
+                inputClass="form-field__input"
+                placeholder="금액을 입력해주세요"
+                value={formData.mentorFee.value}
+                onChange={(e) => updateField("mentorFee", e.target.value)}
+                onBlur={(e) => validateAndUpdate("mentorFee", e.target.value)}
+                isInvalid={formData.mentorFee.state === "invalid"}
+                errorMessage={formData.mentorFee.errorMessage}
+              />
+            </div>
+            <div className="m-t-30 flex_r flex_jend gap_4">
+              <BaseButton color="reverse">취소</BaseButton>
+              <BaseButton type="submit" className={isFormValid() ? "primary " : "disabled"} onClick={handleSubmit} disabled={!isFormValid()}>
+                신청
+              </BaseButton>
+            </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 };
 

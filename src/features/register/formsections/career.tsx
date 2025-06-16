@@ -57,17 +57,14 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
                 <div key={key} style={careerFieldStyle}>
                   {field.type === "date" ? (
                     <DatePickerField
-                      labelClass="form-field__label"
-                      inputClass="form-field__input m-t-4"
-                      id={`${key}-${i}`}
+                      labelSize="sm"
                       name={key}
                       label={field.label}
                       selected={field.value ? new Date(field.value) : null}
                       onChange={(date) => updateStackField(i, key as keyof RegisterSchema, date)}
                       onBlur={() => checkError(i, key as keyof RegisterSchema)}
                       onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
-                      isInvalid={isError}
-                      errorMessage={isError ? "입력값을 확인해주세요." : ""}
+                      error={isError ? "입력값을 확인해주세요." : ""}
                     />
                   ) : null}
 

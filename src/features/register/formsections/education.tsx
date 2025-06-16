@@ -29,7 +29,7 @@ export const Education = ({ stacks, pushStack, popStack, updateStackField, reset
             className="register-fieldset"
             style={{
               display: "grid",
-              gridTemplateColumns: "160fr 280fr 280fr 160fr 180fr 180fr",
+              gridTemplateColumns: "160fr 280fr 280fr 160fr 160fr 160fr",
               gap: "8px",
               paddingTop: "24px",
               borderBottom: "1px solid var(--palette-gray-30)",
@@ -59,17 +59,13 @@ export const Education = ({ stacks, pushStack, popStack, updateStackField, reset
                   )}
                   {field.type === "date" ? (
                     <DatePickerField
-                      id={`${key}-${i}`}
                       name={key}
-                      labelClass="form-field__label"
-                      inputClass="form-field__input m-t-4"
                       label={field.label}
                       selected={field.value ? new Date(field.value) : null}
                       onChange={(date) => updateStackField(i, key as keyof RegisterSchema, date)}
                       onBlur={() => checkError(i, key as keyof RegisterSchema)}
                       onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
-                      isInvalid={isError}
-                      errorMessage={isError ? "입력값을 확인해주세요." : ""}
+                      error={isError ? "입력값을 확인해주세요." : ""}
                     />
                   ) : null}
                   {field.type === "dropdown" && "list" in field && (
