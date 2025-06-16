@@ -624,26 +624,3 @@ const U = ({ className = "", ...props }) => {
 const generateHours = () => {
   return Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, "0") + ":00");
 };
-
-export const HourSelector = (onsl) => {
-  const [selectedHour, setSelectedHour] = useState("");
-
-  return (
-    <Dropdown
-      id="hour-selector"
-      label="시간 선택"
-      value={selectedHour}
-      onChange={(val) => setSelectedHour(val)}
-      onBlur={() => console.log("HourSelector blurred")}
-      onFocus={() => console.log("HourSelector focused")}
-      hasError={selectedHour === ""}
-      errorMessage="시간을 선택하세요"
-    >
-      {generateHours().map((hour) => (
-        <DropdownItem key={hour} value={hour}>
-          {hour}
-        </DropdownItem>
-      ))}
-    </Dropdown>
-  );
-};
