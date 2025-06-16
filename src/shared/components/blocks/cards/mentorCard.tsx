@@ -1,9 +1,11 @@
 import type { HTMLAttributes } from "react";
-
+import { useState } from "react";
 import { Modal, useModal } from "@/shared/modules";
 import { MentorDetailPopup } from "@/shared/components/widgets";
 import { Icon, Image, SquareBadge } from "@/shared/components/atoms";
 import { BaseCard } from "./baseCard";
+import { usePageNavigation } from "@/shared/lib/hooks";
+
 
 // Body
 interface BodyContentTitleProps extends HTMLAttributes<HTMLElement> {
@@ -11,7 +13,18 @@ interface BodyContentTitleProps extends HTMLAttributes<HTMLElement> {
 }
 const BodyContentTitle = (props: BodyContentTitleProps) => {
   const { title, ...rest } = props;
-  return <>{title && <span {...rest}>{title}</span>}</>;
+  return (
+    <>
+      {title && (
+        <span
+          className="mentorCard-title"
+          {...rest}
+        >
+          {title}
+        </span>
+      )}
+    </>
+  );
 };
 
 interface BodyContentTagProps {}
@@ -56,27 +69,70 @@ const FooterDescription = (props: FooterDescriptionProps) => {
   );
 };
 
+import { useBookmarkStore } from "@/features/bookmarks/store/bookmarkStore";
+
 interface MentorCardProps {
+  id: string;
   title?: string;
+  type?: "online" | "offline";  // 모집글 형식
+  region?: string;              // 오프라인일 경우 지역명
 }
 
 // Mentor Card Component
-export const MentorCard = ({ title = "제목입니다 제목은 세줄까지만 보입니다.제목입니다 제목은 세줄까지만 보입니다.제목입니다 제목은 " }: MentorCardProps) => {
+export const MentorCard = ({ 
+  id,
+  title = "제목입니다. 제목은 3줄까지만 보입니다. 제목은 3줄까지만 보입니다. 제목은 3줄까지만 보입니다. 제목은 3줄까지만 보입니다. ",
+  type = "online",
+  region = "",
+}: MentorCardProps) => {
+  const { goToPage } = usePageNavigation();
+  const { toggleBookmark, isBookmarked } = useBookmarkStore();
+
+  const bookmarked = isBookmarked(id);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleBookmarkClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const isLoggedIn = true;
+
+    if (!isLoggedIn) {
+      goToPage("signIn");
+      return;
+    }
+
+    toggleBookmark({ id, title, type, region });
+  };
+
   const modal = useModal(Modal, {
     title: "멘토링 정보",
     variant: "default",
     children: <MentorDetailPopup />,
   });
 
+  const badgeText = type === "online" ? "온라인" : region || "오프라인";
+  const badgeColor = type === "online" ? "blue" : "orange";
+
   return (
-    <BaseCard>
+    <BaseCard onClick={modal.openModal}>
       <BaseCard.Header>
-        <SquareBadge title="온라인" />
-        <Icon src={"bookmark_20"} alt={"bookmark"} />
+        <SquareBadge title={badgeText} color={badgeColor} />
+        <Icon
+          src={
+            bookmarked
+              ? "bookmark_filled"
+              : isHovered
+              ? "bookmark_filled"
+              : "bookmark_off"
+          }
+          alt="북마크"
+          onClick={handleBookmarkClick}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        />
       </BaseCard.Header>
       <BaseCard.Body className="border-b">
         <div className="mentorCard-body__top">
-          <BodyContentTitle onClick={modal.openModal} title={title} />
+          <BodyContentTitle title={title} />
         </div>
         <div className="mentorCard-body__bottom">
           <BodyContentTag />
@@ -88,3 +144,4 @@ export const MentorCard = ({ title = "제목입니다 제목은 세줄까지만 
     </BaseCard>
   );
 };
+

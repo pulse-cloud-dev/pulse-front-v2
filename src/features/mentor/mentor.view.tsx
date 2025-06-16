@@ -11,7 +11,10 @@ import {
 } from "@/shared/components/blocks";
 import { Heading, Typography } from "@/shared/components/atoms";
 import { TabConst } from "@/shared/constants";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { QueryObserver } from '@tanstack/react-query';
+
+
 
 // 지도 탭
 const MentorViewMap = () => {
@@ -60,6 +63,57 @@ const MentorViewMap = () => {
 // 모집글 탭
 const MentorViewPosts = (props: ViewEventProps) => {
   const { event } = props;
+  const [ mentorCards, setMentorCards] = useState<any[]>([]);
+  const [ page, setPage ] = useState(1);
+  const [ isLoading, setIsLoading ] = useState(false);
+  const [ hasMore, setHasMore ] = useState(true);
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+    const entry = entries[0];
+        if (entries[0].isIntersecting && hasMore && !isLoading) {
+          fetchCards();
+        }
+  },
+      { threshold: 1.0 }
+      );
+
+      if (observerRef.current) {
+        observer.observe(observerRef.current);
+      }
+
+      return () => {
+        if (observerRef.current) observer.unobserve(observerRef.current);
+      };
+    
+  }, [hasMore, isLoading]);
+
+    
+    const fetchCards = () => {
+      if (isLoading || !hasMore) return;
+
+      setIsLoading(true);
+
+      //테스트용 데이터
+      const newCards = Array.from({ length: 40 }).map((_, i) => ({
+        id: String(page * 40 + i), // 문자열로 통일
+        title: "제목입니다. 제목은 3줄까지만 보입니다. 제목은 3줄까지만 보입니다. 제목은 3줄까지만 보입니다. 제목은 3줄까지만 보입니다. ",
+        type: i % 2 === 0 ? "online" : "offline",
+        region: i % 2 === 0 ? undefined : "서울",
+      }));
+
+      //시뮬레이션용
+      setTimeout(() => {
+        setMentorCards((prev) => [...prev, ...newCards]);
+        setPage((prev) => prev + 1);
+        if(page >= 5) setHasMore(false);
+        setIsLoading(false);
+      }, 1000); 
+    };
+    
+
   return (
     <>
       <section className="m-t-30 flex_r gap_6">
@@ -69,14 +123,29 @@ const MentorViewPosts = (props: ViewEventProps) => {
       </section>
 
       <section className="flex__box m-t-30">
-        {Array.from({ length: 30 }).map((_, index) => (
-          <MentorCard key={index} />
-        ))}
+        {mentorCards.map((card) => (
+  <MentorCard
+    key={card.id}
+    id={card.id}
+    title={card.title}
+    type={card.type}
+    region={card.region}
+  />
+))}
       </section>
 
-      <section className="m-t-72 m-b-70">
+      {isLoading && (
+        <div className="m-t-20 text-center">
+          <span className="spinner"/>
+          <Typography size="14" weight="medium">불러오는 중...</Typography>
+        </div>
+      )}
+
+      {hasMore && <div ref={observerRef} style = {{ height: 1}} />}
+
+      {/* <section className="m-t-72 m-b-70">
         <PageNation queryStringKey={"offset"} pages={10} />
-      </section>
+      </section> */}
     </>
   );
 };
