@@ -67,6 +67,19 @@
 
 ========================================================
 */
+
+.mentorCard-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  max-width: 288px;
+  max-height: 72px;
+  line-height: 24px;
+}
+
 .mentorCard-body__top {
   margin-bottom: 24px;
 }
