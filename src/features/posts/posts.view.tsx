@@ -345,7 +345,7 @@ export const PostsView = (props: PostsViewProps) => {
         </section>
 
         <section className="m-t-30">
-          <Typography variant="title" size="16" weight="bold">
+          <Typography variant="compact" size="16" weight="semi-bold">
             내용
           </Typography>
           <div className="flex_r m-t-10 border-gray p-10 gap_5 items-center justify-center">
@@ -421,7 +421,7 @@ export const PostsView = (props: PostsViewProps) => {
           </div>
 
           <div className="m-t-32">
-            <Typography variant="title" size="16" weight="bold">
+            <Typography variant="compact" size="16" weight="semi-bold">
               강의형식
             </Typography>
             <div className="m-t-10 m-b-30">
@@ -435,6 +435,7 @@ export const PostsView = (props: PostsViewProps) => {
                     className={`m-r-8 ${formData.lectureFormat.value === value ? "primary" : "reverse"}`}
                     onClick={() => {
                       updateField("lectureFormat", value);
+
                       setTimeout(() => {
                         validateAndUpdate("lectureFormat", value);
                       }, 0);
@@ -520,7 +521,7 @@ export const PostsView = (props: PostsViewProps) => {
                 errorMessage={formData.recruitCount.errorMessage}
               />
             </div>
-            <div style={formfieldlayout}>
+            <div style={{ ...formfieldlayout, marginTop: "16px" }}>
               <FormField
                 name="1인 기준 멘토링 비용"
                 label="1인 기준 멘토링 비용"
