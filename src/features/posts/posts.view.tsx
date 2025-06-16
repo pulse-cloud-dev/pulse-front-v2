@@ -468,7 +468,7 @@ export const PostsView = (props: PostsViewProps) => {
 
             {formData.lectureFormat.value === "오프라인" && (
               <div className={textFieldClass}>
-                <div className="flex_r ai_end gap_8" style={{ justifyContent: "end", alignItems: "center" }}>
+                <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end", gap: "4px" }}>
                   <div style={formfieldlayout}>
                     <FormField
                       name="오프라인 주소"
@@ -484,7 +484,7 @@ export const PostsView = (props: PostsViewProps) => {
                       errorMessage={formData.offlineAddress.errorMessage}
                     />
                   </div>
-                  <BaseButton type="button" color="reverse" size="md">
+                  <BaseButton type="button" color="reverse" size="lg">
                     주소 검색
                   </BaseButton>
                 </div>
