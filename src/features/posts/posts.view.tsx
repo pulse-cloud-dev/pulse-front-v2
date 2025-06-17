@@ -63,19 +63,38 @@ const useFormState = () => {
 
     dueDate: {
       value: new Date(),
-      errorMessage: "마감일을 입력해주세요.",
+      errorMessage: "마감일은 현재보다 늦어야 합니다.",
       state: "pending",
       customValidator: (value: Date) => value > new Date(),
     },
     dueTime: {
-      value: "00:00",
+      value: "23:00",
       errorMessage: "마감 시간을 입력해주세요.",
       state: "pending",
+      dependsOn: ["dueDate"],
+      customValidator: (value: string, formData: FormState) => {
+        const startDate = formData.startDate.value as Date;
+        const dueDate = formData.dueDate.value as Date;
+
+        if (!startDate || !dueDate || !value) return false;
+
+        const [hours, minutes] = value.split(":").map(Number);
+
+        const dueDateTime = new Date(dueDate);
+        dueDateTime.setHours(hours, minutes, 0, 0);
+
+        return dueDateTime >= startDate;
+      },
     },
     startDate: {
       value: new Date(),
-      errorMessage: "시작일을 입력해주세요.",
+      errorMessage: "시작일은 모집 마감 기한보다 늦어야 합니다",
       state: "pending",
+      dependsOn: ["dueDate"],
+      customValidator: (value: Date, formData: FormState) => {
+        const dueDate = formData.dueDate.value as Date;
+        return value >= dueDate;
+      },
     },
     endDate: {
       value: new Date(),
@@ -120,23 +139,6 @@ const useFormState = () => {
       state: "pending",
     },
   });
-
-  console.log("formdata", formData);
-
-  // formData 변화를 감지하여 isFormValid 업데이트
-  useEffect(() => {
-    const [hasError, updatedFormData] = checkError(formData);
-
-    if (hasError) {
-      const invalidFields = Object.entries(updatedFormData)
-        .filter(([_, field]) => field.state === "invalid")
-        .map(([key]) => key);
-
-      console.log("유효하지 않은 필드들:", invalidFields);
-    }
-
-    setIsFormValid(!hasError);
-  }, [formData]);
 
   // 필드 값 업데이트 함수
   const updateField = <Key extends keyof FormState>(key: Key, value: FormState[Key]["value"]) => {
@@ -331,6 +333,7 @@ export const PostsView = (props: PostsViewProps) => {
 
     console.log("Form Data:", formData, textEditorState);
   };
+  console.log(formData.endDate.state === "invalid");
   return (
     <div className="sub-layout__content">
       <form className="postform">
