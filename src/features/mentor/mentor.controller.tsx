@@ -1,78 +1,8 @@
 import { useLocation } from "react-router-dom";
 import { Modal, useModal } from "@/shared/modules";
-import { FieldPopup, OnlineStatusPopup, LocalPopup  } from "@/shared/components";
+import { FieldPopup, OnlineStatusPopup, LocalPopup } from "@/shared/components";
 import { MentorView } from "./mentor.view";
 import { useState } from "react";
-
-
-const useModals = ({
-  setSelectedFields,
-  setSelectedRegions,
-  fieldCheckedItems,
-  regionCheckedItems,
-  setFieldCheckedItems,
-  setRegionCheckedItems,
-  setIsOnlineOnly,
-  setOnlineStatus,
-} : {
-  setSelectedFields: (fields: string[]) => void,
-  setSelectedRegions: (regions: string[]) => void,
-  fieldCheckedItems : Record<string, boolean>,
-  regionCheckedItems: Record<string, boolean>,
-  setFieldCheckedItems: React.Dispatch<React.SetStateAction<Record<string, boolean>>>,
-  setRegionCheckedItems: React.Dispatch<React.SetStateAction<Record<string, boolean>>>,
-  setIsOnlineOnly: React.Dispatch<React.SetStateAction<boolean>>,
-  setOnlineStatus: React.Dispatch<React.SetStateAction<string>>
-}) => {
-
-  return {
-    first: useModal(Modal, {
-      title: "분야",
-      subtitle: "최대 3개 선택",
-      variant: "default",
-      children: (modalProps: any) => (
-      <FieldPopup
-        closeModal={() => modalProps.closeModal(modalProps.id)}
-        initialCheckedItems={fieldCheckedItems}
-        onApply={(fields, latestCheckedItems) => {
-          setSelectedFields(fields);
-          setFieldCheckedItems(latestCheckedItems); 
-          modalProps.closeModal(modalProps.id);
-        }}
-      />
-  ),
-    }),
-    second: useModal(Modal, {
-      title: "온/오프라인",
-      variant: "default",
-      children: (modalProps: any) => (
-        <OnlineStatusPopup
-          closeModal={() => modalProps.closeModal(modalProps.id)}
-          onOnlineSelected={(isOnline) => {
-            setIsOnlineOnly(isOnline);
-            setOnlineStatus(isOnline ? "온라인" : "오프라인");
-          }}
-        />
-  ),
-    }),
-    third: useModal(Modal, {
-      title: "지역",
-      subtitle: "최대 10개 선택",
-      variant: "default",
-      children: (modalProps: any) => (
-      <LocalPopup
-          closeModal={() => modalProps.closeModal(modalProps.id)}
-          initialCheckedItems={regionCheckedItems}
-          onApply={(regions, latestCheckedItems) => {
-            setSelectedRegions(regions);
-            setRegionCheckedItems(latestCheckedItems); 
-            modalProps.closeModal(modalProps.id);
-          }}
-      />
-  ),
-    }),
-  };
-};
 
 export const MentorController = () => {
   const location = useLocation();
@@ -82,48 +12,109 @@ export const MentorController = () => {
   const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
   const [onlineStatus, setOnlineStatus] = useState<string>("전체");
   const [fieldCheckedItems, setFieldCheckedItems] = useState<Record<string, boolean>>({});
-
   const [regionCheckedItems, setRegionCheckedItems] = useState<Record<string, boolean>>({});
 
-  const modals = useModals({
-    setSelectedFields,
-    setSelectedRegions,
-    fieldCheckedItems,
-    regionCheckedItems,
-    setFieldCheckedItems,
-    setRegionCheckedItems,
-    setIsOnlineOnly,
-    setOnlineStatus,
-  });
+  // 모달 정의
+  const firstModal = useModal(Modal);
+  const secondModal = useModal(Modal);
+  const thirdModal = useModal(Modal);
 
-
-  const removeField = (field: string) => {
-    setSelectedFields(prev => prev.filter(f => f !== field));
-  };
-
-  const removeRegion = (region: string) => {
-    setSelectedRegions(prev => prev.filter(r => r !== region));
-  };
-
+  // 필터 초기화
   const resetFilters = () => {
     setKeyword("");
     setSelectedFields([]);
     setSelectedRegions([]);
     setOnlineStatus("전체");
     setIsOnlineOnly(false);
+    setFieldCheckedItems({});
+    setRegionCheckedItems({});
+  };
+
+  // 모달 열기 함수들
+  const openFirstModal = () => {
+    firstModal.openModal({
+      key: JSON.stringify(fieldCheckedItems), // 강제 재마운트용 key
+      title: "분야",
+      subtitle: "최대 3개 선택",
+      variant: "default",
+      children: (modalProps: { id: string; closeModal: (id: string) => void }) => (
+        <FieldPopup
+          closeModal={() => modalProps.closeModal(modalProps.id)}
+          initialCheckedItems={fieldCheckedItems}
+          onApply={(fields, latestCheckedItems) => {
+            setSelectedFields(fields);
+            setFieldCheckedItems(latestCheckedItems);
+            modalProps.closeModal(modalProps.id);
+          }}
+        />
+      ),
+    });
+  };
+
+  const openSecondModal = () => {
+    secondModal.openModal({
+      title: "온/오프라인",
+      variant: "default",
+      children: (modalProps: { id: string; closeModal: (id: string) => void }) => (
+        <OnlineStatusPopup
+          closeModal={() => modalProps.closeModal(modalProps.id)}
+          onOnlineSelected={(isOnline) => {
+            setIsOnlineOnly(isOnline);
+            setOnlineStatus(isOnline ? "온라인" : "오프라인");
+          }}
+        />
+      ),
+    });
+  };
+
+  const openThirdModal = () => {
+    if (isOnlineOnly) {
+      alert("온라인 선택 시 지역 선택은 불가능합니다.");
+      return;
+    }
+
+    thirdModal.openModal({
+      key: JSON.stringify(regionCheckedItems),
+      title: "지역",
+      subtitle: "최대 10개 선택",
+      variant: "default",
+      children: (modalProps: { id: string; closeModal: (id: string) => void }) => (
+        <LocalPopup
+          closeModal={() => modalProps.closeModal(modalProps.id)}
+          initialCheckedItems={regionCheckedItems}
+          onApply={(regions, latestCheckedItems) => {
+            setSelectedRegions(regions);
+            setRegionCheckedItems(latestCheckedItems);
+            modalProps.closeModal(modalProps.id);
+          }}
+        />
+      ),
+    });
+  };
+
+  const removeField = (field: string) => {
+    setSelectedFields((prev) => prev.filter((f) => f !== field));
+    setFieldCheckedItems((prev) => {
+      const newItems = { ...prev };
+      delete newItems[field];
+      return newItems;
+    });
+  };
+
+  const removeRegion = (region: string) => {
+    setSelectedRegions((prev) => prev.filter((r) => r !== region));
+    setRegionCheckedItems((prev) => {
+      const newItems = { ...prev };
+      delete newItems[region];
+      return newItems;
+    });
   };
 
   const props = {
     event: {
-      openFirstModal: modals.first.openModal,
-      openSecondModal: () => modals.second.openModal(),
-      openThirdModal: () => {
-        if (!isOnlineOnly) {
-          modals.third.openModal();
-        } else {
-          alert("온라인 선택 시 지역 선택은 불가능합니다.");
-        }
-      },
+      openFirstModal,
+      openSecondModal,
+      openThirdModal,
     },
     state: {
       keyword,
@@ -139,10 +130,9 @@ export const MentorController = () => {
       removeField,
       removeRegion,
       setOnlineStatus,
-      resetFilters, 
+      resetFilters,
     },
   };
 
   return <MentorView {...props} />;
 };
-

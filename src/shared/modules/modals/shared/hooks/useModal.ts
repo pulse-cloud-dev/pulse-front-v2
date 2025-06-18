@@ -17,11 +17,12 @@ export const useModal = <T = Record<string, any>>(component: ModalComponent, pro
     document.body.style.overflow = "unset";
   }, [dispatch]);
 
-  const openModal = useCallback(() => {
+  const openModal = useCallback((dynamicProps?: T) => {
     const newId = uuid().next().value as string;
 
     const modalProps = {
       ...(props || {}),
+      ...(dynamicProps || {}),
       id: newId,
       closeModal,
       closeAllModals,
@@ -31,13 +32,19 @@ export const useModal = <T = Record<string, any>>(component: ModalComponent, pro
       },
     };
 
-    const resolvedProps = {
-      ...modalProps,
-      children:
-        typeof (props as any)?.children === "function"
-          ? (props as any).children(modalProps)
-          : (props as any)?.children,
-    };
+     const childrenFn =
+    typeof (dynamicProps as any)?.children === "function"
+      ? (dynamicProps as any).children
+      : typeof (props as any)?.children === "function"
+      ? (props as any).children
+      : null;
+
+  const resolvedProps = {
+    ...modalProps,
+    children: typeof childrenFn === "function"
+      ? childrenFn(modalProps)
+      : (dynamicProps as any)?.children ?? (props as any)?.children,
+  };
 
     dispatch({
       type: "OPEN_MODAL",

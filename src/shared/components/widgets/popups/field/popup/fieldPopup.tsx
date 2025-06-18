@@ -26,6 +26,10 @@ export function FieldPopup({
   const [searchKeyword, setSearchKeyword] = useState("");
   const [fields, setFields] = useState<{ name: string; code: string }[]>([]);
 
+  useEffect(() => {
+    setCheckedItems(initialCheckedItems);
+  }, [initialCheckedItems]);
+
   const handleReset = () => {
     reset();
     setCheckedItems({});
@@ -64,6 +68,7 @@ export function FieldPopup({
     closeModal?.();
   };
  
+
   // 검색어로 필드 자동 선택
   useEffect(() => {
     if (!searchKeyword) return;
