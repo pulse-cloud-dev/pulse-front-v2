@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { Modal, useModal } from "@/shared/modules";
+import { Modal, useModal, useLocalStorage } from "@/shared/modules";
 import { FieldPopup, OnlineStatusPopup, LocalPopup } from "@/shared/components";
 import { MentorView } from "./mentor.view";
 import { useState } from "react";
@@ -7,12 +7,12 @@ import { useState } from "react";
 export const MentorController = () => {
   const location = useLocation();
   const [keyword, setKeyword] = useState("");
-  const [isOnlineOnly, setIsOnlineOnly] = useState(false);
-  const [selectedFields, setSelectedFields] = useState<string[]>([]);
-  const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
-  const [onlineStatus, setOnlineStatus] = useState<string>("전체");
-  const [fieldCheckedItems, setFieldCheckedItems] = useState<Record<string, boolean>>({});
-  const [regionCheckedItems, setRegionCheckedItems] = useState<Record<string, boolean>>({});
+  const [isOnlineOnly, setIsOnlineOnly] = useLocalStorage<boolean>("isOnlineOnly", false);
+  const [selectedFields, setSelectedFields] = useLocalStorage<string[]>("selectedFields",[]);
+  const [selectedRegions, setSelectedRegions] = useLocalStorage<string[]>("selectedRegions",[]);
+  const [onlineStatus, setOnlineStatus] = useLocalStorage<string>("onlineStatus", "전체");
+  const [fieldCheckedItems, setFieldCheckedItems] = useLocalStorage<Record<string, boolean>>("fieldCheckedItems",{});
+  const [regionCheckedItems, setRegionCheckedItems] = useLocalStorage<Record<string, boolean>>("regionCheckedItems",{});
 
   // 모달 정의
   const firstModal = useModal(Modal);
