@@ -92,20 +92,26 @@ export const MentorController = () => {
     });
   };
 
+  const labelToKey = (label: string) => label.replace(/\s*>\s*/g, "-");
+
   const removeField = (field: string) => {
+    const key = labelToKey(field);
     setSelectedFields((prev) => prev.filter((f) => f !== field));
+
     setFieldCheckedItems((prev) => {
       const newItems = { ...prev };
-      delete newItems[field];
+      delete newItems[key];
       return newItems;
     });
   };
 
   const removeRegion = (region: string) => {
+    const key = labelToKey(region);
     setSelectedRegions((prev) => prev.filter((r) => r !== region));
+
     setRegionCheckedItems((prev) => {
       const newItems = { ...prev };
-      delete newItems[region];
+      delete newItems[key];
       return newItems;
     });
   };
