@@ -15,7 +15,7 @@
   transform: translateY(-2px); /*x 위치 조정*/
 }
 
-.btn-search input[type="text"]::placeholder {
+.btn-search input::placeholder {
   font-size: 14px; 
   color: #b0b0b0;
   letter-spacing: normal;
