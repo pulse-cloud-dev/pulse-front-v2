@@ -12,13 +12,17 @@ const useModals = ({
   regionCheckedItems,
   setFieldCheckedItems,
   setRegionCheckedItems,
+  setIsOnlineOnly,
+  setOnlineStatus,
 } : {
   setSelectedFields: (fields: string[]) => void,
   setSelectedRegions: (regions: string[]) => void,
   fieldCheckedItems : Record<string, boolean>,
   regionCheckedItems: Record<string, boolean>,
   setFieldCheckedItems: React.Dispatch<React.SetStateAction<Record<string, boolean>>>,
-  setRegionCheckedItems: React.Dispatch<React.SetStateAction<Record<string, boolean>>>
+  setRegionCheckedItems: React.Dispatch<React.SetStateAction<Record<string, boolean>>>,
+  setIsOnlineOnly: React.Dispatch<React.SetStateAction<boolean>>,
+  setOnlineStatus: React.Dispatch<React.SetStateAction<string>>
 }) => {
 
   return {
@@ -42,7 +46,13 @@ const useModals = ({
       title: "온/오프라인",
       variant: "default",
       children: (modalProps: any) => (
-        <OnlineStatusPopup closeModal={() => modalProps.closeModal(modalProps.id)} />
+        <OnlineStatusPopup
+          closeModal={() => modalProps.closeModal(modalProps.id)}
+          onOnlineSelected={(isOnline) => {
+            setIsOnlineOnly(isOnline);
+            setOnlineStatus(isOnline ? "온라인" : "오프라인");
+          }}
+        />
   ),
     }),
     third: useModal(Modal, {
@@ -82,6 +92,8 @@ export const MentorController = () => {
     regionCheckedItems,
     setFieldCheckedItems,
     setRegionCheckedItems,
+    setIsOnlineOnly,
+    setOnlineStatus,
   });
 
 
@@ -98,6 +110,7 @@ export const MentorController = () => {
     setSelectedFields([]);
     setSelectedRegions([]);
     setOnlineStatus("전체");
+    setIsOnlineOnly(false);
   };
 
   const props = {
@@ -117,6 +130,7 @@ export const MentorController = () => {
       selectedFields,
       selectedRegions,
       onlineStatus,
+      isOnlineOnly,
     },
     actions: {
       setKeyword,

@@ -51,7 +51,11 @@ const FilterBar = ({
     <div className="flex_r gap_6 m-t-30">
       <PopupSearch title="분야" openPopup={event?.openFirstModal} count={selectedFields.length} />
       <PopupSearch title="온/오프라인" openPopup={event?.openSecondModal} />
-      <PopupSearch title="지역" openPopup={event?.openThirdModal} count={selectedRegions.length} />
+
+      {onlineStatus !== "온라인" && (
+        <PopupSearch title="지역" openPopup={event?.openThirdModal} count={selectedRegions.length} />
+      )}
+      
       <div className="btn-search">
         <input placeholder="검색" />
         <button><Icon src="search_18" alt="검색 아이콘" /></button>

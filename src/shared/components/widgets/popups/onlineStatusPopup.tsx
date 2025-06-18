@@ -55,7 +55,8 @@ const Body = ({
 
 
 
-export function OnlineStatusPopup({ onOnlineSelected,
+export function OnlineStatusPopup({ 
+  onOnlineSelected,
   closeModal,
 }: {
   onOnlineSelected?: (isOnline: boolean) => void;
@@ -67,7 +68,9 @@ export function OnlineStatusPopup({ onOnlineSelected,
     },
   });
 
-  const [lectureTypes, setLectureTypes] = useState<string[]>([]);
+const [lectureTypes, setLectureTypes] = useState<string[]>([]);
+const [selected, setSelected] = useState<string | null>(null);
+
 
 useEffect(() => {
   categoryApis.lectureTypes().then(setLectureTypes);
@@ -77,17 +80,15 @@ const handleReset = () => {
   reset();              // 내부 hook 값 초기화
   setSelected(null);    // local state도 초기화
 };
-  const [selected, setSelected] = useState<string | null>(null);
 
 const handleSelect = (option: string) => {
   const next = selected === option ? null : option;
   setSelected(next);
-  onOnlineSelected?.(next === "ONLINE");
 };
 
   const handleApply = () => {
+    onOnlineSelected?.(selected === "ONLINE");
     closeModal?.();
-    console.log("적용된 상태:", selected);
   };
 
   const handleClose = () => {
