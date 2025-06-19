@@ -11,8 +11,6 @@ export const RegisterContainer = () => {
   const educationState = useStack<RegisterSchema>(createInitialEducationSchema);
   const certificateState = useStack<RegisterSchema>(createInitialCertificateSchema);
 
-  console.log(jobState.stacks, careerState.stacks, educationState.stacks, certificateState.stacks);
-
   const [introduction, setIntroduction] = useState<string>("");
 
   const stepper = useModal(Stepper);
