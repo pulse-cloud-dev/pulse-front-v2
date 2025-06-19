@@ -8,7 +8,7 @@ interface BaseField<T> {
   type: FieldType;
   value: T;
   status: Status;
-  validate?: (v: T) => boolean;
+  validate?: (v: T, field?: RegisterSchema) => boolean;
 }
 
 interface InputField extends BaseField<string> {
@@ -96,11 +96,11 @@ export const useStack = <T extends RegisterSchema>(createInitial: () => T): UseS
         if (field.validate) {
           // 타입 안전성을 위해 각 필드 타입별로 검증
           if (field.type === "date") {
-            isValid = field.validate(field.value as Date | null);
+            isValid = field.validate(field.value as Date | null, stack);
           } else if (field.type === "toggle") {
-            isValid = field.validate(field.value as boolean);
+            isValid = field.validate(field.value as boolean, stack);
           } else {
-            isValid = field.validate(field.value as string);
+            isValid = field.validate(field.value as string, stack);
           }
         }
 
@@ -161,14 +161,24 @@ export const createInitialCareerSchema = (): RegisterSchema => ({
     type: "date",
     value: null,
     status: "pending",
-    validate: (v: Date | null) => v !== null,
+    validate: (v: Date | null, form) => {
+      const endDate = form?.endDate?.value;
+      if (!v) return false; // 필수값
+      if (endDate && v > endDate) return false;
+      return true;
+    },
   },
   endDate: {
     label: "퇴사 년월",
     type: "date",
     value: null,
     status: "pending",
-    validate: (v: Date | null) => v === null || v !== null, // 재직중일 경우 null 허용
+    validate: (v: Date | null, form) => {
+      if (!v) return true; // 재직 중이면 null 허용
+      const startDate = form?.startDate?.value;
+      if (startDate && v < startDate) return false;
+      return true;
+    },
   },
 });
 
@@ -247,7 +257,12 @@ export const createInitialEducationSchema = (): RegisterSchema => ({
     type: "date",
     value: null,
     status: "pending",
-    validate: (v: Date | null) => v === null || v !== null, // 재학중/휴학일 경우 null 허용
+    validate: (v: Date | null, form) => {
+      if (!v) return true; // 재직 중이면 null 허용
+      const startDate = form?.admissionDate?.value;
+      if (startDate && v < startDate) return false;
+      return true;
+    },
   },
 });
 

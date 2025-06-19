@@ -69,6 +69,7 @@ const useFormState = () => {
       value: new Date(),
       errorMessage: "마감일은 현재보다 늦어야 합니다.",
       state: "pending",
+      dependsOn: ["dueTime"],
       customValidator: (value: Date) => value > new Date(),
     },
     dueTime: {
@@ -302,7 +303,6 @@ export const PostsView = (props: PostsViewProps) => {
       alert("입력값을 다시 확인해주세요.");
     }
   };
-
   return (
     <div className="sub-layout__content">
       <form className="postform" onSubmit={handleSubmit}>
@@ -380,7 +380,7 @@ export const PostsView = (props: PostsViewProps) => {
               labelSize="sm"
               label=" 모집 마감 기한"
               name="duedate"
-              isValid={formData.dueDate.state === "invalid"}
+              isValid={formData.dueDate.state === "invalid" ? false : true}
               error={formData.dueDate.errorMessage}
               selected={formData.dueDate.value}
               onChange={(date) => updateField("dueDate", date || new Date())}
@@ -417,13 +417,13 @@ export const PostsView = (props: PostsViewProps) => {
                 onChange={(date) => updateField("startDate", date || new Date())}
                 onBlur={() => handleBlur("startDate")}
                 placeholderText="시작일을 선택해 주세요."
-                isValid={formData.startDate.state === "invalid"}
+                isValid={formData.startDate.state === "invalid" ? false : true}
                 error={formData.startDate.errorMessage}
               />
               <div className="m-r-16 m-l-16 m-t-35">~</div>
               <DatePickerField
                 className="m-t-20"
-                isValid={formData.endDate.state === "invalid"}
+                isValid={formData.endDate.state === "invalid" ? false : true}
                 name="enddate"
                 selected={formData.endDate.value}
                 onChange={(date) => updateField("endDate", date || new Date())}
