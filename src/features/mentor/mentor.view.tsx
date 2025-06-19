@@ -3,6 +3,7 @@ import { useState } from "react";
 import { getSearchParams } from "@/shared/lib";
 import { PageNation } from "@/shared/components/widgets";
 import { ResetSelection } from "@/shared/components/atoms/reset/resetSelection";
+import { SortDropdown } from "@/shared/components/widgets/sortDropdown/SortDropdown";
 
 import {
   Breadcrumb,
@@ -95,9 +96,10 @@ const MentorViewMap = ({
   onlineStatus,
   removeField,
   removeRegion,
-  onReset
-
- } : FilterProps) => {
+  onReset,
+  sortOption,
+  setSortOption,
+ } : FilterProps& { sortOption: string; setSortOption: (val: string) => void }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
 
   return (
@@ -148,8 +150,12 @@ const MentorViewPosts = ({
   onlineStatus,
   removeField,
   removeRegion,
-  onReset
- } : FilterProps) => {
+  onReset,
+  sortOption,
+  setSortOption,
+ } : FilterProps& { sortOption: string; setSortOption: (val: string) => void }) => {
+
+const cards = Array.from({ length: 30 }); //임시
   return (
     <>
       <FilterBar event={event}
@@ -163,7 +169,19 @@ const MentorViewPosts = ({
         onReset={onReset}
   />
 
-      <section className="flex__box m-t-30">
+      {/* 총 개수 + 정렬 옵션 표시 */}
+      <div className="card-count">
+        <Typography variant="body" size="16" weight="semi-bold">
+          총 {cards.length}개
+        </Typography>
+
+        <SortDropdown 
+          sortOption={sortOption} 
+          setSortOption={setSortOption}
+          />
+      </div>
+
+      <section className="flex__box m-t-10">
         {Array.from({ length: 30 }).map((_, index) => (
           <MentorCard key={index} />
         ))}
@@ -198,6 +216,8 @@ const {
   resetFilters
 } = props.actions;
 
+ const [sortOption, setSortOption] = useState("기본순");
+
   return (
     <article className="sub-layout__content">
       <header>
@@ -221,6 +241,8 @@ const {
         removeField={removeField}
         removeRegion={removeRegion}
         onReset={resetFilters}
+        sortOption={sortOption}
+        setSortOption={setSortOption}
         />
       )}
       {menu === "map" && (
@@ -234,6 +256,8 @@ const {
         removeField={removeField}
         removeRegion={removeRegion}
         onReset={resetFilters}
+        sortOption={sortOption}
+      setSortOption={setSortOption}
         />
       )}
     </article>
