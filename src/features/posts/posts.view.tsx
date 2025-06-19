@@ -1,14 +1,16 @@
-// 리팩토링된 PostsView 컴포넌트 (onBlur 유효성 검사 추가)
-import type { Dispatch, SetStateAction, useMemo } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import type { EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import type { ViewEventProps } from "@/shared/types";
 import { TextEditorView, useTextEditor } from "@/shared/modules/text-editor";
 import { BaseButton, Typography } from "@/shared/components";
 import { DatePickerField } from "@/shared/components/blocks/datepicker/DatePickerField";
-import { useEffect, useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FormField } from "@/shared/components";
 import { Dropdown, DropdownItem } from "@/shared/components/blocks/dropdown/dropdown";
+import { MentoringPostRequestDTO } from "@/contracts/request/post/post.request.dto";
+import { convertToRaw } from "draft-js";
+import draftToHtml from "draftjs-to-html";
 
 type FieldState<value> = {
   value: value;
@@ -18,6 +20,7 @@ type FieldState<value> = {
   dependsOn?: string[];
   customValidator?: (value: any, formData: FormState) => boolean;
 };
+
 const formfieldlayout: React.CSSProperties = {
   display: "flex",
   flexDirection: "column",
@@ -31,7 +34,7 @@ type FormState = {
   dueTime: FieldState<string>;
   startDate: FieldState<Date>;
   endDate: FieldState<Date>;
-  lectureFormat: FieldState<"온라인" | "오프라인">;
+  lectureFormat: FieldState<"ONLINE" | "OFFLINE">;
   onlinePlatform: FieldState<string>;
   offlineAddress: FieldState<string>;
   offlineDetailAddress: FieldState<string>;
@@ -40,14 +43,15 @@ type FormState = {
 };
 
 interface PostsViewProps extends ViewEventProps {
+  requestPostMentoring: (payload: MentoringPostRequestDTO) => void;
   textEditorState: [EditorState, Dispatch<SetStateAction<EditorState>>];
 }
 
 const textFieldClass = "m-t-30 m-b-30 gap_12 ";
 
 const lectureFormatOptions = [
-  { value: "온라인" as const, label: "온라인" },
-  { value: "오프라인" as const, label: "오프라인" },
+  { value: "ONLINE" as const, label: "온라인" },
+  { value: "OFFLINE" as const, label: "오프라인" },
 ];
 
 // 커스텀 훅 정의 (onBlur 유효성 검사 추가)
@@ -73,24 +77,25 @@ const useFormState = () => {
       state: "pending",
       dependsOn: ["dueDate"],
       customValidator: (value: string, formData: FormState) => {
-        const startDate = formData.startDate.value as Date;
-        const dueDate = formData.dueDate.value as Date;
+        const dueDate = formData.dueDate?.value as Date;
 
-        if (!startDate || !dueDate || !value) return false;
+        if (!dueDate || !value) return false;
 
         const [hours, minutes] = value.split(":").map(Number);
 
         const dueDateTime = new Date(dueDate);
         dueDateTime.setHours(hours, minutes, 0, 0);
 
-        return dueDateTime >= startDate;
+        const now = new Date();
+
+        return dueDateTime > now;
       },
     },
     startDate: {
       value: new Date(),
       errorMessage: "시작일은 모집 마감 기한보다 늦어야 합니다",
       state: "pending",
-      dependsOn: ["dueDate"],
+      dependsOn: ["dueDate", "endDate"],
       customValidator: (value: Date, formData: FormState) => {
         const dueDate = formData.dueDate.value as Date;
         return value >= dueDate;
@@ -107,7 +112,7 @@ const useFormState = () => {
       },
     },
     lectureFormat: {
-      value: "온라인",
+      value: "ONLINE",
       errorMessage: "강의 형식을 선택해주세요.",
       state: "pending",
     },
@@ -139,7 +144,25 @@ const useFormState = () => {
       state: "pending",
     },
   });
+  const didMountRef = useRef(false);
 
+  useEffect(() => {
+    if (!didMountRef.current) {
+      didMountRef.current = true;
+      return;
+    }
+
+    const errors: Record<string, boolean> = {};
+
+    const hasError = Object.entries(formData).some(([key, field]) => {
+      const isValid = validateField(key as keyof FormState, field, formData);
+      console.log(key, isValid, field);
+      errors[key] = !isValid;
+      return !isValid;
+    });
+
+    setIsFormValid(!hasError);
+  }, [formData]);
   // 필드 값 업데이트 함수
   const updateField = <Key extends keyof FormState>(key: Key, value: FormState[Key]["value"]) => {
     setFormData((prev) => ({
@@ -152,13 +175,13 @@ const useFormState = () => {
     }));
   };
 
-  // 개별 필드 유효성 검사 함수
+  // 개별 필드 유효성 검사 함수  ->dependsOn 필드도 검해야 함
   const validateField = (key: keyof FormState, field: FieldState<any>, formData: FormState): boolean => {
     const { value, pattern, customValidator } = field;
 
     // lectureFormat에 따른 조건부 검사
-    const isOnline = formData.lectureFormat.value === "온라인";
-    const isOffline = formData.lectureFormat.value === "오프라인";
+    const isOnline = formData.lectureFormat.value === "ONLINE";
+    const isOffline = formData.lectureFormat.value === "OFFLINE";
 
     // 온라인일 때 오프라인 필드는 검사하지 않음
     if (isOnline && (key === "offlineAddress" || key === "offlineDetailAddress")) {
@@ -186,61 +209,6 @@ const useFormState = () => {
     }
 
     return true;
-  };
-
-  // 전체 폼 유효성 검사 함수
-  const checkError = (formData: FormState): [boolean, FormState] => {
-    let hasError = false;
-    const newFormData = { ...formData };
-
-    // lectureFormat에 따른 검사할 필드 결정
-    const isOnline = formData.lectureFormat.value === "온라인";
-    const excludeFields = isOnline ? ["offlineAddress", "offlineDetailAddress"] : ["onlinePlatform"];
-
-    (Object.keys(formData) as Array<keyof FormState>).forEach((key) => {
-      // 조건부로 제외할 필드는 검사하지 않음
-      if (excludeFields.includes(key as string)) {
-        (newFormData[key] as any) = {
-          ...formData[key],
-          state: "valid", // 제외된 필드는 valid로 설정
-        };
-        return;
-      }
-
-      const field = formData[key];
-      const isValid = validateField(key, field, formData);
-
-      if (!isValid) {
-        (newFormData[key] as any) = {
-          ...field,
-          state: "invalid",
-        };
-        hasError = true;
-      } else {
-        (newFormData[key] as any) = {
-          ...field,
-          state: "valid",
-        };
-      }
-    });
-
-    return [hasError, newFormData];
-  };
-
-  // 실시간 유효성 검사 함수 (개별 필드용)
-  const validateSingleField = (key: keyof FormState) => {
-    setFormData((prev) => {
-      const field = prev[key];
-      const isValid = validateField(key, field, prev);
-
-      return {
-        ...prev,
-        [key]: {
-          ...field,
-          state: isValid ? "valid" : "invalid",
-        },
-      };
-    });
   };
 
   // 값을 받아서 상태 업데이트 + 에러 검증
@@ -280,19 +248,6 @@ const useFormState = () => {
           };
         });
       }
-
-      // 현재 필드에 의존하는 다른 필드들도 검사
-      (Object.keys(finalFormData) as Array<keyof FormState>).forEach((fieldKey) => {
-        const fieldData = finalFormData[fieldKey];
-        if (fieldData.dependsOn?.includes(key as string)) {
-          const depIsValid = validateField(fieldKey, fieldData, finalFormData);
-          (finalFormData[fieldKey] as any) = {
-            ...fieldData,
-            state: depIsValid ? "valid" : "invalid",
-          };
-        }
-      });
-
       return finalFormData;
     });
   };
@@ -308,8 +263,6 @@ const useFormState = () => {
   return {
     formData,
     updateField,
-    checkError,
-    validateSingleField,
     validateAndUpdate,
     handleBlur,
     isFormValid,
@@ -317,7 +270,7 @@ const useFormState = () => {
   };
 };
 export const PostsView = (props: PostsViewProps) => {
-  const { event, textEditorState } = props;
+  const { textEditorState, requestPostMentoring } = props;
   const [editorState, setEditorState] = textEditorState;
 
   // 폼 상태 관리 훅 사용
@@ -325,24 +278,39 @@ export const PostsView = (props: PostsViewProps) => {
 
   const { editorRef, editorModel, onChange, toggleBlockType, toggleInlineStyle, handleKeyCommand, keyBindingFn } = useTextEditor({ editorState, setEditorState });
 
-  const handleSubmit = () => {
-    if (!isFormValid) {
-      alert("모든 필드를 올바르게 입력해주세요.");
-      return;
-    }
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-    console.log("Form Data:", formData, textEditorState);
+    if (isFormValid) {
+      const htmlContent = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+      const requestData: MentoringPostRequestDTO = {
+        title: formData.title.value,
+        content: htmlContent,
+        deadline_date: formData.dueDate.value.toString(),
+        deadline_time: formData.dueTime.value,
+        start_date: formData.startDate.value.toString(),
+        end_date: formData.endDate.value.toString(),
+        lecture_type: formData.lectureFormat.value,
+        online_platform: formData.onlinePlatform.value,
+        address: formData.offlineAddress.value,
+        detail_address: formData.offlineDetailAddress.value,
+        recruit_number: Number(formData.recruitCount.value),
+        cost: Number(formData.mentorFee.value),
+      };
+      requestPostMentoring(requestData);
+    } else {
+      alert("입력값을 다시 확인해주세요.");
+    }
   };
-  console.log(formData.endDate.state === "invalid");
+
   return (
     <div className="sub-layout__content">
-      <form className="postform">
+      <form className="postform" onSubmit={handleSubmit}>
         <header>
           <Typography variant="title" size="24" weight="bold">
             멘티 모집글 등록
           </Typography>
         </header>
-
         <section className="m-t-30">
           <div style={formfieldlayout}>
             <FormField
@@ -360,7 +328,6 @@ export const PostsView = (props: PostsViewProps) => {
             />
           </div>
         </section>
-
         <section className="m-t-30">
           <Typography variant="compact" size="16" weight="semi-bold">
             내용
@@ -407,7 +374,6 @@ export const PostsView = (props: PostsViewProps) => {
             />
           </div>
         </section>
-
         <div className="m-t-30">
           <div className="flex_r m-t-12" style={{ gap: "8px" }}>
             <DatePickerField
@@ -482,11 +448,7 @@ export const PostsView = (props: PostsViewProps) => {
                     color="reverse"
                     className={`m-r-8 ${formData.lectureFormat.value === value ? "primary" : "reverse"}`}
                     onClick={() => {
-                      updateField("lectureFormat", value);
-
-                      setTimeout(() => {
-                        validateAndUpdate("lectureFormat", value);
-                      }, 0);
+                      updateField("lectureFormat", (value as "ONLINE") || "OFFLINE");
                     }}
                   >
                     {label}
@@ -495,7 +457,7 @@ export const PostsView = (props: PostsViewProps) => {
               })}
             </div>
 
-            {formData.lectureFormat.value === "온라인" && (
+            {formData.lectureFormat.value === "ONLINE" && (
               <div style={formfieldlayout}>
                 <FormField
                   name="온라인 플랫폼"
@@ -513,9 +475,9 @@ export const PostsView = (props: PostsViewProps) => {
               </div>
             )}
 
-            {formData.lectureFormat.value === "오프라인" && (
+            {formData.lectureFormat.value === "OFFLINE" && (
               <div className={textFieldClass}>
-                <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end", gap: "4px" }}>
+                <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-start", gap: "4px" }}>
                   <div style={formfieldlayout}>
                     <FormField
                       name="오프라인 주소"
@@ -531,7 +493,7 @@ export const PostsView = (props: PostsViewProps) => {
                       errorMessage={formData.offlineAddress.errorMessage}
                     />
                   </div>
-                  <BaseButton type="button" color="reverse" size="lg">
+                  <BaseButton type="button" color="reverse" size="lg" style={{ marginTop: "22px" }}>
                     주소 검색
                   </BaseButton>
                 </div>
@@ -586,7 +548,7 @@ export const PostsView = (props: PostsViewProps) => {
             </div>
             <div className="m-t-30 flex_r flex_jend gap_4">
               <BaseButton color="reverse">취소</BaseButton>
-              <BaseButton type="submit" className={isFormValid ? "primary " : "disabled"} onClick={handleSubmit} disabled={!isFormValid}>
+              <BaseButton type="submit" className={isFormValid ? "primary " : "disabled"} disabled={!isFormValid}>
                 신청
               </BaseButton>
             </div>

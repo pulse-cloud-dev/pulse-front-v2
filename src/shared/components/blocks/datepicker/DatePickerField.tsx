@@ -1,4 +1,4 @@
-import React, { useState, useRef, useId, forwardRef } from "react";
+import { useState, useRef, useId, forwardRef } from "react";
 import DatePicker from "react-datepicker";
 import { Icon } from "../../atoms";
 import "react-datepicker/dist/react-datepicker.css";
@@ -17,7 +17,7 @@ interface DatePickerFieldProps {
   className?: string;
   minDate?: Date;
   maxDate?: Date;
-  isValid: boolean;
+  isValid?: boolean;
 }
 
 export const DatePickerField = forwardRef<HTMLInputElement, DatePickerFieldProps>(

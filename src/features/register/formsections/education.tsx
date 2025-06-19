@@ -66,6 +66,7 @@ export const Education = ({ stacks, pushStack, popStack, updateStackField, reset
                       onBlur={() => checkError(i, key as keyof RegisterSchema)}
                       onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
                       error={isError ? "입력값을 확인해주세요." : ""}
+                      isValid={!isError}
                     />
                   ) : null}
                   {field.type === "dropdown" && "list" in field && (
