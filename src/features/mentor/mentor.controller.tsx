@@ -77,7 +77,7 @@ const fetchMentorings = async () => {
       subtitle: "최대 3개 선택",
       variant: "default",
       ariaLabelledBy: "field-modal-title",
-      roll: "dalog",
+      role : "dialog",
       children: (modalProps: { id: string; closeModal: (id: string) => void }) => (
         <FieldPopup
           aria-labelledby = "field-modal-title"
@@ -98,7 +98,7 @@ const fetchMentorings = async () => {
       title: "온/오프라인",
       variant: "default",
       ariaLabelledBy: "onoff-modal-title",
-      roll: "dalog",
+      role : "dialog",
       children: (modalProps: { id: string; closeModal: (id: string) => void }) => (
         <OnlineStatusPopup
           aria-labelledby = "onoff-modal-title"
@@ -119,7 +119,7 @@ const fetchMentorings = async () => {
       subtitle: "최대 10개 선택",
       variant: "default",
       ariaLabelledBy: "region-modal-title",
-      roll: "dalog",
+      role : "dialog",
       children: (modalProps: { id: string; closeModal: (id: string) => void }) => (
         <LocalPopup
           aria-labelledby = "region-modal-title"
