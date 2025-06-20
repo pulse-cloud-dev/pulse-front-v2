@@ -112,7 +112,6 @@ const MentorViewPosts = (props: FilterProps & { sortOption: string; setSortOptio
           총 {cards.length}개
         </Typography>
         <SortDropdown sortOption={sortOption} setSortOption={(val) => {
-    console.log("🌀 정렬 변경됨:", val); // ✅ 여기에 찍히는지 확인!
     setSortOption(val);
   }} />
       </div>
@@ -132,7 +131,6 @@ export const MentorView = (props: ViewEventProps & { state: any; actions: any })
   const menu = getSearchParams("menu") || "posts";
   const { keyword, selectedFields, selectedRegions, onlineStatus, sortOption, searchText } = props.state;
   const { setKeyword, removeField, removeRegion, resetFilters, setSortOption, setSearchText } = props.actions;
-  // const [sortOption, setSortOption] = useState("\uAE30\uBCF8\uC21C");
 
   const commonProps = {
     event: props.event,
