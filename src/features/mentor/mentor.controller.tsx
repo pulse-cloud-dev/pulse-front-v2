@@ -2,22 +2,63 @@ import { useLocation } from "react-router-dom";
 import { Modal, useModal, useLocalStorage } from "@/shared/modules";
 import { FieldPopup, OnlineStatusPopup, LocalPopup } from "@/shared/components";
 import { MentorView } from "./mentor.view";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { categoryApis } from "@/networks";
 
 export const MentorController = () => {
-  const location = useLocation();
-  const [keyword, setKeyword] = useState("");
-  const [isOnlineOnly, setIsOnlineOnly] = useLocalStorage<boolean>("isOnlineOnly", false);
+  const [keyword, setKeyword] = useState(""); // 입력값
+  const [searchText, setSearchText] = useState(""); // 실제 API에 쓰이는 값
   const [selectedFields, setSelectedFields] = useLocalStorage<string[]>("selectedFields",[]);
   const [selectedRegions, setSelectedRegions] = useLocalStorage<string[]>("selectedRegions",[]);
   const [onlineStatus, setOnlineStatus] = useLocalStorage<string>("onlineStatus", "전체");
+  const [isOnlineOnly, setIsOnlineOnly] = useLocalStorage<boolean>("isOnlineOnly", false);
   const [fieldCheckedItems, setFieldCheckedItems] = useLocalStorage<Record<string, boolean>>("fieldCheckedItems",{});
   const [regionCheckedItems, setRegionCheckedItems] = useLocalStorage<Record<string, boolean>>("regionCheckedItems",{});
+  const [sortOption, setSortOption] = useState("기본순");
+
 
   // 모달 정의
   const firstModal = useModal(Modal);
   const secondModal = useModal(Modal);
   const thirdModal = useModal(Modal);
+
+  // api
+  const [mentorings, setMentorings] = useState<any[]>([]); // api로 받아온 멘토링 목록
+  const [loading, setLoading] = useState(false); // 로딩 상태
+
+
+const fetchMentorings = async () => {
+    setLoading(true);
+    try {
+      const data = await categoryApis.getMentoringList({
+        field: selectedFields.join(","),
+        region: selectedRegions.join(","),
+        lecture_type: onlineStatus === "전체" ? undefined : onlineStatus === "온라인" ? "ONLINE" : "OFFLINE",
+        search_text: searchText,
+        sort_type:
+        sortOption === "기본순"
+          ? "DEFAULT"
+          : sortOption === "인기순"
+          ? "POPULAR"
+          : "LATEST",
+        page: 1,
+        size: 20,
+      });
+       console.log("✅ API 응답 성공:", data);
+      setMentorings(data.contents ?? []);
+    } catch (err) {
+      console.error("멘토링 목록 조회 실패:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+// 필터 변경될 때마다 새로 조회
+  useEffect(() => { 
+    fetchMentorings();
+  }, [selectedFields, selectedRegions, onlineStatus, sortOption, searchText]);
+
 
   // 필터 초기화
   const resetFilters = () => {
@@ -68,11 +109,6 @@ export const MentorController = () => {
   };
 
   const openThirdModal = () => {
-    if (isOnlineOnly) {
-      alert("온라인 선택 시 지역 선택은 불가능합니다.");
-      return;
-    }
-
     thirdModal.openModal({
       key: JSON.stringify(regionCheckedItems),
       title: "지역",
@@ -124,21 +160,30 @@ export const MentorController = () => {
     },
     state: {
       keyword,
+      searchText,
       selectedFields,
       selectedRegions,
       onlineStatus,
       isOnlineOnly,
+      mentorings, 
+      loading,
+      sortOption,
+
     },
     actions: {
       setKeyword,
+      setSearchText,
       setSelectedFields,
       setSelectedRegions,
       removeField,
       removeRegion,
       setOnlineStatus,
       resetFilters,
+      setSortOption
     },
   };
 
-  return <MentorView {...props} />;
+  return (
+    <MentorView {...props}/>
+  );
 };

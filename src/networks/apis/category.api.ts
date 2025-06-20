@@ -1,5 +1,15 @@
 import axios from "axios";
 
+interface MentoringListParams {
+  field?: string;
+  lecture_type?: "ONLINE" | "OFFLINE";
+  region?: string;
+  sort_type?: "DEFAULT" | "POPULAR" | "LATEST";
+  search_text?: string;
+  page?: number;
+  size?: number;
+}
+
 // 분야 불러오기
 const fieldItems = async (): Promise<{ name: string; code: string }[]> => {
   try {
@@ -72,10 +82,26 @@ const subRegions = async (regionCode: string): Promise<{ name: string; code: str
   }
 };
 
+// 필터링 api 연결
+const getMentoringList = async (params: MentoringListParams) => {
+  try {
+    const { data } = await axios.get("/api/v1/mentoring/list", {
+      headers: { Accept: "application/json" },
+      params,
+    });
+
+    return data.body;
+  } catch (error) {
+    console.error("멘토링 리스트 불러오기 실패:", error);
+    throw error;
+  }
+};
+
 export const categoryApis = {
     fieldItems,
     subFields,
     lectureTypes,
     regionItems,
-    subRegions
+    subRegions,
+    getMentoringList
 };
