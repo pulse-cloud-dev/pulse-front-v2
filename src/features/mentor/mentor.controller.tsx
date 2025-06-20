@@ -44,10 +44,8 @@ const fetchMentorings = async () => {
         page: 1,
         size: 20,
       });
-       console.log("✅ API 응답 성공:", data);
       setMentorings(data.contents ?? []);
     } catch (err) {
-      console.error("멘토링 목록 조회 실패:", err);
     } finally {
       setLoading(false);
     }
@@ -78,8 +76,11 @@ const fetchMentorings = async () => {
       title: "분야",
       subtitle: "최대 3개 선택",
       variant: "default",
+      ariaLabelledBy: "field-modal-title",
+      roll: "dalog",
       children: (modalProps: { id: string; closeModal: (id: string) => void }) => (
         <FieldPopup
+          aria-labelledby = "field-modal-title"
           closeModal={() => modalProps.closeModal(modalProps.id)}
           initialCheckedItems={fieldCheckedItems}
           onApply={(fields, latestCheckedItems) => {
@@ -96,8 +97,11 @@ const fetchMentorings = async () => {
     secondModal.openModal({
       title: "온/오프라인",
       variant: "default",
+      ariaLabelledBy: "onoff-modal-title",
+      roll: "dalog",
       children: (modalProps: { id: string; closeModal: (id: string) => void }) => (
         <OnlineStatusPopup
+          aria-labelledby = "onoff-modal-title"
           closeModal={() => modalProps.closeModal(modalProps.id)}
           onOnlineSelected={(isOnline) => {
             setIsOnlineOnly(isOnline);
@@ -114,8 +118,11 @@ const fetchMentorings = async () => {
       title: "지역",
       subtitle: "최대 10개 선택",
       variant: "default",
+      ariaLabelledBy: "region-modal-title",
+      roll: "dalog",
       children: (modalProps: { id: string; closeModal: (id: string) => void }) => (
         <LocalPopup
+          aria-labelledby = "region-modal-title"
           closeModal={() => modalProps.closeModal(modalProps.id)}
           initialCheckedItems={regionCheckedItems}
           onApply={(regions, latestCheckedItems) => {
