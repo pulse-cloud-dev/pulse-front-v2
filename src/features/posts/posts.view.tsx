@@ -282,15 +282,22 @@ export const PostsView = (props: PostsViewProps) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const formatDateYYMMDD = (date: Date): string => {
+      const yy = String(date.getFullYear()).slice(2);
+      const mm = String(date.getMonth() + 1).padStart(2, "0");
+      const dd = String(date.getDate()).padStart(2, "0");
+      return `${yy}${mm}${dd}`;
+    };
+
     if (isFormValid) {
       const htmlContent = draftToHtml(convertToRaw(editorState.getCurrentContent()));
       const requestData: MentoringPostRequestDTO = {
         title: formData.title.value,
         content: htmlContent,
-        deadline_date: formData.dueDate.value.toString(),
+        deadline_date: formatDateYYMMDD(formData.dueDate.value),
         deadline_time: formData.dueTime.value,
-        start_date: formData.startDate.value.toString(),
-        end_date: formData.endDate.value.toString(),
+        start_date: formatDateYYMMDD(formData.startDate.value),
+        end_date: formatDateYYMMDD(formData.endDate.value),
         lecture_type: formData.lectureFormat.value,
         online_platform: formData.onlinePlatform.value,
         address: formData.offlineAddress.value,

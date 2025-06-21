@@ -4,7 +4,6 @@ import { RegisterView } from "./register.view";
 import { RegisterSchema } from "./formsections/stack";
 import { useModal } from "@/shared/modules";
 import { Stepper } from "./stepper/stepper";
-
 export const RegisterContainer = () => {
   const jobState = useStack<RegisterSchema>(createInitialJobSchema);
   const careerState = useStack<RegisterSchema>(createInitialCareerSchema);
@@ -15,7 +14,6 @@ export const RegisterContainer = () => {
 
   const stepper = useModal(Stepper);
 
-  // 모든 스택의 상태가 'success'인지 확인하는 computed state
   const allStacksValid = useMemo(() => {
     const checkStackStatus = (stacks: RegisterSchema[]): boolean => {
       return stacks.every((stack) => Object.values(stack).every((field) => field.status === "success"));

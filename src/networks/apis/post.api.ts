@@ -5,9 +5,10 @@ import { privateClient } from "../client";
  * @param payload - 멘토링 등록 요청 데이터
  * @returns ResultData<ResultCodes>
  */
+
 export const postMentoring = async (payload: MentoringPostRequestDTO): Promise<{ body: "SUCCESS"; message: string }> => {
   try {
-    const response = await privateClient.post("/api/v1/mentoring/post", payload);
+    const response = await privateClient.post("/mentoring/post", payload);
     return response.data;
   } catch (error: any) {
     if (error.response) {

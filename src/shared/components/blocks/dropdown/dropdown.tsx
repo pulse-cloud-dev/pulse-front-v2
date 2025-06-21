@@ -1,4 +1,4 @@
-import { useState, useRef, createContext, ReactElement, useContext, ReactNode, useEffect, Children, isValidElement, useMemo } from "react";
+import { useState, useRef, createContext, useContext, ReactNode, useEffect } from "react";
 import { Icon } from "../../atoms";
 import React from "react";
 interface DropdownContextProps {
@@ -7,6 +7,8 @@ interface DropdownContextProps {
   focusedIndex: number;
   itemsRef: React.MutableRefObject<(HTMLLIElement | null)[]>;
   id: string;
+  registerItem: (value: string) => number;
+  unregisterItem: (value: string) => void;
 }
 const DropdownContext = createContext<DropdownContextProps | null>(null);
 
@@ -27,15 +29,25 @@ interface DropdownProps {
 export const Dropdown = ({ id, label, value, onChange, onBlur, onFocus, errorMessage, hasError = false, children, className = "" }: DropdownProps) => {
   const [open, setOpen] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState(-1);
+  const [registeredItems, setRegisteredItems] = useState<string[]>([]);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const itemsRef = useRef<(HTMLLIElement | null)[]>([]);
 
-  const options = useMemo(() => {
-    return Children.toArray(children)
-      .filter((child): child is ReactElement => isValidElement(child))
-      .map((child) => child.props.value)
-      .filter((value): value is string => typeof value === "string");
-  }, [children]);
+  // 아이템 등록/해제 관리
+  const registerItem = (value: string): number => {
+    setRegisteredItems((prev) => {
+      if (!prev.includes(value)) {
+        const newItems = [...prev, value];
+        return newItems;
+      }
+      return prev;
+    });
+    return registeredItems.indexOf(value) !== -1 ? registeredItems.indexOf(value) : registeredItems.length;
+  };
+
+  const unregisterItem = (value: string) => {
+    setRegisteredItems((prev) => prev.filter((item) => item !== value));
+  };
 
   const handleBlur = (e: React.FocusEvent) => {
     if (!wrapperRef.current?.contains(e.relatedTarget as Node)) {
@@ -59,7 +71,7 @@ export const Dropdown = ({ id, label, value, onChange, onBlur, onFocus, errorMes
           setOpen(true);
           setFocusedIndex(0);
         } else {
-          setFocusedIndex((prev) => Math.min(prev + 1, options.length - 1));
+          setFocusedIndex((prev) => Math.min(prev + 1, registeredItems.length - 1));
         }
         break;
       case "ArrowUp":
@@ -74,8 +86,8 @@ export const Dropdown = ({ id, label, value, onChange, onBlur, onFocus, errorMes
         if (!open) {
           setOpen(true);
           setFocusedIndex(0);
-        } else if (focusedIndex >= 0 && options[focusedIndex]) {
-          handleSelect(options[focusedIndex]);
+        } else if (focusedIndex >= 0 && registeredItems[focusedIndex]) {
+          handleSelect(registeredItems[focusedIndex]);
         }
         break;
       case "Escape":
@@ -98,6 +110,12 @@ export const Dropdown = ({ id, label, value, onChange, onBlur, onFocus, errorMes
       });
     }
   }, [focusedIndex]);
+
+  useEffect(() => {
+    return () => {
+      setRegisteredItems([]);
+    };
+  }, []);
 
   return (
     <div className={`dropdown-container ${className}`} ref={wrapperRef} onBlur={handleBlur} onFocus={onFocus}>
@@ -129,16 +147,11 @@ export const Dropdown = ({ id, label, value, onChange, onBlur, onFocus, errorMes
               focusedIndex,
               itemsRef,
               id,
+              registerItem,
+              unregisterItem,
             }}
           >
-            {Children.toArray(children)
-              .filter((child): child is ReactElement => isValidElement(child))
-              .map((child, index) =>
-                React.cloneElement(child, {
-                  index,
-                  key: index,
-                })
-              )}
+            {children}
           </DropdownContext.Provider>
         </ul>
       )}
@@ -156,36 +169,49 @@ interface DropdownItemProps {
   value: string;
   children: ReactNode;
   className?: string;
-  index?: number;
 }
 
-export const DropdownItem = ({ value, children, className = "", index }: DropdownItemProps) => {
+export const DropdownItem = ({ value, children, className = "" }: DropdownItemProps) => {
   const context = useContext(DropdownContext);
-  if (!context || index === undefined) {
-    throw new Error("DropdownItem must be used within a Dropdown and receive an index");
+  if (!context) {
+    throw new Error("DropdownItem must be used within a Dropdown");
   }
 
-  const { onSelect, selected, focusedIndex, itemsRef, id } = context;
+  const { onSelect, selected, focusedIndex, itemsRef, id, registerItem, unregisterItem } = context;
+  const [itemIndex, setItemIndex] = useState<number>(-1);
 
-  const isFocused = focusedIndex === index;
+  useEffect(() => {
+    const index = registerItem(value);
+    setItemIndex(index);
+    return () => {
+      unregisterItem(value);
+    };
+  }, [focusedIndex]);
+
+  const isFocused = focusedIndex === itemIndex;
 
   const handleClick = () => {
     onSelect(value);
   };
+
+  if (itemIndex === -1) {
+    return null;
+  }
+
   return (
     <li
       ref={(el) => {
-        if (itemsRef.current && index >= 0) {
-          itemsRef.current[index] = el;
+        if (itemsRef.current && itemIndex >= 0) {
+          itemsRef.current[itemIndex] = el;
         }
       }}
-      id={`${id}-option-${index}`}
+      id={`${id}-option-${itemIndex}`}
       role="option"
       aria-selected={selected === value}
       className={`dropdown-item ${className} ${selected === value ? "selected" : ""} ${isFocused ? "focused" : ""}`}
       onMouseDown={handleClick}
       data-value={value}
-      data-index={index}
+      data-index={itemIndex}
     >
       {children}
     </li>

@@ -3,7 +3,6 @@ import { Typography } from "@/shared/components";
 import { Job, Career, Education, Certificate, Introduction } from "./formsections";
 import { RegisterSchema, UseStackReturn } from "./formsections/stack";
 import { BaseButton } from "@/shared/components";
-import { isValid } from "zod";
 
 interface IntroductionState {
   introduction: string;

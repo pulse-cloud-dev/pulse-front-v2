@@ -4,7 +4,26 @@ import { FormField } from "@/shared/components";
 import { Dropdown, DropdownItem } from "@/shared/components/blocks/dropdown/dropdown";
 import { DatePickerField } from "@/shared/components/blocks/datepicker/DatePickerField";
 import ToggleBtn from "@/shared/components/blocks/togglebutton/togglebutton";
-import { Icon } from "@/shared/components";
+import { useRoleLevels } from "../register.service";
+import { Suspense } from "react";
+import ErrorBoundary from "@/shared/components/blocks/errorboundary/errorBoundary";
+
+const RoleLevelOptions = () => {
+  const { data } = useRoleLevels();
+
+  if (!data || !Array.isArray(data)) {
+    return null;
+  }
+  return (
+    <>
+      {data.map(({ name, description }) => (
+        <DropdownItem key={name} value={description}>
+          {description}
+        </DropdownItem>
+      ))}
+    </>
+  );
+};
 const careerGridStyle = {
   display: "grid",
   gridTemplateColumns: "263fr 263fr 263fr  90fr 180fr 180fr",
@@ -99,11 +118,11 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
                       hasError={isError}
                       errorMessage="입력값을 확인해주세요."
                     >
-                      {field.list.map((item) => (
-                        <DropdownItem key={item} value={item}>
-                          {item}
-                        </DropdownItem>
-                      ))}
+                      <ErrorBoundary fallback={<h2>Error...</h2>}>
+                        <Suspense fallback={<>loading</>}>
+                          <RoleLevelOptions />
+                        </Suspense>
+                      </ErrorBoundary>
                     </Dropdown>
                   )}
 
