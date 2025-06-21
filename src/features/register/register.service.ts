@@ -9,6 +9,14 @@ export const useEducationLevels = () =>
     staleTime: 1000 * 60 * 60, // 1 hour
   });
 
+export const usePassStatus = () =>
+  useSuspenseQuery({
+    queryKey: ["pass-status"],
+    queryFn: mentoringApis.getPassStatus,
+    gcTime: 1000 * 60 * 60, // 1 hour
+    staleTime: 1000 * 60 * 60, // 1 hour
+  });
+
 export const useEducationStatuses = () =>
   useSuspenseQuery({
     queryKey: ["educationStatuses"],

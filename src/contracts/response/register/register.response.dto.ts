@@ -11,5 +11,4 @@ export interface NameDescription {
 
 export interface ApiResponse<T> {
   body: T;
-  message: string;
 }

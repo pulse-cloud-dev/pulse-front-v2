@@ -3,6 +3,42 @@ import { Typography } from "@/shared/components";
 import { FormField } from "@/shared/components";
 import { Dropdown, DropdownItem } from "@/shared/components/blocks/dropdown/dropdown";
 import { DatePickerField } from "@/shared/components/blocks/datepicker/DatePickerField";
+import { Suspense } from "react";
+import ErrorBoundary from "@/shared/components/blocks/errorboundary/errorBoundary";
+import { useEducationStatuses, useEducationLevels } from "../register.service";
+
+const EducationOptions = () => {
+  const { data } = useEducationLevels();
+  if (!data || !Array.isArray(data)) {
+    return null;
+  }
+  return (
+    <>
+      {data.map(({ name, description }) => (
+        <DropdownItem key={name} value={description}>
+          {description}
+        </DropdownItem>
+      ))}
+    </>
+  );
+};
+
+const EducationStatusOptions = () => {
+  const { data } = useEducationStatuses();
+  console.log(data);
+  if (!data || !Array.isArray(data)) {
+    return null;
+  }
+  return (
+    <>
+      {data.map(({ name, description }) => (
+        <DropdownItem key={name} value={description}>
+          {description}
+        </DropdownItem>
+      ))}
+    </>
+  );
+};
 
 export const Education = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError }: UseStackReturn<RegisterSchema>) => {
   return (
@@ -80,11 +116,12 @@ export const Education = ({ stacks, pushStack, popStack, updateStackField, reset
                       hasError={isError}
                       errorMessage="입력값을 확인해주세요."
                     >
-                      {field.list.map((item) => (
-                        <DropdownItem key={item} value={item}>
-                          {item}
-                        </DropdownItem>
-                      ))}
+                      <ErrorBoundary fallback={<h2>Error...</h2>}>
+                        <Suspense fallback={<>loading</>}>
+                          {field.label === "대학구분" && <EducationStatusOptions />}
+                          {field.label === "졸업여부" && <EducationOptions />}
+                        </Suspense>
+                      </ErrorBoundary>
                     </Dropdown>
                   )}
                 </div>

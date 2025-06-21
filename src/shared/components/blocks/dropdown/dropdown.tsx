@@ -139,7 +139,7 @@ export const Dropdown = ({ id, label, value, onChange, onBlur, onFocus, errorMes
       </button>
 
       {open && (
-        <ul role="listbox" className="dropdown-list" style={{ marginBottom: "4px'" }}>
+        <ul role="listbox" className="dropdown-list" style={{ marginBottom: "8px" }}>
           <DropdownContext.Provider
             value={{
               onSelect: handleSelect,

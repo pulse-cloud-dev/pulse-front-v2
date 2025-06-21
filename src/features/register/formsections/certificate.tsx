@@ -2,6 +2,27 @@ import { RegisterSchema, UseStackReturn } from "./stack";
 import { Typography, FormField } from "@/shared/components";
 import { Dropdown, DropdownItem } from "@/shared/components/blocks/dropdown/dropdown";
 import { DatePickerField } from "@/shared/components/blocks/datepicker/DatePickerField";
+import { usePassStatus } from "../register.service";
+import { Suspense } from "react";
+import ErrorBoundary from "@/shared/components/blocks/errorboundary/errorBoundary";
+
+const PassStatusOptions = () => {
+  const { data } = usePassStatus();
+
+  if (!data || !Array.isArray(data)) {
+    return null;
+  }
+  return (
+    <>
+      {data.map(({ name, description }) => (
+        <DropdownItem key={name} value={description}>
+          {description}
+        </DropdownItem>
+      ))}
+    </>
+  );
+};
+
 export const Certificate = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError }: UseStackReturn<RegisterSchema>) => {
   return (
     <section className="m-t-24">
@@ -59,11 +80,11 @@ export const Certificate = ({ stacks, pushStack, popStack, updateStackField, res
                 return (
                   "list" in field && (
                     <Dropdown key={key} id={`${key}-${i}`} {...commonProps} value={field.value} onChange={(val) => updateStackField(i, key as keyof RegisterSchema, val)} hasError={isError}>
-                      {field.list.map((item) => (
-                        <DropdownItem key={item} value={item}>
-                          {item}
-                        </DropdownItem>
-                      ))}
+                      <ErrorBoundary fallback={<h2>Error...</h2>}>
+                        <Suspense fallback={<>loading</>}>
+                          <PassStatusOptions />
+                        </Suspense>
+                      </ErrorBoundary>
                     </Dropdown>
                   )
                 );
