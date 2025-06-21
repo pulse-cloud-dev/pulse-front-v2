@@ -13,8 +13,9 @@ import {
 } from "@/shared/components/blocks";
 import { Typography, Icon } from "@/shared/components/atoms";
 import { DeleteIcon } from "@/shared/components/atoms/deletes/delete";
-import { TabConst } from "@/shared/constants";
+import { useLocation } from "react-router-dom";
 import type { ViewEventProps } from "@/shared/types";
+
 
 interface FilterProps {
   event: ViewEventProps['event'];
@@ -44,6 +45,8 @@ const FilterBar = ({
       )}
       <div className="btn-search">
         <input 
+          id="mentor-search"
+          aria-label="멘토 검색"
           placeholder="검색" 
           value={keyword} 
           onChange={e => setKeyword(e.target.value)}
@@ -53,8 +56,8 @@ const FilterBar = ({
             }
           }
           } />
-        <button onClick={() => setSearchText(keyword)}>
-          <Icon src="search_18" alt="검색 아이콘" />
+        <button onClick={() => setSearchText(keyword)} aria-label="검색">
+          <Icon src="search_18" alt="" aria-hidden="true" />
         </button>
       </div>
     </div>
@@ -64,13 +67,13 @@ const FilterBar = ({
         <ResetSelection className="m-l-5" onClick={onReset} label="초기화" />
       )}
       {selectedFields.map((field, idx) => (
-        <span key={idx} className="tag">
+        <span key={idx} className="tag" aria-label={`분야 ${field} 삭제`}>
           {field}
           <DeleteIcon size={12} color="#9E9E9E" className="m-l-4" onClick={() => removeField(field)} />
         </span>
       ))}
       {selectedRegions.map((region, idx) => (
-        <span key={idx} className="tag">
+        <span key={idx} className="tag" aria-label={`지역 ${region} 삭제`}>
           {region}
           <DeleteIcon size={12} color="#9E9E9E" className="m-l-4" onClick={() => removeRegion(region)} />
         </span>
@@ -128,6 +131,8 @@ const MentorViewPosts = (props: FilterProps & { sortOption: string; setSortOptio
 };
 
 export const MentorView = (props: ViewEventProps & { state: any; actions: any }) => {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
   const menu = getSearchParams("menu") || "posts";
   const { keyword, selectedFields, selectedRegions, onlineStatus, sortOption, searchText } = props.state;
   const { setKeyword, removeField, removeRegion, resetFilters, setSortOption, setSearchText } = props.actions;
@@ -156,7 +161,10 @@ export const MentorView = (props: ViewEventProps & { state: any; actions: any })
         </Typography>
       </header>
       <section className="m-t-30">
-        <PageTabs tabList={TabConst.MENTOR_PAGE} />
+        <PageTabs tabList={[
+          { id: "posts", display: "모집글" },
+          { id: "map", display: "지도" },
+        ]} />
       </section>
       {menu === "posts" && <MentorViewPosts {...commonProps} />}
       {menu === "map" && <MentorViewMap {...commonProps} />}
