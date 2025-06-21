@@ -12,6 +12,7 @@ interface DropdownContextProps {
 }
 const DropdownContext = createContext<DropdownContextProps | null>(null);
 
+let cnt = 0;
 interface DropdownProps {
   id: string;
   label: string;
@@ -101,7 +102,11 @@ export const Dropdown = ({ id, label, value, onChange, onBlur, onFocus, errorMes
         break;
     }
   };
-
+  /*
+height: 200px;
+/ overflow-y: auto;
+설정 할것,자동 focus 설정
+*/
   useEffect(() => {
     if (focusedIndex >= 0 && itemsRef.current[focusedIndex]) {
       itemsRef.current[focusedIndex]?.scrollIntoView({
@@ -116,7 +121,7 @@ export const Dropdown = ({ id, label, value, onChange, onBlur, onFocus, errorMes
       setRegisteredItems([]);
     };
   }, []);
-
+  open === true ? "" : (cnt = 0);
   return (
     <div className={`dropdown-container ${className}`} ref={wrapperRef} onBlur={handleBlur} onFocus={onFocus}>
       <label htmlFor={id} className="dropdown-label">
@@ -125,7 +130,9 @@ export const Dropdown = ({ id, label, value, onChange, onBlur, onFocus, errorMes
       <button
         id={id}
         type="button"
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={() => {
+          setOpen((prev) => !prev);
+        }}
         onKeyDown={handleKeyDown}
         aria-haspopup="listbox"
         aria-expanded={open}
@@ -139,7 +146,7 @@ export const Dropdown = ({ id, label, value, onChange, onBlur, onFocus, errorMes
       </button>
 
       {open && (
-        <ul role="listbox" className="dropdown-list" style={{ marginBottom: "8px" }}>
+        <ul role="listbox" className="dropdown-list" style={{ marginBottom: "4px" }}>
           <DropdownContext.Provider
             value={{
               onSelect: handleSelect,
@@ -181,9 +188,11 @@ export const DropdownItem = ({ value, children, className = "" }: DropdownItemPr
   const [itemIndex, setItemIndex] = useState<number>(-1);
 
   useEffect(() => {
-    const index = registerItem(value);
-    setItemIndex(index);
+    cnt++;
+    registerItem(value);
+    setItemIndex(cnt);
     return () => {
+      cnt--;
       unregisterItem(value);
     };
   }, [focusedIndex]);
