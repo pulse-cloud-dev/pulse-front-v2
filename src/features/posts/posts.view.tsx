@@ -30,10 +30,10 @@ const formfieldlayout: React.CSSProperties = {
 
 type FormState = {
   title: FieldState<string>;
-  dueDate: FieldState<Date>;
-  dueTime: FieldState<string>;
-  startDate: FieldState<Date>;
-  endDate: FieldState<Date>;
+  dueDate: FieldState<Date | null>;
+  dueTime: FieldState<string | null>;
+  startDate: FieldState<Date | null>;
+  endDate: FieldState<Date | null>;
   lectureFormat: FieldState<"ONLINE" | "OFFLINE">;
   onlinePlatform: FieldState<string>;
   offlineAddress: FieldState<string>;
@@ -66,14 +66,14 @@ const useFormState = () => {
     },
 
     dueDate: {
-      value: new Date(),
+      value: null,
       errorMessage: "마감일은 현재보다 늦어야 합니다.",
       state: "pending",
       dependsOn: ["dueTime"],
       customValidator: (value: Date) => value > new Date(),
     },
     dueTime: {
-      value: "23:00",
+      value: null,
       errorMessage: "마감 시간을 입력해주세요.",
       state: "pending",
       dependsOn: ["dueDate"],
@@ -93,7 +93,7 @@ const useFormState = () => {
       },
     },
     startDate: {
-      value: new Date(),
+      value: null,
       errorMessage: "시작일은 모집 마감 기한보다 늦어야 합니다",
       state: "pending",
       dependsOn: ["dueDate", "endDate"],
@@ -103,7 +103,7 @@ const useFormState = () => {
       },
     },
     endDate: {
-      value: new Date(),
+      value: null,
       errorMessage: "종료일은 시작일보다 늦어야 합니다.",
       state: "pending",
       dependsOn: ["startDate"],
@@ -293,10 +293,10 @@ export const PostsView = (props: PostsViewProps) => {
       const requestData: MentoringPostRequestDTO = {
         title: formData.title.value,
         content: htmlContent,
-        deadline_date: formatDateYYMMDD(formData.dueDate.value),
-        deadline_time: formData.dueTime.value,
-        start_date: formatDateYYMMDD(formData.startDate.value),
-        end_date: formatDateYYMMDD(formData.endDate.value),
+        deadline_date: formatDateYYMMDD(formData.dueDate.value as Date),
+        deadline_time: formData.dueTime.value as string,
+        start_date: formatDateYYMMDD(formData.startDate.value as Date),
+        end_date: formatDateYYMMDD(formData.endDate.value as Date),
         lecture_type: formData.lectureFormat.value,
         online_platform: formData.onlinePlatform.value,
         address: formData.offlineAddress.value,
@@ -397,7 +397,7 @@ export const PostsView = (props: PostsViewProps) => {
               <Dropdown
                 id="hour-selector"
                 label="시간 선택"
-                value={formData.dueTime.value}
+                value={formData.dueTime.value === null ? "선택해주세요" : formData.dueTime.value}
                 onChange={(val) => updateField("dueTime", val)}
                 onBlur={() => handleBlur("dueTime")}
                 onFocus={() => console.log("HourSelector focused")}
