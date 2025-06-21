@@ -188,9 +188,9 @@ export const DropdownItem = ({ value, children, className = "" }: DropdownItemPr
   const [itemIndex, setItemIndex] = useState<number>(-1);
 
   useEffect(() => {
-    cnt++;
     registerItem(value);
     setItemIndex(cnt);
+    cnt++;
     return () => {
       cnt--;
       unregisterItem(value);
