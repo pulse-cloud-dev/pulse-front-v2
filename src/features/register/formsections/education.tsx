@@ -118,8 +118,8 @@ export const Education = ({ stacks, pushStack, popStack, updateStackField, reset
                     >
                       <ErrorBoundary fallback={<h2>Error...</h2>}>
                         <Suspense fallback={<>loading</>}>
-                          {field.label === "대학구분" && <EducationStatusOptions />}
-                          {field.label === "졸업여부" && <EducationOptions />}
+                          {field.label === "졸업여부" && <EducationStatusOptions />}
+                          {field.label === "대학구분" && <EducationOptions />}
                         </Suspense>
                       </ErrorBoundary>
                     </Dropdown>
