@@ -157,7 +157,6 @@ const useFormState = () => {
 
     const hasError = Object.entries(formData).some(([key, field]) => {
       const isValid = validateField(key as keyof FormState, field, formData);
-      console.log(key, isValid, field);
       errors[key] = !isValid;
       return !isValid;
     });

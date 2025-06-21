@@ -25,7 +25,7 @@ const EducationOptions = () => {
 
 const EducationStatusOptions = () => {
   const { data } = useEducationStatuses();
-  console.log(data);
+
   if (!data || !Array.isArray(data)) {
     return null;
   }

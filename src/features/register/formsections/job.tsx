@@ -1,6 +1,44 @@
 import { UseStackReturn, RegisterSchema } from "./stack";
 import { Typography } from "@/shared/components";
 import { Dropdown, DropdownItem } from "@/shared/components/blocks/dropdown/dropdown";
+import { Suspense } from "react";
+import ErrorBoundary from "@/shared/components/blocks/errorboundary/errorBoundary";
+import { useCategoryItemList } from "../register.service";
+
+const CategoryCodesOptions = () => {
+  //하드코딩함 ->에러시에 확인 바람
+  const { data } = useCategoryItemList("JOB");
+
+  if (!data || !Array.isArray(data)) {
+    return null;
+  }
+  return (
+    <>
+      {data.map(({ name }) => (
+        <DropdownItem key={name} value={name}>
+          {name}
+        </DropdownItem>
+      ))}
+    </>
+  );
+};
+
+const CategoryItemListOptions = () => {
+  const { data } = useCategoryItemList("JOB");
+
+  if (!data || !Array.isArray(data)) {
+    return null;
+  }
+  return (
+    <>
+      {data.map(({ name, description }) => (
+        <DropdownItem key={name} value={description}>
+          {description}
+        </DropdownItem>
+      ))}
+    </>
+  );
+};
 
 export const Job = ({ stacks, updateStackField, resetStatus, checkError }: UseStackReturn<RegisterSchema>) => {
   return (
@@ -35,11 +73,12 @@ export const Job = ({ stacks, updateStackField, resetStatus, checkError }: UseSt
                     hasError={isError}
                     errorMessage="입력값을 확인해주세요."
                   >
-                    {field.list.map((item) => (
-                      <DropdownItem key={item} value={item}>
-                        {item}
-                      </DropdownItem>
-                    ))}
+                    <ErrorBoundary fallback={<h2>Error...</h2>}>
+                      <Suspense fallback={<>loading</>}>
+                        {field.label === "직무.직업" && <CategoryCodesOptions />}
+                        {field.label === "직무.직업 상세" && <CategoryItemListOptions />}
+                      </Suspense>
+                    </ErrorBoundary>
                   </Dropdown>
                 )}
               </div>

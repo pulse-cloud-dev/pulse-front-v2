@@ -32,18 +32,12 @@ export const useRoleLevels = () => {
     staleTime: 1000 * 60 * 60, // 1 hour
   });
 };
-export const useCategoryCodes = () =>
-  useSuspenseQuery({
-    queryKey: ["categoryCodes"],
-    queryFn: mentoringApis.getCategories,
-    gcTime: 1000 * 60 * 60, // 1 hour
-    staleTime: 1000 * 60 * 60, // 1 hour
-  });
 
-export const useCategoryItemList = (categoryCode: string) =>
-  useSuspenseQuery({
+export const useCategoryItemList = (categoryCode: string) => {
+  return useSuspenseQuery({
     queryKey: ["categoryItemList", categoryCode],
     queryFn: () => mentoringApis.getCategoryItems(categoryCode),
     gcTime: 1000 * 60 * 60, // 1 hour
     staleTime: 1000 * 60 * 60, // 1 hour
   });
+};
