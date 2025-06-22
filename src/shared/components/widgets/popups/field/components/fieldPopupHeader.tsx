@@ -23,8 +23,13 @@ export const Header = ({
 
   return (
     <header className={`popup-field__header ${className}`} {...props}>
-      <div className="popup-field__search">
+      <div 
+        className="popup-field__search"
+        role="search"
+        aria-label="분야 검색"
+      >
         <input
+          id="field-search"
           type="text"
           placeholder="찾으시는 분야를 검색해 주세요"
           value={inputValue}
@@ -34,6 +39,7 @@ export const Header = ({
         <Icon
           src="search_18"
           alt="검색 아이콘"
+          aria-label="검색"
           className="popup-field__search-icon"
           onClick={handleSearch}
         />

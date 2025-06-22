@@ -50,19 +50,32 @@ export const Body = ({
 
   return (
     <div className={`popup-local__body ${className}`} {...props}>
-      <div className="popup-local__column popup-local__column-left">
+      <div
+        role="listbox"
+        aria-label="분야 선택"
+        className="popup-local__column popup-local__column-left"
+      >
         {fields.map(({ name }) => (
           <div
+            role="option"
+            aria-selected={selectedField === name}
+            tabIndex={0}
             key={name}
             className={`popup-local__item ${selectedField === name ? "active" : ""}`}
             onClick={() => setSelectedField(name)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") setSelectedField(name);
+            }}
           >
             {name}
           </div>
         ))}
       </div>
 
-      <div className="popup-local__column popup-local__column-right">
+      <div 
+        className="popup-local__column popup-local__column-right"
+        aria-labelledby="subfield-group-label"
+      >
         {subFields.map(({ name }) => (
           <CheckField key={name} className="check-field-module" variant="circle">
             <CheckField.Input

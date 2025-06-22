@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { categoryApis } from "@/networks/apis/category.api";
 
 
-
 export const Body = ({
   selectedCity,
   setSelectedCity,
@@ -58,19 +57,32 @@ export const Body = ({
 
   return (
     <div className={`popup-local__body ${className}`} {...props}>
-      <div className="popup-local__column popup-local__column-left">
+      <div 
+        role="listbox"
+        aria-label="지역 선택"
+        className="popup-local__column popup-local__column-left"
+      >
         {cities.map(({ name }) => (
           <div
+            role="option"
+            aria-selected={selectedCity === name}
+            tabIndex={0}
             key={name}
             className={`popup-local__item ${selectedCity === name ? "active" : ""}`}
             onClick={() => setSelectedCity(name)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") setSelectedCity(name);
+            }}
           >
             {name}
           </div>
         ))}
       </div>
 
-      <div className="popup-local__column popup-local__column-right">
+      <div 
+        className="popup-local__column popup-local__column-right"
+        aria-labelledby="subregion-group-label"
+      >
         {districts.map(({ name }) => (
           <CheckField key={name} className="check-field-module" variant="circle">
             <CheckField.Input

@@ -1,6 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
 
-// 컴포넌트
 import { Header } from "../components/localPopupHeader";
 import { Body } from "../components/localPopupBody";
 import { SelectedItems } from "../../selectedBox";
@@ -87,8 +86,13 @@ useEffect(() => {
 
 
   return (
-    <div className="popup-local">
-      <Header onSearch={setSearchKeyword} />
+    <div 
+      className="popup-local"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="popup-title"
+    >
+      <Header id="popup-title" onSearch={setSearchKeyword} />
       <Body
         selectedCity={selectedCity}
         setSelectedCity={setSelectedCity}

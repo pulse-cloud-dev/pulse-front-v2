@@ -23,8 +23,13 @@ export const Header = ({
 
   return (
     <header className={`popup-local__header ${className}`} {...props}>
-      <div className="popup-local__search">
+      <div 
+        className="popup-local__search"
+        role="search"
+        aria-label="지역 검색"
+      >
         <input
+          id="region-search"
           type="text"
           placeholder="찾으시는 지역을 검색해 주세요"
           value={inputValue}
@@ -34,6 +39,7 @@ export const Header = ({
         <Icon
           src="search_18"
           alt="검색 아이콘"
+          aria-label="검색"
           className="popup-local__search-icon"
           onClick={handleSearch}
         />

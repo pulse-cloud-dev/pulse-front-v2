@@ -12,19 +12,24 @@ interface SelectedItemsProps {
 
 export const SelectedItems = ({ selectedItems, handleToggle }: SelectedItemsProps) => {
   return (
-    <div className="selected-box">
+    <div 
+      className="selected-box"
+      role="region"
+      aria-label="선택한 분야 목록"
+    >
       {selectedItems.length > 0 ? (
-        <div className="data flex flex-wrap gap-5">
+        <div className="data flex flex-wrap gap-5" role="list">
           {selectedItems.map(({ key, label }) => (
             <span
               key={key}
+              role="listitem"
               className="items-center bg-[#E6F4F1] text-gray-800 rounded-full px-3 py-1 text-sm"
             >
               {label}
               <button
                 onClick={() => handleToggle(key)}
                 className="ml-2"
-                aria-label="선택 삭제"
+                aria-label={`${label} 필터 삭제`}
               >
                 <svg
                     width={12}
@@ -44,7 +49,14 @@ export const SelectedItems = ({ selectedItems, handleToggle }: SelectedItemsProp
           ))}
         </div>
       ) : (
-        <Typography className="no-data" variant="body" size="14" color="grayscale">
+        <Typography 
+          className="no-data" 
+          variant="body" 
+          size="14" 
+          color="grayscale"
+          role="status"
+          aria-live="polite"
+        >
           분야를 선택해주세요
         </Typography>
       )}

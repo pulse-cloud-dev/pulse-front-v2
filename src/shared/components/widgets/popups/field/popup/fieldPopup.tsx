@@ -79,8 +79,13 @@ export function FieldPopup({
   }, [searchKeyword, fields]);
 
   return (
-    <div className="popup-field">
-      <Header onSearch={setSearchKeyword} />
+    <div 
+      className="popup-field"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="popup-title"
+    >
+      <Header id="popup-title" onSearch={setSearchKeyword} />
       <Body
         selectedField={selectedField}
         setSelectedField={setSelectedField}

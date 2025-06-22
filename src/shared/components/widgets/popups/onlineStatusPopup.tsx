@@ -32,7 +32,7 @@ const Body = ({
   }
  
   return (
-    <div className="popup-online__body">
+    <div className="popup-online__body" aria-labelledby="lecture-type-group">
       {lectureTypes.map((type) => (
       <CheckField key = {type} className="check-field-module" variant="circle">
         <CheckField.Input
@@ -40,6 +40,8 @@ const Body = ({
           name={type}
           isChecked={selected === type}
           onChange={() => onOptionSelect(type)}
+          aria-checked={selected === type}
+          role="radio"
         />
         <CheckField.Label checkId={type}>
           {labelMap[type] || type}
@@ -97,7 +99,12 @@ const handleSelect = (option: string) => {
   };
 
   return (
-    <div className="popup-online">
+    <div 
+      className="popup-online"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="popup-title"
+    >
       <Header />
       <Body selected={selected} onOptionSelect={handleSelect} lectureTypes={lectureTypes} />
       <Footer onReset={handleReset} onClose={handleClose} onApply={handleApply} />
