@@ -12,7 +12,7 @@ export const MentorViewPosts = (props: FilterProps & { sortOption: string; setSo
   return (
     <>
       <FilterBar {...props} />
-      <div className="card-count">
+      <div className="card-count" role="region" aria-label="멘토 개수 및 정렬 옵션">
         <Typography variant="body" size="16" weight="semi-bold">
           총 {cards.length}개
         </Typography>
@@ -20,12 +20,15 @@ export const MentorViewPosts = (props: FilterProps & { sortOption: string; setSo
     setSortOption(val);
   }} />
       </div>
-      <section className="flex__box m-t-10">
+      <section 
+        className="flex__box m-t-10"
+        aria-labelledby="멘토링 카드 리스트 영역"
+      >
         {cards.map((_, index) => (
           <MentorCard key={index} />
         ))}
       </section>
-      <section className="m-t-72 m-b-70">
+      <section className="m-t-72 m-b-70" aria-label="페이지네이션">
         <PageNation queryStringKey="offset" pages={10} />
       </section>
     </>
