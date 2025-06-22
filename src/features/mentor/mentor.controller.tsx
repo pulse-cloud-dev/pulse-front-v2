@@ -37,7 +37,7 @@ const fetchMentorings = async () => {
         search_text: searchText,
         sort_type:
         sortOption === "기본순"
-          ? "DEFAULT"
+          ? "LATEST"
           : sortOption === "인기순"
           ? "POPULAR"
           : "LATEST",
