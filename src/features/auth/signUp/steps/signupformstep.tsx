@@ -209,8 +209,8 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
   }, [formState.nick_name.value]);
 
   const queryClient = useQueryClient();
-  const { name, phone_number, email } = queryClient.getQueryData(["auth", "sign-up", "userinfo"]) as SimplifiedUserlResponseDTO;
-  // const { name, phone_number, email } = { name: "김펄스", phone_number: "010-1234-1224", email: "mrki23@pulse.com" };
+  // const { name, phone_number, email } = queryClient.getQueryData(["auth", "sign-up", "userinfo"]) as SimplifiedUserlResponseDTO;
+  const { name, phone_number, email } = { name: "김펄스", phone_number: "010-1234-1224", email: "mrki23@pulse.com" };
   const { requestSignUp } = useSignUp({ onSuccess: onNext, onError: () => "error" });
 
   const onsubmit = (e: FormEvent) => {
@@ -234,11 +234,24 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
   };
 
   return (
-    <form className="form__auth" onSubmit={onsubmit}>
-      <FormField type={"text"} label={"이름"} name={name} value={name} required={true} style={{ backgroundColor: "var(--palette-gray-100)" }} />
-      <FormField type={"text"} label={"휴대폰번호"} name={phone_number} value={phone_number} required={true} style={{ backgroundColor: "var(--palette-gray-100)" }} />
-      <FormField type={"text"} label={"이메일"} name={email} value={email} required={true} style={{ backgroundColor: "var(--palette-gray-100)" }} />
+    <form className="form__signUp" onSubmit={onsubmit}>
+      <FormField wrapperClass="sign-up-wrapper" labelClass="sign-up-label" inputClass="sign-up-input" type={"text"} label={"이름"} name={name} value={name} required={true} style={{ backgroundColor: "var(--palette-gray-100)" }} />
       <FormField
+        wrapperClass="sign-up-wrapper"
+        labelClass="sign-up-label"
+        inputClass="sign-up-input"
+        type={"text"}
+        label={"휴대폰번호"}
+        name={phone_number}
+        value={phone_number}
+        required={true}
+        style={{ backgroundColor: "var(--palette-gray-100)" }}
+      />
+      <FormField wrapperClass="sign-up-wrapper" labelClass="sign-up-label" inputClass="sign-up-input" type={"text"} label={"이메일"} name={email} value={email} required={true} style={{ backgroundColor: "var(--palette-gray-100)" }} />
+      <FormField
+        wrapperClass="sign-up-wrapper"
+        labelClass="sign-up-label"
+        inputClass="sign-up-input"
         type={"text"}
         label={"닉네임"}
         name={"닉네임"}
@@ -266,6 +279,9 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
         }
       />
       <FormField
+        wrapperClass="sign-up-wrapper"
+        labelClass="sign-up-label"
+        inputClass="sign-up-input"
         type={"password"}
         label={"비밀번호"}
         name={"비밀번호"}
@@ -279,6 +295,9 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
         isInvalid={formState.password.errors.length > 0}
       />
       <FormField
+        wrapperClass="sign-up-wrapper"
+        labelClass="sign-up-label"
+        inputClass="sign-up-input"
         type={"password"}
         label={"비밀번호확인"}
         name={"비밀번호확인"}
