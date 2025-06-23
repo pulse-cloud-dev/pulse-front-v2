@@ -1,15 +1,19 @@
 .check-field-module input[type="checkbox"]:checked + label::after {
-  background: url("/images/checkbox_checked_light.svg") 2px center no-repeat;
+  background: var(--palette-teal-40) url("/images/checkbox_checked_light.svg") 2px center no-repeat;
   background-size: 0.625rem auto;
 }
 
 /* .circle 스타일 */
 .check-field-module.circle input[type="checkbox"]:checked + label::after {
-  background: #0068E6 url("/images/chekcbox_login_chekced.svg") no-repeat center center;
+  background: var(--palette-teal-40) url("/images/checkbox_login_checked.svg") no-repeat center center;
   background-size: 0.625rem auto;
+  border: none;
+  opacity: 1;
 }
-
-/* .square 스타일 */
-.check-field-module:not(.circle) input[type="checkbox"]:checked + label::after {
+.check-field-module.circle input[type="checkbox"]:not(:checked) + label::after {
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+.check-field-module input[type="checkbox"]:checked + label::after {
   filter: brightness(0) saturate(100%) invert(25%) sepia(88%) saturate(2007%) hue-rotate(201deg) brightness(99%) contrast(107%);
 }

@@ -66,12 +66,14 @@
                      온/오프라인
 ========================================================
  */
+
 .popup--online {
   width: 480px;
   height: 300px;
   padding: 1rem;
   box-sizing: border-box;
 }
+
 .popup--online__body {
   height: 80%;
   display: flex;
@@ -80,6 +82,7 @@
   gap: 20px;
   border-bottom: 1px solid var(--border);
 }
+
 .popup--online__footer {
   margin-top: 1rem;
   height: calc(20% - 1rem);
@@ -91,6 +94,7 @@
 
   box-sizing: border-box;
 }
+
 .popup--online__footer > .popup--online__footer--left {
   display: flex;
   gap: 6px;

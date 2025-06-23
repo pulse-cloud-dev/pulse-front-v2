@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useId, forwardRef } from "react";
 
 interface TextFieldProps {
   label?: string;
@@ -7,14 +7,16 @@ interface TextFieldProps {
   error?: string;
   disabled?: boolean;
   onChange?: (value: string) => void;
-
   labelSize?: "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
-
   className?: string;
 }
 
-export const BaseTextField = ({ className = "", label, value, placeholder, error, disabled, onChange, labelSize = "md" }: TextFieldProps) => {
+export const BaseTextField = forwardRef<HTMLInputElement, TextFieldProps>(({ className = "", label, value, placeholder, error, disabled, onChange, labelSize = "md" }, ref) => {
   const [inputValue, setInputValue] = useState(value || "");
+
+  // 고유 ID 생성
+  const inputId = useId();
+  const errorId = useId();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -23,53 +25,30 @@ export const BaseTextField = ({ className = "", label, value, placeholder, error
 
   return (
     <div className={`text-field ${error ? "text-field--error" : ""} ${disabled ? "text-field--disabled" : ""} ${className}`}>
-      {label && <label className={`text-field__label ${labelSize}`}>{label}</label>}
-      <input type="text" className="text-field__input" value={inputValue} onChange={handleChange} placeholder={placeholder} disabled={disabled} />
-      {error && <p className="text-field__error">{error}</p>}
+      {label && (
+        <label htmlFor={inputId} className={`text-field__label ${labelSize}`}>
+          {label}
+        </label>
+      )}
+
+      <input
+        ref={ref}
+        type="text"
+        id={inputId}
+        className="text-field__input"
+        value={inputValue}
+        onChange={handleChange}
+        placeholder={placeholder}
+        disabled={disabled}
+        aria-invalid={error ? "true" : "false"}
+        aria-describedby={error ? errorId : undefined}
+      />
+
+      {error && (
+        <p id={errorId} className="text-field__error" role="alert" aria-live="polite">
+          {error}
+        </p>
+      )}
     </div>
   );
-};
-
-// 🌟 Vanilla Extract 스타일링
-// const textFieldContainer = style({
-//   display: "flex",
-//   flexDirection: "column",
-//   gap: "4px",
-// });
-
-// const labelStyle = style({
-//   fontSize: "14px",
-//   fontWeight: "bold",
-// });
-
-// const inputRecipe = recipe({
-//   base: {
-//     padding: "10px",
-//     borderRadius: "6px",
-//     border: "1px solid #ccc",
-//     fontSize: "16px",
-//     outline: "none",
-//     transition: "border-color 0.2s",
-//     ":focus": {
-//       borderColor: "#007bff",
-//     },
-//   },
-//   variants: {
-//     error: {
-//       true: {
-//         borderColor: "red",
-//       },
-//     },
-//     disabled: {
-//       true: {
-//         backgroundColor: "#f5f5f5",
-//         cursor: "not-allowed",
-//       },
-//     },
-//   },
-// });
-
-// const errorStyle = style({
-//   color: "red",
-//   fontSize: "12px",
-// });
+});

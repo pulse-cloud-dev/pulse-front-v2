@@ -6,7 +6,7 @@ import { SignInView } from "./signIn.view";
 import { SignInRequestDTO } from "@/contracts";
 import { usePageNavigation, useUser } from "@/shared/lib/hooks";
 
-//  email: "test@naver.com", password: "Password123!"
+//  email: "test@test.com", password: "Password123!"
 export const SigInController = () => {
   const { goHome } = usePageNavigation();
   const { login } = useUser();
