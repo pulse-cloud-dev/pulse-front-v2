@@ -162,7 +162,7 @@ const getUserByOauth = async (): Promise<OauthResponseDTO> => {
 // 네이버 로그인 URL 받아오기
 const getNaverLoginUrl = async (): Promise<string> => {
   try {
-    const { data } = await axios.get("/api/v1/members/join/NAVER");
+    const { data } = await axios.get("/api/v1/members/find-id/NAVER");
     return data.body; // URL 문자열
   } catch (error) {
     console.error("네이버 로그인 URL 요청 실패:", error);
@@ -239,7 +239,7 @@ export const userApis = {
   joinSocial,
   registerUser,
   updateUser,
-  getUserByOauth,
+  // getUserByOauth,
   deleteUser,
   resetUserPassword,
   nicknameCheck,
