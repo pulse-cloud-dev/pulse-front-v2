@@ -11,6 +11,7 @@ import { Dropdown, DropdownItem } from "@/shared/components/blocks/dropdown/drop
 import { MentoringPostRequestDTO } from "@/contracts/request/post/post.request.dto";
 import { convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
+import DaumPostcodeEmbed from "react-daum-postcode";
 
 type FieldState<value> = {
   value: value;
@@ -163,7 +164,7 @@ const useFormState = () => {
 
     setIsFormValid(!hasError);
   }, [formData]);
-  // 필드 값 업데이트 함수
+
   const updateField = <Key extends keyof FormState>(key: Key, value: FormState[Key]["value"]) => {
     setFormData((prev) => ({
       ...prev,
@@ -258,8 +259,6 @@ const useFormState = () => {
     validateAndUpdate(fieldKey, currentValue);
   };
 
-  // 폼 제출 가능 여부 확인 (함수 제거됨 - 이제 isFormValid 변수 사용)
-
   return {
     formData,
     updateField,
@@ -269,14 +268,45 @@ const useFormState = () => {
     setFormData,
   };
 };
+
 export const PostsView = (props: PostsViewProps) => {
   const { textEditorState, requestPostMentoring } = props;
   const [editorState, setEditorState] = textEditorState;
+  const [isPostcodeOpen, setIsPostcodeOpen] = useState<boolean>(false);
 
   // 폼 상태 관리 훅 사용
   const { formData, updateField, validateAndUpdate, handleBlur, isFormValid } = useFormState();
 
   const { editorRef, editorModel, onChange, toggleBlockType, toggleInlineStyle, handleKeyCommand, keyBindingFn } = useTextEditor({ editorState, setEditorState });
+
+  // 다음 우편번호 API 완료 핸들러
+  const handleComplete = (data: any) => {
+    let fullAddress = data.address;
+    let extraAddress = "";
+
+    if (data.addressType === "R") {
+      if (data.bname !== "") {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== "") {
+        extraAddress += extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+    }
+
+    // 주소 필드 업데이트 및 유효성 검사
+    validateAndUpdate("offlineAddress", fullAddress);
+
+    // 우편번호 창 닫기
+    setIsPostcodeOpen(false);
+
+    console.log("Selected address:", fullAddress);
+  };
+
+  // 주소 검색 버튼 클릭 핸들러
+  const handleAddressSearchClick = () => {
+    setIsPostcodeOpen(true);
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -309,6 +339,7 @@ export const PostsView = (props: PostsViewProps) => {
       alert("입력값을 다시 확인해주세요.");
     }
   };
+
   return (
     <div className="sub-layout__content">
       <form className="postform" onSubmit={handleSubmit}>
@@ -491,18 +522,66 @@ export const PostsView = (props: PostsViewProps) => {
                       errorClass="text-field__error"
                       inputClass="form-field__input"
                       label="오프라인 주소"
-                      placeholder="일반 주소"
+                      placeholder="주소 검색 버튼을 클릭해서 주소를 선택해주세요"
                       value={formData.offlineAddress.value}
                       onChange={(e) => updateField("offlineAddress", e.target.value)}
                       onBlur={(e) => validateAndUpdate("offlineAddress", e.target.value)}
                       isInvalid={formData.offlineAddress.state === "invalid"}
                       errorMessage={formData.offlineAddress.errorMessage}
+                      readOnly={true}
                     />
                   </div>
-                  <BaseButton type="button" color="reverse" size="lg" style={{ marginTop: "22px" }}>
+                  <BaseButton type="button" color="reverse" size="lg" style={{ marginTop: "22px" }} onClick={handleAddressSearchClick}>
                     주소 검색
                   </BaseButton>
                 </div>
+
+                {/* 우편번호 검색 모달 */}
+                {isPostcodeOpen && (
+                  <div
+                    style={{
+                      position: "fixed",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      backgroundColor: "rgba(0, 0, 0, 0.5)",
+                      zIndex: 1000,
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: "white",
+                        padding: "20px",
+                        borderRadius: "8px",
+                        width: "500px",
+                        height: "600px",
+                        position: "relative",
+                      }}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => setIsPostcodeOpen(false)}
+                        style={{
+                          position: "absolute",
+                          top: "10px",
+                          right: "10px",
+                          border: "none",
+                          background: "none",
+                          fontSize: "18px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        ×
+                      </button>
+                      <DaumPostcodeEmbed onComplete={handleComplete} style={{ width: "100%", height: "100%" }} />
+                    </div>
+                  </div>
+                )}
+
                 <div className="flex_r m-t-30">
                   <div style={formfieldlayout}>
                     <FormField

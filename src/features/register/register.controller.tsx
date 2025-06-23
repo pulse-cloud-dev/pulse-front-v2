@@ -16,6 +16,8 @@ export const RegisterContainer = () => {
 
   const allStacksValid = useMemo(() => {
     const checkStackStatus = (stacks: RegisterSchema[]): boolean => {
+      //온라인이면 오프라인 true처리(온라인만 검사)
+      //오프라인이면 온라인 true처리(오프라인만 검사)
       return stacks.every((stack) => Object.values(stack).every((field) => field.status === "success"));
     };
 

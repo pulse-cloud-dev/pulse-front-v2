@@ -258,7 +258,7 @@ export const createInitialEducationSchema = (): RegisterSchema => ({
     value: null,
     status: "pending",
     validate: (v: Date | null, form) => {
-      if (!v) return true; // 재직 중이면 null 허용
+      if (!v) return false;
       const startDate = form?.admissionDate?.value;
       if (startDate && v < startDate) return false;
       return true;
