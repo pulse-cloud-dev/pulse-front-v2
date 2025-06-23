@@ -5,6 +5,7 @@
                    - log-in 
                    - sign-up
                   -find-password
+                  -reigsterform
 ========================================================
  */
 
@@ -56,7 +57,7 @@
 
 .form-auth input[type="email"]::placeholder,
 .form-auth input[type="password"]::placeholder {
-  font-size: 14px; 
+  font-size: 14px;
   color: #b0b0b0;
   letter-spacing: normal;
   padding: 5px;
@@ -163,11 +164,11 @@
 /* fs_16 btn__line btn_xl flex1  */
 /* css   */
 
-.form-find {
-  /* padding: 20px; */
+/*커스텀*/
+.form__find {
+  padding: 20px;
   border-radius: 8px;
   margin: auto;
-  
 }
 .form-find > div {
   display: flex;
@@ -207,8 +208,8 @@
   transition: border-color 0.3s ease;
 }
 
-.form-find input[type="password"] {
-  font-size: 14px; 
+.form__find input[type="password"] {
+  font-size: 20px;
   letter-spacing: 1px;
 }
 
@@ -221,8 +222,7 @@
   margin-bottom: 7px; /* 비밀번호 필드 아래 마진 추가 */
 }
 
-
-.form-find__reset-button {
+.find_reset__button {
   height: 40px;
   font-weight: 600;
   letter-spacing: 0.0316px;
@@ -282,7 +282,6 @@
   background-color: var(--primary-70);
 }
 
-
 /* 비밀번호 재설정 버튼 */
 .form-find__submit-button {
   display: flex;
@@ -292,17 +291,17 @@
   padding: 2px 12px 0;
   border-radius: 8px;
   font-size: 14px !important;
-  background: #00CCBA;
+  background: #00ccba;
   color: var(--text-wh);
 }
 
-.form-find__submit-button:hover {
-  background-color: #00B8A8;
+.find_submit_button:hover {
+  background-color: #00b8a8;
 }
 
-.form-find input[type="email"]::placeholder,
-.form-find input[type="password"]::placeholder {
-  font-size: 14px; 
+.form__find input[type="email"]::placeholder,
+.form__find input[type="password"]::placeholder {
+  font-size: 14px;
   color: #b0b0b0;
   letter-spacing: normal;
   padding: 5px;
@@ -320,6 +319,14 @@
   margin: 5px 3px;
   font-weight: 550;
 }
+
+/* .find_custom__placeholder::placeholder {
+  color: #b0b0b0;
+  opacity: 1;
+  letter-spacing: normal;
+  padding: 5px;
+} 
+  */
 
 /*
 =======================================
@@ -345,9 +352,9 @@
 
   .form-find input[type="email"]::placeholder,
   .form-find input[type="password"]::placeholder {
-    letter-spacing : -1px;
+    letter-spacing: -1px;
   }
-  }
+}
 
 /* 소형 휴대폰: 479px 이하 */
 @media (max-width: 479px) {
@@ -356,4 +363,46 @@
   .auth__button {
     width: 250px;
   }
+}
+
+/* ================== post form style =====================  */
+.postform {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: var(--palette-white-05);
+}
+
+/* ================== register-form style =====================  */
+
+.form-field__input {
+  width: 100%;
+  height: 48px;
+  padding: 10px 12px;
+  font-size: 14px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+.form-field__label {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.certificate-form {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+  grid-template-columns: 2.875fr 2.875fr 1fr 1fr;
+}
+.certificate-footer {
+  grid-column: 4 / 5;
+  justify-self: end;
 }

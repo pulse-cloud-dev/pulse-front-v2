@@ -16,3 +16,5 @@ export * from "./wrappers/lazy.wrapper";
 export * from "./drawer/baseDrawer";
 // Map
 export * from "./map/map";
+//errorBoundary
+export * from "./errorboundary/errorBoundary";

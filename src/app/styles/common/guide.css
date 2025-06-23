@@ -301,7 +301,11 @@ input::placeholder {
   font-weight: 500 !important;
 }
 
-.fs_14_bold {
+.fs_14_semibold {
+  font-size: 14px;
+  font-weight: 600;
+}
+.fs_14_me .fs_14_bold {
   font-size: 14px;
   font-weight: 700;
 }
