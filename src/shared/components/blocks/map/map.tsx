@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 interface NaverMap {
   map: naver.maps.Map | null;
@@ -37,7 +37,7 @@ export const Map = () => {
         mapRef.current.map = null;
       }
     };
-  }, []);
+  });
 
   return <div id="map" style={{ width: "100%", height: "100%" }} />;
 };

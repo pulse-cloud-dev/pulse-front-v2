@@ -1,14 +1,7 @@
 import type { ViewEventProps } from "@/shared/types";
 import { getSearchParams } from "@/shared/lib";
 import { PageNation } from "@/shared/components/widgets";
-import {
-  Breadcrumb,
-  MentorCard,
-  PageTabs,
-  PopupSearch,
-  BaseDrawer,
-  Map,
-} from "@/shared/components/blocks";
+import { Breadcrumb, MentorCard, PageTabs, PopupSearch, BaseDrawer, Map } from "@/shared/components/blocks";
 import { Heading, Typography } from "@/shared/components/atoms";
 import { TabConst } from "@/shared/constants";
 import { useState } from "react";
@@ -22,10 +15,7 @@ const MentorViewMap = () => {
   };
 
   return (
-    <section
-      className="m-t-30"
-      style={{ position: "relative", overflow: "hidden" }}
-    >
+    <section className="m-t-30" style={{ position: "relative", overflow: "hidden" }}>
       <div
         style={{
           background: "lightgray",
@@ -37,10 +27,7 @@ const MentorViewMap = () => {
         <Map />
       </div>
 
-      <div
-        className="flex_r gap_6"
-        style={{ position: "absolute", top: "16px", left: "16px" }}
-      >
+      <div className="flex_r gap_6" style={{ position: "absolute", top: "16px", left: "16px" }}>
         <PopupSearch title="분야" openPopup={event?.openFirstModal} />
         <PopupSearch title="온/오프라인" openPopup={event?.openSecondModal} />
         <PopupSearch title="지역" openPopup={event?.openThirdModal} />
@@ -85,7 +72,7 @@ interface MentorViewProps extends ViewEventProps {}
 
 export const MentorView = (props: MentorViewProps) => {
   const menu = getSearchParams("menu") || "posts";
-
+  console.log("menu", menu);
   return (
     <article className="sub-layout__content">
       <header>
