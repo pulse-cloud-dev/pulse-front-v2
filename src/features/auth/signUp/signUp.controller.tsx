@@ -33,6 +33,8 @@ export const SignUpController = () => {
     onSuccess: () => setStep("form"),
     onError: () => setStep("consent"),
   });
+  //이메일 검증 api
+  //step3에서 같으면 이거wrapper함수로 만들기
 
   const code = useAuthCode();
 
