@@ -2,7 +2,8 @@ import { useState } from "react";
 import { PostsView } from "./posts.view";
 import { EditorState } from "draft-js";
 import { usePostMentoring } from "./posts.service";
-export const PostsController = () => {
+import { withAuthRedirect } from "@/shared/hocs";
+const PostsController = () => {
   const textEditorState = useState(() => EditorState.createEmpty());
   const { requestPostMentoring } = usePostMentoring();
   const props = {
@@ -11,3 +12,5 @@ export const PostsController = () => {
   };
   return <PostsView {...props} />;
 };
+
+export const ProtectedPostsController = withAuthRedirect(PostsController);

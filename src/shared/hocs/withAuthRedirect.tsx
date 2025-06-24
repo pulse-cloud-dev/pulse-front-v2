@@ -5,8 +5,7 @@ import { useUser } from "../lib/hooks";
 export const withAuthRedirect = (WrappedComponent: React.ComponentType) => {
   const ComponentWithAuth = (props: any) => {
     const { isLogin } = useUser();
-
-    if (isLogin) {
+    if (!isLogin) {
       return <Navigate to="/" replace />;
     }
 

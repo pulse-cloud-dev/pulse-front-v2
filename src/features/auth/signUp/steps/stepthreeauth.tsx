@@ -15,14 +15,13 @@ const StepThreeAuthContent = ({ children }: StepThreeAuthProps) => {
   const cachedUser = queryClient.getQueryData(["auth", "sign-up", "userinfo"]) as SimplifiedUserlResponseDTO;
 
   if (cachedUser === null && undefined) {
-    // 불일치 시 리디렉션
     goToPage("/auth/signIn");
   }
 
   useSuspenseQuery({
     queryKey: ["auth", "verify-email"],
     queryFn: () => userApis.emailCheck(cachedUser.email),
-  }); //성공시 children렌더링 아니면 goToPage("/auth/signIn"); 발동
+  });
 
   return <>{children}</>;
 };

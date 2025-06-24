@@ -95,7 +95,7 @@ const createRoutes = (): Routers => {
          */
         {
           path: "posts",
-          children: [{ path: "", element: <Controller.PostsController /> }],
+          children: [{ path: "", element: <Controller.ProtectedPostsController /> }],
         },
 
         {
