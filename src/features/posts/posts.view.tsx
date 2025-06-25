@@ -48,8 +48,6 @@ interface PostsViewProps extends ViewEventProps {
   textEditorState: [EditorState, Dispatch<SetStateAction<EditorState>>];
 }
 
-const textFieldClass = "m-t-30 m-b-30 gap_12 ";
-
 const lectureFormatOptions = [
   { value: "ONLINE" as const, label: "온라인" },
   { value: "OFFLINE" as const, label: "오프라인" },
@@ -71,7 +69,17 @@ const useFormState = () => {
       errorMessage: "마감일은 현재보다 늦어야 합니다.",
       state: "pending",
       dependsOn: ["dueTime"],
-      customValidator: (value: Date) => value > new Date(),
+      customValidator: (value: Date) => {
+        if (!value) return false;
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // 시간 제거 (00:00:00.000)
+
+        const selectedDate = new Date(value);
+        selectedDate.setHours(0, 0, 0, 0); // 시간 제거
+
+        return selectedDate >= today;
+      },
     },
     dueTime: {
       value: null,
@@ -87,10 +95,10 @@ const useFormState = () => {
 
         const dueDateTime = new Date(dueDate);
         dueDateTime.setHours(hours, minutes, 0, 0);
-
+        console.log("dueDateTime", dueDateTime.getHours());
         const now = new Date();
 
-        return dueDateTime > now;
+        return dueDateTime >= now;
       },
     },
     startDate: {
@@ -343,28 +351,26 @@ export const PostsView = (props: PostsViewProps) => {
   return (
     <div className="sub-layout__content">
       <form className="postform" onSubmit={handleSubmit}>
-        <header>
-          <Typography variant="title" size="24" weight="bold">
-            멘티 모집글 등록
-          </Typography>
-        </header>
-        <section>
-          <div style={formfieldlayout}>
-            <FormField
-              labelClass="form-field__label"
-              errorClass="text-field__error"
-              inputClass="form-field__input"
-              name="제목"
-              label="제목"
-              placeholder="제목을 입력해주세요"
-              value={formData.title.value}
-              onChange={(e) => updateField("title", e.target.value)}
-              onBlur={(e) => validateAndUpdate("title", e.target.value)}
-              isInvalid={formData.title.state === "invalid"}
-              errorMessage={formData.title.errorMessage}
-            />
-          </div>
-        </section>
+        <Typography variant="title" size="24" weight="bold">
+          멘티 모집글 등록
+        </Typography>
+
+        <div style={formfieldlayout}>
+          <FormField
+            labelClass="form-field__label"
+            errorClass="text-field__error"
+            inputClass="form-field__input"
+            name="제목"
+            label="제목"
+            placeholder="제목을 입력해주세요"
+            value={formData.title.value}
+            onChange={(e) => updateField("title", e.target.value)}
+            onBlur={(e) => validateAndUpdate("title", e.target.value)}
+            isInvalid={formData.title.state === "invalid"}
+            errorMessage={formData.title.errorMessage}
+          />
+        </div>
+
         <section>
           <Typography variant="compact" size="16" weight="semi-bold">
             내용
