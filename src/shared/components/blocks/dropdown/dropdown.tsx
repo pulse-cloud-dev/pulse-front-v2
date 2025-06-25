@@ -17,9 +17,9 @@ interface DropdownProps {
   id: string;
   label: string;
   value: string;
-  onChange: (val: string) => void;
-  onBlur: () => void;
-  onFocus: () => void;
+  onChange?: (val: string) => void;
+  onBlur?: () => void;
+  onFocus?: () => void;
   errorMessage?: string;
   hasError?: boolean;
   children: ReactNode;
@@ -52,14 +52,14 @@ export const Dropdown = ({ id, label, value, onChange, onBlur, onFocus, errorMes
 
   const handleBlur = (e: React.FocusEvent) => {
     if (!wrapperRef.current?.contains(e.relatedTarget as Node)) {
-      onBlur();
+      onBlur && onBlur();
       setOpen(false);
       setFocusedIndex(-1);
     }
   };
 
   const handleSelect = (selectedValue: string) => {
-    onChange(selectedValue);
+    onChange && onChange(selectedValue);
     setOpen(false);
     setFocusedIndex(-1);
   };

@@ -95,7 +95,6 @@ const useFormState = () => {
 
         const dueDateTime = new Date(dueDate);
         dueDateTime.setHours(hours, minutes, 0, 0);
-        console.log("dueDateTime", dueDateTime.getHours());
         const now = new Date();
 
         return dueDateTime >= now;
@@ -437,7 +436,6 @@ export const PostsView = (props: PostsViewProps) => {
               value={formData.dueTime.value === null ? "선택해주세요" : formData.dueTime.value}
               onChange={(val) => updateField("dueTime", val)}
               onBlur={() => handleBlur("dueTime")}
-              onFocus={() => console.log("HourSelector focused")}
               hasError={formData.dueTime.state === "invalid"}
               errorMessage={formData.dueTime.errorMessage}
             >
@@ -449,7 +447,7 @@ export const PostsView = (props: PostsViewProps) => {
             </Dropdown>
           </div>
         </div>
-
+        <p className="text-field__error" role="alert" aria-live="polite" style={{ marginTop: "4px" }}></p>
         <div>
           <div style={{ height: "70px", display: "flex", flexDirection: "row", alignItems: "start" }}>
             <DatePickerField
@@ -636,7 +634,11 @@ export const PostsView = (props: PostsViewProps) => {
             isInvalid={formData.mentorFee.state === "invalid"}
             errorMessage={formData.mentorFee.errorMessage}
           />
+          <div className="dropdown-error-message" role="alert">
+            *금액 수령 시 부가세를 제외한 금액으로 정산됩니다.
+          </div>
         </div>
+
         <div className="flex_r flex_jend gap_4">
           <BaseButton color="reverse">취소</BaseButton>
           <BaseButton type="submit" className={isFormValid ? "primary " : "disabled"} disabled={!isFormValid}>
