@@ -208,3 +208,4 @@ const createRoutes = (): Routers => {
 
   return routes;
 };
+export const routerConfig = createBrowserRouter(createRoutes());
