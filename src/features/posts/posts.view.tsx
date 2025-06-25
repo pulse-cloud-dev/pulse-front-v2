@@ -435,8 +435,8 @@ export const PostsView = (props: PostsViewProps) => {
               hasError={formData.dueTime.state === "invalid"}
               errorMessage={formData.dueTime.errorMessage}
             >
-              {generateHours().map((hour) => (
-                <DropdownItem key={hour} value={hour}>
+              {generateHours().map((hour, index) => (
+                <DropdownItem key={index} value={hour}>
                   {hour}
                 </DropdownItem>
               ))}
@@ -513,7 +513,7 @@ export const PostsView = (props: PostsViewProps) => {
         )}
 
         {formData.lectureFormat.value === "OFFLINE" && (
-          <div className={textFieldClass}>
+          <div>
             <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-start", gap: "4px" }}>
               <div style={formfieldlayout}>
                 <FormField

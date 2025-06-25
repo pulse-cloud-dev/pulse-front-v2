@@ -94,8 +94,8 @@ const createRoutes = (): Routers => {
          * @description 모집글 등록
          */
         {
-          path: "posts",
-          children: [{ path: "", element: <Controller.ProtectedPostsController /> }],
+          path: "",
+          children: [{ path: "posts", element: <Controller.ProtectedPostsController /> }],
         },
 
         {
