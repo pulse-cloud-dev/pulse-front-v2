@@ -1,7 +1,7 @@
 import { CheckField, useCheckFieldGroup } from "@/shared/modules/select-ui";
 import type { HTMLAttributes, PropsWithChildren } from "react";
 import { useState, useEffect } from "react";
-import { categoryApis } from "@/networks";
+import { useLectureTypes } from "../Mentor/hooks/useLectureTypes";
 
 import { Footer } from "./popupFooter";
 
@@ -17,8 +17,8 @@ const Header = (props: HeaderProps) => {
 
 interface BodyProps extends HTMLAttributes<HTMLDivElement>, PropsWithChildren {
   selected: string | null;
-  onOptionSelect: (option: string ) => void;
-  lectureTypes: string[];
+  onOptionSelect: (option: string) => void; 
+  lectureTypes: string[]; 
 }
 
 const Body = ({
@@ -60,9 +60,12 @@ const Body = ({
 export function OnlineStatusPopup({ 
   onOnlineSelected,
   closeModal,
+  initialValue,
 }: {
-  onOnlineSelected?: (isOnline: boolean) => void;
-  closeModal?: () => void; }) {
+  onOnlineSelected?: (isOnline: boolean | undefined) => void;
+  closeModal?: () => void;
+  initialValue?: "ONLINE" | "OFFLINE" | null; 
+}) {
   const { checkedItems, toggle, reset } = useCheckFieldGroup({
     initialValues: {
       option1: false,
@@ -70,13 +73,16 @@ export function OnlineStatusPopup({
     },
   });
 
-const [lectureTypes, setLectureTypes] = useState<string[]>([]);
-const [selected, setSelected] = useState<string | null>(null);
+  
 
+const [selected, setSelected] = useState<string | null>((initialValue ?? null));
+const { data: lectureTypes = [], isLoading } = useLectureTypes();
 
 useEffect(() => {
-  categoryApis.lectureTypes().then(setLectureTypes);
-}, []);
+  setSelected(initialValue ?? null);
+}, [initialValue]);
+
+
 
 const handleReset = () => {
   reset();              // 내부 hook 값 초기화
@@ -88,7 +94,13 @@ const handleSelect = (option: string) => {
   setSelected(next);
 };
 
-  const handleApply = () => {
+    const handleApply = () => {
+    if (selected === null) {
+       onOnlineSelected?.(undefined);
+      closeModal?.(); // 아무 선택도 없으면 그냥 닫기만
+      return;
+    }
+
     onOnlineSelected?.(selected === "ONLINE");
     closeModal?.();
   };

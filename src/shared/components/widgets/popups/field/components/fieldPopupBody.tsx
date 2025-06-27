@@ -1,7 +1,6 @@
 import { CheckField } from "@/shared/modules/select-ui";
 import type { HTMLAttributes } from "react";
-import { useState, useEffect } from "react";
-import { categoryApis } from "@/networks/apis/category.api";
+import { fieldQuerys } from "../../../Mentor/hooks/useFieldItems";
 
 export const Body = ({
   selectedField,
@@ -15,46 +14,17 @@ export const Body = ({
   setSelectedField: (field: string) => void;
   checkedItems: Record<string, boolean>;
   handleToggle: (key: string) => void;
-  
-
 }) => {
-  const [fields, setFields] = useState<{ name: string; code: string }[]>([]);
-  const [subFields, setSubFields] = useState<{ name: string; code: string }[]>([]);
+  const { data: fields = [], isLoading: loadingFields } = fieldQuerys.useFieldItems();
 
-  // 분야 불러오기
-  useEffect(() => {
-    categoryApis.fieldItems()
-      .then(setFields)
-      .catch(console.error);
-  }, []);
+  const selectedFieldObj = fields.find((f) => f.name === selectedField);
+  const selectedFieldCode = selectedFieldObj?.code;
 
-  // 분야 세부항목 불러오기
-  useEffect(() => {
-    if (!selectedField || fields.length === 0) return;
-
-    const selected = fields.find((field) => field.name === selectedField);
-    setSubFields([]); // 초기화
-
-    if (selected) {
-      categoryApis.subFields(selected.code)
-        .then((res) => {
-          if (res.length === 0) {
-            setSubFields([]);
-          } else {
-            setSubFields(res);
-          }
-        })
-        .catch(console.error);
-    }
-  }, [selectedField, fields]);
+  const { data: subFields = [], isLoading: loadingSub } = fieldQuerys.useSubFields(selectedFieldCode);
 
   return (
     <div className={`popup-local__body ${className}`} {...props}>
-      <div
-        role="listbox"
-        aria-label="분야 선택"
-        className="popup-local__column popup-local__column-left"
-      >
+      <div className="popup-local__column popup-local__column-left" role="listbox" aria-label="분야 선택">
         {fields.map(({ name }) => (
           <div
             role="option"
@@ -63,19 +33,14 @@ export const Body = ({
             key={name}
             className={`popup-local__item ${selectedField === name ? "active" : ""}`}
             onClick={() => setSelectedField(name)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") setSelectedField(name);
-            }}
+            onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && setSelectedField(name)}
           >
             {name}
           </div>
         ))}
       </div>
 
-      <div 
-        className="popup-local__column popup-local__column-right"
-        aria-labelledby="subfield-group-label"
-      >
+      <div className="popup-local__column popup-local__column-right" aria-labelledby="subfield-group-label">
         {subFields.map(({ name }) => (
           <CheckField key={name} className="check-field-module" variant="circle">
             <CheckField.Input

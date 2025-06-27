@@ -1,7 +1,6 @@
 import { CheckField } from "@/shared/modules/select-ui";
 import type { HTMLAttributes } from "react";
-import { useState, useEffect } from "react";
-import { categoryApis } from "@/networks/apis/category.api";
+import { localQeurys } from "../../../Mentor/hooks/useLocals";
 
 
 export const Body = ({
@@ -16,58 +15,24 @@ export const Body = ({
   setSelectedCity: (city: string) => void;
   checkedItems: Record<string, boolean>;
   handleToggle: (key: string) => void;
-
 }) => {
-  const [cities, setCities] = useState<{ name: string; code: string }[]>([]);
-  const [districts, setDistricts] = useState<{ name: string; code: string }[]>([]);
-
-  // 시/도 목록 
-  useEffect(() => {
-    categoryApis.regionItems().then(setCities).catch(console.error);
-  }, []);
-
-  // 시/도 선택 시 구/군 로드
-  useEffect(() => {
-  if (!selectedCity || cities.length === 0) return;
-
-  const selected = cities.find((city) => city.name === selectedCity);
-
-  setDistricts([]); // 초기화
-
-  if (selected) {
-    categoryApis.subRegions(selected.code)
-      .then((res) => {
-        // 세종/전국은 수동으로 하위 항목 지정
-        if (res.length === 0) {
-          if (selectedCity === "세종") {
-            setDistricts([{ name: "전체", code: "SEJONG-전체" }]);
-          } else if (selectedCity === "전국") {
-            setDistricts([{ name: "전국", code: "ALL-전국" }]);
-          } else {
-            setDistricts([]); // 기타 지역
-          }
-        } else {
-          setDistricts(res);
-        }
-      })
-      .catch(console.error);
-  }
-}, [selectedCity, cities]);
-
+  const { data: cities = [] } = localQeurys.useCities();
+  const selectedCityObj = cities.find(city => city.name === selectedCity);
+  const { data: districts = [] } = localQeurys.useDistricts(selectedCityObj?.code, selectedCity);
 
   return (
     <div className={`popup-local__body ${className}`} {...props}>
-      <div 
+      <div
         role="listbox"
         aria-label="지역 선택"
         className="popup-local__column popup-local__column-left"
       >
         {cities.map(({ name }) => (
           <div
+            key={name}
             role="option"
             aria-selected={selectedCity === name}
             tabIndex={0}
-            key={name}
             className={`popup-local__item ${selectedCity === name ? "active" : ""}`}
             onClick={() => setSelectedCity(name)}
             onKeyDown={(e) => {
