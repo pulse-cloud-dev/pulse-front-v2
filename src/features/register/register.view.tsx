@@ -28,11 +28,9 @@ export const RegisterView: React.FC<RegisterViewProps> = ({ job, career, educati
   };
   return (
     <article className="sub-layout__content">
-      <header>
-        <Typography variant="title" size="24" weight="bold">
-          멘토 등록
-        </Typography>
-      </header>
+      <Typography variant="title" size="24" weight="bold">
+        멘토 등록
+      </Typography>
 
       <form className="m-t-50" onSubmit={handleSubmit}>
         <Job {...job} />

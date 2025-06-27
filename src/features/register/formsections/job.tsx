@@ -3,11 +3,12 @@ import { Typography } from "@/shared/components";
 import { Dropdown, DropdownItem } from "@/shared/components/blocks/dropdown/dropdown";
 import { Suspense } from "react";
 import ErrorBoundary from "@/shared/components/blocks/errorboundary/errorBoundary";
-import { useCategoryItemList } from "../register.service";
+import { useCategoryItemList, useCategory } from "../register.service";
 
-const CategoryCodesOptions = () => {
+const CategoryOptions = () => {
   //하드코딩함 ->에러시에 확인 바람
-  const { data } = useCategoryItemList("JOB");
+  const { data } = useCategory("JOB");
+  //데이터 값 구조
 
   if (!data || !Array.isArray(data)) {
     return null;
@@ -23,23 +24,27 @@ const CategoryCodesOptions = () => {
   );
 };
 
-const CategoryItemListOptions = () => {
-  const { data } = useCategoryItemList("JOB");
+const CategoryItemListOptions = ({ selectedCategoryValue }: { selectedCategoryValue: string }) => {
+  const { data: categories } = useCategory("JOB");
+  const selectedCategory = categories.find((category) => category.name === selectedCategoryValue);
 
-  if (!data || !Array.isArray(data)) {
+  const selectedCategoryCode = selectedCategory?.code ?? null;
+  const { data: items } = useCategoryItemList(selectedCategoryCode || "");
+
+  if (!selectedCategoryCode || !items || !Array.isArray(items)) {
     return null;
   }
+
   return (
     <>
-      {data.map(({ name, description }) => (
-        <DropdownItem key={name} value={description}>
-          {description}
+      {items.map(({ name, code }) => (
+        <DropdownItem key={code} value={name}>
+          {name}
         </DropdownItem>
       ))}
     </>
   );
 };
-
 export const Job = ({ stacks, updateStackField, resetStatus, checkError }: UseStackReturn<RegisterSchema>) => {
   return (
     <section>
@@ -67,7 +72,9 @@ export const Job = ({ stacks, updateStackField, resetStatus, checkError }: UseSt
                     id={`${key}-${i}`}
                     label={field.label}
                     value={field.value}
-                    onChange={(val) => updateStackField(i, key as keyof RegisterSchema, val)}
+                    onChange={(val) => {
+                      updateStackField(i, key as keyof RegisterSchema, val);
+                    }}
                     onBlur={() => checkError(i, key as keyof RegisterSchema)}
                     onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
                     hasError={isError}
@@ -75,8 +82,8 @@ export const Job = ({ stacks, updateStackField, resetStatus, checkError }: UseSt
                   >
                     <ErrorBoundary fallback={<h2>Error...</h2>}>
                       <Suspense fallback={<>loading</>}>
-                        {field.label === "직무.직업" && <CategoryCodesOptions />}
-                        {field.label === "직무.직업 상세" && <CategoryItemListOptions />}
+                        {field.label === "직무.직업" && <CategoryOptions />}
+                        {field.label === "직무.직업 상세" && <CategoryItemListOptions selectedCategoryValue={(Object.values(stack).find((f) => f.label === "직무.직업")?.value as string) || ""} />}
                       </Suspense>
                     </ErrorBoundary>
                   </Dropdown>

@@ -5,8 +5,8 @@ const categoryApiRouter = {
   educationLevel: "/mentoring/mento-create/education-level",
   educationStatus: "/mentoring/mento-create/education-status",
   roleLevel: "/mentoring/mento-create/role-level",
-  categories: "/category",
-  categoryItems: (categoryCode: string) => `/category/item-list/${categoryCode}`,
+  categories: (categoryCode: string) => `/category/item-list/${categoryCode}`,
+  categoryItems: (itemCode: string) => `/category/meta-list/${itemCode}`,
   passStatus: "/mentoring/mento-info/pass-status",
 };
 
@@ -71,9 +71,9 @@ const getRoleLevels = async (): Promise<NameDescription[]> => {
 };
 
 // 카테고리 코드 조회
-const getCategories = async (): Promise<CodeItem[]> => {
+const getCategoryItems = async (itemCode: string): Promise<CodeItem[]> => {
   try {
-    const response = (await publicClient.get(categoryApiRouter.categories)) as ApiResponse<CodeItem[]>;
+    const response = (await publicClient.get(categoryApiRouter.categoryItems(itemCode))) as ApiResponse<CodeItem[]>;
     return response.body;
   } catch (error: any) {
     if (error.response) {
@@ -86,9 +86,9 @@ const getCategories = async (): Promise<CodeItem[]> => {
 };
 
 // 카테고리 아이템 코드 조회
-const getCategoryItems = async (categoryCode: string): Promise<CodeItem[]> => {
+const getCategories = async (categoryCode: string): Promise<CodeItem[]> => {
   try {
-    const response = (await publicClient.get(categoryApiRouter.categoryItems(categoryCode))) as ApiResponse<CodeItem[]>;
+    const response = (await publicClient.get(categoryApiRouter.categories(categoryCode))) as ApiResponse<CodeItem[]>;
     return response.body;
   } catch (error: any) {
     if (error.response) {
