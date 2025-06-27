@@ -2,8 +2,8 @@ import { useLocation } from "react-router-dom";
 import { Modal, useModal, useLocalStorage } from "@/shared/modules";
 import { FieldPopup, OnlineStatusPopup, LocalPopup } from "@/shared/components";
 import { MentorView } from "./mentor.view";
-import { useState, useEffect } from "react";
-import { categoryApis } from "@/networks";
+import { useState } from "react";
+import { useMentoringListQuery } from "@/shared/components/widgets/Mentor/hooks/useMentoringListQuery";
 
 export const MentorController = () => {
   const [keyword, setKeyword] = useState(""); // 입력값
@@ -22,40 +22,14 @@ export const MentorController = () => {
   const secondModal = useModal(Modal);
   const thirdModal = useModal(Modal);
 
-  // api
-  const [mentorings, setMentorings] = useState<any[]>([]); // api로 받아온 멘토링 목록
-  const [loading, setLoading] = useState(false); // 로딩 상태
 
-
-const fetchMentorings = async () => {
-    setLoading(true);
-    try {
-      const data = await categoryApis.getMentoringList({
-        field: selectedFields.join(","),
-        region: selectedRegions.join(","),
-        lecture_type: onlineStatus === "전체" ? undefined : onlineStatus === "온라인" ? "ONLINE" : "OFFLINE",
-        search_text: searchText,
-        sort_type:
-        sortOption === "기본순"
-          ? "LATEST"
-          : sortOption === "인기순"
-          ? "POPULAR"
-          : "LATEST",
-        page: 1,
-        size: 20,
-      });
-      setMentorings(data.contents ?? []);
-    } catch (err) {
-    } finally {
-      setLoading(false);
-    }
-  };
-
-
-// 필터 변경될 때마다 새로 조회
-  useEffect(() => { 
-    fetchMentorings();
-  }, [selectedFields, selectedRegions, onlineStatus, sortOption, searchText]);
+  const { data: mentorings = [], isLoading: loading } = useMentoringListQuery({
+    selectedFields,
+    selectedRegions,
+    onlineStatus,
+    sortOption,
+    searchText,
+  });
 
 
   // 필터 초기화
@@ -102,11 +76,20 @@ const fetchMentorings = async () => {
       children: (modalProps: { id: string; closeModal: (id: string) => void }) => (
         <OnlineStatusPopup
           aria-labelledby = "onoff-modal-title"
+          initialValue={
+          onlineStatus === "온라인" ? "ONLINE" :
+          onlineStatus === "오프라인" ? "OFFLINE" : null
+        }
           closeModal={() => modalProps.closeModal(modalProps.id)}
-          onOnlineSelected={(isOnline) => {
-            setIsOnlineOnly(isOnline);
+          onOnlineSelected={(isOnline: boolean | undefined) => {
+          if (isOnline === undefined) {
+            setOnlineStatus("전체");
+            setIsOnlineOnly(false);
+          } else {
             setOnlineStatus(isOnline ? "온라인" : "오프라인");
-          }}
+            setIsOnlineOnly(isOnline);
+          }
+        }}
         />
       ),
     });
