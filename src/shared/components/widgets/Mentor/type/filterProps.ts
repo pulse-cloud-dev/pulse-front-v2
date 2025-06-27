@@ -12,4 +12,7 @@ export interface FilterProps {
   removeField: (field: string) => void;
   removeRegion: (region: string) => void;
   onReset?: () => void;
+
+  sortOption: string;
+  setSortOption: (val: string) => void;
 }
