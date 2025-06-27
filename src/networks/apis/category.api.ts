@@ -1,22 +1,16 @@
 import axios from "axios";
+import { publicClient } from "@/networks/client";
 
-interface MentoringListParams {
-  field?: string;
-  lecture_type?: "ONLINE" | "OFFLINE";
-  region?: string;
-  sort_type?: "DEFAULT" | "POPULAR" | "LATEST";
-  search_text?: string;
-  page?: number;
-  size?: number;
-}
+import type { CategoryItem, CategoryResponse} from "@/contracts/request/category/category.types";
+import type { LectureType, LectureTypeResponse } from "@/contracts/request/category/lecture.types";
+import type { RegionItem, RegionItemListResponse } from "@/contracts/request/category/region.types";
+import type { MentoringListResponse, MentoringListParams } from "@/contracts/request/category/mentoring.types";
+
 
 // 분야 불러오기
-const fieldItems = async (): Promise<{ name: string; code: string }[]> => {
+const fieldItems = async (): Promise<CategoryItem[]> => {
   try {
-    const { data } = await axios.get(
-      "/api/v1/category/item-list/JOB",
-      { headers: { Accept: "application/json" } }
-    );
+    const data: { body: CategoryItem[] } = await publicClient.get("/category/item-list/JOB");
     return data.body;
   } catch (error) {
     console.error("직무직업 리스트 불러오기 실패:", error);
@@ -25,42 +19,32 @@ const fieldItems = async (): Promise<{ name: string; code: string }[]> => {
 };
 
 // 상세 분야 불러오기
-const subFields = async (jobCode: string): Promise<{ name: string; code: string }[]> => {
+const subFields = async (jobCode: string): Promise<CategoryItem[]> => {
   try {
-    const { data } = await axios.get(
-      `/api/v1/category/meta-list/${jobCode}`,
-      { headers: { Accept: "application/json" } }
-    );
+    const data: CategoryResponse = await publicClient.get(`/category/meta-list/${jobCode}`);
     return data.body;
   } catch (error) {
-    console.error("하위 행정구역 불러오기 실패:", error);
+    console.error("상세 분야 리스트 불러오기 실패:", error);
     throw error;
   }
 };
 
+
 // 강의유형 - 온/오프라인
-const lectureTypes = async (): Promise<string[]> => {
+const lectureTypes = async (): Promise<LectureType[]> => {
   try {
-    const { data } = await axios.get(
-      "/api/v1/mentoring/lecture-type",
-      {
-        headers: { Accept: "application/json" },
-      }
-    );
-    return data.body; // ['ONLINE', 'OFFLINE']
+    const data: LectureTypeResponse = await publicClient.get("/mentoring/lecture-type");
+    return data.body;
   } catch (error) {
-    console.error("강의 유형 로딩 실패:", error);
-    return [];
+    console.error("강의 유형 불러오기 실패:", error);
+    throw error;
   }
 };
 
 // 지역 불러오기
-const regionItems = async (): Promise<{ name: string; code: string }[]> => {
+const regionItems = async (): Promise<RegionItem[]> => {
   try {
-    const { data } = await axios.get(
-      "/api/v1/category/item-list/REGION",
-      { headers: { Accept: "application/json" } }
-    );
+    const data: RegionItemListResponse = await publicClient.get("/category/item-list/REGION");
     return data.body;
   } catch (error) {
     console.error("시/도 리스트 불러오기 실패:", error);
@@ -69,12 +53,9 @@ const regionItems = async (): Promise<{ name: string; code: string }[]> => {
 };
 
 // 하위 행정구역 불러오기
-const subRegions = async (regionCode: string): Promise<{ name: string; code: string }[]> => {
+const subRegions = async (regionCode: string): Promise<RegionItem[]> => {
   try {
-    const { data } = await axios.get(
-      `/api/v1/category/meta-list/${regionCode}`,
-      { headers: { Accept: "application/json" } }
-    );
+    const data: RegionItemListResponse = await publicClient.get(`/category/meta-list/${regionCode}`);
     return data.body;
   } catch (error) {
     console.error("하위 행정구역 불러오기 실패:", error);
@@ -85,11 +66,7 @@ const subRegions = async (regionCode: string): Promise<{ name: string; code: str
 // 필터링 api 연결
 const getMentoringList = async (params: MentoringListParams) => {
   try {
-    const { data } = await axios.get("/api/v1/mentoring/list", {
-      headers: { Accept: "application/json" },
-      params,
-    });
-
+    const data: MentoringListResponse = await publicClient.get("/mentoring/list", { params });
     return data.body;
   } catch (error) {
     console.error("멘토링 리스트 불러오기 실패:", error);
