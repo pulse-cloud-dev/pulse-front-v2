@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { mentoringApis } from "@/networks/apis/register.api";
 
 export const useEducationLevels = () =>
@@ -24,6 +24,7 @@ export const useEducationStatuses = () =>
     gcTime: 1000 * 60 * 60, // 1 hour
     staleTime: 1000 * 60 * 60, // 1 hour
   });
+
 export const useRoleLevels = () => {
   return useSuspenseQuery({
     queryKey: ["roleLevels"],
@@ -48,5 +49,11 @@ export const useCategoryItemList = (itemCode: string) => {
     queryFn: () => mentoringApis.getCategoryItems(itemCode),
     gcTime: 1000 * 60 * 60, // 1 hour
     staleTime: 1000 * 60 * 60, // 1 hour
+  });
+};
+
+export const useRegisterMentor = () => {
+  return useMutation({
+    mutationFn: mentoringApis.postRegisterMentor,
   });
 };

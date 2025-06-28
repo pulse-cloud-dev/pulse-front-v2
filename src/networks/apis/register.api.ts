@@ -1,6 +1,6 @@
-import { publicClient } from "@/networks/client";
+import { privateClient, publicClient } from "@/networks/client";
 import { NameDescription, CodeItem, ApiResponse } from "@/contracts/response/register/register.response.dto";
-
+import { MentoInfoRequestDto } from "@/contracts";
 const categoryApiRouter = {
   educationLevel: "/mentoring/mento-create/education-level",
   educationStatus: "/mentoring/mento-create/education-status",
@@ -8,6 +8,7 @@ const categoryApiRouter = {
   categories: (categoryCode: string) => `/category/item-list/${categoryCode}`,
   categoryItems: (itemCode: string) => `/category/meta-list/${itemCode}`,
   passStatus: "/mentoring/mento-info/pass-status",
+  registerMentor: "/mentoring/mento-info",
 };
 
 // 합격 상태 조회
@@ -100,6 +101,20 @@ const getCategories = async (categoryCode: string): Promise<CodeItem[]> => {
   }
 };
 
+const postRegisterMentor = async (MentoInfoRequestDto: MentoInfoRequestDto): Promise<CodeItem[]> => {
+  try {
+    const response = (await privateClient.post(categoryApiRouter.registerMentor, MentoInfoRequestDto)) as ApiResponse<CodeItem[]>;
+    return response.body;
+  } catch (error: any) {
+    if (error.response) {
+      console.error("에러 error.response.data");
+    } else {
+      console.error("Network or other error:", error.message);
+    }
+    throw error;
+  }
+};
+
 export const mentoringApis = {
   getEducationLevels,
   getEducationStatuses,
@@ -107,4 +122,5 @@ export const mentoringApis = {
   getCategories,
   getCategoryItems,
   getPassStatus,
+  postRegisterMentor,
 };

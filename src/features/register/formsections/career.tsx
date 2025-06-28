@@ -45,6 +45,10 @@ const deleteButtonStyle = {
 };
 
 export const Career = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError }: UseStackReturn<RegisterSchema>) => {
+  /*
+경력 ->
+재직중:입사 년월만 검증
+  */
   return (
     <section className="m-t-24">
       <div

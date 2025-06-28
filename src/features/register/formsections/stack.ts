@@ -9,6 +9,7 @@ interface BaseField<T> {
   value: T;
   status: Status;
   validate?: (v: T, field?: RegisterSchema) => boolean;
+  dependencies?: string[];
 }
 
 interface InputField extends BaseField<string> {
@@ -49,7 +50,32 @@ export interface UseStackReturn<T extends RegisterSchema> {
 }
 
 export const useStack = <T extends RegisterSchema>(createInitial: () => T): UseStackReturn<T> => {
-  const [stacks, setStacks] = useState<T[]>([createInitial()]);
+  const [stacks, setStacks] = useState<T[]>(() => {
+    const initialStack = createInitial();
+    const validatedStack = { ...initialStack };
+
+    Object.keys(initialStack).forEach((key) => {
+      const field = initialStack[key];
+      if (field.validate) {
+        let isValid = true;
+
+        if (field.type === "date") {
+          isValid = field.validate(field.value as Date | null, initialStack);
+        } else if (field.type === "toggle") {
+          isValid = field.validate(field.value as boolean, initialStack);
+        } else {
+          isValid = field.validate(field.value as string, initialStack);
+        }
+
+        (validatedStack[key] as any) = {
+          ...field,
+          status: isValid ? "success" : "pending",
+        };
+      }
+    });
+
+    return [validatedStack];
+  });
 
   const pushStack = () => setStacks((prev) => [...prev, createInitial()]);
   const popStack = () => setStacks((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev));
@@ -90,11 +116,11 @@ export const useStack = <T extends RegisterSchema>(createInitial: () => T): UseS
     setStacks((prev) =>
       prev.map((stack, idx) => {
         if (idx !== i) return stack;
+
         const field = stack[key];
         let isValid = true;
 
         if (field.validate) {
-          // 타입 안전성을 위해 각 필드 타입별로 검증
           if (field.type === "date") {
             isValid = field.validate(field.value as Date | null, stack);
           } else if (field.type === "toggle") {
@@ -104,13 +130,36 @@ export const useStack = <T extends RegisterSchema>(createInitial: () => T): UseS
           }
         }
 
-        return {
+        const updatedStack = {
           ...stack,
           [key]: {
             ...field,
             status: isValid ? "success" : "fail",
           } as T[K],
         };
+
+        const dependentFields = field.dependencies || [];
+        dependentFields.forEach((depFieldKey) => {
+          const depField = updatedStack[depFieldKey as keyof T];
+          if (depField && depField.validate) {
+            let depIsValid = true;
+
+            if (depField.type === "date") {
+              depIsValid = depField.validate(depField.value as Date | null, updatedStack);
+            } else if (depField.type === "toggle") {
+              depIsValid = depField.validate(depField.value as boolean, updatedStack);
+            } else {
+              depIsValid = depField.validate(depField.value as string, updatedStack);
+            }
+
+            (updatedStack[depFieldKey as keyof T] as any) = {
+              ...depField,
+              status: depIsValid ? "success" : "fail",
+            };
+          }
+        });
+
+        return updatedStack;
       })
     );
   };
@@ -153,17 +202,19 @@ export const createInitialCareerSchema = (): RegisterSchema => ({
   isWorking: {
     label: "재직중",
     type: "toggle",
-    value: false,
-    status: "pending",
+    value: true,
+    status: "success",
+    dependencies: ["endDate"],
   },
   startDate: {
     label: "입사 년월",
     type: "date",
     value: null,
     status: "pending",
+    dependencies: ["endDate"],
     validate: (v: Date | null, form) => {
       const endDate = form?.endDate?.value;
-      if (!v) return false; // 필수값
+      if (!v) return false;
       if (endDate && v > endDate) return false;
       return true;
     },
@@ -172,9 +223,11 @@ export const createInitialCareerSchema = (): RegisterSchema => ({
     label: "퇴사 년월",
     type: "date",
     value: null,
-    status: "pending",
+    status: "success",
     validate: (v: Date | null, form) => {
-      if (!v) return true; // 재직 중이면 null 허용
+      const isWorking = form?.isWorking?.value;
+      if (isWorking) return true;
+      if (!v) return false;
       const startDate = form?.startDate?.value;
       if (startDate && v < startDate) return false;
       return true;
@@ -203,6 +256,7 @@ export const createInitialCertificateSchema = (): RegisterSchema => ({
     value: "",
     status: "pending",
     list: ["합격", "불합격"],
+    dependencies: ["passDate"],
     validate: (v: string) => v.trim().length > 0,
   },
   passDate: {
@@ -210,7 +264,11 @@ export const createInitialCertificateSchema = (): RegisterSchema => ({
     type: "date",
     value: null,
     status: "pending",
-    validate: (v: Date | null) => v !== null,
+    validate: (v: Date | null, form) => {
+      const passStatus = form?.passStatus?.value;
+      if (passStatus === "불합격") return true;
+      return v !== null;
+    },
   },
 });
 
@@ -243,6 +301,7 @@ export const createInitialEducationSchema = (): RegisterSchema => ({
     value: "",
     status: "pending",
     list: ["재학중", "졸업", "졸업예정", "중퇴", "휴학"],
+    dependencies: ["graduationDate"],
     validate: (v: string) => v.trim().length > 0,
   },
   admissionDate: {
@@ -250,14 +309,17 @@ export const createInitialEducationSchema = (): RegisterSchema => ({
     type: "date",
     value: null,
     status: "pending",
+    dependencies: ["graduationDate"],
     validate: (v: Date | null) => v !== null,
   },
   graduationDate: {
     label: "졸업연월",
     type: "date",
     value: null,
-    status: "pending",
+    status: "success",
     validate: (v: Date | null, form) => {
+      const graduationStatus = form?.graduationStatus?.value;
+      if (!graduationStatus || typeof graduationStatus !== "string" || !["졸업", "졸업예정"].includes(graduationStatus)) return true;
       if (!v) return false;
       const startDate = form?.admissionDate?.value;
       if (startDate && v < startDate) return false;
@@ -273,6 +335,7 @@ export const createInitialJobSchema = (): RegisterSchema => ({
     value: "",
     status: "pending",
     list: ["개발자", "디자이너", "기획자", "마케터", "영업", "경영", "기타"],
+    dependencies: ["jobDetail"],
     validate: (v: string) => v.trim().length > 0,
   },
   jobDetail: {
@@ -281,6 +344,15 @@ export const createInitialJobSchema = (): RegisterSchema => ({
     value: "",
     status: "pending",
     list: ["프론트엔드", "백엔드", "풀스택", "모바일", "UI/UX", "PM", "PO", "QA", "데브옵스", "기타"],
-    validate: (v: string) => v.trim().length > 0,
+    validate: (v: string, form) => {
+      const category = form?.jobCategory?.value;
+      if (category === "개발자") {
+        return ["프론트엔드", "백엔드", "풀스택", "모바일", "데브옵스", "기타"].includes(v);
+      }
+      if (category === "디자이너") {
+        return ["UI/UX", "기타"].includes(v);
+      }
+      return v.trim().length > 0;
+    },
   },
 });
