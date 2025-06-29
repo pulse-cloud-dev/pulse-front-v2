@@ -85,7 +85,12 @@ export function FieldPopup({
       aria-modal="true"
       aria-labelledby="popup-title"
     >
-      <Header id="popup-title" onSearch={setSearchKeyword} />
+      <Header 
+        id="popup-title" 
+        onSearch={setSearchKeyword}
+        onToggle={handleToggle}
+        checkedItems={checkedItems}
+         />
       <Body
         selectedField={selectedField}
         setSelectedField={setSelectedField}

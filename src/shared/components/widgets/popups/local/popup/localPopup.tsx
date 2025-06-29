@@ -5,6 +5,7 @@ import { Body } from "../components/localPopupBody";
 import { SelectedItems } from "../../selectedBox";
 import { Footer } from "../../popupFooter";
 import { useCheckFieldGroup } from "@/shared/modules/select-ui";
+import { Certificate } from "crypto";
 
 export function LocalPopup({
   closeModal,
@@ -92,7 +93,12 @@ useEffect(() => {
       aria-modal="true"
       aria-labelledby="popup-title"
     >
-      <Header id="popup-title" onSearch={setSearchKeyword} />
+      <Header 
+        id="popup-title" 
+        onSearch={setSearchKeyword} 
+        onToggle={handleToggle}
+        checkedItems={checkedItems}
+      />
       <Body
         selectedCity={selectedCity}
         setSelectedCity={setSelectedCity}

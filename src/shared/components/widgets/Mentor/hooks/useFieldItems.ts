@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { categoryApis } from "@/networks/apis/category.api";
 
 const useFieldItems = () => {
@@ -10,16 +10,24 @@ const useFieldItems = () => {
   });
 };
 
-const useSubFields = (selectedFieldCode?: string) => {
-  return useQuery({
+type SubField = { name: string; code: string }; // 응답 타입
+
+const useSubFields = (
+  selectedFieldCode?: string,
+  options?: Partial<
+    UseQueryOptions<SubField[], Error, SubField[], [string, string?]>
+  >
+) => {
+  return useQuery<SubField[], Error, SubField[], [string, string?]>({
     queryKey: ["subFields", selectedFieldCode],
     queryFn: () => {
       if (!selectedFieldCode) return Promise.resolve([]);
       return categoryApis.subFields(selectedFieldCode);
     },
-    enabled: !!selectedFieldCode, // 선택된 field가 있을 때만 호출
     staleTime: 1000 * 60 * 10,
     placeholderData: [],
+    enabled: options?.enabled ?? !!selectedFieldCode,
+    ...options,
   });
 };
 
