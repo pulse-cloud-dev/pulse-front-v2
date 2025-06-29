@@ -74,11 +74,58 @@ const getMentoringList = async (params: MentoringListParams) => {
   }
 };
 
+const allSubFields = async (): Promise<{ parent: string; name: string; code: string }[]> => {
+  const jobFields = await fieldItems(); // 상위 카테고리 목록
+
+  // 모든 하위 항목을 병렬로 가져오기
+  const result = await Promise.all(
+    jobFields.map(async (field) => {
+      try {
+        const subItems = await subFields(field.code);
+        return subItems.map((sub) => ({
+          parent: field.name,
+          name: sub.name,
+          code: sub.code,
+        }));
+      } catch {
+        return [];
+      }
+    })
+  );
+
+  return result.flat();
+};
+
+
+const allSubRegions = async (): Promise<{ parent: string; name: string; code: string }[]> => {
+  const regions = await regionItems(); // 상위 지역 목록 (시/도 등)
+
+  // 모든 하위 지역(시/군/구 등)을 병렬로 가져오기
+  const result = await Promise.all(
+    regions.map(async (region) => {
+      try {
+        const subItems = await subRegions(region.code); // 하위 행정구역 요청
+        return subItems.map((sub) => ({
+          parent: region.name,  // 상위 지역 이름
+          name: sub.name,       // 하위 지역 이름
+          code: sub.code,       // 고유 코드
+        }));
+      } catch {
+        return [];
+      }
+    })
+  );
+
+  return result.flat();
+};
+
 export const categoryApis = {
     fieldItems,
     subFields,
     lectureTypes,
     regionItems,
     subRegions,
-    getMentoringList
+    getMentoringList,
+    allSubFields,
+    allSubRegions
 };
