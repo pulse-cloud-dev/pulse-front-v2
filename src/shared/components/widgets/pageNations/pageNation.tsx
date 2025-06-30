@@ -5,7 +5,7 @@ import { useSearchParams } from "react-router-dom";
 
 import { Icon } from "../../atoms";
 
-function usePageNationController<T>(queryStringKey: string = "offset") {
+export function usePageNationController<T>(queryStringKey: string = "offset") {
   const [serchParams, setSearchParams] = useSearchParams();
 
   const [offset, setOffset] = useState<number>(1);
