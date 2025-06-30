@@ -14,5 +14,9 @@ export const useCheckFieldGroup = ({ initialValues = {} }: UseCheckFieldGroupPro
     }));
   };
 
-  return { checkedItems, toggle };
+  const reset = () => {
+    setCheckedItems(initialValues);
+  };
+
+  return { checkedItems, toggle, reset };
 };
