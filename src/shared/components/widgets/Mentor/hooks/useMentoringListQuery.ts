@@ -1,5 +1,5 @@
 // import { useQuery } from "@tanstack/react-query";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { categoryApis } from "@/networks";
 
 
@@ -9,14 +9,16 @@ export const useMentoringListQuery = ({
   onlineStatus,
   sortOption,
   searchText,
+  offset,
 }: {
   selectedFields: string[];
   selectedRegions: string[];
   onlineStatus: string | null;
   sortOption: string;
   searchText: string;
+  offset: number;
 }) => {
-  return useInfiniteQuery({
+  return useQuery({
     queryKey: [
       "mentoringList",
       selectedFields,
@@ -24,8 +26,9 @@ export const useMentoringListQuery = ({
       onlineStatus,
       sortOption,
       searchText,
+      offset,
     ],
-    queryFn: ({ pageParam = 1 }) =>
+    queryFn: () =>
       categoryApis.getMentoringList({
         field: selectedFields.join(","),
         region: selectedRegions.join(","),
@@ -42,15 +45,9 @@ export const useMentoringListQuery = ({
             ? "POPULAR"
             : "LATEST",
         search_text: searchText,
-        page: pageParam,
+        page: offset,
         size: 40,
       }),
-    getNextPageParam: (lastPage) => {
-      if (!lastPage) return undefined;
-      const { page, total_pages } = lastPage;
-      return page < total_pages ? page + 1 : undefined;
-    },
-    initialPageParam: 1,
     staleTime: 1000 * 60,
   });
 };
