@@ -29,7 +29,7 @@ interface CheckFieldInput extends HTMLAttributes<HTMLInputElement>, PropsWithChi
   hidden?: boolean;
 }
 const CheckFieldInput = <T extends HTMLInputElement>(props: CheckFieldInput, forwardedRef: ForwardedRef<T>) => {
-  const { checkId = '', name = '', isChecked = false, disabled = false, hidden = true, className, style, children, ...rest } = props;
+  const { checkId = '', name = '', isChecked = false, disabled = false, hidden = false, className, style, children, ...rest } = props;
   return (
     <input
       ref={forwardedRef}
@@ -40,7 +40,7 @@ const CheckFieldInput = <T extends HTMLInputElement>(props: CheckFieldInput, for
       name={name}
       checked={isChecked}
       disabled={disabled}
-      hidden={hidden}
+      hidden={false}
       style={style}
       {...rest}
     />

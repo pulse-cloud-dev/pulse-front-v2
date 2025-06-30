@@ -3,78 +3,125 @@
                      분야 선택 Popup
 ========================================================
  */
-.popup--field {
+.popup-field {
   width: 632px;
-  height: 514px;
-  padding: 1rem;
+  height: 635px;
+  /* padding: 1rem; */
   box-sizing: border-box;
 }
-.popup--field__header {
-  background-color: red;
-}
-.popup--field__body {
-  border-bottom: 1px solid var(--border);
 
+.popup-field__header {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-
-  height: 90%;
+  padding: 1rem;
 }
-.popup--field__body > .popup--field__body--top {
+
+.popup-field__search {
+  position: relative;
+  width: 100%;
+  /* padding: 18px; */
+  /* max-width: 584px; */
+}
+
+.popup-field__search input {
+  width: 100%;
+  height: 48px;
+  padding: 0 48px 0 16px;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  background-color: #fff;
+  font-size: 15px;
+  color: #333;
+}
+
+.popup-field__search input::placeholder {
+  color: #e0e0e0;
+}
+
+.popup-field__search-icon {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  /* pointer-events: none; */
+  cursor: pointer;
+}
+
+.popup-field__body {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  width: 100%;
+  height: 356px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  overflow: hidden;
+  padding: 0;
+}
+
+.popup-field__column {
+  flex: 1;
   overflow-y: auto;
-  height: 60%;
-  padding: 10px;
-}
-.popup--field__body > .popup--field__body--top > .check-field-module {
-  flex: 1 1 calc(50% - 10px);
-  max-width: calc(50% - 10px);
-  box-sizing: border-box;
+  scrollbar-width: none;
 }
 
-.popup--field__body--bottom {
-  border-top: 1px solid var(--border);
-  height: 40%;
+.popup-field__column::-webkit-scrollbar {
+  display: none;
 }
-.popup--field__body--bottom .no-data {
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  height: 100%;
-}
-.popup--field__footer {
-  margin-top: 1rem;
-  height: calc(10% - 1rem);
 
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.popup-field__column-left {
+  border-right: 1px solid #e0e0e0;
+  width: 356px;
 }
-.popup--field__footer > .popup--field__footer--left {
-  display: flex;
-  gap: 8px;
+
+.popup-field__column-right {
+  padding-top: 30px;
 }
-.popup--field__footer > .popup--field__footer--right {
-  display: flex;
-  gap: 8px;
+
+.popup-field__column-right > .check-field-module {
+  height: 47px;
+  padding-left: 25px; 
+  padding-bottom: 33px;
 }
+
+.popup-field__item {
+  padding: 17px 25px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #333;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #e0e0e0;
+  height: 54px;
+  justify-content: baseline;
+}
+
+.popup-field__item:hover {
+  background-color: #f9f9f9;
+}
+
+.popup-field__item.active {
+  background-color: #fafafa;
+  font-weight: 600;
+  color: #212121;
+}
+
+
 /* 
 ========================================================
                      온/오프라인
 ========================================================
  */
 
-.popup--online {
+.popup-online {
   width: 480px;
-  height: 300px;
-  padding: 1rem;
+  height: 250px;
+  /* padding: 1rem; */
+  padding-bottom: 30px;
   box-sizing: border-box;
 }
 
-.popup--online__body {
+.popup-online__body {
+  /* width: 100%; */
   height: 80%;
   display: flex;
   align-items: center;
@@ -83,26 +130,130 @@
   border-bottom: 1px solid var(--border);
 }
 
-.popup--online__footer {
+
+/* .popup--online__footer {
   margin-top: 1rem;
   height: calc(20% - 1rem);
+} */
 
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 13px;
 
+
+/* 
+========================================================
+                          지역
+========================================================
+ */
+ .popup-local {
+  width: 632px;
+  height: 635px;
   box-sizing: border-box;
 }
 
-.popup--online__footer > .popup--online__footer--left {
+ .popup-local__header {
   display: flex;
-  gap: 6px;
+  flex-direction: column;
+  gap: 12px;
+  padding: 1rem;
 }
-.popup--online__footer > .popup--online__footer--right {
+
+.popup-local__search {
+  position: relative;
+  width: 100%;
+  max-width: 584px;
+}
+
+.popup-local__search input {
+  width: 100%;
+  height: 48px;
+  padding: 0 48px 0 16px;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  background-color: #fff;
+  font-size: 15px;
+  color: #333;
+}
+
+.popup-local__search input::placeholder {
+  color: #e0e0e0;
+}
+
+.popup-local__search-icon {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  /* pointer-events: none; */
+  cursor: pointer;
+}
+
+.popup-local__body {
   display: flex;
-  gap: 6px;
+  width: 100%;
+  height: 356px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  overflow: hidden;
+  padding: 0;
 }
+
+.popup-local__column {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.popup-local__column::-webkit-scrollbar {
+  display: none;
+}
+
+.popup-local__column-left {
+  border-right: 1px solid #e0e0e0;
+  width: 356px;
+}
+
+.popup-local__column-right {
+  padding-top: 30px;
+}
+
+.popup-local__column-right > .check-field-module {
+  height: 47px;
+  padding-left: 25px; 
+  padding-bottom: 33px;
+}
+
+.popup-local__item {
+  padding: 17px 25px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #333;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #e0e0e0;
+  height: 54px;
+  justify-content: baseline;
+}
+
+.popup-local__item:hover {
+  background-color: #f9f9f9;
+}
+
+.popup-local__item.active {
+  background-color: #fafafa;
+  font-weight: 600;
+  color: #212121;
+}
+
+
+
+.tag {
+  color: #009e91;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  margin-left: 18px;
+}
+
 
 /* 
 ========================================================
@@ -178,4 +329,134 @@
   display: flex;
   justify-content: end;
   align-items: center;
+}
+
+
+
+/* 
+========================================================
+                     Selected Box
+========================================================
+ */
+
+.selected-box {
+  border-top: 1px solid var(--border);
+  height: 118px;
+  border-bottom: 1px solid #eee;
+  padding: 16px 20px;
+  
+}
+
+.selected-box .data{
+  /* border-top: 1px solid var(--border); */
+  /* height: 40%; */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-grow: 0;
+  flex-shrink: 0;
+  gap: 10px;
+  overflow: hidden;
+  flex-wrap: wrap;
+  
+}
+
+.selected-box .data span {
+  /* display: inline-flex; */
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  gap: 15px;
+  border-radius: 999px;
+  color: #009e91;
+  font-size: 13px;
+  font-weight: 500;
+  max-width: fit-content;
+  
+}
+
+.selected-box .data span button {
+  margin-left: 5px;
+  padding: 0;
+  font-size: 12px;
+  line-height: 1;
+  color: #9e9e9e;
+  cursor: pointer;
+  transform: translateY(-2px); /*x 위치 조정*/
+}
+
+
+.selected-box .no-data {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  height: 100%;
+}
+
+/* 
+========================================================
+                        Footer
+========================================================
+ */
+
+.popup-footer {
+  margin-top: 1rem;
+  height: calc(10% - 1rem);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+
+  box-sizing: border-box;
+  padding: 1.5rem;
+}
+
+.popup-footer > .popup-footer__left {
+  display: flex;
+  gap: 5px;
+  cursor: pointer;
+
+}
+
+.popup-footer > .popup-footer__right {
+  display: flex;
+  gap: 6px;
+}
+
+/* 
+========================================================
+                     Modal Search Dropdown
+========================================================
+ */
+
+.search-dropdown-wrapper {
+  position: absolute;
+  top: 100px;
+  /* left: 0; */
+  width: 95%;
+  margin-top: 15px;
+  padding: 8px 0;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+  z-index: 1000;
+  overflow: hidden; 
+}
+
+.search-dropdown {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #222;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.search-dropdown:hover {
+  background-color: #f5f5f5;
+}
+
+.search-dropdown.selected {
+  font-weight: bold;
+  background-color: #f5f5f5;
 }

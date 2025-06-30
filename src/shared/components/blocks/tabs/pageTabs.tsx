@@ -1,5 +1,6 @@
-import { useCallback, useId, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useCallback, useId, useMemo } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+
 
 type TabItem = {
   id: string;
@@ -12,25 +13,37 @@ interface PageTabsProps {
 
 export const PageTabs = ({ tabList }: PageTabsProps) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const tabGroupId = useId();
-  const [activeTab, setActiveTab] = useState<string>(tabList[0]?.id ?? ""); // 방어 코드 추가
+
+  const params = new URLSearchParams(location.search);
+  const currentTab = (params.get("menu") || tabList[0]?.id) ?? "";
 
   const onClick = useCallback(
     (id: string) => {
-      setActiveTab(id);
-      navigate(`?menu=${id}`);
+      if (id !== currentTab) {
+       navigate(`?menu=${id}`);
+      }
     },
-    [setActiveTab]
+    [navigate, currentTab]
   );
 
-  const renderedTabs = useMemo(
+   const renderedTabs = useMemo(
     () =>
       tabList.map(({ id: tabId, display }) => (
-        <button key={tabId} id={`${tabGroupId}-${tabId}`} className={`tabs-btn ${activeTab === tabId ? "active" : ""}`} role="tab" aria-selected={activeTab === tabId} onClick={() => onClick(tabId)}>
+        <button
+          key={tabId}
+          id={`${tabGroupId}-${tabId}`}
+          className={`tabs-btn ${currentTab === tabId ? "active" : ""}`}
+          role="tab"
+          aria-selected={currentTab === tabId}
+          aria-controls={`tabpanel-${tabId}`}
+          onClick={() => onClick(tabId)}
+        >
           {display}
         </button>
       )),
-    [tabList, activeTab, onClick, tabGroupId]
+    [tabList, currentTab, onClick, tabGroupId]
   );
 
   if (!tabList.length) return null;

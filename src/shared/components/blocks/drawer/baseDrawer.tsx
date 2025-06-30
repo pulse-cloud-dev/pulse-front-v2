@@ -50,18 +50,29 @@ export const BaseDrawer = ({
 
   return (
     <>
-      <button onClick={onToggle} style={buttonStyle}>
+      <button 
+        onClick={onToggle} 
+        style={buttonStyle}
+        aria-expanded={isOpen}
+        aria-controls="base-drawer"
+        aria-label={isOpen ? "드로어 닫기" : "드로어 열기"}
+      >
         <Icon
           src={isOpen ? "drawer-close-btn" : "drawer-open-btn"}
-          alt={isOpen ? "닫기" : "열기"}
+          alt=""
           style={{ width: "24px", height: "56px" }}
         />
       </button>
 
-      <div style={drawerStyle}>
+      <div 
+        style={drawerStyle}
+        role="region"
+        aria-label={title ?? "사이드 드로어"}
+        id="base-drawer"
+      >
         {title && (
           <div className="m-b-20">
-            <h3 className="text-lg font-bold">{title}</h3>
+            <h3 id="drawer-title" className="text-lg font-bold">{title}</h3>
           </div>
         )}
         {children}

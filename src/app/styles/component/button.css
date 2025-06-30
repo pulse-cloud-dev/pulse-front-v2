@@ -92,6 +92,11 @@
   background-color: var(--primary-60);
   color: var(--text-wh);
 }
+
+.btn.teal {
+  background-color: #00CBBA;
+  color: #fff;
+}
 /* 
 ========================================================
                 Button Shape Style

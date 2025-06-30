@@ -76,7 +76,7 @@ export const MentorCard = ({ title = "제목입니다 제목은 세줄까지만 
       </BaseCard.Header>
       <BaseCard.Body className="border-b">
         <div className="mentorCard-body__top">
-          <BodyContentTitle onClick={modal.openModal} title={title} />
+          <BodyContentTitle onClick={() => modal.openModal()} title={title} />
         </div>
         <div className="mentorCard-body__bottom">
           <BodyContentTag />
