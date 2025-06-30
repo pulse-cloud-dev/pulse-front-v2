@@ -4,6 +4,7 @@ import { FieldPopup, OnlineStatusPopup, LocalPopup } from "@/shared/components";
 import { MentorView } from "./mentor.view";
 import { useState } from "react";
 import { useMentoringListQuery } from "@/shared/components/widgets/Mentor/hooks/useMentoringListQuery";
+import { usePageNationController } from "@/shared/components";
 
 export const MentorController = () => {
   const [keyword, setKeyword] = useState(""); // 입력값
@@ -22,6 +23,7 @@ export const MentorController = () => {
   const secondModal = useModal(Modal);
   const thirdModal = useModal(Modal);
 
+  const { offset } = usePageNationController("offset");
 
   const { data: mentorings = [], isLoading: loading } = useMentoringListQuery({
     selectedFields,
@@ -29,6 +31,7 @@ export const MentorController = () => {
     onlineStatus,
     sortOption,
     searchText,
+    offset,
   });
 
 

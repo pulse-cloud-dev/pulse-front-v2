@@ -1,13 +1,11 @@
 import { FilterBar } from "../filters/filterBar";
-import { Typography, Icon } from "@/shared/components/atoms";
+import { Typography } from "@/shared/components/atoms";
 import { SortDropdown } from "@/shared/components/widgets/sortDropdown/SortDropdown";
 import { MentorCard } from "@/shared/components/blocks";
 import { PageNation } from "@/shared/components/widgets";
 import { FilterProps } from "../type/filterProps";
 
-import { useEffect } from "react";
-import { useInView } from "react-intersection-observer";
-
+import { usePageNationController } from "@/shared/components/widgets";
 import { useMentoringListQuery } from "../hooks/useMentoringListQuery";
 
 export const MentorViewPosts = ({
@@ -24,12 +22,11 @@ export const MentorViewPosts = ({
   setSortOption,
   searchText,
 }: FilterProps & { sortOption: string; setSortOption: (val: string) => void }) => {
+  const { offset } = usePageNationController("offset");
+  
   const {
     data,
-    fetchNextPage,
-    hasNextPage,
     isFetching,
-    isFetchingNextPage,
     error,
   } = useMentoringListQuery({
     selectedFields,
@@ -37,17 +34,10 @@ export const MentorViewPosts = ({
     onlineStatus,
     sortOption,
     searchText,
+    offset,
   });
 
-  const { ref, inView } = useInView({ threshold: 0 });
-
-  useEffect(() => {
-    if (inView && hasNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, hasNextPage]);
-
-  const mentorings = data?.pages.flatMap((page) => page.contents) ?? [];
+const mentorings = data?.contents ?? [];
 
   return (
     <>
@@ -87,15 +77,8 @@ export const MentorViewPosts = ({
         )}
       </section>
 
-      {/* 무한 스크롤 트리거 */}
-      <div ref={ref} className="col-span-4 h-10" />
-
-      {/* 추가 로딩 인디케이터 */}
-      {isFetchingNextPage && (
-        <div className="col-span-4 flex justify-center py-4">
-          <Typography>불러오는 중...</Typography>
-        </div>
-      )}
+      <PageNation queryStringKey="offset" pages={data?.total_pages ?? 1} />
+     
     </>
   );
 };
