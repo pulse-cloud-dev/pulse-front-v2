@@ -42,8 +42,8 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
       {children}
       {/* {modalElements} */}
       {state.map(({ id, component: Component, props }) => (
-        <Component key={id} {...props} />
-      ))}
+  <Component key={props.key ?? id} {...props} />
+))}
     </ModalContext.Provider>
   );
 };

@@ -1,0 +1,54 @@
+.card-count {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.sort-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.sort-button {
+  background: none;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.sort-arrow {
+  margin-left: 0px;
+}
+
+.sort-list {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  width: 144px;
+  height: 150px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  z-index: 20;
+  
+}
+
+.sort-item {
+  height: 47px;
+  padding: 12px 16px;
+  font-size: 15px;
+  cursor: pointer;
+  white-space: nowrap;
+  transform: translateY(5px);
+}
+
+.sort-item:hover {
+  background-color: #f5f5f5;
+  
+}
+
+.sort-item.selected {
+  font-weight: bold;
+}

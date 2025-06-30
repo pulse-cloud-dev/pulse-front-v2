@@ -6,6 +6,7 @@ export interface ModalProps extends PropsWithChildren, HTMLAttributes<HTMLElemen
   variant?: ModalVariants;
   id?: string;
   title?: string;
+  subtitle?: string;
   type?: string;
 
   openCancelAlert?: () => void;
@@ -14,14 +15,17 @@ export interface ModalProps extends PropsWithChildren, HTMLAttributes<HTMLElemen
 }
 
 export const Modal = (props: ModalProps) => {
-  const { variant = "default", id, title, type, openCancelAlert, closeModal, children, ...restProps } = props;
+  const { variant = "default", id, title, subtitle, type, openCancelAlert, closeModal, children, ...restProps } = props;
   if (!id) return null;
   return (
     <div className={type === "large" ? `modal_box ${id ? "on overflow_y" : ""}` : `modal_box ${id ? "on" : ""}`}>
       {/* 모달 컨텐츠 */}
       <div className={`modal__contents ${type}`} style={props.style}>
-        <div className="modal_top m-b-20">
-          <p className="modal_title">{title || "제목없음"}</p>
+        <div className="modal_top m-b-05">
+          <div className="modal_title-wrap">
+            <p className="modal_title">{title || "제목없음"}</p>
+            <p className="modal_subtitle">{subtitle || ""}</p>
+          </div>
           <button type="button" className="modal_close w24 h24" onClick={() => closeModal?.(id)}>
             <Icon src="close_line_fff_20" alt="검색 닫기" />
           </button>
