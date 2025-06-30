@@ -105,9 +105,12 @@
 }
 
 .check-field-module.circle input[type="checkbox"]:checked + label::after {
-
+<<<<<<< HEAD
+  border: none;
+  background: var(--palette-teal-40) url("/icons/chekcbox_login_chekced.svg") 0.125rem 0.188rem no-repeat;
+=======
   background: #00CBBA url("/icons/chekcbox_login_chekced.svg") 0.125rem 0.188rem no-repeat;
-
+>>>>>>> temp-merge-branch
   opacity: 1;
 }
 
