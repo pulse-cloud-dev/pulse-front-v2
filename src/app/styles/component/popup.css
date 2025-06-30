@@ -112,7 +112,8 @@
 ========================================================
  */
 
-.popup-online {
+
+.popup--online {
   width: 480px;
   height: 250px;
   /* padding: 1rem; */
@@ -121,8 +122,7 @@
 }
 
 
-.popup-online__body {
-  /* width: 100%; */
+.popup--online__body {
   height: 80%;
   display: flex;
   align-items: center;
@@ -131,7 +131,8 @@
   border-bottom: 1px solid var(--border);
 }
 
-/* .popup--online__footer {
+
+.popup--online__footer {
   margin-top: 1rem;
   height: calc(20% - 1rem);
 } */
@@ -148,7 +149,7 @@
 }
 
 
- .popup-local__header {
+.popup--online__footer > .popup--online__footer--left {
   display: flex;
   flex-direction: column;
   gap: 12px;
