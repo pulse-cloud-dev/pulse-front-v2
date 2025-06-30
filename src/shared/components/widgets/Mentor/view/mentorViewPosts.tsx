@@ -5,6 +5,9 @@ import { MentorCard } from "@/shared/components/blocks";
 import { PageNation } from "@/shared/components/widgets";
 import { FilterProps } from "../type/filterProps";
 
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
+
 import { useMentoringListQuery } from "../hooks/useMentoringListQuery";
 
 export const MentorViewPosts = ({
@@ -21,7 +24,14 @@ export const MentorViewPosts = ({
   setSortOption,
   searchText,
 }: FilterProps & { sortOption: string; setSortOption: (val: string) => void }) => {
-  const { data, isLoading, error } = useMentoringListQuery({
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    error,
+  } = useMentoringListQuery({
     selectedFields,
     selectedRegions,
     onlineStatus,
@@ -29,8 +39,16 @@ export const MentorViewPosts = ({
     searchText,
   });
 
-  // const mentorings = data ?? [];
-const mentorings = Array.isArray(data?.contents) ? data.contents : [];
+  const { ref, inView } = useInView({ threshold: 0 });
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage]);
+
+  const mentorings = data?.pages.flatMap((page) => page.contents) ?? [];
+
   return (
     <>
       <FilterBar
@@ -52,27 +70,32 @@ const mentorings = Array.isArray(data?.contents) ? data.contents : [];
         <Typography variant="body" size="16" weight="semi-bold">
           총 {mentorings.length}개
         </Typography>
-
         <SortDropdown sortOption={sortOption} setSortOption={setSortOption} />
       </div>
 
       <section className="flex__box m-t-10" aria-labelledby="멘토링 카드 리스트 영역">
-        {isLoading ? (
+        {isFetching && mentorings.length === 0 ? (
           <Typography>로딩 중...</Typography>
         ) : error ? (
           <Typography>에러가 발생했습니다.</Typography>
         ) : mentorings.length === 0 ? (
           <Typography>결과가 없습니다.</Typography>
         ) : (
-          mentorings.map((item)=> (
+          mentorings.map((item) => (
             <MentorCard key={item.mentoring_id} {...item} />
           ))
         )}
       </section>
 
-      <section className="m-t-72 m-b-70" aria-label="페이지네이션">
-        <PageNation queryStringKey="offset" pages={10} />
-      </section>
+      {/* 무한 스크롤 트리거 */}
+      <div ref={ref} className="col-span-4 h-10" />
+
+      {/* 추가 로딩 인디케이터 */}
+      {isFetchingNextPage && (
+        <div className="col-span-4 flex justify-center py-4">
+          <Typography>불러오는 중...</Typography>
+        </div>
+      )}
     </>
   );
 };

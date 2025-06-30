@@ -1,15 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
+// import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { categoryApis } from "@/networks";
 import type { MentoringListResponseBody } from "@/contracts/request/category/mentoring.types";
 
-const emptyPlaceholder: MentoringListResponseBody = {
-  page: 1,
-  size: 20,
-  sort: "DESC",
-  total_pages: 0,
-  total_count: 0,
-  contents: [],
-};
 
 export const useMentoringListQuery = ({
   selectedFields,
@@ -24,7 +17,7 @@ export const useMentoringListQuery = ({
   sortOption: string;
   searchText: string;
 }) => {
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: [
       "mentoringList",
       selectedFields,
@@ -33,7 +26,7 @@ export const useMentoringListQuery = ({
       sortOption,
       searchText,
     ],
-    queryFn: () =>
+    queryFn: ({ pageParam = 1 }) =>
       categoryApis.getMentoringList({
         field: selectedFields.join(","),
         region: selectedRegions.join(","),
@@ -50,11 +43,15 @@ export const useMentoringListQuery = ({
             ? "POPULAR"
             : "LATEST",
         search_text: searchText,
-        page: 1,
-        size: 20,
-      })
-      .then((res) => res),
-    staleTime: 1000 * 60, // 1분 동안 캐시 유지
-     placeholderData: (prev) => prev ?? emptyPlaceholder,
+        page: pageParam,
+        size: 40,
+      }),
+    getNextPageParam: (lastPage) => {
+      if (!lastPage) return undefined;
+      const { page, total_pages } = lastPage;
+      return page < total_pages ? page + 1 : undefined;
+    },
+    initialPageParam: 1,
+    staleTime: 1000 * 60,
   });
 };
