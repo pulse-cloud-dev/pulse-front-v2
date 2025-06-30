@@ -1,4 +1,5 @@
 import type { InputHTMLAttributes, ChangeEvent } from "react";
+import type { InputHTMLAttributes, ChangeEvent } from "react";
 import { forwardRef } from "react";
 
 /**
@@ -38,6 +39,7 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, fo
     <div className={wrapperClass || ""} style={{ width: "100%" }}>
       <label htmlFor={inputId} className={labelClass}>
         {/* 라벨 */}
+        <span>{label}</span>
         <span>{label}</span>
         {/* 라벨 */}
 
