@@ -1,8 +1,7 @@
 import { privateClient, publicClient } from "@/networks/client";
-import { SignInRequestDTO, JoinSocialRequestDTO, SignInResponseDTO, UserDTO, OauthResponseDTO, ResetPasswordrequestDTO, JoinSocialResponseDTO, SimplifiedUserlResponseDTO, SignUpRequestDTO } from "@/contracts";
+import { SignInRequestDTO, SignInResponseDTO, UserDTO, OauthResponseDTO, ResetPasswordrequestDTO, JoinSocialResponseDTO, SimplifiedUserlResponseDTO, SignUpRequestDTO } from "@/contracts";
 import { plainToClass } from "class-transformer";
 import axios from "axios";
-
 
 const userApiRouter = {
   login: "/members/login",
@@ -57,19 +56,11 @@ const logOutUser = async (id: Id) => {
 };
 
 //소셜 로그인 인증
-// const joinSocial = async (domain: JoinSocialRequestDTO): Promise<{ body: string; message: string }> => {
-//   try {
-//     const endPoint = userApiRouter.joinSocial + domain;
-//     return await publicClient.get(endPoint);
-//   } catch (error: any) {
-
-// const joinSocial = async (domain:string) : Promise<{ body: string }>=> {
 const joinSocial = async (domain: string): Promise<{ body: string; message: string }> => {
   try {
     const endPoint = userApiRouter.joinSocial + domain;
     return await publicClient.get(endPoint);
-  }
-  catch (error: any){
+  } catch (error: any) {
     // 에러 처리: 서버에서 응답 실패 시 예외 처리
     if (error.response) {
       // 서버에서 반환된 오류 처리
@@ -99,24 +90,16 @@ const registerUser = async (userData: SignUpRequestDTO) => {
   }
 };
 
-
-const getUser = async () : Promise<string> => {
+const getUser = async (): Promise<string> => {
   try {
     const { data } = await axios.get("/api/v1/members/find-id/NAVER");
     window.location.href = data.body; // 네이버 로그인 URL로 이동
     return data.body;
   } catch (error) {
     console.error("네이버 로그인 URL 요청 실패:", error);
-     return "";
+    return "";
   }
 };
-
-// 유저 정보 가져오기
-// const getUser = async (): Promise<UserDTO> => {
-//   const response = await publicClient.get("/user");
-//   return response.data;
-// };
-
 
 // 유저 정보 업데이트
 const updateUser = async (userData: Partial<UserDTO>): Promise<UserDTO> => {
@@ -128,7 +111,6 @@ const updateUser = async (userData: Partial<UserDTO>): Promise<UserDTO> => {
 const deleteUser = async (): Promise<void> => {
   await publicClient.delete("/user");
 };
-
 
 //소셜 로그인(네이버) 아이디 비번 찾기용
 const getUserByOauth = async (): Promise<OauthResponseDTO> => {
@@ -146,19 +128,6 @@ const getUserByOauth = async (): Promise<OauthResponseDTO> => {
     throw error.response; // 에러를 다시 던져서 상위 컴포넌트에서 처리할 수 있게 함
   }
 };
-
-
-//비밀번호 수정
-// const resetUserPassword = async ({ member_id, new_password }: ResetPasswordrequestDTO): Promise<any> => {
-//   try {
-//     const response = await publicClient.post(userApiRouter.resetpassword, { member_id, new_password });
-//     return response.data;
-//   } catch (error: any) {
-//     // 에러 처리: 서버에서 응답 실패 시 예외 처리
-//     if (error.response) {
-//       // 서버에서 반환된 오류 처리
-//       console.error("비밀번호 수정 failed:", error.response.data);
-
 // 네이버 로그인 URL 받아오기
 const getNaverLoginUrl = async (): Promise<string> => {
   try {
@@ -171,12 +140,9 @@ const getNaverLoginUrl = async (): Promise<string> => {
 };
 
 const getEmailByOauthCode = async (code: string): Promise<{ email: string; name: string }> => {
-  const { data } = await axios.get(
-    "http://13.209.104.215:8080/api/v1/social/naver/find-email",
-    {
-      params: { code },
-    }
-  );
+  const { data } = await axios.get("http://13.209.104.215:8080/api/v1/social/naver/find-email", {
+    params: { code },
+  });
   console.log(data.body);
   return data.body;
 };
@@ -186,8 +152,7 @@ const resetUserPassword = async (userData: { email: string; password: string }) 
   try {
     const response = await axios.post("/api/v1/members/password-reset", userData);
     return response.data;
-  }
-  catch (error: any){
+  } catch (error: any) {
     // 에러 처리: 서버에서 응답 실패 시 예외 처리
     if (error.response) {
       // 서버에서 반환된 오류 처리
@@ -199,7 +164,6 @@ const resetUserPassword = async (userData: { email: string; password: string }) 
     throw error.response; // 에러를 다시 던져서 상위 컴포넌트에서 처리할 수 있게 함
   }
 };
-
 
 //닉네임 확인
 const nicknameCheck = async (nickname: string): Promise<any> => {
@@ -216,22 +180,22 @@ const nicknameCheck = async (nickname: string): Promise<any> => {
   }
 };
 
-// //이메일로 회원
-// const emailCheck = async (email: string): Promise<any> => {
-//   try {
-//     return await publicClient.post(`${userApiRouter.emailCheck}`);
-//   } catch (error: any) {
-//     if (error.response) {
-//       // 서버에서 응답이 왔지만 오류 상태 코드
+//이메일로 회원
+const emailCheck = async (email: string): Promise<any> => {
+  try {
+    return await publicClient.post(`${userApiRouter.emailCheck}`);
+  } catch (error: any) {
+    if (error.response) {
+      // 서버에서 응답이 왔지만 오류 상태 코드
 
-//       console.error("닉네임 중복 확인 실패:", error.response.data);
-//     } else {
-//       // 네트워크 오류 또는 다른 문제
-//       console.error("네트워크 또는 기타 오류:", error.message);
-//     }
-//     throw error.response.data; // 상위에서 try-catch 가능하게
-//   }
-// };
+      console.error("닉네임 중복 확인 실패:", error.response.data);
+    } else {
+      // 네트워크 오류 또는 다른 문제
+      console.error("네트워크 또는 기타 오류:", error.message);
+    }
+    throw error.response.data; // 상위에서 try-catch 가능하게
+  }
+};
 
 export const userApis = {
   loginUser,
@@ -244,7 +208,7 @@ export const userApis = {
   resetUserPassword,
   nicknameCheck,
   getSocialUser,
-  // emailCheck,
+  emailCheck,
   getNaverLoginUrl,
-  getEmailByOauthCode
+  getEmailByOauthCode,
 };

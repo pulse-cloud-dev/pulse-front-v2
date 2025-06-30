@@ -1,9 +1,8 @@
 import { Outlet } from "react-router-dom";
 
 import { ThemeToggle } from "@/shared/components";
-import { withAuthRedirect } from "@/shared/hocs";
 
-export const AuthLayout = withAuthRedirect(() => {
+export const AuthLayout = () => {
   return (
     <>
       <main className="layout__sub">
@@ -17,4 +16,4 @@ export const AuthLayout = withAuthRedirect(() => {
       </div>
     </>
   );
-});
+};

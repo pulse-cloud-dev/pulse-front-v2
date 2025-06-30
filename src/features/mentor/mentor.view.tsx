@@ -6,7 +6,6 @@ import type { ViewEventProps } from "@/shared/types";
 import { MentorViewMap } from "@/shared/components/widgets/Mentor/view/mentorViewMap";
 import { MentorViewPosts } from "@/shared/components/widgets/Mentor/view/mentorViewPosts";
 
-
 export const MentorView = (props: ViewEventProps & { state: any; actions: any }) => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -27,7 +26,7 @@ export const MentorView = (props: ViewEventProps & { state: any; actions: any })
     sortOption,
     setSortOption,
     searchText,
-    setSearchText
+    setSearchText,
   };
 
   return (
@@ -38,13 +37,24 @@ export const MentorView = (props: ViewEventProps & { state: any; actions: any })
         </Typography>
       </header>
       <section className="m-t-30">
-        <PageTabs tabList={[
-          { id: "posts", display: "모집글" },
-          { id: "map", display: "지도" },
-        ]} />
+        <PageTabs
+          tabList={[
+            { id: "posts", display: "모집글" },
+            { id: "map", display: "지도" },
+          ]}
+        />
       </section>
       {menu === "posts" && <MentorViewPosts {...commonProps} />}
       {menu === "map" && <MentorViewMap {...commonProps} />}
     </article>
   );
 };
+
+{
+  /* <Breadcrumb
+        items={[
+          { title: "멘토링", href: "mentor" },
+          { title: "멘토링1", href: "mentor/123" },
+        ]}
+      /> */
+}

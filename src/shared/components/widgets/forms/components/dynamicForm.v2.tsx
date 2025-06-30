@@ -1,15 +1,8 @@
 import type { HTMLAttributes } from "react";
 import { forwardRef } from "react";
-
 import type { ChangeEvent, FormEvent } from "react";
 import { useState } from "react";
-
-// import type { FieldConfig } from "../types/index.type";
-// import { type UseFormManagerOptions, useFormManager } from "../utils/formManager";
 import { FormField } from "./formField";
-import { CheckboxItem } from "../../checkbox";
-import { SignUpRequestDTO } from "@/contracts";
-
 
 //#region index.type.ts
 interface IFormData {
@@ -19,21 +12,19 @@ interface IFormData {
 interface FieldConfig {
   name: string;
   label: string;
-  type?: string;      // 입력 타입 (예: text, email, password)
+  type?: string; // 입력 타입 (예: text, email, password)
   required?: boolean; //필수 항목
   placeholder?: string;
-  edit?: boolean;     //비활성화
-  regular ?: string;  //정규식
+  edit?: boolean; //비활성화
+  regular?: string; //정규식
 }
 //#endregion
-
 
 //#region formManager.ts`
 interface UseFormManagerOptions {
   handleSubmit: (data: IFormData) => void;
   schema: Record<string, any>;
 }
-
 
 function useFormManager(fields: FieldConfig[], options: UseFormManagerOptions) {
   const [formData, setFormData] = useState<IFormData>({});
@@ -71,7 +62,7 @@ function useFormManager(fields: FieldConfig[], options: UseFormManagerOptions) {
    * @description 유효성 검사
    */
   const validateForm = (): boolean => {
-    const newErrors: IFormData = ({});
+    const newErrors: IFormData = {};
     fields.forEach(({ name, label, required }) => {
       if (required && !formData[name]?.trim()) {
         newErrors[name] = `${label} is required.`;
@@ -166,6 +157,3 @@ export const DynamicFormV2 = forwardRef<HTMLFormElement, DynamicFormProps>((prop
     </form>
   );
 });
-
-
-

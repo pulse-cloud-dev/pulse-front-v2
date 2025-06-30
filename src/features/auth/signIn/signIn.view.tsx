@@ -1,6 +1,5 @@
 import type { ViewEventProps, Void } from "@/shared/types";
-import { formConstant } from "@/shared/constants";
-import { DynamicForm, Icon, Linker } from "@/shared/components";
+import { Icon, Linker } from "@/shared/components";
 
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -23,34 +22,27 @@ const SignInDynamicForm = ({ handleSubmit }: { handleSubmit: Void }) => {
   });
 
   const onSubmit = (data: FormValues) => {
-    handleSubmit(data); 
+    handleSubmit(data);
   };
 
   return (
     <form onSubmit={hookHandleSubmit(onSubmit)} className="form-auth" noValidate>
       <div>
-        <input
-          {...register("email")}
-          id="email"
-          type="email"
-          placeholder="이메일"
-          aria-invalid={!!errors.email}
-          aria-describedby="email-error"
-          className={`${isSubmitted && errors.email ? "form-auth__border" : ""}`}
-        />
-        {errors.email && <p id="email-error" className="form-auth__error-message text-sm">{errors.email.message}</p>}
+        <input {...register("email")} id="email" type="email" placeholder="이메일" aria-invalid={!!errors.email} aria-describedby="email-error" className={`${isSubmitted && errors.email ? "form-auth__border" : ""}`} />
+        {errors.email && (
+          <p id="email-error" className="form-auth__error-message text-sm">
+            {errors.email.message}
+          </p>
+        )}
       </div>
 
       <div>
-        <input
-          {...register("password")}
-          id="password"
-          type="password"
-          placeholder="비밀번호"
-          aria-invalid={!!errors.password}
-          aria-describedby="password-error"
-        />
-        {errors.password && <p id="password-error" className="form-auth__error-message text-sm">{errors.password.message}</p>}
+        <input {...register("password")} id="password" type="password" placeholder="비밀번호" aria-invalid={!!errors.password} aria-describedby="password-error" />
+        {errors.password && (
+          <p id="password-error" className="form-auth__error-message text-sm">
+            {errors.password.message}
+          </p>
+        )}
       </div>
 
       <div className="flex_r justify_space-between">

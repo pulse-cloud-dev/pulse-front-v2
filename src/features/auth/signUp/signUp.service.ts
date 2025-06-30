@@ -28,7 +28,7 @@ export const useSocialUserInfo = ({ onSuccess, onError }: { onSuccess?: () => vo
 //소셜인증(step2)
 export const useJoinSocial = () => {
   const mutation = useMutation({
-    mutationFn: (domain: JoinSocialRequestDTO) => userApis.joinSocial(domain),
+    mutationFn: (domain: string) => userApis.joinSocial(domain),
     onSuccess: (response: { body: string; message: string }) => {
       const url = response?.body;
       window.open(url);
@@ -37,7 +37,7 @@ export const useJoinSocial = () => {
       console.error("Join social failed:", error);
     },
   });
-  const requestJoinSocial = (domain: JoinSocialRequestDTO) => {
+  const requestJoinSocial = (domain: string) => {
     mutation.mutate(domain);
   };
 

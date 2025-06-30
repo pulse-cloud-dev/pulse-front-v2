@@ -3,7 +3,7 @@ import { CheckboxProvider, Heading, Icon, Linker } from "@/shared/components";
 import { SignUpCertificationStep } from "./steps/signupcertificationstep";
 import { SignUpConsentStep } from "./steps/signupconsentstep";
 import { SignUpFormStep } from "./steps/signupformstep";
-
+import StepThreeAuth from "./steps/stepthreeauth";
 export const SignUpView = (props: { state: Record<string, any>; mutate: Record<string, any>; goToPage: () => void }) => {
   return (
     <article className="sub-layout__content">
@@ -27,6 +27,7 @@ export const SignUpView = (props: { state: Record<string, any>; mutate: Record<s
           {props.state?.step === "certification" && (
             <SignUpCertificationStep
               handleJoinSocial={() => {
+                // props.state?.setStep("form");
                 props.mutate.requestJoinSocial("NAVER");
               }} // 소셜 로그인 시도하기..
             />
@@ -34,10 +35,12 @@ export const SignUpView = (props: { state: Record<string, any>; mutate: Record<s
 
           {props.state?.step === "form" && (
             <CheckboxProvider initialItems={checkboxConst.SIGN_UP_STEP_2}>
-              <SignUpFormStep
-                onPrev={() => props.state?.setStep("certification")} // 인증으로 돌아가기..
-                onNext={() => props.goToPage()} // 회원가입 시도하기..
-              />
+              <StepThreeAuth>
+                <SignUpFormStep
+                  onPrev={() => props.state?.setStep("certification")} // 인증으로 돌아가기..
+                  onNext={() => props.goToPage()} // 회원가입 시도하기..
+                />
+              </StepThreeAuth>
             </CheckboxProvider>
           )}
         </div>
