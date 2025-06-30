@@ -1,7 +1,6 @@
 // import { useQuery } from "@tanstack/react-query";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { categoryApis } from "@/networks";
-import type { MentoringListResponseBody } from "@/contracts/request/category/mentoring.types";
 
 
 export const useMentoringListQuery = ({
