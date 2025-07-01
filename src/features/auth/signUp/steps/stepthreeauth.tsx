@@ -13,7 +13,7 @@ const StepThreeAuthContent = ({ children }: StepThreeAuthProps) => {
   const queryClient = useQueryClient();
   const { goToPage } = usePageNavigation();
   const cachedUser = queryClient.getQueryData(["auth", "sign-up", "userinfo"]) as SimplifiedUserlResponseDTO;
-
+  console.log("check", cachedUser);
   if (cachedUser === null && undefined) {
     goToPage("/auth/signIn");
   }
