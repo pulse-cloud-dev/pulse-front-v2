@@ -417,7 +417,7 @@ export const PostsView = (props: PostsViewProps) => {
           </div>
         </section>
 
-        <div className="flex_r m-t-12" style={{ gap: "8px" }}>
+        <div className="flex_r" style={{ gap: "8px" }}>
           <DatePickerField
             labelSize="sm"
             label=" 모집 마감 기한"
@@ -447,7 +447,6 @@ export const PostsView = (props: PostsViewProps) => {
             </Dropdown>
           </div>
         </div>
-        <p className="text-field__error" role="alert" aria-live="polite" style={{ marginTop: "4px" }}></p>
         <div>
           <div style={{ height: "70px", display: "flex", flexDirection: "row", alignItems: "start" }}>
             <DatePickerField
