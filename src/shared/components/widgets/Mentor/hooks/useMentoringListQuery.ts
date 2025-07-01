@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { categoryApis } from "@/networks";
-import type { MentoringListResponseBody } from "@/contracts/request/category/mentoring.types";
 
 const emptyPlaceholder: MentoringListResponseBody = {
   page: 1,
