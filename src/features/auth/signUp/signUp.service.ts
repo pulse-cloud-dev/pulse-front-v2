@@ -31,7 +31,7 @@ export const useJoinSocial = () => {
     mutationFn: (domain: string) => userApis.joinSocial(domain),
     onSuccess: (response: { body: string; message: string }) => {
       const url = response?.body;
-      window.open(url);
+      window.open(url, "_self");
     },
     onError: (error) => {
       console.error("Join social failed:", error);
