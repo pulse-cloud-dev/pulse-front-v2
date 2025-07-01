@@ -1,13 +1,14 @@
-import { publicClient } from "@/networks/client";
+import { privateClient, publicClient } from "@/networks/client";
 import { NameDescription, CodeItem, ApiResponse } from "@/contracts/response/register/register.response.dto";
-
+import { MentoInfoRequestDto } from "@/contracts";
 const categoryApiRouter = {
   educationLevel: "/mentoring/mento-create/education-level",
   educationStatus: "/mentoring/mento-create/education-status",
   roleLevel: "/mentoring/mento-create/role-level",
-  categories: "/category",
-  categoryItems: (categoryCode: string) => `/category/item-list/${categoryCode}`,
+  categories: (categoryCode: string) => `/category/item-list/${categoryCode}`,
+  categoryItems: (itemCode: string) => `/category/meta-list/${itemCode}`,
   passStatus: "/mentoring/mento-info/pass-status",
+  registerMentor: "/mentoring/mento-info",
 };
 
 // 합격 상태 조회
@@ -71,9 +72,9 @@ const getRoleLevels = async (): Promise<NameDescription[]> => {
 };
 
 // 카테고리 코드 조회
-const getCategories = async (): Promise<CodeItem[]> => {
+const getCategoryItems = async (itemCode: string): Promise<CodeItem[]> => {
   try {
-    const response = (await publicClient.get(categoryApiRouter.categories)) as ApiResponse<CodeItem[]>;
+    const response = (await publicClient.get(categoryApiRouter.categoryItems(itemCode))) as ApiResponse<CodeItem[]>;
     return response.body;
   } catch (error: any) {
     if (error.response) {
@@ -86,13 +87,27 @@ const getCategories = async (): Promise<CodeItem[]> => {
 };
 
 // 카테고리 아이템 코드 조회
-const getCategoryItems = async (categoryCode: string): Promise<CodeItem[]> => {
+const getCategories = async (categoryCode: string): Promise<CodeItem[]> => {
   try {
-    const response = (await publicClient.get(categoryApiRouter.categoryItems(categoryCode))) as ApiResponse<CodeItem[]>;
+    const response = (await publicClient.get(categoryApiRouter.categories(categoryCode))) as ApiResponse<CodeItem[]>;
     return response.body;
   } catch (error: any) {
     if (error.response) {
       console.error(`Failed to fetch category items for ${categoryCode}:`, error.response.data);
+    } else {
+      console.error("Network or other error:", error.message);
+    }
+    throw error;
+  }
+};
+
+const postRegisterMentor = async (MentoInfoRequestDto: MentoInfoRequestDto): Promise<CodeItem[]> => {
+  try {
+    const response = (await privateClient.post(categoryApiRouter.registerMentor, MentoInfoRequestDto)) as ApiResponse<CodeItem[]>;
+    return response.body;
+  } catch (error: any) {
+    if (error.response) {
+      console.error("에러 error.response.data");
     } else {
       console.error("Network or other error:", error.message);
     }
@@ -107,4 +122,5 @@ export const mentoringApis = {
   getCategories,
   getCategoryItems,
   getPassStatus,
+  postRegisterMentor,
 };

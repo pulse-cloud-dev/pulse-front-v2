@@ -26,15 +26,16 @@ interface FormFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   inputClass?: string;
   errorClass?: string;
   successClass?: string;
+  wrapperClass?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, forwardedRef) => {
-  const { successClass, successMessage, id, type = "text", name, label, value, placeholder, required = false, errorMessage, isInvalid = false, labelClass, inputClass, errorClass, onChange, style, ...rest } = props;
+  const { wrapperClass, successClass, successMessage, id, type = "text", name, label, value, placeholder, required = false, errorMessage, isInvalid = false, labelClass, inputClass, errorClass, onChange, style, ...rest } = props;
 
   const inputId = id || name; // 고유한 id 설정
   return (
-    <div className="" style={{ width: "100%" }}>
+    <div className={wrapperClass || ""} style={{ width: "100%" }}>
       <label htmlFor={inputId} className={labelClass}>
         {/* 라벨 */}
         <span>{label}</span>

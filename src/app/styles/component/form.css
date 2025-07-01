@@ -6,6 +6,7 @@
                    - sign-up
                   -find-password
                   -reigsterform
+                  -reigsterform
 ========================================================
  */
 
@@ -123,6 +124,10 @@
 /* ================== sign-up form style =====================  */
 
 .form__signUp {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  margin: 7px 0px;
 }
 
 .signUp__step3 {
@@ -158,6 +163,32 @@
   line-height: 16px;
   letter-spacing: -0.02em;
   color: #757575;
+}
+
+.sign-up-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  margin: 7px 0px;
+}
+.sign-up-label {
+  display: flex;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+.sign-up-input {
+  width: 400px;
+  height: 48px;
+  padding: 10px 12px;
+  font-size: 14px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.3s ease;
 }
 
 /* ================== find-passwordstyle =====================  */
@@ -369,7 +400,7 @@
 .postform {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 30px;
   padding: 20px;
   border-radius: 8px;
   background-color: var(--palette-white-05);

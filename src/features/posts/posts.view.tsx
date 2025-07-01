@@ -48,8 +48,6 @@ interface PostsViewProps extends ViewEventProps {
   textEditorState: [EditorState, Dispatch<SetStateAction<EditorState>>];
 }
 
-const textFieldClass = "m-t-30 m-b-30 gap_12 ";
-
 const lectureFormatOptions = [
   { value: "ONLINE" as const, label: "온라인" },
   { value: "OFFLINE" as const, label: "오프라인" },
@@ -71,7 +69,17 @@ const useFormState = () => {
       errorMessage: "마감일은 현재보다 늦어야 합니다.",
       state: "pending",
       dependsOn: ["dueTime"],
-      customValidator: (value: Date) => value > new Date(),
+      customValidator: (value: Date) => {
+        if (!value) return false;
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // 시간 제거 (00:00:00.000)
+
+        const selectedDate = new Date(value);
+        selectedDate.setHours(0, 0, 0, 0); // 시간 제거
+
+        return selectedDate >= today;
+      },
     },
     dueTime: {
       value: null,
@@ -87,10 +95,9 @@ const useFormState = () => {
 
         const dueDateTime = new Date(dueDate);
         dueDateTime.setHours(hours, minutes, 0, 0);
-
         const now = new Date();
 
-        return dueDateTime > now;
+        return dueDateTime >= now;
       },
     },
     startDate: {
@@ -343,29 +350,27 @@ export const PostsView = (props: PostsViewProps) => {
   return (
     <div className="sub-layout__content">
       <form className="postform" onSubmit={handleSubmit}>
-        <header>
-          <Typography variant="title" size="24" weight="bold">
-            멘티 모집글 등록
-          </Typography>
-        </header>
-        <section className="m-t-30">
-          <div style={formfieldlayout}>
-            <FormField
-              labelClass="form-field__label"
-              errorClass="text-field__error"
-              inputClass="form-field__input"
-              name="제목"
-              label="제목"
-              placeholder="제목을 입력해주세요"
-              value={formData.title.value}
-              onChange={(e) => updateField("title", e.target.value)}
-              onBlur={(e) => validateAndUpdate("title", e.target.value)}
-              isInvalid={formData.title.state === "invalid"}
-              errorMessage={formData.title.errorMessage}
-            />
-          </div>
-        </section>
-        <section className="m-t-30">
+        <Typography variant="title" size="24" weight="bold">
+          멘티 모집글 등록
+        </Typography>
+
+        <div style={formfieldlayout}>
+          <FormField
+            labelClass="form-field__label"
+            errorClass="text-field__error"
+            inputClass="form-field__input"
+            name="제목"
+            label="제목"
+            placeholder="제목을 입력해주세요"
+            value={formData.title.value}
+            onChange={(e) => updateField("title", e.target.value)}
+            onBlur={(e) => validateAndUpdate("title", e.target.value)}
+            isInvalid={formData.title.state === "invalid"}
+            errorMessage={formData.title.errorMessage}
+          />
+        </div>
+
+        <section>
           <Typography variant="compact" size="16" weight="semi-bold">
             내용
           </Typography>
@@ -411,239 +416,240 @@ export const PostsView = (props: PostsViewProps) => {
             />
           </div>
         </section>
-        <div className="m-t-30">
-          <div className="flex_r m-t-12" style={{ gap: "8px" }}>
+
+        <div className="flex_r" style={{ gap: "8px" }}>
+          <DatePickerField
+            labelSize="sm"
+            label=" 모집 마감 기한"
+            name="duedate"
+            isValid={formData.dueDate.state === "invalid" ? false : true}
+            error={formData.dueDate.errorMessage}
+            selected={formData.dueDate.value}
+            onChange={(date) => updateField("dueDate", date || new Date())}
+            onBlur={() => handleBlur("dueDate")}
+            placeholderText="모집 마감 기한을 선택해 주세요."
+          />
+          <div style={{ width: "180px" }}>
+            <Dropdown
+              id="hour-selector"
+              label="시간 선택"
+              value={formData.dueTime.value === null ? "선택해주세요" : formData.dueTime.value}
+              onChange={(val) => updateField("dueTime", val)}
+              onBlur={() => handleBlur("dueTime")}
+              hasError={formData.dueTime.state === "invalid"}
+              errorMessage={formData.dueTime.errorMessage}
+            >
+              {generateHours().map((hour, index) => (
+                <DropdownItem key={index} value={hour}>
+                  {hour}
+                </DropdownItem>
+              ))}
+            </Dropdown>
+          </div>
+        </div>
+        <div>
+          <div style={{ height: "70px", display: "flex", flexDirection: "row", alignItems: "start" }}>
             <DatePickerField
-              labelSize="sm"
-              label=" 모집 마감 기한"
-              name="duedate"
-              isValid={formData.dueDate.state === "invalid" ? false : true}
-              error={formData.dueDate.errorMessage}
-              selected={formData.dueDate.value}
-              onChange={(date) => updateField("dueDate", date || new Date())}
-              onBlur={() => handleBlur("dueDate")}
-              placeholderText="모집 마감 기한을 선택해 주세요."
+              labelSize="md"
+              label="멘토링기간"
+              name="startdate"
+              selected={formData.startDate.value}
+              onChange={(date) => updateField("startDate", date || new Date())}
+              onBlur={() => handleBlur("startDate")}
+              placeholderText="시작일을 선택해 주세요."
+              isValid={formData.startDate.state === "invalid" ? false : true}
+              error={formData.startDate.errorMessage}
             />
-            <div style={{ width: "180px" }}>
-              <Dropdown
-                id="hour-selector"
-                label="시간 선택"
-                value={formData.dueTime.value === null ? "선택해주세요" : formData.dueTime.value}
-                onChange={(val) => updateField("dueTime", val)}
-                onBlur={() => handleBlur("dueTime")}
-                onFocus={() => console.log("HourSelector focused")}
-                hasError={formData.dueTime.state === "invalid"}
-                errorMessage={formData.dueTime.errorMessage}
-              >
-                {generateHours().map((hour) => (
-                  <DropdownItem key={hour} value={hour}>
-                    {hour}
-                  </DropdownItem>
-                ))}
-              </Dropdown>
-            </div>
+            <div className="m-r-16 m-l-16 m-t-35">~</div>
+            <DatePickerField
+              className="m-t-20"
+              isValid={formData.endDate.state === "invalid" ? false : true}
+              name="enddate"
+              selected={formData.endDate.value}
+              onChange={(date) => updateField("endDate", date || new Date())}
+              onBlur={() => handleBlur("endDate")}
+              error={formData.endDate.errorMessage}
+              placeholderText="종료일을 선택해 주세요."
+            />
           </div>
+        </div>
 
-          <div className="flex_c m-t-32">
-            <div style={{ height: "70px", display: "flex", flexDirection: "row", alignItems: "start" }}>
-              <DatePickerField
-                labelSize="md"
-                label="멘토링기간"
-                name="startdate"
-                selected={formData.startDate.value}
-                onChange={(date) => updateField("startDate", date || new Date())}
-                onBlur={() => handleBlur("startDate")}
-                placeholderText="시작일을 선택해 주세요."
-                isValid={formData.startDate.state === "invalid" ? false : true}
-                error={formData.startDate.errorMessage}
-              />
-              <div className="m-r-16 m-l-16 m-t-35">~</div>
-              <DatePickerField
-                className="m-t-20"
-                isValid={formData.endDate.state === "invalid" ? false : true}
-                name="enddate"
-                selected={formData.endDate.value}
-                onChange={(date) => updateField("endDate", date || new Date())}
-                onBlur={() => handleBlur("endDate")}
-                error={formData.endDate.errorMessage}
-                placeholderText="종료일을 선택해 주세요."
-              />
-            </div>
+        <div>
+          <Typography variant="compact" size="16" weight="semi-bold">
+            강의형식
+          </Typography>
+          <div className="m-t-10">
+            {lectureFormatOptions.map((option) => {
+              const { value, label } = option;
+              return (
+                <BaseButton
+                  key={value}
+                  type="button"
+                  color="reverse"
+                  className={`m-r-8 ${formData.lectureFormat.value === value ? "primary" : "reverse"}`}
+                  onClick={() => {
+                    updateField("lectureFormat", (value as "ONLINE") || "OFFLINE");
+                  }}
+                >
+                  {label}
+                </BaseButton>
+              );
+            })}
           </div>
+        </div>
+        {formData.lectureFormat.value === "ONLINE" && (
+          <div style={formfieldlayout}>
+            <FormField
+              name="온라인 플랫폼"
+              label="온라인 플랫폼"
+              labelClass="form-field__label"
+              errorClass="text-field__error"
+              inputClass="form-field__input"
+              placeholder="온라인 플랫폼(ex. Zoom, Discord, Google Meets)을 입력해 주세요. 입력하지 않을 경우 '미정'으로 등록됩니다."
+              value={formData.onlinePlatform.value}
+              onChange={(e) => updateField("onlinePlatform", e.target.value)}
+              onBlur={(e) => validateAndUpdate("onlinePlatform", e.target.value)}
+              isInvalid={formData.onlinePlatform.state === "invalid"}
+              errorMessage={formData.onlinePlatform.errorMessage}
+            />
+          </div>
+        )}
 
-          <div className="m-t-32">
-            <Typography variant="compact" size="16" weight="semi-bold">
-              강의형식
-            </Typography>
-            <div className="m-t-10 m-b-30">
-              {lectureFormatOptions.map((option) => {
-                const { value, label } = option;
-                return (
-                  <BaseButton
-                    key={value}
-                    type="button"
-                    color="reverse"
-                    className={`m-r-8 ${formData.lectureFormat.value === value ? "primary" : "reverse"}`}
-                    onClick={() => {
-                      updateField("lectureFormat", (value as "ONLINE") || "OFFLINE");
-                    }}
-                  >
-                    {label}
-                  </BaseButton>
-                );
-              })}
-            </div>
-
-            {formData.lectureFormat.value === "ONLINE" && (
+        {formData.lectureFormat.value === "OFFLINE" && (
+          <div>
+            <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-start", gap: "4px" }}>
               <div style={formfieldlayout}>
                 <FormField
-                  name="온라인 플랫폼"
-                  label="온라인 플랫폼"
+                  name="오프라인 주소"
                   labelClass="form-field__label"
                   errorClass="text-field__error"
                   inputClass="form-field__input"
-                  placeholder="온라인 플랫폼(ex. Zoom, Discord, Google Meets)을 입력해 주세요. 입력하지 않을 경우 '미정'으로 등록됩니다."
-                  value={formData.onlinePlatform.value}
-                  onChange={(e) => updateField("onlinePlatform", e.target.value)}
-                  onBlur={(e) => validateAndUpdate("onlinePlatform", e.target.value)}
-                  isInvalid={formData.onlinePlatform.state === "invalid"}
-                  errorMessage={formData.onlinePlatform.errorMessage}
+                  label="오프라인 주소"
+                  placeholder="주소 검색 버튼을 클릭해서 주소를 선택해주세요"
+                  value={formData.offlineAddress.value}
+                  onChange={(e) => updateField("offlineAddress", e.target.value)}
+                  onBlur={(e) => validateAndUpdate("offlineAddress", e.target.value)}
+                  isInvalid={formData.offlineAddress.state === "invalid"}
+                  errorMessage={formData.offlineAddress.errorMessage}
+                  readOnly={true}
                 />
               </div>
-            )}
+              <BaseButton type="button" color="reverse" size="lg" style={{ marginTop: "22px" }} onClick={handleAddressSearchClick}>
+                주소 검색
+              </BaseButton>
+            </div>
 
-            {formData.lectureFormat.value === "OFFLINE" && (
-              <div className={textFieldClass}>
-                <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-start", gap: "4px" }}>
-                  <div style={formfieldlayout}>
-                    <FormField
-                      name="오프라인 주소"
-                      labelClass="form-field__label"
-                      errorClass="text-field__error"
-                      inputClass="form-field__input"
-                      label="오프라인 주소"
-                      placeholder="주소 검색 버튼을 클릭해서 주소를 선택해주세요"
-                      value={formData.offlineAddress.value}
-                      onChange={(e) => updateField("offlineAddress", e.target.value)}
-                      onBlur={(e) => validateAndUpdate("offlineAddress", e.target.value)}
-                      isInvalid={formData.offlineAddress.state === "invalid"}
-                      errorMessage={formData.offlineAddress.errorMessage}
-                      readOnly={true}
-                    />
-                  </div>
-                  <BaseButton type="button" color="reverse" size="lg" style={{ marginTop: "22px" }} onClick={handleAddressSearchClick}>
-                    주소 검색
-                  </BaseButton>
-                </div>
-
-                {/* 우편번호 검색 모달 */}
-                {isPostcodeOpen && (
-                  <div
+            {/* 우편번호 검색 모달 */}
+            {isPostcodeOpen && (
+              <div
+                style={{
+                  position: "fixed",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  backgroundColor: "rgba(0, 0, 0, 0.5)",
+                  zIndex: 1000,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <div
+                  style={{
+                    backgroundColor: "white",
+                    padding: "20px",
+                    borderRadius: "8px",
+                    width: "500px",
+                    height: "600px",
+                    position: "relative",
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setIsPostcodeOpen(false)}
                     style={{
-                      position: "fixed",
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      backgroundColor: "rgba(0, 0, 0, 0.5)",
-                      zIndex: 1000,
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
+                      position: "absolute",
+                      top: "10px",
+                      right: "10px",
+                      border: "none",
+                      background: "none",
+                      fontSize: "18px",
+                      cursor: "pointer",
                     }}
                   >
-                    <div
-                      style={{
-                        backgroundColor: "white",
-                        padding: "20px",
-                        borderRadius: "8px",
-                        width: "500px",
-                        height: "600px",
-                        position: "relative",
-                      }}
-                    >
-                      <button
-                        type="button"
-                        onClick={() => setIsPostcodeOpen(false)}
-                        style={{
-                          position: "absolute",
-                          top: "10px",
-                          right: "10px",
-                          border: "none",
-                          background: "none",
-                          fontSize: "18px",
-                          cursor: "pointer",
-                        }}
-                      >
-                        ×
-                      </button>
-                      <DaumPostcodeEmbed onComplete={handleComplete} style={{ width: "100%", height: "100%" }} />
-                    </div>
-                  </div>
-                )}
-
-                <div className="flex_r m-t-30">
-                  <div style={formfieldlayout}>
-                    <FormField
-                      label="상세주소"
-                      name="상세주소"
-                      labelClass="form-field__label"
-                      errorClass="text-field__error"
-                      inputClass="form-field__input"
-                      placeholder="상세주소를 입력해주세요."
-                      value={formData.offlineDetailAddress.value}
-                      onBlur={(e) => validateAndUpdate("offlineDetailAddress", e.target.value)}
-                      onChange={(e) => updateField("offlineDetailAddress", e.target.value)}
-                      errorMessage={formData.offlineDetailAddress.errorMessage}
-                      isInvalid={formData.offlineDetailAddress.state === "invalid"}
-                    />
-                  </div>
+                    ×
+                  </button>
+                  <DaumPostcodeEmbed onComplete={handleComplete} style={{ width: "100%", height: "100%" }} />
                 </div>
               </div>
             )}
-            <div style={{ ...formfieldlayout, marginTop: "16px" }}>
-              <FormField
-                name="모집인원"
-                label="모집인원"
-                labelClass="form-field__label"
-                errorClass="text-field__error"
-                inputClass="form-field__input"
-                placeholder="모집인원을 입력해주세요"
-                value={formData.recruitCount.value}
-                onChange={(e) => updateField("recruitCount", e.target.value)}
-                onBlur={(e) => validateAndUpdate("recruitCount", e.target.value)}
-                isInvalid={formData.recruitCount.state === "invalid"}
-                errorMessage={formData.recruitCount.errorMessage}
-              />
-            </div>
-            <div style={{ ...formfieldlayout, marginTop: "16px" }}>
-              <FormField
-                name="1인 기준 멘토링 비용"
-                label="1인 기준 멘토링 비용"
-                labelClass="form-field__label"
-                errorClass="text-field__error"
-                inputClass="form-field__input"
-                placeholder="금액을 입력해주세요"
-                value={formData.mentorFee.value}
-                onChange={(e) => updateField("mentorFee", e.target.value)}
-                onBlur={(e) => validateAndUpdate("mentorFee", e.target.value)}
-                isInvalid={formData.mentorFee.state === "invalid"}
-                errorMessage={formData.mentorFee.errorMessage}
-              />
-            </div>
-            <div className="m-t-30 flex_r flex_jend gap_4">
-              <BaseButton color="reverse">취소</BaseButton>
-              <BaseButton type="submit" className={isFormValid ? "primary " : "disabled"} disabled={!isFormValid}>
-                신청
-              </BaseButton>
+
+            <div className="flex_r m-t-30">
+              <div style={formfieldlayout}>
+                <FormField
+                  label="상세주소"
+                  name="상세주소"
+                  labelClass="form-field__label"
+                  errorClass="text-field__error"
+                  inputClass="form-field__input"
+                  placeholder="상세주소를 입력해주세요."
+                  value={formData.offlineDetailAddress.value}
+                  onBlur={(e) => validateAndUpdate("offlineDetailAddress", e.target.value)}
+                  onChange={(e) => updateField("offlineDetailAddress", e.target.value)}
+                  errorMessage={formData.offlineDetailAddress.errorMessage}
+                  isInvalid={formData.offlineDetailAddress.state === "invalid"}
+                />
+              </div>
             </div>
           </div>
+        )}
+        <div style={{ ...formfieldlayout }}>
+          <FormField
+            name="모집인원"
+            label="모집인원"
+            labelClass="form-field__label"
+            errorClass="text-field__error"
+            inputClass="form-field__input"
+            placeholder="모집인원을 입력해주세요"
+            value={formData.recruitCount.value}
+            onChange={(e) => updateField("recruitCount", e.target.value)}
+            onBlur={(e) => validateAndUpdate("recruitCount", e.target.value)}
+            isInvalid={formData.recruitCount.state === "invalid"}
+            errorMessage={formData.recruitCount.errorMessage}
+          />
+        </div>
+        <div style={{ ...formfieldlayout }}>
+          <FormField
+            name="1인 기준 멘토링 비용"
+            label="1인 기준 멘토링 비용"
+            labelClass="form-field__label"
+            errorClass="text-field__error"
+            inputClass="form-field__input"
+            placeholder="금액을 입력해주세요"
+            value={formData.mentorFee.value}
+            onChange={(e) => updateField("mentorFee", e.target.value)}
+            onBlur={(e) => validateAndUpdate("mentorFee", e.target.value)}
+            isInvalid={formData.mentorFee.state === "invalid"}
+            errorMessage={formData.mentorFee.errorMessage}
+          />
+          <div className="dropdown-error-message" role="alert">
+            *금액 수령 시 부가세를 제외한 금액으로 정산됩니다.
+          </div>
+        </div>
+
+        <div className="flex_r flex_jend gap_4">
+          <BaseButton color="reverse">취소</BaseButton>
+          <BaseButton type="submit" className={isFormValid ? "primary " : "disabled"} disabled={!isFormValid}>
+            신청
+          </BaseButton>
         </div>
       </form>
     </div>
   );
 };
 
+// 아이콘 컴포넌트들
 // 아이콘 컴포넌트들
 import { Icon } from "@/shared/components";
 

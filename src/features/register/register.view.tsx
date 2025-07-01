@@ -28,16 +28,17 @@ export const RegisterView: React.FC<RegisterViewProps> = ({ job, career, educati
   };
   return (
     <article className="sub-layout__content">
-      <header>
-        <Typography variant="title" size="24" weight="bold">
-          멘토 등록
-        </Typography>
-      </header>
+      <Typography variant="title" size="24" weight="bold">
+        멘토 등록
+      </Typography>
 
       <form className="m-t-50" onSubmit={handleSubmit}>
         <Job {...job} />
+        {/*재직중이면 퇴사년도 검증 스킵 */}
         <Career {...career} />
+        {/*검증 필요x */}
         <Education {...education} />
+        {/*졸업여부가 졸업이 아니면 졸업연월 검증 스킵*/}
         <Certificate {...certificate} />
         <Introduction {...introduction} />
         <footer className="m-t-30 flex_r flex_jend gap_4">
