@@ -42,45 +42,6 @@ type FormState = {
   recruitCount: FieldState<string>;
   mentorFee: FieldState<string>;
 };
-import { BaseButton, Typography } from "@/shared/components";
-import { DatePickerField } from "@/shared/components/blocks/datepicker/DatePickerField";
-import { useState, useRef, useEffect } from "react";
-import { FormField } from "@/shared/components";
-import { Dropdown, DropdownItem } from "@/shared/components/blocks/dropdown/dropdown";
-import { MentoringPostRequestDTO } from "@/contracts/request/post/post.request.dto";
-import { convertToRaw } from "draft-js";
-import draftToHtml from "draftjs-to-html";
-import DaumPostcodeEmbed from "react-daum-postcode";
-
-type FieldState<value> = {
-  value: value;
-  errorMessage: string;
-  pattern?: RegExp;
-  state: "valid" | "invalid" | "pending";
-  dependsOn?: string[];
-  customValidator?: (value: any, formData: FormState) => boolean;
-};
-
-const formfieldlayout: React.CSSProperties = {
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "flex-start",
-  width: "100%",
-};
-
-type FormState = {
-  title: FieldState<string>;
-  dueDate: FieldState<Date | null>;
-  dueTime: FieldState<string | null>;
-  startDate: FieldState<Date | null>;
-  endDate: FieldState<Date | null>;
-  lectureFormat: FieldState<"ONLINE" | "OFFLINE">;
-  onlinePlatform: FieldState<string>;
-  offlineAddress: FieldState<string>;
-  offlineDetailAddress: FieldState<string>;
-  recruitCount: FieldState<string>;
-  mentorFee: FieldState<string>;
-};
 
 interface PostsViewProps extends ViewEventProps {
   requestPostMentoring: (payload: MentoringPostRequestDTO) => void;
@@ -684,8 +645,6 @@ export const PostsView = (props: PostsViewProps) => {
             신청
           </BaseButton>
         </div>
-      </form>
-    </div>
       </form>
     </div>
   );

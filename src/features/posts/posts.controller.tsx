@@ -6,7 +6,6 @@ import { withAuthRedirect } from "@/shared/hocs";
 const PostsController = () => {
   const textEditorState = useState(() => EditorState.createEmpty());
   const { requestPostMentoring } = usePostMentoring();
-  const { requestPostMentoring } = usePostMentoring();
   const props = {
     textEditorState,
     requestPostMentoring,
