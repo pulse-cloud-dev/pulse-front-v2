@@ -2,9 +2,11 @@ import { PageTabs } from "@/shared/components/blocks";
 import { Typography } from "@/shared/components/atoms";
 import { useLocation } from "react-router-dom";
 import type { ViewEventProps } from "@/shared/types";
+import { useState } from "react";
 
 import { MentorViewMap } from "@/shared/components/widgets/Mentor/view/mentorViewMap";
 import { MentorViewPosts } from "@/shared/components/widgets/Mentor/view/mentorViewPosts";
+
 
 
 export const MentorView = (props: ViewEventProps & { state: any; actions: any }) => {
@@ -30,6 +32,8 @@ export const MentorView = (props: ViewEventProps & { state: any; actions: any })
     setSearchText
   };
 
+  const [offset, setOffset] = useState(1);
+
   return (
     <article className="sub-layout__content">
       <header>
@@ -43,8 +47,10 @@ export const MentorView = (props: ViewEventProps & { state: any; actions: any })
           { id: "map", display: "지도" },
         ]} />
       </section>
-      {menu === "posts" && <MentorViewPosts {...commonProps} />}
+      {menu === "posts" && <MentorViewPosts {...commonProps} offset={offset} setOffset={setOffset}/>}
       {menu === "map" && <MentorViewMap {...commonProps} />}
+
     </article>
+    
   );
 };

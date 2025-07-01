@@ -4,26 +4,32 @@ import { FieldPopup, OnlineStatusPopup, LocalPopup } from "@/shared/components";
 import { MentorView } from "./mentor.view";
 import { useState } from "react";
 import { useMentoringListQuery } from "@/shared/components/widgets/Mentor/hooks/useMentoringListQuery";
-import { usePageNationController } from "@/shared/components";
+import { useSearchParams } from "react-router-dom";
 
 export const MentorController = () => {
-  const [keyword, setKeyword] = useState(""); // 입력값
-  const [searchText, setSearchText] = useState(""); // 실제 API에 쓰이는 값
-  const [selectedFields, setSelectedFields] = useLocalStorage<string[]>("selectedFields",[]);
-  const [selectedRegions, setSelectedRegions] = useLocalStorage<string[]>("selectedRegions",[]);
+  const [keyword, setKeyword] = useState("");
+  const [searchText, setSearchText] = useState("");
+
+
+  const [selectedFields, setSelectedFields] = useLocalStorage<string[]>("selectedFields", []);
+  const [selectedRegions, setSelectedRegions] = useLocalStorage<string[]>("selectedRegions", []);
   const [onlineStatus, setOnlineStatus] = useLocalStorage<string>("onlineStatus", "전체");
   const [isOnlineOnly, setIsOnlineOnly] = useLocalStorage<boolean>("isOnlineOnly", false);
-  const [fieldCheckedItems, setFieldCheckedItems] = useLocalStorage<Record<string, boolean>>("fieldCheckedItems",{});
-  const [regionCheckedItems, setRegionCheckedItems] = useLocalStorage<Record<string, boolean>>("regionCheckedItems",{});
+  const [fieldCheckedItems, setFieldCheckedItems] = useLocalStorage<Record<string, boolean>>("fieldCheckedItems", {});
+  const [regionCheckedItems, setRegionCheckedItems] = useLocalStorage<Record<string, boolean>>("regionCheckedItems", {});
   const [sortOption, setSortOption] = useState("기본순");
 
 
-  // 모달 정의
   const firstModal = useModal(Modal);
   const secondModal = useModal(Modal);
   const thirdModal = useModal(Modal);
 
-  const { offset } = usePageNationController("offset");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const offset = Number(searchParams.get("offset")) || 1;
+
+  const setOffset = (page: number) => {
+    setSearchParams((prev) => ({ ...prev, offset: page.toString() }));
+  }
 
   const { data: mentorings = [], isLoading: loading } = useMentoringListQuery({
     selectedFields,
@@ -34,8 +40,6 @@ export const MentorController = () => {
     offset,
   });
 
-
-  // 필터 초기화
   const resetFilters = () => {
     setKeyword("");
     setSelectedFields([]);
@@ -44,25 +48,27 @@ export const MentorController = () => {
     setIsOnlineOnly(false);
     setFieldCheckedItems({});
     setRegionCheckedItems({});
+    setOffset(1); 
   };
 
-  // 모달 열기 함수들
   const openFirstModal = () => {
     firstModal.openModal({
-      key: JSON.stringify(fieldCheckedItems), // 강제 재마운트용 key
+      key: JSON.stringify(fieldCheckedItems),
       title: "분야",
       subtitle: "최대 3개 선택",
       variant: "default",
       ariaLabelledBy: "field-modal-title",
-      role : "dialog",
-      children: (modalProps: { id: string; closeModal: (id: string) => void }) => (
+      role: "dialog",
+      children: (modalProps: { id: string; closeModal: (id: string) => void }
+) => (
         <FieldPopup
-          aria-labelledby = "field-modal-title"
+          aria-labelledby="field-modal-title"
           closeModal={() => modalProps.closeModal(modalProps.id)}
           initialCheckedItems={fieldCheckedItems}
           onApply={(fields, latestCheckedItems) => {
             setSelectedFields(fields);
             setFieldCheckedItems(latestCheckedItems);
+            setOffset(1); 
             modalProps.closeModal(modalProps.id);
           }}
         />
@@ -75,24 +81,26 @@ export const MentorController = () => {
       title: "온/오프라인",
       variant: "default",
       ariaLabelledBy: "onoff-modal-title",
-      role : "dialog",
-      children: (modalProps: { id: string; closeModal: (id: string) => void }) => (
+      role: "dialog",
+      children: (modalProps: { id: string; closeModal: (id: string) => void }
+) => (
         <OnlineStatusPopup
-          aria-labelledby = "onoff-modal-title"
+          aria-labelledby="onoff-modal-title"
           initialValue={
-          onlineStatus === "온라인" ? "ONLINE" :
-          onlineStatus === "오프라인" ? "OFFLINE" : null
-        }
-          closeModal={() => modalProps.closeModal(modalProps.id)}
-          onOnlineSelected={(isOnline: boolean | undefined) => {
-          if (isOnline === undefined) {
-            setOnlineStatus("전체");
-            setIsOnlineOnly(false);
-          } else {
-            setOnlineStatus(isOnline ? "온라인" : "오프라인");
-            setIsOnlineOnly(isOnline);
+            onlineStatus === "온라인" ? "ONLINE" :
+            onlineStatus === "오프라인" ? "OFFLINE" : null
           }
-        }}
+          closeModal={() => modalProps.closeModal(modalProps.id)}
+          onOnlineSelected={(isOnline) => {
+            if (isOnline === undefined) {
+              setOnlineStatus("전체");
+              setIsOnlineOnly(false);
+            } else {
+              setOnlineStatus(isOnline ? "온라인" : "오프라인");
+              setIsOnlineOnly(isOnline);
+            }
+            setOffset(1); 
+          }}
         />
       ),
     });
@@ -105,15 +113,17 @@ export const MentorController = () => {
       subtitle: "최대 10개 선택",
       variant: "default",
       ariaLabelledBy: "region-modal-title",
-      role : "dialog",
-      children: (modalProps: { id: string; closeModal: (id: string) => void }) => (
+      role: "dialog",
+      children: (modalProps: { id: string; closeModal: (id: string) => void }
+) => (
         <LocalPopup
-          aria-labelledby = "region-modal-title"
+          aria-labelledby="region-modal-title"
           closeModal={() => modalProps.closeModal(modalProps.id)}
           initialCheckedItems={regionCheckedItems}
           onApply={(regions, latestCheckedItems) => {
             setSelectedRegions(regions);
             setRegionCheckedItems(latestCheckedItems);
+            setOffset(1); 
             modalProps.closeModal(modalProps.id);
           }}
         />
@@ -126,23 +136,23 @@ export const MentorController = () => {
   const removeField = (field: string) => {
     const key = labelToKey(field);
     setSelectedFields((prev) => prev.filter((f) => f !== field));
-
     setFieldCheckedItems((prev) => {
       const newItems = { ...prev };
       delete newItems[key];
       return newItems;
     });
+    setOffset(1);
   };
 
   const removeRegion = (region: string) => {
     const key = labelToKey(region);
     setSelectedRegions((prev) => prev.filter((r) => r !== region));
-
     setRegionCheckedItems((prev) => {
       const newItems = { ...prev };
       delete newItems[key];
       return newItems;
     });
+    setOffset(1); 
   };
 
   const props = {
@@ -158,10 +168,10 @@ export const MentorController = () => {
       selectedRegions,
       onlineStatus,
       isOnlineOnly,
-      mentorings, 
+      mentorings,
       loading,
       sortOption,
-
+      offset, 
     },
     actions: {
       setKeyword,
@@ -172,11 +182,10 @@ export const MentorController = () => {
       removeRegion,
       setOnlineStatus,
       resetFilters,
-      setSortOption
+      setSortOption,
+      setOffset,
     },
   };
 
-  return (
-    <MentorView {...props}/>
-  );
+  return <MentorView {...props} />;
 };

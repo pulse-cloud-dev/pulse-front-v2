@@ -1,3 +1,4 @@
+import { useMentoringListQuery } from "../hooks/useMentoringListQuery";
 import { FilterBar } from "../filters/filterBar";
 import { Typography } from "@/shared/components/atoms";
 import { SortDropdown } from "@/shared/components/widgets/sortDropdown/SortDropdown";
@@ -5,8 +6,12 @@ import { MentorCard } from "@/shared/components/blocks";
 import { PageNation } from "@/shared/components/widgets";
 import { FilterProps } from "../type/filterProps";
 
-import { usePageNationController } from "@/shared/components/widgets";
-import { useMentoringListQuery } from "../hooks/useMentoringListQuery";
+interface MentorViewPostsProps extends FilterProps {
+  sortOption: string;
+  setSortOption: (val: string) => void;
+  offset: number;
+  setOffset: (val: number) => void;
+}
 
 export const MentorViewPosts = ({
   event,
@@ -21,9 +26,9 @@ export const MentorViewPosts = ({
   sortOption,
   setSortOption,
   searchText,
-}: FilterProps & { sortOption: string; setSortOption: (val: string) => void }) => {
-  const { offset } = usePageNationController("offset");
-  
+  offset,
+  setOffset,
+}: MentorViewPostsProps) => {
   const {
     data,
     isFetching,
@@ -37,7 +42,9 @@ export const MentorViewPosts = ({
     offset,
   });
 
-const mentorings = data?.contents ?? [];
+  const mentorings = data?.contents ?? [];
+  const totalPages = data?.total_pages ?? 1;
+  const isDataEmpty = mentorings.length === 0;
 
   return (
     <>
@@ -58,27 +65,34 @@ const mentorings = data?.contents ?? [];
 
       <div className="card-count" role="region" aria-label="멘토 개수 및 정렬 옵션">
         <Typography variant="body" size="16" weight="semi-bold">
-          총 {mentorings.length}개
+          총 {data?.total_count ?? 0}개
         </Typography>
         <SortDropdown sortOption={sortOption} setSortOption={setSortOption} />
       </div>
 
       <section className="flex__box m-t-10" aria-labelledby="멘토링 카드 리스트 영역">
-        {isFetching && mentorings.length === 0 ? (
+        {isFetching && isDataEmpty ? (
           <Typography>로딩 중...</Typography>
         ) : error ? (
           <Typography>에러가 발생했습니다.</Typography>
-        ) : mentorings.length === 0 ? (
+        ) : isDataEmpty ? (
           <Typography>결과가 없습니다.</Typography>
         ) : (
           mentorings.map((item) => (
-            <MentorCard key={item.mentoring_id} {...item} />
+            <MentorCard
+              key={item.mentoring_id}
+              mentoringId={item.mentoring_id}
+              title={item.title}
+              mentorNickname={item.mentor_nickname}
+              deadlineDate={item.deadline_time}
+              mentorJob={item.mentor_job.jobCode}
+              mentorProfileImage={item.mentor_profile_image ?? "default_profile.png"}
+            />
           ))
         )}
       </section>
 
-      <PageNation queryStringKey="offset" pages={data?.total_pages ?? 1} />
-     
+      <PageNation offset={offset} setOffset={setOffset} pages={totalPages} />
     </>
   );
 };
