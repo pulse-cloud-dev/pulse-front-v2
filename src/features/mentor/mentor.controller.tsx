@@ -28,17 +28,21 @@ export const MentorController = () => {
   const offset = Number(searchParams.get("offset")) || 1;
 
   const setOffset = (page: number) => {
-    setSearchParams((prev) => ({ ...prev, offset: page.toString() }));
+    setSearchParams((prev) => ({ 
+      ...prev, 
+      offset: page.toString(),
+      menu: prev.get("menu") || "map",
+    }));
   }
 
-  const { data: mentorings = [], isLoading: loading } = useMentoringListQuery({
-    selectedFields,
-    selectedRegions,
-    onlineStatus,
-    sortOption,
-    searchText,
-    offset,
-  });
+  // const { data: mentorings = [], isLoading: loading } = useMentoringListQuery({
+  //   selectedFields,
+  //   selectedRegions,
+  //   onlineStatus,
+  //   sortOption,
+  //   searchText,
+  //   offset,
+  // });
 
   const resetFilters = () => {
     setKeyword("");
@@ -168,8 +172,8 @@ export const MentorController = () => {
       selectedRegions,
       onlineStatus,
       isOnlineOnly,
-      mentorings,
-      loading,
+      // mentorings,
+      // loading,
       sortOption,
       offset, 
     },
