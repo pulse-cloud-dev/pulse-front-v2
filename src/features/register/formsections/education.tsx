@@ -113,7 +113,9 @@ export const Education = ({ stacks, pushStack, popStack, updateStackField, reset
                       id={`${key}-${i}`}
                       label={field.label}
                       value={field.value}
-                      onChange={(val) => updateStackField(i, key as keyof RegisterSchema, val)}
+                      onChange={(val) => {
+                        updateStackField(i, key as keyof RegisterSchema, val);
+                      }}
                       onBlur={() => checkError(i, key as keyof RegisterSchema)}
                       onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
                       hasError={isError}
