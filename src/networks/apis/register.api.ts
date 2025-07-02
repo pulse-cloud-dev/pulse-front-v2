@@ -104,6 +104,7 @@ const getCategories = async (categoryCode: string): Promise<CodeItem[]> => {
 const postRegisterMentor = async (MentoInfoRequestDto: MentoInfoRequestDto): Promise<CodeItem[]> => {
   try {
     const response = (await privateClient.post(categoryApiRouter.registerMentor, MentoInfoRequestDto)) as ApiResponse<CodeItem[]>;
+    console.log(" response ", response);
     return response.body;
   } catch (error: any) {
     if (error.response) {
