@@ -3,6 +3,8 @@ import { useStack, createInitialJobSchema, createInitialCareerSchema, createInit
 import { RegisterView } from "./register.view";
 import { RegisterSchema } from "./formsections/stack";
 import { useRegisterMentor } from "./register.service";
+import { queryClient } from "@/app/contexts";
+
 export const RegisterContainer = () => {
   const jobState = useStack<RegisterSchema>(createInitialJobSchema);
   const careerState = useStack<RegisterSchema>(createInitialCareerSchema);
@@ -61,6 +63,7 @@ export const RegisterContainer = () => {
   }, [jobState.stacks, careerState.stacks, educationState.stacks, certificateState.stacks]);
 
   const registerMentor = useRegisterMentor();
+
   return (
     <RegisterView
       job={jobState}
@@ -75,7 +78,6 @@ export const RegisterContainer = () => {
           certificate_info_list: mapCertificationStacksToDto(certificateState.stacks),
           job_info: mapJobStacksToDto(jobState.stacks),
           career_info_list: mapCareerStacksToDto(careerState.stacks),
-
           mentor_introduction: introduction,
         });
       }}
@@ -91,7 +93,6 @@ export const RegisterContainer = () => {
     />
   );
 };
-
 // 날짜를 ISO 문자열로 변환하는 함수
 const formatDateToISO = (date: Date | null): string => {
   if (!date) return "";
@@ -109,23 +110,18 @@ const mapCareerStacksToDto = (stacks: RegisterSchema[]): any[] => {
   });
   const formatDateToYYMMDD = (date: Date | null): string => {
     if (!date) return "";
-    const year = date.getFullYear().toString().slice(-2); // 마지막 두 자리
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // 0부터 시작하므로 +1
+    const year = date.getFullYear().toString().slice(-2);
+    const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}${month}${day}`;
   };
-  const positionHash: { [key: string]: string } = {
-    팀원: "TEAM_MEMBER",
-    파트장: "PART_LEADER",
-    팀장: "TEAM_LEADER",
-    실장: "DIRECTOR",
-    그룹장: "GROUP_LEADER",
-    센터장: "CENTER_HEAD",
-    매니저: "MANAGER",
-    본부장: "HEAD_OF_DIVISION",
-    사업부장: "BUSINESS_UNIT_HEAD",
-    국장: "DIRECTOR_GENERAL",
-  };
+
+  const roleLevelList = queryClient.getQueryData(["roleLevels"]) as {
+    name: string;
+    description: string;
+  }[];
+
+  const positionHash: { [key: string]: string } = Object.fromEntries(roleLevelList?.map((item) => [item.description, item.name]) || []);
   const mapCareerRawDtoToFinalDto = (careerDto: any) => ({
     company_name: careerDto.company_name.value,
     department: careerDto.department.value, //해싱처리 하기
@@ -138,21 +134,17 @@ const mapCareerStacksToDto = (stacks: RegisterSchema[]): any[] => {
 };
 
 const mapEducationStacksToDto = (stacks: RegisterSchema[]): any[] => {
-  const educationLevelHash: { [key: string]: string } = {
-    "대학교(4학년)": "UNDERGRADUATE_4",
-    "대학교(2,3학년)": "UNDERGRADUATE_2",
-    " 대학원(박사)": "DOCTORATE",
-    " 대학원(석사)": "MASTER",
-    기타: "OTHER",
-  };
+  const educationLevelList = queryClient.getQueryData(["educationLevels"]) as {
+    name: string;
+    description: string;
+  }[];
+  const educationStatusList = queryClient.getQueryData(["educationStatuses"]) as {
+    name: string;
+    description: string;
+  }[];
+  const educationLevelHash: { [key: string]: string } = Object.fromEntries(educationLevelList?.map((item) => [item.description, item.name]) || []);
 
-  const educationStatusHash: { [key: string]: string } = {
-    재학중: "ENROLLED",
-    졸업: "GRADUATED",
-    졸업예정: "EXPECTED_GRADUATION",
-    중퇴: "DROPPED_OUT",
-    휴학: "ON_LEAVE",
-  };
+  const educationStatusHash: { [key: string]: string } = Object.fromEntries(educationStatusList?.map((item) => [item.description, item.name]) || []);
   const mapEducationStackToRawDto = (educationStack: RegisterSchema) => ({
     education_level: educationStack.schoolType,
     school_name: educationStack.schoolName,
@@ -175,63 +167,21 @@ const mapEducationStacksToDto = (stacks: RegisterSchema[]): any[] => {
 };
 
 const mapJobStacksToDto = (stacks: RegisterSchema[]): any => {
-  const jobCodeHash: { [key: string]: string } = {
-    // 기획/경영/마케팅
-    마케팅: "MARKETING",
-    기획: "PLANNING",
-    경영: "MANAGEMENT",
-    
-    // 게임
-    게임프로그래밍: "GAME_PROGRAMMING",
-    게임기획: "GAME_PLANNING",
-    게임디자인: "GAME_DESIGN",
-    
-    // 디자인
-    "UI/UX": "UIUX",
-    "3D": "3D",
-    그래픽: "GRAPHICS",
-    
-    // 개발
-    프론트엔드: "FRONTEND",
-    백엔드: "BACKEND",
-    풀스택: "FULLSTACK",
-    모바일앱: "MOBILE_APP",
-    퍼블리싱: "PUBLISHING",
-    "데브옵스/인프라": "DEVOPS_INFRA",
-    
-    // 데이터
-    데이터분석: "DATA_ANALYSIS",
-    데이터엔지니어링: "DATA_ENGINEERING",
-    데이터사이언스: "DATA_SCIENCE",
-    
-    // 보안/네트워크
-    블록체인: "BLOCKCHAIN",
-    보안: "SECURITY",
-    네트워크: "NETWORK",
-    운영체제: "OPERATING_SYSTEM",
-    클라우드: "CLOUD",
-    
-    // 하드웨어
-    로봇: "ROBOT",
-    IOT: "IOT",
-    반도체: "SEMICONDUCTOR",
-    컴퓨터: "COMPUTER",
-    모빌리티: "MOBILITY",
-    
-    // 인공지능
-    GPT: "GPT",
-    "딥러닝/머신러닝": "DEEP_MACHINE_LEARNING",
-    
-    // 기타 카테고리들
-    "기획/경영/마케팅 기타": "PLANNING_MANAGEMENT_MARKETING_ETC",
-    "게임 기타": "GAME_ETC",
-    "디자인 기타": "DESIGN_ETC",
-    "개발 기타": "DEVELOPMENT_ETC",
-    "데이터 기타": "DATA_ETC",
-    "보안/네트워크 기타": "SECURITY_NETWORK_ETC",
-    "하드웨어 기타": "HARDWARE_ETC",
-    "인공지능 기타": "AI_ETC"
-  };
+  const categoryItemMetaList = queryClient.getQueryCache().findAll({
+    predicate: (query) => query.queryKey[0] === "categoryItemMetaList",
+  });
+  const jobCodeHash: Record<string, string> = {};
+
+  categoryItemMetaList.forEach((query) => {
+    const data = query.state.data;
+    if (data && Array.isArray(data)) {
+      data.forEach((item) => {
+        if (item.name && item.code) {
+          jobCodeHash[item.name] = item.code;
+        }
+      });
+    }
+  });
 
   const mapJobStackToRawDto = (jobStack: RegisterSchema) => ({
     job_code: jobStack.jobDetail.value,
@@ -240,7 +190,6 @@ const mapJobStacksToDto = (stacks: RegisterSchema[]): any => {
   const mapJobRawDtoToFinalDto = (jobDto: any) => ({
     job_code: jobCodeHash[jobDto.job_code] || "OTHER",
   });
-  console.log("??", stacks.map(mapJobStackToRawDto));
   return stacks.map(mapJobStackToRawDto).map(mapJobRawDtoToFinalDto)[0];
 };
 
@@ -252,10 +201,12 @@ const mapCertificationStacksToDto = (stacks: RegisterSchema[]): any[] => {
     pass_date: certificateStack.passDate,
   });
 
-  const certificationHash: { [key: string]: string } = {
-    필기합격: "WRITTEN_PASS",
-    최종합격: "FINAL_PASS",
-  };
+  const passStatusList = queryClient.getQueryData(["pass-status"]) as {
+    name: string;
+    description: string;
+  }[];
+
+  const certificationHash = Object.fromEntries(passStatusList.map((item) => [item.description, item.name]));
 
   const mapCertificationRawDtoToFinalDto = (Dto: any) => ({
     certificate_name: Dto.certificate_name.value,
