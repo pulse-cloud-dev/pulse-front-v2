@@ -42,7 +42,9 @@ export const RegisterView: React.FC<RegisterViewProps> = ({ job, career, educati
         <Certificate {...certificate} />
         <Introduction {...introduction} />
         <footer className="m-t-30 flex_r flex_jend gap_4">
-          <BaseButton color="reverse">취소</BaseButton>
+          <BaseButton color="reverse" onClick={onCancel} type="button">
+            취소
+          </BaseButton>
           <BaseButton className={isValid ? "primary" : "reverse"} type="submit">
             신청
           </BaseButton>
