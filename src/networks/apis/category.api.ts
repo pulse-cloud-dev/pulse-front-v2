@@ -5,6 +5,7 @@ import type { CategoryItem, CategoryResponse} from "@/contracts/request/category
 import type { LectureType, LectureTypeResponse } from "@/contracts/request/category/lecture.types";
 import type { RegionItem, RegionItemListResponse } from "@/contracts/request/category/region.types";
 import type { MentoringListResponse, MentoringListParams } from "@/contracts/request/category/mentoring.types";
+import type { MentoringDetail, MentoringDetailResponse } from "@/contracts/request/category/mentoringDetail";
 
 
 // 분야 불러오기
@@ -119,6 +120,17 @@ const allSubRegions = async (): Promise<{ parent: string; name: string; code: st
   return result.flat();
 };
 
+// 멘토링 상세 조회
+const getMentoringDetail = async (id: string): Promise<MentoringDetailResponse["body"]> => {
+  try {
+    const data: MentoringDetailResponse = await publicClient.get(`/mentoring/${id}`);
+    return data.body;
+  } catch (error) {
+    console.error("멘토링 상세 조회 실패:", error);
+    throw error;
+  }
+};
+
 export const categoryApis = {
     fieldItems,
     subFields,
@@ -127,5 +139,6 @@ export const categoryApis = {
     subRegions,
     getMentoringList,
     allSubFields,
-    allSubRegions
+    allSubRegions,
+    getMentoringDetail
 };
