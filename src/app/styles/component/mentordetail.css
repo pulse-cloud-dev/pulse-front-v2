@@ -1,0 +1,218 @@
+.mentoring-detail {
+  padding: 45px 0px;
+  /* max-width: 1200px; */
+  width: 100%;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.mentoring-content-wrapper {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.mentoring-detail-title {
+  max-width: 840px;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 32px;
+}
+
+.mentoring-content {
+  flex: 2;
+}
+
+.mentoring-content-section {
+  margin-bottom: 40px;
+}
+
+.mentoring-header-section {
+  margin: 20px 0 30px 0;
+}
+
+.mentoring-content-section h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.mentoring-content-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.mentoring-content-section ul li {
+  margin-bottom: 8px;
+}
+
+.mentoring-sidebar {
+  flex: 1;
+  min-width: 392px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+
+
+.mentor-profile-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: #ffffff;
+  flex-wrap: wrap; /* 반응형 대응 */
+  /* max-width: 360px; */
+}
+
+
+.profile-img {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 12px;
+  margin: 10px 20px;
+  display: block;
+}
+
+.mentor-name {
+  font-weight: bold;
+  margin: 14px 0px;
+}
+
+.mentor-info {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+
+
+
+.mentor-profile-button {
+  display: inline-block;
+  padding: 10px 16px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  
+}
+
+.mentor-profile-button {
+  width: 340px;
+  background: #fff;
+  border: 1px solid #888;
+  color: #333;
+  align-items: center;
+  margin: auto;
+}
+
+.mentor-profile-button:hover {
+  background: #f0f0f0;
+}
+
+.button-primary {
+  background-color: #00c471;
+  color: #fff;
+  font-weight: bold;
+}
+
+.button-primary:hover {
+  background-color: #00a65a;
+}
+
+.mentoring-meta-card {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: #ffffff;
+  /* text-align: center; */
+}
+
+.price {
+  font-size: 24px;
+  font-weight: bold;
+  
+  margin-bottom: 20px;
+}
+
+.meta-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px 0;
+  font-size: 13px;
+  color: #333;
+}
+
+.meta-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  
+  margin-bottom: 12px;
+}
+
+.meta-list .mentoring-label {
+  flex: 0 0 90px;
+  color: #888;
+  font-weight: 500;
+  
+  
+}
+
+.meta-list .value {
+  flex: 1;
+  color: #333;
+  line-height: 1.5;
+  text-align: right;
+
+}
+
+
+.button-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.button-outline,
+.button-primary {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.button-outline {
+  flex: 2.5;
+  background-color: #fff;
+  border: 1.5px solid #00C3B2;
+  color: #00C3B2;
+}
+
+.button-outline:hover {
+  background-color: #f0fffc;
+}
+
+.button-primary {
+  flex: 7.5;
+  background-color: #00C3B2;
+  border: none;
+  color: #fff;
+}
+
+.button-primary:hover {
+  background-color: #00b0a2;
+}
+
