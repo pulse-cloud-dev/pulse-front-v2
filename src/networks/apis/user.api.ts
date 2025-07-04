@@ -183,6 +183,7 @@ const nicknameCheck = async (nickname: string): Promise<any> => {
 //이메일로 회원
 const emailCheck = async (email: string): Promise<any> => {
   try {
+    console.log(email);
     return await publicClient.post(`${userApiRouter.emailCheck}`);
   } catch (error: any) {
     if (error.response) {
