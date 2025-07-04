@@ -184,7 +184,7 @@ const nicknameCheck = async (nickname: string): Promise<any> => {
 const emailCheck = async (email: string): Promise<any> => {
   try {
     console.log(email);
-    return await publicClient.post(`${userApiRouter.emailCheck}`);
+    return await publicClient.post(`${userApiRouter.emailCheck}`, { email });
   } catch (error: any) {
     if (error.response) {
       // 서버에서 응답이 왔지만 오류 상태 코드
