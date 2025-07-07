@@ -6,6 +6,9 @@ import { MentorCard } from "@/shared/components/blocks";
 import { PageNation } from "@/shared/components/widgets";
 import { FilterProps } from "../type/filterProps";
 
+import { Suspense  } from "react";
+import ErrorBoundary from "@/shared/components/blocks/errorboundary/errorBoundary";
+
 interface MentorViewPostsProps extends FilterProps {
   sortOption: string;
   setSortOption: (val: string) => void;
@@ -42,7 +45,32 @@ export const MentorViewPosts = ({
     offset,
   });
 
-  const mentorings = data?.contents ?? [];
+  const dummyData = [
+  {
+    mentoring_id: "1",
+    title: "React로 배우는 프론트엔드 입문 React로 배우는 프론트엔드 입문 React로 배우는 프론트엔드 입문",
+    mentor_nickname: "코딩은재밌어",
+    deadline_time: "2025-08-01",
+    mentor_job: { jobCode: "프론트엔드 개발자" },
+    mentor_profile_image: null,
+    lecture_type: "OFFLINE",
+  },
+  {
+    mentoring_id: "2",
+    title: " 백엔드 개발 로드맵",
+    mentor_nickname: "백엔드장인",
+    deadline_time: "2025-08-15",
+    mentor_job: { jobCode: "백엔드 개발자" },
+    mentor_profile_image: null,
+    lecture_type: "ONLINE",
+  },
+];
+
+
+const mentorings =
+  !data || data.contents.length === 0 ? dummyData : data.contents;
+
+  // const mentorings = data?.contents ?? [];
   const totalPages = data?.total_pages ?? 1;
   const isDataEmpty = mentorings.length === 0;
 
@@ -70,25 +98,39 @@ export const MentorViewPosts = ({
         <SortDropdown sortOption={sortOption} setSortOption={setSortOption} />
       </div>
 
-      <section className="flex__box m-t-10" aria-labelledby="멘토링 카드 리스트 영역">
-        {isFetching && isDataEmpty ? (
-          <Typography>로딩 중...</Typography>
-        ) : error ? (
-          <Typography>에러가 발생했습니다.</Typography>
-        ) : isDataEmpty ? (
+      <section 
+        className="flex__box m-t-10" 
+        aria-labelledby="멘토링 카드 리스트 영역"
+        onClick={(e) => {
+          const card = (e.target as HTMLElement).closest("[data-index]");
+          if (!card) return;
+
+          const index = card.getAttribute("data-index");
+          console.log("클릭된 카드 인덱스:", index);
+        }}
+      >
+        {isDataEmpty ? (
           <Typography>결과가 없습니다.</Typography>
         ) : (
-          mentorings.map((item) => (
-            <MentorCard
-              key={item.mentoring_id}
-              mentoringId={item.mentoring_id}
-              title={item.title}
-              mentorNickname={item.mentor_nickname}
-              deadlineDate={item.deadline_time}
-              mentorJob={item.mentor_job.jobCode}
-              mentorProfileImage={item.mentor_profile_image ?? "default_profile.png"}
-            />
-          ))
+          <ErrorBoundary fallback={<Typography>멘토링 정보를 불러오는 중 오류가 발생했습니다.</Typography>}>
+            <Suspense fallback={<Typography>멘토링 정보를 불러오는 중입니다...</Typography>}>
+              <>
+                {mentorings.map((item, index) => (
+                  <div key={item.mentoring_id} data-index={index}>
+                    <MentorCard
+                      mentoringId={item.mentoring_id}
+                      onlineStatus={item.lecture_type === "ONLINE" ? "온라인" : "오프라인"}
+                      title={item.title}
+                      mentorNickname={item.mentor_nickname}
+                      deadlineDate={item.deadline_time}
+                      mentorJob={item.mentor_job.jobCode}
+                      mentorProfileImage={item.mentor_profile_image}
+                    />
+                  </div>
+                ))}
+              </>
+            </Suspense>
+          </ErrorBoundary>
         )}
       </section>
 
