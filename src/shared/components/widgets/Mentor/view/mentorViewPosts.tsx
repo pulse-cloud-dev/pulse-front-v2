@@ -6,8 +6,6 @@ import { MentorCard } from "@/shared/components/blocks";
 import { PageNation } from "@/shared/components/widgets";
 import { FilterProps } from "../type/filterProps";
 
-import { Suspense  } from "react";
-import ErrorBoundary from "@/shared/components/blocks/errorboundary/errorBoundary";
 
 interface MentorViewPostsProps extends FilterProps {
   sortOption: string;
@@ -44,37 +42,13 @@ export const MentorViewPosts = ({
     searchText,
     offset,
   });
-
-  const dummyData = [
-  {
-    mentoring_id: "1",
-    title: "React로 배우는 프론트엔드 입문 React로 배우는 프론트엔드 입문 React로 배우는 프론트엔드 입문",
-    mentor_nickname: "코딩은재밌어",
-    deadline_time: "2025-08-01",
-    mentor_job: { jobCode: "프론트엔드 개발자" },
-    mentor_profile_image: null,
-    lecture_type: "OFFLINE",
-  },
-  {
-    mentoring_id: "2",
-    title: " 백엔드 개발 로드맵",
-    mentor_nickname: "백엔드장인",
-    deadline_time: "2025-08-15",
-    mentor_job: { jobCode: "백엔드 개발자" },
-    mentor_profile_image: null,
-    lecture_type: "ONLINE",
-  },
-];
-
-
-const mentorings =
-  !data || data.contents.length === 0 ? dummyData : data.contents;
-
-  // const mentorings = data?.contents ?? [];
+  
+  const mentorings = data?.contents ?? [];
   const totalPages = data?.total_pages ?? 1;
   const isDataEmpty = mentorings.length === 0;
 
-  return (
+
+return (
     <>
       <FilterBar
         event={event}
@@ -112,10 +86,7 @@ const mentorings =
         {isDataEmpty ? (
           <Typography>결과가 없습니다.</Typography>
         ) : (
-          <ErrorBoundary fallback={<Typography>멘토링 정보를 불러오는 중 오류가 발생했습니다.</Typography>}>
-            <Suspense fallback={<Typography>멘토링 정보를 불러오는 중입니다...</Typography>}>
-              <>
-                {mentorings.map((item, index) => (
+                mentorings.map((item, index) => (
                   <div key={item.mentoring_id} data-index={index}>
                     <MentorCard
                       mentoringId={item.mentoring_id}
@@ -127,10 +98,8 @@ const mentorings =
                       mentorProfileImage={item.mentor_profile_image}
                     />
                   </div>
-                ))}
-              </>
-            </Suspense>
-          </ErrorBoundary>
+                ))
+              
         )}
       </section>
 

@@ -51,7 +51,7 @@ export const MentorView = (props: ViewEventProps & { state: any; actions: any })
       </section>
       {menu === "posts" && (
         <ErrorBoundary fallback={<FallbackMentoringList />}>
-          <Suspense>
+          <Suspense fallback={<FallbackMentoringList />}>
             <MentorViewPosts {...commonProps} offset={offset} setOffset={setOffset} />
           </Suspense>
         </ErrorBoundary>
