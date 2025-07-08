@@ -1,4 +1,4 @@
-.footer {
+.main-footer {
   width: 100%;
   position: relative;
   background-color: #f5f5f5;
@@ -6,7 +6,7 @@
   font-family: sans-serif;
 }
 
-.footer__container {
+.main-footer__container {
   max-width: 1280px;
   margin: 0 auto;
   display: flex;
@@ -14,29 +14,29 @@
   gap: 20px;
 }
 
-.footer__top {
+.main-footer__top {
   display: flex;
   align-items: center;
   gap: 50px;
 }
 
-.footer__logo {
+.main-footer__logo {
   width: 100px;
   height: auto;
 }
 
-.footer__menu {
+.main-footer__menu {
   display: flex;
   gap: 10px;
   font-size: 12px;
   color: #666;
 }
 
-.divider {
+.main-footer__divider {
   color: #aaa;
 }
 
-.footer__text {
+.main-footer__text {
   border-top: 1px solid #ddd;
   font-size: 14px;
   color: #666;
@@ -44,11 +44,11 @@
   padding-top: 20px;
 }
 
-.footer__text p {
+.main-footer__text p {
   margin: 0;
 }
 
-.footer__copyright {
+.main-footer__copyright {
   font-size: 13px;
   color: #999;
 }
