@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { categoryApis } from "@/networks";
 
 const PAGE_SIZE = 20;
@@ -37,7 +37,7 @@ export const useMentoringListQuery = ({
     }
   };
 
-  return useSuspenseQuery({
+  return useQuery({
     queryKey: [
       "mentoringList",
       selectedFields,
