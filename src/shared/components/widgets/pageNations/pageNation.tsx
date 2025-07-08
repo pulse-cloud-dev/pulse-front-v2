@@ -10,7 +10,7 @@ interface PageNationProps extends HTMLAttributes<HTMLElement>, PropsWithChildren
 
 export const PageNation = forwardRef<HTMLUListElement, PageNationProps>(
   ({ offset, setOffset, pages }, ref) => {
-    if (pages < 2) return null;
+    // if (pages < 2) return null;
 
     const handleClick = (page: number) => () => setOffset(page);
 
