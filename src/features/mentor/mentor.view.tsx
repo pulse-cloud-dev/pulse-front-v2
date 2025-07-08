@@ -7,10 +7,6 @@ import { useState } from "react";
 import { MentorViewMap } from "@/shared/components/widgets/Mentor/view/mentorViewMap";
 import { MentorViewPosts } from "@/shared/components/widgets/Mentor/view/mentorViewPosts";
 
-import { Suspense } from "react";
-import ErrorBoundary from "@/shared/components/blocks/errorboundary/errorBoundary";
-import { FallbackMentoringList } from "@/shared/components/widgets/Mentor/view/fallbackMentoringList";
-
 export const MentorView = (props: ViewEventProps & { state: any; actions: any }) => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -49,14 +45,7 @@ export const MentorView = (props: ViewEventProps & { state: any; actions: any })
           { id: "map", display: "지도" },
         ]} />
       </section>
-      {menu === "posts" && (
-        <ErrorBoundary fallback={<FallbackMentoringList />}>
-          <Suspense fallback={<FallbackMentoringList />}>
-            <MentorViewPosts {...commonProps} offset={offset} setOffset={setOffset} />
-          </Suspense>
-        </ErrorBoundary>
-        )
-      }
+      {menu === "posts" && <MentorViewPosts {...commonProps} offset={offset} setOffset={setOffset} />}
       {menu === "map" && <MentorViewMap {...commonProps} />}
 
     </article>

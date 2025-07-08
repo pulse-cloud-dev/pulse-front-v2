@@ -10,7 +10,7 @@ export interface JoinSocialResponseDTO {
   message: string;
 }
 
-export interface SignUpRequestDTO {
+export interface SignUpResponseDTO {
   email: string;
   password: string;
   phone_number: string;

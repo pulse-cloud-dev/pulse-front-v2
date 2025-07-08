@@ -1,4 +1,4 @@
-import type { HTMLAttributes, ChangeEvent } from "react";
+import type { InputHTMLAttributes, ChangeEvent } from "react";
 import { forwardRef } from "react";
 
 /**
@@ -11,7 +11,7 @@ import { forwardRef } from "react";
  * 2) 에러 메시지를 읽어주기 위해 aria-describedby 연결.
  *
  */
-interface FormFieldProps extends HTMLAttributes<HTMLInputElement> {
+interface FormFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   type?: string;
   id?: string; // 명시적으로 id를 받을 수 있도록 수정
   label: string;
@@ -26,18 +26,19 @@ interface FormFieldProps extends HTMLAttributes<HTMLInputElement> {
   inputClass?: string;
   errorClass?: string;
   successClass?: string;
+  wrapperClass?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, forwardedRef) => {
-  const { successClass, successMessage, id, type = "text", name, label, value, placeholder, required = false, errorMessage, isInvalid = false, labelClass, inputClass, errorClass, onChange, style, ...rest } = props;
+  const { wrapperClass, successClass, successMessage, id, type = "text", name, label, value, placeholder, required = false, errorMessage, isInvalid = false, labelClass, inputClass, errorClass, onChange, style, ...rest } = props;
 
   const inputId = id || name; // 고유한 id 설정
   return (
-    <div>
+    <div className={wrapperClass || ""} style={{ width: "100%" }}>
       <label htmlFor={inputId} className={labelClass}>
         {/* 라벨 */}
-        <span className="color__grayscale-50 fs_12">{label}</span>
+        <span>{label}</span>
         {/* 라벨 */}
 
         {/* 필수 필드 표시 */}
@@ -58,7 +59,7 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, fo
         required={required}
         aria-invalid={isInvalid} // 유효성 상태
         aria-describedby={isInvalid && errorMessage ? `${inputId}-error` : successMessage ? `${inputId}-success` : undefined}
-        className={`inputClass ${isInvalid && errorMessage ? "error-border" : ""}`}
+        className={`${inputClass} ${isInvalid && errorMessage ? "error-border" : ""}`}
         onChange={onChange}
         style={style}
         {...rest}

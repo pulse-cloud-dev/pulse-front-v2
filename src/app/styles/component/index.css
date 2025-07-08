@@ -33,7 +33,17 @@
 @import "popup.css";
 @import "select.css";
 @import "datepicker.css";
+
+@import "textarea.css";
+@import "dropdown.css";
+@import "datepicker.css";
+@import "togglebtn.css";
+@import "stepper.css";
+@import "alert.css";
+
 @import "search.css";
 @import "listHeader.css";
+
 @import "footer.css";
 @import "mentordetail.css";
+

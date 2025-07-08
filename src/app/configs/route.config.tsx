@@ -24,6 +24,13 @@ const createRoutes = (): Routers => {
           path: "mentee-find",
           children: [{ path: "", element: <Controller.ChatController /> }],
         },
+        {
+          /**
+           * @description Mentor register (멘토 등록)
+           */
+          path: "mentor-register",
+          children: [{ path: "", element: <Controller.RegisterContainer /> }],
+        },
         /**
          * @description Community (커뮤니티)
          */
@@ -94,8 +101,8 @@ const createRoutes = (): Routers => {
          * @description 모집글 등록
          */
         {
-          path: "posts",
-          children: [{ path: "", element: <Controller.PostsController /> }],
+          path: "",
+          children: [{ path: "posts", element: <Controller.ProtectedPostsController /> }],
         },
 
         {

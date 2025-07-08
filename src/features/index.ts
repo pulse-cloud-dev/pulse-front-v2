@@ -10,6 +10,9 @@ export * from "./auth/finds/find.controller";
 export * from "./mentor/mentor.controller";
 export * from "./mentor/mentorDetail.controller";
 
+// Mentor/Register
+export * from "./register/register.controller";
+
 // Chat
 export * from "./chat/chat.controller";
 
