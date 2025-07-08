@@ -2,6 +2,7 @@ import { PageTabs } from "@/shared/components/blocks";
 import { Typography } from "@/shared/components/atoms";
 import { useLocation } from "react-router-dom";
 import type { ViewEventProps } from "@/shared/types";
+import { useState } from "react";
 
 import { MentorViewMap } from "@/shared/components/widgets/Mentor/view/mentorViewMap";
 import { MentorViewPosts } from "@/shared/components/widgets/Mentor/view/mentorViewPosts";
@@ -10,8 +11,8 @@ export const MentorView = (props: ViewEventProps & { state: any; actions: any })
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const menu = params.get("menu") || "posts";
-  const { keyword, selectedFields, selectedRegions, onlineStatus, sortOption, searchText } = props.state;
-  const { setKeyword, removeField, removeRegion, resetFilters, setSortOption, setSearchText } = props.actions;
+  const { keyword, selectedFields, selectedRegions, onlineStatus, sortOption, searchText, offset } = props.state;
+  const { setKeyword, removeField, removeRegion, resetFilters, setSortOption, setSearchText, setOffset } = props.actions;
 
   const commonProps = {
     event: props.event,
@@ -26,8 +27,10 @@ export const MentorView = (props: ViewEventProps & { state: any; actions: any })
     sortOption,
     setSortOption,
     searchText,
-    setSearchText,
+    setSearchText
   };
+
+  // const [offset, setOffset] = useState(1);
 
   return (
     <article className="sub-layout__content">
@@ -37,24 +40,15 @@ export const MentorView = (props: ViewEventProps & { state: any; actions: any })
         </Typography>
       </header>
       <section className="m-t-30">
-        <PageTabs
-          tabList={[
-            { id: "posts", display: "모집글" },
-            { id: "map", display: "지도" },
-          ]}
-        />
+        <PageTabs tabList={[
+          { id: "posts", display: "모집글" },
+          { id: "map", display: "지도" },
+        ]} />
       </section>
-      {menu === "posts" && <MentorViewPosts {...commonProps} />}
+      {menu === "posts" && <MentorViewPosts {...commonProps} offset={offset} setOffset={setOffset} />}
       {menu === "map" && <MentorViewMap {...commonProps} />}
+
     </article>
+    
   );
 };
-
-{
-  /* <Breadcrumb
-        items={[
-          { title: "멘토링", href: "mentor" },
-          { title: "멘토링1", href: "mentor/123" },
-        ]}
-      /> */
-}

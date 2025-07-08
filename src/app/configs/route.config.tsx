@@ -89,6 +89,13 @@ const createRoutes = (): Routers => {
           path: "mentor-find",
           children: [{ path: "", element: <Controller.MentorController /> }],
         },
+        {
+          /**
+           * @description 멘토링 상세페이지
+           */
+          path: "mentor-detail",
+          children: [{ path: "", element: <Controller.DetailController /> }],
+        },
 
         /**
          * @description 모집글 등록

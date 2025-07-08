@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 
 import { SideMenuConst } from "@/shared/constants";
-import { FloatingSideMenu, PageHeader, ThemeToggle } from "@/shared/components/widgets";
+import { FloatingSideMenu, PageHeader, ThemeToggle, Footer } from "@/shared/components/widgets";
 
 export const MentorLayout = () => {
   return (
@@ -22,6 +22,8 @@ export const MentorLayout = () => {
       <div className="outer__right">
         <ThemeToggle />
       </div>
+
+      <Footer/>
     </>
   );
 };
