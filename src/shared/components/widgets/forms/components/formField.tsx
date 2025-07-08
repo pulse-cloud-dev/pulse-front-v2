@@ -1,3 +1,4 @@
+import { relative } from "path";
 import type { InputHTMLAttributes, ChangeEvent } from "react";
 import { forwardRef } from "react";
 
@@ -35,7 +36,7 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, fo
 
   const inputId = id || name; // 고유한 id 설정
   return (
-    <div className={wrapperClass || ""} style={{ width: "100%" }}>
+    <div className={wrapperClass || ""}>
       <label htmlFor={inputId} className={labelClass}>
         {/* 라벨 */}
         <span>{label}</span>
@@ -43,7 +44,7 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, fo
 
         {/* 필수 필드 표시 */}
         {required && (
-          <span className="color__error fs_12" aria-hidden="true">
+          <span className="color__error fs_12 " aria-hidden="true">
             *
           </span>
         )}
@@ -61,17 +62,17 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, fo
         aria-describedby={isInvalid && errorMessage ? `${inputId}-error` : successMessage ? `${inputId}-success` : undefined}
         className={`${inputClass} ${isInvalid && errorMessage ? "error-border" : ""}`}
         onChange={onChange}
-        style={style}
+        style={{ width: "100%", position: "relative" }}
         {...rest}
       />
       {isInvalid && errorMessage && (
-        <span id={` ${inputId}-error`} className="text-field__error m-t-10" role="alert">
+        <span id={` ${inputId}-error`} className="text-field__error m-t-81" role="alert" style={{ position: "absolute", marginTop: "81px" }}>
           {errorMessage}
         </span>
       )}
       {/* 성공시 css처리및 변수 설정 */}
       {!isInvalid && successMessage && (
-        <span id={`${inputId}-success`} className="text-field__success m-t-10" role="alert">
+        <span id={`${inputId}-success`} className="text-field__success m-t-81" role="alert" style={{ position: "absolute", marginTop: "81px" }}>
           {successMessage}
         </span>
       )}
