@@ -8,7 +8,7 @@ export const SignUpConsentStep = ({ onNext }: SignUpStepProps) => {
   const isActiveNext = checkboxItems[0].checked;
 
   return (
-    <div className="p-30">
+    <div className="p-30 w-100">
       <div className="border-b m-t-10">
         <div className="flex_r align_center gap_8 p-8">
           <CheckboxGroup type="all" id={checkboxItems[0].id} />
