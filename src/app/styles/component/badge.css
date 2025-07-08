@@ -60,5 +60,7 @@
   background-color: #ecf4fe;
   color: #0058bd;
 }
-.badge__square.purple {
+.badge__square.orange {
+  background-color: #ffead5;
+  color: #fb7100;
 }

@@ -1,14 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { categoryApis } from "@/networks";
 
-const emptyPlaceholder: MentoringListResponseBody = {
-  page: 1,
-  size: 20,
-  sort: "DESC",
-  total_pages: 0,
-  total_count: 0,
-  contents: [],
-};
+const PAGE_SIZE = 20;
+
+interface UseMentoringListQueryParams {
+  selectedFields: string[];
+  selectedRegions: string[];
+  onlineStatus: string | null;
+  sortOption: string;
+  searchText: string;
+  offset?: number;
+}
 
 export const useMentoringListQuery = ({
   selectedFields,
@@ -16,13 +18,25 @@ export const useMentoringListQuery = ({
   onlineStatus,
   sortOption,
   searchText,
-}: {
-  selectedFields: string[];
-  selectedRegions: string[];
-  onlineStatus: string | null;
-  sortOption: string;
-  searchText: string;
-}) => {
+  offset = 1,
+}: UseMentoringListQueryParams) => {
+  const getLectureType = (status: string | null) => {
+    if (status === "미선택") return undefined;
+    if (status === "온라인") return "ONLINE";
+    return "OFFLINE";
+  };
+
+  const getSortType = (option: string) => {
+    switch (option) {
+      case "인기순":
+        return "POPULAR";
+      case "기본순":
+      case "최신순":
+      default:
+        return "LATEST";
+    }
+  };
+
   return useQuery({
     queryKey: [
       "mentoringList",
@@ -31,29 +45,18 @@ export const useMentoringListQuery = ({
       onlineStatus,
       sortOption,
       searchText,
+      offset,
     ],
     queryFn: () =>
       categoryApis.getMentoringList({
         field: selectedFields.join(","),
         region: selectedRegions.join(","),
-        lecture_type:
-          onlineStatus === "전체"
-            ? undefined
-            : onlineStatus === "온라인"
-            ? "ONLINE"
-            : "OFFLINE",
-        sort_type:
-          sortOption === "기본순"
-            ? "LATEST"
-            : sortOption === "인기순"
-            ? "POPULAR"
-            : "LATEST",
+        lecture_type: getLectureType(onlineStatus),
+        sort_type: getSortType(sortOption),
         search_text: searchText,
-        page: 1,
-        size: 20,
-      })
-      .then((res) => res),
-    staleTime: 1000 * 60, // 1분 동안 캐시 유지
-     placeholderData: (prev) => prev ?? emptyPlaceholder,
+        page: offset,
+        size: PAGE_SIZE,
+      }),
+    staleTime: 1000 * 60,
   });
 };
