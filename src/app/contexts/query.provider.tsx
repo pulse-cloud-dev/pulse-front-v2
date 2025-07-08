@@ -4,7 +4,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 interface Props extends PropsWithChildren {}
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
         staleTime: 1000 * 60, 
