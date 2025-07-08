@@ -28,7 +28,7 @@ export const SignUpConsentStep = ({ onNext }: SignUpStepProps) => {
                       <span>{item.label}</span>
                     </div>
                     <button type="button" className="accordion__toggle-arrow more" onClick={toggle}>
-                      <Icon className={`icon__arrow img_to_bk80 ${isActive ? "on" : ""}`} src="chevron_down_bk_16" alt="화살표" />
+                      <Icon className={`icon__arrow img_to_bk80 ${isActive ?  "":"on" }`} src="chevron_down_bk_16" alt="화살표" />
                     </button>
                   </div>
                   {isActive && (
