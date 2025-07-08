@@ -10,7 +10,7 @@ import { MentoringMetaCard } from "@/features/mentoringDetail";
 interface MentorDetailViewProps {
   title: string;
   region: string;
-  content: string;
+  content: string | React.ReactNode;
   mentorName: string;
   mentorJob: string;
   mentorCareer: string;
