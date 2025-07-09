@@ -98,13 +98,15 @@ const Footer = () => {
   );
 };
 
-interface Props {}
+interface Props {
+  mentoringId?: string;
+}
 
-export const MentorDetailPopup = (props: Props) => {
+export const MentorDetailPopup = ({ mentoringId }: Props) => {
   return (
     <div className="popup--mentorDetail">
       <Header />
-      <Body />
+      <Body/>
       <Footer />
     </div>
   );
