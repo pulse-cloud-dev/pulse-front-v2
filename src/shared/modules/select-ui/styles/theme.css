@@ -14,6 +14,6 @@
   background-color: #fff;
   border: 1px solid #ccc;
 }
-.check-field-module input[type="checkbox"]:checked + label::after {
+/* .check-field-module input[type="checkbox"]:checked + label::after {
   filter: brightness(0) saturate(100%) invert(25%) sepia(88%) saturate(2007%) hue-rotate(201deg) brightness(99%) contrast(107%);
-}
+} */

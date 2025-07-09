@@ -31,7 +31,7 @@ export const MentorController = () => {
     setSearchParams((prev) => ({ 
       ...prev, 
       offset: page.toString(),
-      menu: prev.get("menu") || "map",
+      // menu: prev.get("menu") || "map",
     }));
   }
 

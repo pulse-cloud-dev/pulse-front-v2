@@ -80,7 +80,7 @@
 
 .popup-field__column-right > .check-field-module {
   height: 47px;
-  padding-left: 25px;
+  padding-left: 25px; 
   padding-bottom: 33px;
 }
 
@@ -105,12 +105,12 @@
   color: #212121;
 }
 
+
 /* 
 ========================================================
                      온/오프라인
 ========================================================
  */
-
 .popup-online {
   width: 480px;
   height: 250px;
@@ -119,7 +119,8 @@
   box-sizing: border-box;
 }
 
-.popup--online__body {
+.popup-online__body {
+  /* width: 100%; */
   height: 80%;
   display: flex;
   align-items: center;
@@ -128,22 +129,7 @@
   border-bottom: 1px solid var(--border);
 }
 
-/* .popup--online__footer {
-  margin-top: 1rem;
-  height: calc(20% - 1rem);
-} */
 
-/* .popup--online__footer {
-  margin-top: 1rem;
-  height: calc(20% - 1rem);
-} */
-
-.popup--online__footer {
-  margin-top: 1rem;
-  height: calc(20% - 1rem);
-}
-*/
-popup--online__footer 
 /* 
 ========================================================
                           지역
@@ -155,7 +141,7 @@ popup--online__footer
   box-sizing: border-box;
 }
 
-.popup--online__footer > .popup--online__footer--left {
+ .popup-local__header {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -225,7 +211,7 @@ popup--online__footer
 
 .popup-local__column-right > .check-field-module {
   height: 47px;
-  padding-left: 25px;
+  padding-left: 25px; 
   padding-bottom: 33px;
 }
 
@@ -250,6 +236,8 @@ popup--online__footer
   color: #212121;
 }
 
+
+
 .tag {
   color: #009e91;
   font-size: 14px;
@@ -257,6 +245,7 @@ popup--online__footer
   align-items: center;
   margin-left: 18px;
 }
+
 
 /* 
 ========================================================
@@ -334,6 +323,8 @@ popup--online__footer
   align-items: center;
 }
 
+
+
 /* 
 ========================================================
                      Selected Box
@@ -345,9 +336,10 @@ popup--online__footer
   height: 118px;
   border-bottom: 1px solid #eee;
   padding: 16px 20px;
+  
 }
 
-.selected-box .data {
+.selected-box .data{
   /* border-top: 1px solid var(--border); */
   /* height: 40%; */
   display: flex;
@@ -358,6 +350,7 @@ popup--online__footer
   gap: 10px;
   overflow: hidden;
   flex-wrap: wrap;
+  
 }
 
 .selected-box .data span {
@@ -371,6 +364,7 @@ popup--online__footer
   font-size: 13px;
   font-weight: 500;
   max-width: fit-content;
+  
 }
 
 .selected-box .data span button {
@@ -382,6 +376,7 @@ popup--online__footer
   cursor: pointer;
   transform: translateY(-2px); /*x 위치 조정*/
 }
+
 
 .selected-box .no-data {
   justify-content: center;
@@ -413,6 +408,7 @@ popup--online__footer
   display: flex;
   gap: 5px;
   cursor: pointer;
+
 }
 
 .popup-footer > .popup-footer__right {
@@ -435,9 +431,9 @@ popup--online__footer
   padding: 8px 0;
   border-radius: 12px;
   background-color: white;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
   z-index: 1000;
-  overflow: hidden;
+  overflow: hidden; 
 }
 
 .search-dropdown {
