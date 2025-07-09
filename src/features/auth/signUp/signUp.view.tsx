@@ -27,20 +27,20 @@ export const SignUpView = (props: { state: Record<string, any>; mutate: Record<s
           {props.state?.step === "certification" && (
             <SignUpCertificationStep
               handleJoinSocial={() => {
-                props.state?.setStep("form");
-                // props.mutate.requestJoinSocial("NAVER");
+                //props.state?.setStep("form");
+                props.mutate.requestJoinSocial("NAVER");
               }} // 소셜 로그인 시도하기..
             />
           )}
 
           {props.state?.step === "form" && (
             <CheckboxProvider initialItems={checkboxConst.SIGN_UP_STEP_2}>
-              {/* <StepThreeAuth> */}
-              <SignUpFormStep
-                onPrev={() => props.state?.setStep("certification")} // 인증으로 돌아가기..
-                onNext={() => props.goToPage()} // 회원가입 시도하기..
-              />
-              {/* </StepThreeAuth> */}
+              <StepThreeAuth>
+                <SignUpFormStep
+                  onPrev={() => props.state?.setStep("certification")} // 인증으로 돌아가기..
+                  onNext={() => props.goToPage()} // 회원가입 시도하기..
+                />
+              </StepThreeAuth>
             </CheckboxProvider>
           )}
         </div>
