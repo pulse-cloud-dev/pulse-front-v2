@@ -1,36 +1,63 @@
 import type { ViewEventProps, Void } from "@/shared/types";
-import { formConstant } from "@/shared/constants";
-import { DynamicForm, Icon, Linker } from "@/shared/components";
+import { Icon, Linker } from "@/shared/components";
+
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const signInSchema = z.object({
+  email: z.string().email("올바른 이메일 형식이 아닙니다."),
+  password: z.string().min(1, "비밀번호를 입력해주세요."),
+});
+
+type FormValues = z.infer<typeof signInSchema>;
 
 const SignInDynamicForm = ({ handleSubmit }: { handleSubmit: Void }) => {
+  const {
+    register,
+    handleSubmit: hookHandleSubmit,
+    formState: { errors, isSubmitted },
+  } = useForm<FormValues>({
+    resolver: zodResolver(signInSchema),
+  });
+
+  const onSubmit = (data: FormValues) => {
+    handleSubmit(data);
+  };
+
   return (
-    <DynamicForm
-      id="signIn-form"
-      className="form__auth"
-      fields={formConstant.signIn}
-      handleSubmit={(formData) => {
-        if (formData.email && formData.password) {
-          handleSubmit(formData);
-        }
-      }}
-      cancelTitle=""
-      submitTitle="로그인"
-      submitClass="auth__button"
-      schema={{ email: 4, password: 5 }}
-    >
+    <form onSubmit={hookHandleSubmit(onSubmit)} className="form-auth" noValidate>
+      <div>
+        <input {...register("email")} id="email" type="email" placeholder="이메일" aria-invalid={!!errors.email} aria-describedby="email-error" className={`${isSubmitted && errors.email ? "form-auth__border" : ""}`} />
+        {errors.email && (
+          <p id="email-error" className="form-auth__error-message text-sm">
+            {errors.email.message}
+          </p>
+        )}
+      </div>
+
+      <div>
+        <input {...register("password")} id="password" type="password" placeholder="비밀번호" aria-invalid={!!errors.password} aria-describedby="password-error" />
+        {errors.password && (
+          <p id="password-error" className="form-auth__error-message text-sm">
+            {errors.password.message}
+          </p>
+        )}
+      </div>
+
       <div className="flex_r justify_space-between">
         <span className="fs_12 color__grayscale-50">로그인 상태 유지</span>
-
         <span>
           <Linker href="/auth/find-password" className="fs_12 color__grayscale-50">
             계정/비밀번호 찾기
           </Linker>
         </span>
       </div>
-      {/* <button type="submit" className="auth__button disabled">
+
+      <button type="submit" className="auth__button">
         로그인
-      </button> */}
-    </DynamicForm>
+      </button>
+    </form>
   );
 };
 

@@ -60,7 +60,7 @@
   padding: 10px 20px;
   font-size: 16px;
   height: 48px;
-  min-width: 96px;
+  /* min-width: 96px; */
 }
 
 .btn.xl {
@@ -88,7 +88,7 @@
   color: #000;
 }
 .btn.primary {
-  border: none;
+  border: 1px solid var(--border);
   background-color: var(--primary-60);
   color: var(--text-wh);
 }
@@ -145,7 +145,7 @@ button.disabled .img_on {
   padding: 2px 12px 0;
   border-radius: 8px;
   font-size: 8px;
-  background: var(--primary-50);
+  background: #00cbba;
   color: var(--text-wh);
   border-radius: 8px;
 }
@@ -238,9 +238,9 @@ button.disabled .img_on {
   padding: 2px 12px 0;
   border-radius: 8px;
   font-size: 8px;
-  background: transparent;
+  background: var(--palette-gray-100);
   color: var(--text);
-  border: 1px solid var(--primary-50);
+  /* border: 1px solid var(--primary-50); */
   border-radius: 8px;
 }
 .btn__line.pri:hover,
@@ -285,11 +285,11 @@ button.disabled .img_on {
 }
 .btn__line.gray {
   color: var(--text);
-  border: 1px solid var(--grayscale-50);
+  /* border: 1px solid var(--grayscale-50); */
 }
 .btn__line.gray:hover {
   font-weight: 700;
-  border: 1px solid var(--grayscale-70);
+  /* border: 1px solid var(--grayscale-70); */
 }
 .btn__text {
   font-size: 14px;

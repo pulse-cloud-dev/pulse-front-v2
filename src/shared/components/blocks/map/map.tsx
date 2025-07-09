@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 interface NaverMap {
   map: naver.maps.Map | null;
@@ -21,9 +21,11 @@ export const Map = () => {
     if (window.naver && window.naver.maps) {
       initializeMap();
     } else {
+      const clientId = import.meta.env.VITE_NAVER_CLIENT_ID;
+
       // 스크립트 동적 로드
       const script = document.createElement("script");
-      script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=%VITE_NAVER_CLIENT_ID%`;
+      script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${clientId}`;
       script.async = true;
       script.onload = () => initializeMap();
       document.head.appendChild(script);
@@ -35,7 +37,7 @@ export const Map = () => {
         mapRef.current.map = null;
       }
     };
-  }, []);
+  });
 
   return <div id="map" style={{ width: "100%", height: "100%" }} />;
 };

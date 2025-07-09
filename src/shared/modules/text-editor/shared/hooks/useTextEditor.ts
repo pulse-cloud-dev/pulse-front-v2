@@ -1,8 +1,8 @@
-import type { Editor, DraftBlockType } from 'draft-js';
-import { EditorState, DraftInlineStyle, DraftEditorCommand, getDefaultKeyBinding } from 'draft-js';
-import { useRef, useEffect } from 'react';
+import type { Editor, DraftBlockType } from "draft-js";
+import { EditorState, DraftInlineStyle, DraftEditorCommand, getDefaultKeyBinding } from "draft-js";
+import { useRef, useEffect } from "react";
 
-import { EditorViewModel } from '../../layers/viewModels';
+import { EditorViewModel } from "../../layers/viewModels";
 
 export interface UseTextEditorProps {
   editorState?: EditorState;
@@ -25,6 +25,7 @@ export function useTextEditor({ editorState, setEditorState }: UseTextEditorProp
   }, [editorState, editorViewModel]);
 
   const onChange = (newEditorState: EditorState) => {
+    console.log("확인", newEditorState);
     setEditorState(newEditorState);
   };
 
@@ -41,14 +42,14 @@ export function useTextEditor({ editorState, setEditorState }: UseTextEditorProp
   const handleKeyCommand = (command: DraftEditorCommand, state: EditorState) => {
     console.log(command);
 
-    if (command === 'bold') {
+    if (command === "bold") {
       const newState = editorViewModel.handleKeyCommand(command, state);
       if (newState) {
         setEditorState(newState);
-        return 'handled';
+        return "handled";
       }
     }
-    return 'not-handled';
+    return "not-handled";
   };
 
   const keyBindingFn = (e: React.KeyboardEvent) => {

@@ -34,9 +34,7 @@ privateClient.interceptors.response.use(
     return response;
   },
   (error) => {
-    throw error.response.data;
-
-    // return Promise.reject(error);
+    return Promise.reject(error);
   }
 );
 
