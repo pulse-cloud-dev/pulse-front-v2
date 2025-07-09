@@ -82,6 +82,7 @@ export const Education = ({ stacks, pushStack, popStack, updateStackField, reset
                 <div key={key}>
                   {field.type === "input" && (
                     <FormField
+                      wrapperClass="form-field-wrapper"
                       labelClass="form-field__label"
                       errorClass="text-field__error"
                       inputClass="form-field__input"

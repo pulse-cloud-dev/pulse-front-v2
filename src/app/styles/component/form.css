@@ -411,7 +411,12 @@
 }
 
 /* ================== register-form style =====================  */
-
+.form-field-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  position: relative;
+}
 .form-field__input {
   width: 100%;
   height: 48px;
@@ -440,4 +445,16 @@
 .certificate-footer {
   grid-column: 4 / 5;
   justify-self: end;
+}
+
+/*
+post field wrapper
+*/
+
+.post-form-field-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  position: relative;
+  width: 100%;
 }

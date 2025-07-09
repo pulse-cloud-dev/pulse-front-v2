@@ -97,6 +97,7 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
                   {field.type === "input" && (
                     <FormField
                       label={field.label}
+                      wrapperClass="form-field-wrapper"
                       labelClass="form-field__label"
                       errorClass="text-field__error"
                       inputClass="form-field__input"

@@ -165,7 +165,7 @@ height: 200px;
       )}
 
       {hasError && errorMessage && (
-        <div className="dropdown-error-message" role="alert" id={`${id}-error`}>
+        <div className="dropdown-error-message" role="alert" id={`${id}-error`} style={{ position: "absolute", marginTop: "81px" }}>
           {errorMessage}
         </div>
       )}
