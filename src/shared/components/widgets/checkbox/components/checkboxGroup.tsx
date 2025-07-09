@@ -1,4 +1,5 @@
 import { useCheckboxGroup } from "../context/checkboxProvider";
+import { CheckField } from "@/shared/modules/select-ui";
 
 export interface CheckboxGroupAllProps extends ReturnType<typeof useCheckboxGroup> {
   id?: string;
@@ -9,7 +10,12 @@ const CheckboxForAll = ({ items, toggleCheckbox }: CheckboxGroupAllProps) => (
     {items
       .filter((item) => item.id === "all")
       .map((item) => (
-        <input key={item.id} type="checkbox" checked={item.checked} onChange={() => toggleCheckbox(item.id)} />
+        <CheckField key={item.id} variant="circle" className="check-field-module">
+          <CheckField.Input checkId={item.id} name={item.id} isChecked={item.checked} onChange={() => toggleCheckbox(item.id)} />
+          <CheckField.Label checkId={item.id}>
+            <span style={{ visibility: "hidden" }}>.</span>{" "}
+          </CheckField.Label>
+        </CheckField>
       ))}
   </>
 );
@@ -17,8 +23,20 @@ const CheckboxForAll = ({ items, toggleCheckbox }: CheckboxGroupAllProps) => (
 export interface CheckboxGroupItemProps extends ReturnType<typeof useCheckboxGroup> {
   id?: Id;
 }
-const CheckboxForItem = ({ items, id, toggleCheckbox }: CheckboxGroupItemProps) => <>{items.map((item) => (item.id === id ? <input key={item.id} type="checkbox" checked={item.checked} onChange={() => toggleCheckbox(item.id)} /> : null))}</>;
-
+const CheckboxForItem = ({ items, id, toggleCheckbox }: CheckboxGroupItemProps) => (
+  <>
+    {items.map((item) =>
+      item.id === id ? (
+        <CheckField key={item.id} variant="circle" className="check-field-module">
+          <CheckField.Input checkId={item.id} name={item.id} isChecked={item.checked} onChange={() => toggleCheckbox(item.id)} />
+          <CheckField.Label checkId={item.id}>
+            <span style={{ visibility: "hidden" }}>.</span>
+          </CheckField.Label>
+        </CheckField>
+      ) : null
+    )}
+  </>
+);
 export interface CheckboxGroupProps {
   id?: string;
   type: "all" | "item";

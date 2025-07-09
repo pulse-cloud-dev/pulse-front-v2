@@ -10,7 +10,7 @@ export const SignUpConsentStep = ({ onNext }: SignUpStepProps) => {
   return (
     <div className="p-30 w-100">
       <div className="border-b m-t-10">
-        <div className="flex_r align_center gap_8 p-8">
+        <div className="flex_r align_center gap_8 p-8" style={{ justifyContent: "start", alignItems: "center" }}>
           <CheckboxGroup type="all" id={checkboxItems[0].id} />
           <span>모두 동의합니다</span>
         </div>
@@ -23,12 +23,12 @@ export const SignUpConsentStep = ({ onNext }: SignUpStepProps) => {
               {({ toggle, isActive }) => (
                 <>
                   <div className={`accordion__toggle m-t-8`}>
-                    <div className="flex_r align_center p-8 gap_8">
+                    <div className="flex_r align_center p-8 gap_8" style={{ justifyContent: "start", alignItems: "center" }}>
                       <CheckboxGroup type="item" id={item.id} />
                       <span>{item.label}</span>
                     </div>
                     <button type="button" className="accordion__toggle-arrow more" onClick={toggle}>
-                      <Icon className={`icon__arrow img_to_bk80 ${isActive ?  "":"on" }`} src="chevron_down_bk_16" alt="화살표" />
+                      <Icon className={`icon__arrow img_to_bk80 ${isActive ? "" : "on"}`} src="chevron_down_bk_16" alt="화살표" />
                     </button>
                   </div>
                   {isActive && (
