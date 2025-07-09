@@ -140,6 +140,7 @@ height: 200px;
         aria-describedby={hasError && errorMessage ? `${id}-error` : undefined}
         className={`dropdown-trigger relative ${hasError ? "dropdown-error" : ""}`}
         aria-invalid={hasError}
+        style={{ display: "flex", alignItems: "center" }}
       >
         {value || "선택하세요"}
         <Icon className={`icon__arrow img_to_bk80 absolute ${open ? "" : "on"}`} src="chevron_down_bk_16" alt="화살표" style={{ right: "10px" }} />

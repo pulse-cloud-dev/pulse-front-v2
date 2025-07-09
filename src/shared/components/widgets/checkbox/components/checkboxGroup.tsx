@@ -17,9 +17,7 @@ const CheckboxForAll = ({ items, toggleCheckbox }: CheckboxGroupAllProps) => (
 export interface CheckboxGroupItemProps extends ReturnType<typeof useCheckboxGroup> {
   id?: Id;
 }
-const CheckboxForItem = ({ items, id, toggleCheckbox }: CheckboxGroupItemProps) => (
-  <>{items.map((item) => (item.id === id ? <input key={item.id} type="checkbox" checked={item.checked} onChange={() => toggleCheckbox(item.id)} /> : null))}</>
-);
+const CheckboxForItem = ({ items, id, toggleCheckbox }: CheckboxGroupItemProps) => <>{items.map((item) => (item.id === id ? <input key={item.id} type="checkbox" checked={item.checked} onChange={() => toggleCheckbox(item.id)} /> : null))}</>;
 
 export interface CheckboxGroupProps {
   id?: string;
