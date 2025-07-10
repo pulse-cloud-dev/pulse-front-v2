@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useMentoringDetailQuery } from "@/features/mentoringDetail";
 import { MentorDetailView } from "./mentorDetail.view";
+import dayjs from "dayjs";
 
 const dummyFallback = {
   title: "제목 없음",
@@ -14,8 +15,7 @@ const dummyFallback = {
   end_date: "2025-01-01",
   address: "주소 없음",
   detail_address: "",
-  deadline_date: "2025-01-01",
-  deadline_time: "00:00",
+  deadline_date: "2025-07-06T13:07:28.092Z",
   apply_number: 0,
   recruit_number: 0,
 };
@@ -26,6 +26,8 @@ export const DetailController = () => {
 
 
   const d = data?? dummyFallback;
+
+  const formattedDeadline = dayjs(d.deadline_date).format("YYYY.MM.DD HH:mm");
 
   return (
     <MentorDetailView
@@ -38,8 +40,9 @@ export const DetailController = () => {
       price={d.cost}
       period={`${d.start_date} ~ ${d.end_date}`}
       location={`${d.address} ${d.detail_address}`}
-      deadline={`${d.deadline_date} ${d.deadline_time}`}
-      count={`${d.apply_number}/${d.recruit_number}`}
+      deadline={`${formattedDeadline}`}
+      recruitNumber={d.recruit_number}
+      applyNumber={d.apply_number}
     />
   );
 };

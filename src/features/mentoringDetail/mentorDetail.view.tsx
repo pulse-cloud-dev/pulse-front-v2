@@ -18,7 +18,8 @@ interface MentorDetailViewProps {
   period: string;
   location: string;
   deadline: string;
-  count: string;
+  recruitNumber: number;
+  applyNumber: number;
 }
 
 
@@ -33,7 +34,8 @@ export const MentorDetailView = ({
   period,
   location,
   deadline,
-  count,
+  recruitNumber,
+  applyNumber
 }: MentorDetailViewProps) => {
   return (
     <div className="mentoring-detail">
@@ -73,7 +75,8 @@ export const MentorDetailView = ({
             period={period || "기간 정보 없음"}
             location={location || "장소 정보 없음"}
             deadline={deadline || "마감일 정보 없음"}
-            count={count || "0/0"}
+            recruitNumber = {recruitNumber || 0}
+            applyNumber = {applyNumber || 0}
           />
         </aside>
 
