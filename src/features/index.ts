@@ -7,7 +7,7 @@ export * from "./auth/signUp/signUp.controller";
 export * from "./auth/finds/find.controller";
 
 // Mentor
-export * from "./mentor/mentor.controller";
+export * from "./mentor/controller/mentor.controller";
 export * from "./mentoringDetail/mentorDetail.controller";
 
 // Mentor/Register

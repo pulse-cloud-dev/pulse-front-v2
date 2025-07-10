@@ -10,6 +10,16 @@ import { FilterProps } from "../type/filterProps";
 // import ErrorBoundary from "@/shared/components/blocks/errorboundary/errorBoundary";
 // import { FallbackMentoringList } from "@/shared/components/widgets/Mentor/view/fallbackMentoringList";
 
+interface Mentoring {
+  mentoring_id: string;
+  title: string;
+  mentor_nickname: string;
+  deadline_time: string;
+  mentor_job: { jobCode: string };
+  mentor_profile_image: string | null;
+  lecture_type: "ONLINE" | "OFFLINE";
+}
+
 interface MentorViewPostsProps extends FilterProps {
   sortOption: string;
   setSortOption: (val: string) => void;
@@ -32,6 +42,7 @@ export const MentorViewPosts = ({
   searchText,
   offset,
   setOffset,
+  onReset
 }: MentorViewPostsProps) => {
   const {
     data,
@@ -104,6 +115,7 @@ return (
         searchText={searchText}
         sortOption={sortOption}
         setSortOption={setSortOption}
+        onReset={onReset}
       />
 
       <div className="card-count" role="region" aria-label="멘토 개수 및 정렬 옵션">
@@ -121,8 +133,9 @@ return (
         ) : isDataEmpty ? (
           <Typography>결과가 없습니다.</Typography>
         ) : (
-          mentorings.map((item) => (
+          (mentorings as Mentoring[]).map((item) => (
           <MentorCard
+            key={item.mentoring_id}
             mentoringId={item.mentoring_id}
             onlineStatus={item.lecture_type === "ONLINE" ? "온라인" : "오프라인"}
             title={item.title}
