@@ -3,7 +3,7 @@ import { Typography } from "@/shared/components";
 import { FormField } from "@/shared/components";
 import { Dropdown, DropdownItem } from "@/shared/components/blocks/dropdown/dropdown";
 import { DatePickerField } from "@/shared/components/blocks/datepicker/DatePickerField";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import ErrorBoundary from "@/shared/components/blocks/errorboundary/errorBoundary";
 import { useEducationStatuses, useEducationLevels } from "../register.service";
 
@@ -43,7 +43,16 @@ const EducationStatusOptions = () => {
 학력 -> 에러검사 + 졸업,졸업 예정 ,재학중,중퇴,휴학
 졸업예정,졸업이 아니면 졸업연월 검증 스킵
 */
-export const Education = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError }: UseStackReturn<RegisterSchema>) => {
+export const Education = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError, resetStackField }: UseStackReturn<RegisterSchema>) => {
+  useEffect(() => {
+    stacks.forEach((stack, index) => {
+      Object.entries(stack).forEach(([key, field]) => {
+        if (field.label === "졸업연월" && field.status === "fail") {
+          resetStackField(index, key as keyof RegisterSchema);
+        }
+      });
+    });
+  }, [stacks]);
   return (
     <>
       <section className="m-t-24">
@@ -87,7 +96,7 @@ export const Education = ({ stacks, pushStack, popStack, updateStackField, reset
                       errorClass="text-field__error"
                       inputClass="form-field__input"
                       label={field.label}
-                      type={["입학년월", "졸업년월"].includes(key) ? "month" : "text"}
+                      type={["입학년월", "졸업연월"].includes(key) ? "month" : "text"}
                       name={key}
                       value={field.value}
                       isInvalid={isError}
@@ -105,7 +114,7 @@ export const Education = ({ stacks, pushStack, popStack, updateStackField, reset
                       onChange={(date) => updateStackField(i, key as keyof RegisterSchema, date)}
                       onBlur={() => checkError(i, key as keyof RegisterSchema)}
                       onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
-                      error={isError ? "입력값을 확인해주세요." : ""}
+                      error={isError ? field.errormessage : ""}
                       isValid={!isError}
                     />
                   ) : null}

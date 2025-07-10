@@ -5,7 +5,7 @@ import { Dropdown, DropdownItem } from "@/shared/components/blocks/dropdown/drop
 import { DatePickerField } from "@/shared/components/blocks/datepicker/DatePickerField";
 import ToggleBtn from "@/shared/components/blocks/togglebutton/togglebutton";
 import { useRoleLevels } from "../register.service";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import ErrorBoundary from "@/shared/components/blocks/errorboundary/errorBoundary";
 
 const RoleLevelOptions = () => {
@@ -45,10 +45,16 @@ const deleteButtonStyle = {
 };
 
 export const Career = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError, resetStackField }: UseStackReturn<RegisterSchema>) => {
-  /*
-경력 ->
-재직중:입사 년월만 검증
-  */
+  useEffect(() => {
+    stacks.forEach((stack, index) => {
+      Object.entries(stack).forEach(([key, field]) => {
+        if (field.label === "퇴사 년월" && field.status === "fail") {
+          resetStackField(index, key as keyof RegisterSchema);
+        }
+      });
+    });
+  }, [stacks]);
+
   return (
     <section className="m-t-24">
       <div
@@ -84,13 +90,10 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
                       name={key}
                       label={field.label}
                       selected={field.value ? new Date(field.value) : null}
-                      onChange={(date) => updateStackField(i, key as keyof RegisterSchema, date)}
+                      onChange={(date) => {
+                        updateStackField(i, key as keyof RegisterSchema, date);
+                      }}
                       onBlur={() => {
-                        // 퇴사년월일 때만 특별한 처리
-                        if (field.label === "퇴사 년월") {
-                          resetStackField(i, key as keyof RegisterSchema);
-                        }
-
                         checkError(i, key as keyof RegisterSchema);
                       }}
                       onFocus={() => resetStatus(i, key as keyof RegisterSchema)}

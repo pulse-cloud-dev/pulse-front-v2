@@ -53,7 +53,7 @@ export interface UseStackReturn<T extends RegisterSchema> {
   updateStackField: <K extends keyof T>(i: number, key: K, value: T[K]["value"]) => void;
   resetStatus: <K extends keyof T>(i: number, key: K) => void;
   checkError: <K extends keyof T>(i: number, key: K) => void;
-   resetStackField: <K extends keyof T>(i: number, key: K) => void;
+  resetStackField: <K extends keyof T>(i: number, key: K) => void;
 }
 
 export const useStack = <T extends RegisterSchema>(createInitial: () => T): UseStackReturn<T> => {
@@ -225,8 +225,6 @@ export const useStack = <T extends RegisterSchema>(createInitial: () => T): UseS
               [key]: {
                 ...stack[key],
                 value: initialField.value,
-                status: "pending" as Status,
-                errormessage: "",
               } as T[K],
             }
           : stack
