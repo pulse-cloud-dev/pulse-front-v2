@@ -49,7 +49,7 @@ export const Certificate = ({ stacks, pushStack, popStack, updateStackField, res
               name: key,
               label: field.label,
               isInvalid: isError,
-              errorMessage: isError ? "입력값을 확인해주세요." : "",
+              errorMessage: isError ? field.errormessage : "",
               onBlur: () => checkError(i, key as keyof RegisterSchema),
               onFocus: () => resetStatus(i, key as keyof RegisterSchema),
             };

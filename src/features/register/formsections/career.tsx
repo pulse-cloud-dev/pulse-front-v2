@@ -44,7 +44,7 @@ const deleteButtonStyle = {
   marginTop: "16px",
 };
 
-export const Career = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError }: UseStackReturn<RegisterSchema>) => {
+export const Career = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError, resetStackField }: UseStackReturn<RegisterSchema>) => {
   /*
 경력 ->
 재직중:입사 년월만 검증
@@ -86,10 +86,15 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
                       selected={field.value ? new Date(field.value) : null}
                       onChange={(date) => updateStackField(i, key as keyof RegisterSchema, date)}
                       onBlur={() => {
+                        // 퇴사년월일 때만 특별한 처리
+                        if (field.label === "퇴사 년월") {
+                          resetStackField(i, key as keyof RegisterSchema);
+                        }
+
                         checkError(i, key as keyof RegisterSchema);
                       }}
                       onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
-                      error={isError ? "입력값을 확인해주세요." : ""}
+                      error={isError ? field.errormessage : ""}
                       isValid={!isError}
                     />
                   ) : null}
@@ -105,7 +110,7 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
                       name={key}
                       value={field.value}
                       isInvalid={isError}
-                      errorMessage={isError ? "입력값을 확인해주세요." : ""}
+                      errorMessage={isError ? field.errormessage : ""}
                       onChange={(e) => updateStackField(i, key as keyof RegisterSchema, e.target.value)}
                       onBlur={() => checkError(i, key as keyof RegisterSchema)}
                       onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
@@ -121,7 +126,7 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
                       onBlur={() => checkError(i, key as keyof RegisterSchema)}
                       onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
                       hasError={isError}
-                      errorMessage="입력값을 확인해주세요."
+                      errorMessage={field.errormessage}
                     >
                       <ErrorBoundary fallback={<h2>Error...</h2>}>
                         <Suspense fallback={<>loading</>}>
