@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { Modal, useModal, useLocalStorage } from "@/shared/modules";
 import { FieldPopup, OnlineStatusPopup, LocalPopup } from "@/shared/components";
-import { MentorView } from "./mentor.view";
+import { MentorView } from "../view/mentor.view";
 import { useState } from "react";
 import { useMentoringListQuery } from "@/shared/components/widgets/Mentor/hooks/useMentoringListQuery";
 import { useSearchParams } from "react-router-dom";
@@ -28,12 +28,12 @@ export const MentorController = () => {
   const offset = Number(searchParams.get("offset")) || 1;
 
   const setOffset = (page: number) => {
-    setSearchParams((prev) => ({ 
-      ...prev, 
-      offset: page.toString(),
-      // menu: prev.get("menu") || "map",
-    }));
-  }
+    setSearchParams((prev) => {
+      const updated = new URLSearchParams(prev);
+      updated.set("offset", page.toString());
+      return updated;
+    });
+};
 
   // const { data: mentorings = [], isLoading: loading } = useMentoringListQuery({
   //   selectedFields,
