@@ -102,7 +102,7 @@ export const DatePickerField = forwardRef<HTMLInputElement, DatePickerFieldProps
         </div>
 
         {error && !isValid && (
-          <p id={errorId} className="text-field__error" role="alert" aria-live="polite" style={{ position: "absolute", marginTop: "81px" }}>
+          <p id={errorId} className="text-field__error" role="alert" aria-live="polite" style={{ marginTop: "4px" }}>
             {error}
           </p>
         )}
