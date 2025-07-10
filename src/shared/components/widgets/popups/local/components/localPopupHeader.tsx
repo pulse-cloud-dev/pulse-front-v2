@@ -65,13 +65,13 @@ export const Header = ({
       </div>
 
       {inputValue.trim() && filtered.length > 0 && (
-        <div className="custom-dropdown-wrapper">
+        <div className="search-dropdown-wrapper">
           {filtered.map(({ parent, name, code }) => {
             const fullKey = `${parent}-${name}`;
             return (
               <div
                 key={`${fullKey}-${code}`}
-                className={`custom-dropdown ${isChecked(fullKey) ? "selected" : ""}`}
+                className={`search-dropdown ${isChecked(fullKey) ? "selected" : ""}`}
                 onClick={() => onToggle(fullKey)}
               >
                 {parent} &gt; {name}
