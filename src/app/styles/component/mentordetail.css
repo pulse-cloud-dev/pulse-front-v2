@@ -188,7 +188,6 @@
   color: #888;
   font-weight: 500;
   
-  
 }
 
 .mentoring-meta-list .value {
@@ -196,7 +195,10 @@
   color: #333;
   line-height: 1.5;
   text-align: right;
+}
 
+.mentoring-meta-list .value.text-red {
+  color: red;
 }
 
 

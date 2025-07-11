@@ -1,10 +1,13 @@
 import { useCheckFieldGroup } from "@/shared/modules/select-ui";
 import { useState, useMemo, useEffect } from "react";
+import { useKey } from "@/shared/modules/modals/shared/hooks/useKey";
 
 import { Header } from "../components/fieldPopupHeader";
 import { Body } from "../components/fieldPopupBody";
 import { SelectedItems } from "../../selectedBox";
 import { Footer } from "../../popupFooter";
+
+
 
 
 export function FieldPopup({
@@ -41,8 +44,10 @@ export function FieldPopup({
 
   const handleClose = () => {
     closeModal?.();
-    console.log("모달 닫기");
   };
+
+  useKey("Escape", handleClose);
+
 
   const handleToggle = (key: string) => {
     const selectedCount = Object.values(checkedItems).filter(Boolean).length;
