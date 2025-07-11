@@ -2,8 +2,10 @@ import { CheckField, useCheckFieldGroup } from "@/shared/modules/select-ui";
 import type { HTMLAttributes, PropsWithChildren } from "react";
 import { useState, useEffect } from "react";
 import { useLectureTypes } from "../Mentor/hooks/useLectureTypes";
+import { useKey } from "@/shared/modules/modals/shared/hooks/useKey";
 
 import { Footer } from "./popupFooter";
+
 
 interface HeaderProps extends HTMLAttributes<HTMLElement>, PropsWithChildren {}
 const Header = (props: HeaderProps) => {
@@ -107,8 +109,9 @@ const handleSelect = (option: string) => {
 
   const handleClose = () => {
     closeModal?.();
-    console.log("모달 닫기");
   };
+
+  useKey("Escape", handleClose);
 
   return (
     <div 

@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import { useKey } from "@/shared/modules/modals/shared/hooks/useKey";
 
 import { Header } from "../components/localPopupHeader";
 import { Body } from "../components/localPopupBody";
@@ -6,6 +7,7 @@ import { SelectedItems } from "../../selectedBox";
 import { Footer } from "../../popupFooter";
 import { useCheckFieldGroup } from "@/shared/modules/select-ui";
 import { Certificate } from "crypto";
+
 
 export function LocalPopup({
   closeModal,
@@ -40,8 +42,9 @@ export function LocalPopup({
 
   const handleClose = () => {
     closeModal?.();
-    console.log("모달 닫기");
   };
+
+  useKey("Escape", handleClose);
 
   const handleToggle = (key: string) => {
     const selectedCount = Object.values(checkedItems).filter(Boolean).length;
