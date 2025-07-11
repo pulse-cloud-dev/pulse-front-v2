@@ -2,13 +2,13 @@ import { privateClient, publicClient } from "@/networks/client";
 import { NameDescription, CodeItem, ApiResponse } from "@/contracts/response/register/register.response.dto";
 import { MentoInfoRequestDto } from "@/contracts";
 const categoryApiRouter = {
-  educationLevel: "/mentoring/mento-create/education-level",
-  educationStatus: "/mentoring/mento-create/education-status",
-  roleLevel: "/mentoring/mento-create/role-level",
+  educationLevel: "/mento-info/education-level",
+  educationStatus: "/mento-info/education-status",
+  roleLevel: "/mento-info/role-level",
   categories: (categoryCode: string) => `/category/item-list/${categoryCode}`,
   categoryItems: (itemCode: string) => `/category/meta-list/${itemCode}`,
-  passStatus: "/mentoring/mento-info/pass-status",
-  registerMentor: "/mentoring/mento-info",
+  passStatus: "/mento-info/pass-status",
+  registerMentor: "/mento-info/register",
 };
 
 // 합격 상태 조회

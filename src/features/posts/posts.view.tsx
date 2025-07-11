@@ -356,6 +356,7 @@ export const PostsView = (props: PostsViewProps) => {
 
         <div style={formfieldlayout}>
           <FormField
+            wrapperClass="post-form-field-wrapper"
             labelClass="form-field__label"
             errorClass="text-field__error"
             inputClass="form-field__input"
@@ -418,18 +419,20 @@ export const PostsView = (props: PostsViewProps) => {
         </section>
 
         <div className="flex_r" style={{ gap: "8px" }}>
-          <DatePickerField
-            labelSize="sm"
-            label=" 모집 마감 기한"
-            name="duedate"
-            isValid={formData.dueDate.state === "invalid" ? false : true}
-            error={formData.dueDate.errorMessage}
-            selected={formData.dueDate.value}
-            onChange={(date) => updateField("dueDate", date || new Date())}
-            onBlur={() => handleBlur("dueDate")}
-            placeholderText="모집 마감 기한을 선택해 주세요."
-          />
-          <div style={{ width: "180px" }}>
+          <div style={{ width: "308px" }}>
+            <DatePickerField
+              labelSize="sm"
+              label=" 모집 마감 기한"
+              name="duedate"
+              isValid={formData.dueDate.state === "invalid" ? false : true}
+              error={formData.dueDate.errorMessage}
+              selected={formData.dueDate.value}
+              onChange={(date) => updateField("dueDate", date || new Date())}
+              onBlur={() => handleBlur("dueDate")}
+              placeholderText="모집 마감 기한을 선택해 주세요."
+            />
+          </div>
+          <div style={{ width: "200px" }}>
             <Dropdown
               id="hour-selector"
               label="시간 선택"
@@ -449,28 +452,32 @@ export const PostsView = (props: PostsViewProps) => {
         </div>
         <div>
           <div style={{ height: "70px", display: "flex", flexDirection: "row", alignItems: "start" }}>
-            <DatePickerField
-              labelSize="md"
-              label="멘토링기간"
-              name="startdate"
-              selected={formData.startDate.value}
-              onChange={(date) => updateField("startDate", date || new Date())}
-              onBlur={() => handleBlur("startDate")}
-              placeholderText="시작일을 선택해 주세요."
-              isValid={formData.startDate.state === "invalid" ? false : true}
-              error={formData.startDate.errorMessage}
-            />
+            <div style={{ width: "241px" }}>
+              <DatePickerField
+                labelSize="md"
+                label="멘토링기간"
+                name="startdate"
+                selected={formData.startDate.value}
+                onChange={(date) => updateField("startDate", date || new Date())}
+                onBlur={() => handleBlur("startDate")}
+                placeholderText="시작일을 선택해 주세요."
+                isValid={formData.startDate.state === "invalid" ? false : true}
+                error={formData.startDate.errorMessage}
+              />
+            </div>
             <div className="m-r-16 m-l-16 m-t-35">~</div>
-            <DatePickerField
-              className="m-t-20"
-              isValid={formData.endDate.state === "invalid" ? false : true}
-              name="enddate"
-              selected={formData.endDate.value}
-              onChange={(date) => updateField("endDate", date || new Date())}
-              onBlur={() => handleBlur("endDate")}
-              error={formData.endDate.errorMessage}
-              placeholderText="종료일을 선택해 주세요."
-            />
+            <div style={{ width: "241px" }}>
+              <DatePickerField
+                className="m-t-20"
+                isValid={formData.endDate.state === "invalid" ? false : true}
+                name="enddate"
+                selected={formData.endDate.value}
+                onChange={(date) => updateField("endDate", date || new Date())}
+                onBlur={() => handleBlur("endDate")}
+                error={formData.endDate.errorMessage}
+                placeholderText="종료일을 선택해 주세요."
+              />
+            </div>
           </div>
         </div>
 
@@ -502,6 +509,7 @@ export const PostsView = (props: PostsViewProps) => {
             <FormField
               name="온라인 플랫폼"
               label="온라인 플랫폼"
+              wrapperClass="post-form-field-wrapper"
               labelClass="form-field__label"
               errorClass="text-field__error"
               inputClass="form-field__input"
@@ -521,6 +529,7 @@ export const PostsView = (props: PostsViewProps) => {
               <div style={formfieldlayout}>
                 <FormField
                   name="오프라인 주소"
+                  wrapperClass="post-form-field-wrapper"
                   labelClass="form-field__label"
                   errorClass="text-field__error"
                   inputClass="form-field__input"
@@ -590,6 +599,7 @@ export const PostsView = (props: PostsViewProps) => {
                 <FormField
                   label="상세주소"
                   name="상세주소"
+                  wrapperClass="post-form-field-wrapper"
                   labelClass="form-field__label"
                   errorClass="text-field__error"
                   inputClass="form-field__input"
@@ -608,6 +618,7 @@ export const PostsView = (props: PostsViewProps) => {
           <FormField
             name="모집인원"
             label="모집인원"
+            wrapperClass="post-form-field-wrapper"
             labelClass="form-field__label"
             errorClass="text-field__error"
             inputClass="form-field__input"
@@ -621,6 +632,7 @@ export const PostsView = (props: PostsViewProps) => {
         </div>
         <div style={{ ...formfieldlayout }}>
           <FormField
+            wrapperClass="post-form-field-wrapper"
             name="1인 기준 멘토링 비용"
             label="1인 기준 멘토링 비용"
             labelClass="form-field__label"
@@ -633,7 +645,7 @@ export const PostsView = (props: PostsViewProps) => {
             isInvalid={formData.mentorFee.state === "invalid"}
             errorMessage={formData.mentorFee.errorMessage}
           />
-          <div className="dropdown-error-message" role="alert">
+          <div className="dropdown-error-message" role="alert" style={{ marginTop: "30px" }}>
             *금액 수령 시 부가세를 제외한 금액으로 정산됩니다.
           </div>
         </div>

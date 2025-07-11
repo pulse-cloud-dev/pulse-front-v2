@@ -210,7 +210,7 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
 
   const queryClient = useQueryClient();
   const { name, phone_number, email } = queryClient.getQueryData(["auth", "sign-up", "userinfo"]) as SimplifiedUserlResponseDTO;
-  // const { name, phone_number, email } = { name: "김펄스", phone_number: "010-1234-1224", email: "mrki23@pulse.com" };
+  //const { name, phone_number, email } = { name: "김펄스", phone_number: "010-1234-1224", email: "mrki23@pulse.com" };
   const { requestSignUp } = useSignUp({ onSuccess: onNext, onError: () => "error" });
 
   const onsubmit = (e: FormEvent) => {

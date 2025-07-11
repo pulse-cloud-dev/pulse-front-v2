@@ -12,6 +12,7 @@ export const RegisterContainer = () => {
   const certificateState = useStack<RegisterSchema>(createInitialCertificateSchema);
 
   const [introduction, setIntroduction] = useState<string>("");
+
   const allStacksValid = useMemo(() => {
     const checkStackStatus = (stacks: RegisterSchema[], skipFields?: (stack: RegisterSchema) => string[], stackName?: string): boolean => {
       let isValid = true;
