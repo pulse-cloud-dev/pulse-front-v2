@@ -4,5 +4,8 @@ export * from "./components/content";
 export * from "./components/profileCard";
 export * from "./components/metaCard";
 
-//hooks
+// hooks
 export * from "./hooks/useMentoringDetailQuery";
+
+// types
+export * from "./types/mentoring.types";

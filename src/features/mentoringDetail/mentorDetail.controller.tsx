@@ -2,6 +2,8 @@ import { useParams } from "react-router-dom";
 import { useMentoringDetailQuery } from "@/features/mentoringDetail";
 import { MentorDetailView } from "./mentorDetail.view";
 import dayjs from "dayjs";
+import { useState } from "react";
+import { useUser } from "@/shared/lib/hooks";
 
 const dummyFallback = {
   title: "제목 없음",
@@ -23,11 +25,15 @@ const dummyFallback = {
 export const DetailController = () => {
   const { id } = useParams<{ id: string }>();
   const { data, isLoading, error } = useMentoringDetailQuery(id || "");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { isLogin } = useUser();
 
 
   const d = data?? dummyFallback;
 
   const formattedDeadline = dayjs(d.deadline_date).format("YYYY.MM.DD HH:mm");
+
 
   return (
     <MentorDetailView
@@ -43,6 +49,7 @@ export const DetailController = () => {
       deadline={`${formattedDeadline}`}
       recruitNumber={d.recruit_number}
       applyNumber={d.apply_number}
+      isLogin={isLogin}
     />
   );
 };

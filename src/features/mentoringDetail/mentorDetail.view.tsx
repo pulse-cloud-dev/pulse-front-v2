@@ -1,6 +1,7 @@
 import { SquareBadge } from "@/shared/components";
 import { Icon } from "@/shared/components";
 
+
 import { MentoringHeader} from "@/features/mentoringDetail";
 import { MentoringContent } from "@/features/mentoringDetail";
 import { MentorProfileCard } from "@/features/mentoringDetail";
@@ -20,6 +21,7 @@ interface MentorDetailViewProps {
   deadline: string;
   recruitNumber: number;
   applyNumber: number;
+  isLogin: boolean;
 }
 
 
@@ -35,7 +37,8 @@ export const MentorDetailView = ({
   location,
   deadline,
   recruitNumber,
-  applyNumber
+  applyNumber,
+  isLogin
 }: MentorDetailViewProps) => {
   return (
     <div className="mentoring-detail">
@@ -77,10 +80,15 @@ export const MentorDetailView = ({
             deadline={deadline || "마감일 정보 없음"}
             recruitNumber = {recruitNumber || 0}
             applyNumber = {applyNumber || 0}
+            mentorName={mentorName || "이름 없음"} 
+            title={title || "제목 없음"}           
+            isLogin={isLogin}
           />
         </aside>
 
       </div>
+
+      
     </div>
   );
 };
