@@ -6,4 +6,6 @@ export interface AlertInterface {
   confirmText?: string;
   onCancel?: () => void;    //취소 클릭 후 로직
   onConfirm?: () => void;   //확인 클릭 후 로직
+  className?: string;       
+  style?: React.CSSProperties;
 }
