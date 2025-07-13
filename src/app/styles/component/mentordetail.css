@@ -23,6 +23,9 @@
 .mentoring-detail-title-wrapper {
   position: relative;
   height: 149px;
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 .mentoring-actions {
@@ -33,6 +36,13 @@
   gap: 12px;
   align-items: center;
   font-size: 14px;
+  padding-bottom: 16px;
+}
+
+.mentoring-actions__bookmark,
+.mentoring-actions__share {
+  display: flex;
+  align-items: center;
 }
 
 .mentoring-actions span {
