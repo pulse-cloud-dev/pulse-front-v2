@@ -43,12 +43,6 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, fo
         {/* 라벨 */}
 
         {/* 필수 필드 표시 */}
-        {required && (
-          <span className="color__error fs_12 " aria-hidden="true">
-            *
-          </span>
-        )}
-        {/* 필수 필드 표시 */}
       </label>
       <input
         ref={forwardedRef}

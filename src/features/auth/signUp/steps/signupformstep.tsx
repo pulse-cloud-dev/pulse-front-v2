@@ -235,23 +235,13 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
 
   return (
     <form className="form__signUp" onSubmit={onsubmit}>
-      <FormField wrapperClass="sign-up-wrapper" labelClass="sign-up-label" inputClass="sign-up-input" type={"text"} label={"이름"} name={name} value={name} required={true} style={{ backgroundColor: "var(--palette-gray-100)" }} />
+      <FormField wrapperClass="sign-up-wrapper" labelClass="sign-up-label" inputClass="sign-up-input readonly" type={"text"} label={"이름"} name={name} value={name} required={true} />
+      <FormField wrapperClass="sign-up-wrapper" labelClass="sign-up-label" inputClass="sign-up-input readonly" type={"text"} label={"휴대폰번호"} name={phone_number} value={phone_number} required={true} />
+      <FormField wrapperClass="sign-up-wrapper" labelClass="sign-up-label" inputClass="sign-up-input readonly" type={"text"} label={"이메일"} name={email} value={email} required={true} />
       <FormField
         wrapperClass="sign-up-wrapper"
         labelClass="sign-up-label"
-        inputClass="sign-up-input"
-        type={"text"}
-        label={"휴대폰번호"}
-        name={phone_number}
-        value={phone_number}
-        required={true}
-        style={{ backgroundColor: "var(--palette-gray-100)" }}
-      />
-      <FormField wrapperClass="sign-up-wrapper" labelClass="sign-up-label" inputClass="sign-up-input" type={"text"} label={"이메일"} name={email} value={email} required={true} style={{ backgroundColor: "var(--palette-gray-100)" }} />
-      <FormField
-        wrapperClass="sign-up-wrapper"
-        labelClass="sign-up-label"
-        inputClass="sign-up-input"
+        inputClass="sign-up-input "
         type={"text"}
         label={"닉네임"}
         name={"닉네임"}
@@ -277,6 +267,7 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
           //검증 성공: 프론트 스키마 검증 성공(formState.nick_name.isValid===false )이고 서버 중복 검증성공(checknickname.success===true)):isvalid:true
           !(formState.nick_name.isValid && checknickname.isSuccess)
         }
+        style={{ backgroundColor: "#f4f4f4" }}
       />
       <FormField
         wrapperClass="sign-up-wrapper"
@@ -327,7 +318,7 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
         </button>
 
         <button type="submit" className={`auth__button ${!isFormValid || checknickname.isError ? "disabled" : ""}`} disabled={!isFormValid || checknickname.isError}>
-          다음
+          확인
         </button>
       </div>
     </form>
