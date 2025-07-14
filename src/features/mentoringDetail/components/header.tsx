@@ -17,7 +17,6 @@ export const MentoringHeader = ({
   return (
     <div>
       <SquareBadge title={badgeTitle} color={badgeColor} />
-      <SquareBadge title={badgeTitle} color={badgeColor} />
       <h1 className="mentoring-detail-title">{title || "제목 없음"}</h1>
     </div>
   );
