@@ -194,6 +194,9 @@
   outline: none;
   transition: border-color 0.3s ease;
 }
+.sign-up-input.readonly {
+  background: var(--palette-gray-10);
+}
 
 /* ================== find-passwordstyle =====================  */
 /* fs_16 btn__line btn_xl flex1  */
