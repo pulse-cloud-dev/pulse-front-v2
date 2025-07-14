@@ -124,6 +124,7 @@ export const useStack = <T extends RegisterSchema>(createInitial: () => T): UseS
               ...stack,
               [key]: {
                 ...stack[key],
+                value: "",
                 status: "pending" as Status,
               } as T[K],
             }
