@@ -292,7 +292,6 @@ export const createInitialCareerSchema = (): RegisterSchema => ({
     value: true,
     status: "success",
     errormessage: "",
-    dependencies: ["endDate"],
   },
   startDate: {
     label: "입사 년월",
@@ -300,13 +299,14 @@ export const createInitialCareerSchema = (): RegisterSchema => ({
     value: null,
     errormessage: "",
     status: "pending",
-    dependencies: ["endDate"],
     validations: [
       {
         func: (v: Date | null, form) => {
-          const endDate = form?.endDate?.value;
-          if (!v) return false;
-          if (endDate && v > endDate) return false;
+          const endDate = v;
+          const startDate = form?.startDate.value;
+          if (endDate === null) return false;
+          if (v === null) return false;
+          if (startDate && v > endDate) return false;
           return true;
         },
         message: "입사 년월을 올바르게 입력해주세요.",
@@ -369,7 +369,6 @@ export const createInitialCertificateSchema = (): RegisterSchema => ({
     status: "pending",
     errormessage: "",
     list: ["합격", "불합격"],
-    dependencies: ["passDate"],
     validations: [
       {
         func: (v: string) => v.trim().length > 0,
@@ -444,7 +443,7 @@ export const createInitialEducationSchema = (): RegisterSchema => ({
     status: "pending",
     errormessage: "",
     list: ["재학중", "졸업", "졸업예정", "중퇴", "휴학"],
-    dependencies: ["graduationDate"],
+
     validations: [
       {
         func: (v: string) => v.trim().length > 0,
@@ -458,7 +457,7 @@ export const createInitialEducationSchema = (): RegisterSchema => ({
     value: null,
     status: "pending",
     errormessage: "",
-    dependencies: ["graduationDate"],
+
     validations: [
       {
         func: (v: Date | null) => v !== null,
@@ -470,16 +469,18 @@ export const createInitialEducationSchema = (): RegisterSchema => ({
     label: "졸업연월",
     type: "date",
     value: null,
-    status: "success",
+    status: "pending",
     errormessage: "",
     validations: [
       {
         func: (v: Date | null, form) => {
-          const graduationStatus = form?.graduationStatus?.value;
-          if (!graduationStatus || typeof graduationStatus !== "string" || !["졸업", "졸업예정"].includes(graduationStatus)) return true;
-          if (!v) return false;
+          const status = form?.graduationStatus?.value;
+          if (status !== "졸업" && status !== "졸업예정") return true;
+          const graduationStatus = v;
           const startDate = form?.admissionDate?.value;
-          if (startDate && v < startDate) return false;
+          if (startDate == null) return false;
+          if (graduationStatus === null) return false;
+          if (graduationStatus < startDate) return false;
           return true;
         },
         message: "졸업연월을 올바르게 입력해주세요.",
@@ -496,7 +497,7 @@ export const createInitialJobSchema = (): RegisterSchema => ({
     status: "pending",
     errormessage: "",
     list: ["개발자", "디자이너", "기획자", "마케터", "영업", "경영", "기타"],
-    dependencies: ["jobDetail"],
+
     validations: [
       {
         func: (v: string) => v.trim().length > 0,

@@ -44,15 +44,6 @@ const EducationStatusOptions = () => {
 졸업예정,졸업이 아니면 졸업연월 검증 스킵
 */
 export const Education = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError, resetStackField }: UseStackReturn<RegisterSchema>) => {
-  useEffect(() => {
-    stacks.forEach((stack, index) => {
-      Object.entries(stack).forEach(([key, field]) => {
-        if (field.label === "졸업연월" && field.status === "fail") {
-          resetStackField(index, key as keyof RegisterSchema);
-        }
-      });
-    });
-  }, [stacks]);
   return (
     <>
       <section className="m-t-24">
@@ -110,9 +101,11 @@ export const Education = ({ stacks, pushStack, popStack, updateStackField, reset
                     <DatePickerField
                       name={key}
                       label={field.label}
-                      selected={field.value ? new Date(field.value) : null}
+                      selected={field.value ? (field.status === "fail" ? null : new Date(field.value)) : null}
                       onChange={(date) => updateStackField(i, key as keyof RegisterSchema, date)}
-                      onBlur={() => checkError(i, key as keyof RegisterSchema)}
+                      onBlur={() => {
+                        checkError(i, key as keyof RegisterSchema);
+                      }}
                       onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
                       error={isError ? field.errormessage : ""}
                       isValid={!isError}

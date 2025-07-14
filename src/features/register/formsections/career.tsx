@@ -45,16 +45,6 @@ const deleteButtonStyle = {
 };
 
 export const Career = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError, resetStackField }: UseStackReturn<RegisterSchema>) => {
-  useEffect(() => {
-    stacks.forEach((stack, index) => {
-      Object.entries(stack).forEach(([key, field]) => {
-        if (field.label === "퇴사 년월" && field.status === "fail") {
-          resetStackField(index, key as keyof RegisterSchema);
-        }
-      });
-    });
-  }, [stacks]);
-
   return (
     <section className="m-t-24">
       <div
@@ -89,7 +79,7 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
                       labelSize="sm"
                       name={key}
                       label={field.label}
-                      selected={field.value ? new Date(field.value) : null}
+                      selected={field.value ? (field.status === "fail" ? null : new Date(field.value)) : null}
                       onChange={(date) => {
                         updateStackField(i, key as keyof RegisterSchema, date);
                       }}
