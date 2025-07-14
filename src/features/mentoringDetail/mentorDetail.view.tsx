@@ -1,28 +1,31 @@
 import { SquareBadge } from "@/shared/components";
 import { Icon } from "@/shared/components";
 
+
 import { MentoringHeader} from "@/features/mentoringDetail";
 import { MentoringContent } from "@/features/mentoringDetail";
 import { MentorProfileCard } from "@/features/mentoringDetail";
 import { MentoringMetaCard } from "@/features/mentoringDetail";
 
-
-import { useMentoringDetailQuery } from "@/features/mentoringDetail";
+import { BookmarkButton } from "@/shared/components/blocks/bookmark/bookmarkButton";
+import { ShareButton } from "@/shared/components/blocks/share/share";
 
 interface MentorDetailViewProps {
   title: string;
   region: string;
-  content: string | React.ReactNode;
+  content: string;
   mentorName: string;
   mentorJob: string;
-  mentorCareer: string;
+  mentorCareer: number;
+  lastCompany: string;
   price: number;
   period: string;
   location: string;
   deadline: string;
   recruitNumber: number;
   applyNumber: number;
-  lectureType: "ONLINE" | "OFFLINE";
+  isLogin: boolean;
+  lectureType: "OFFLINE" | "ONLINE";
 }
 
 
@@ -33,37 +36,37 @@ export const MentorDetailView = ({
   mentorName,
   mentorJob,
   mentorCareer,
+  lastCompany,
   price,
   period,
   location,
   deadline,
   recruitNumber,
   applyNumber,
+  isLogin,
   lectureType
 }: MentorDetailViewProps) => {
   return (
     <div className="mentoring-detail">
       <div className="mentoring-content-wrapper">
 
-        {/* 멘토링 내용 */}
         <div className="mentoring-content">
+          {/* 헤더 */}
           <div className="mentoring-detail-title-wrapper">
             <MentoringHeader title={title} region={region} lectureType={lectureType}/>
             <div className="mentoring-actions">
-              <button type="button">
-                <Icon src="bookmark_20" alt="북마크" />
-                <span>북마크 등록</span>
-              </button>
-              <button type="button">
-                <Icon src="share" alt="공유" />
-                <span>공유</span>
-              </button>
+              <div className="mentoring-actions__bookmark">
+                <BookmarkButton label={"북마크 등록"}/>
+              </div>
+              
+              <div className="mentoring-actions__share">
+                <ShareButton label={"공유"}/>
+              </div>
             </div>
           </div>
 
-          <MentoringContent title="멘토링 소개">
-            <p style={{ whiteSpace: "pre-line" }}>{content || "내용이 없습니다."}</p>
-          </MentoringContent>
+          {/* 내용 */}
+          <MentoringContent content={content || "멘토링 내용"} />
         </div>
 
         {/* 기타 정보 */}
@@ -71,7 +74,8 @@ export const MentorDetailView = ({
           <MentorProfileCard
             name={mentorName || "이름 없음"}
             job={mentorJob || "직무 정보 없음"}
-            career={mentorCareer || "경력 정보 없음"}
+            career={mentorCareer || 0}
+            lastCompany={lastCompany || "없음"}
           />
 
           <MentoringMetaCard
@@ -81,10 +85,15 @@ export const MentorDetailView = ({
             deadline={deadline || "마감일 정보 없음"}
             recruitNumber = {recruitNumber || 0}
             applyNumber = {applyNumber || 0}
+            mentorName={mentorName || "이름 없음"} 
+            title={title || "제목 없음"}           
+            isLogin={isLogin}
           />
         </aside>
 
       </div>
+
+      
     </div>
   );
 };
