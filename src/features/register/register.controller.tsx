@@ -64,7 +64,7 @@ export const RegisterContainer = () => {
   }, [jobState.stacks, careerState.stacks, educationState.stacks, certificateState.stacks]);
 
   const registerMentor = useRegisterMentor();
-
+  console.log(jobState, careerState, educationState, certificateState);
   return (
     <RegisterView
       job={jobState}

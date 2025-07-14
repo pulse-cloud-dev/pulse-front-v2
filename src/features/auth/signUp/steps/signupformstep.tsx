@@ -117,11 +117,11 @@ const initialFields: FormState = {
     schema: {
       required: {
         validate: (value) => value.trim().length > 0,
-        message: "닉네임을 입력해주세요.",
+        message: "닉네임을 입력해 주세요.",
       },
       length: {
         validate: (value) => value.length >= 2 && value.length <= 10,
-        message: "닉네임은 2~10자 이내로 입력해주세요.",
+        message: "닉네임은 2~10자 이내로 입력해 주세요.",
       },
       format: {
         validate: (value) => /^[가-힣a-zA-Z]+$/.test(value),
@@ -140,7 +140,7 @@ const initialFields: FormState = {
     schema: {
       required: {
         validate: (value) => value.trim().length > 0,
-        message: "비밀번호를 입력해주세요.",
+        message: "비밀번호를 입력해 주세요.",
       },
       minLength: {
         validate: (value) => value.length >= 8,
@@ -175,7 +175,7 @@ const initialFields: FormState = {
     schema: {
       required: {
         validate: (value) => value.trim().length > 0,
-        message: "비밀번호 확인을 입력해주세요.",
+        message: "비밀번호 확인을 입력해 주세요.",
       },
       match: {
         validate: (value, form) => value === form?.password.value,
@@ -294,7 +294,7 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
         name={"비밀번호확인"}
         value={formState.confirmPassword.value}
         required={true}
-        placeholder="입력한 비밀번호를 입력해주세요."
+        placeholder="입력한 비밀번호를 입력해 주세요."
         onChange={handleInputChange("confirmPassword")}
         onBlur={handleBlur("confirmPassword")}
         onFocus={handleFocus("confirmPassword")}

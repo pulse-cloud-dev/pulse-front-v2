@@ -256,7 +256,7 @@ export const createInitialCareerSchema = (): RegisterSchema => ({
     validations: [
       {
         func: (v: string) => v.trim().length > 0,
-        message: "회사명을 입력해주세요.",
+        message: "회사명을 입력해 주세요.",
       },
     ],
   },
@@ -269,7 +269,7 @@ export const createInitialCareerSchema = (): RegisterSchema => ({
     validations: [
       {
         func: (v: string) => v.trim().length > 0,
-        message: "근무부서를 입력해주세요.",
+        message: "근무부서를 입력해 주세요.",
       },
     ],
   },
@@ -283,7 +283,7 @@ export const createInitialCareerSchema = (): RegisterSchema => ({
     validations: [
       {
         func: (v: string) => v !== "",
-        message: "직책을 선택해주세요.",
+        message: "직책을 선택해 주세요.",
       },
     ],
   },
@@ -310,7 +310,7 @@ export const createInitialCareerSchema = (): RegisterSchema => ({
           if (startDate && v > endDate) return false;
           return true;
         },
-        message: "입사 년월을 올바르게 입력해주세요.",
+        message: "입사 년월을 올바르게 입력해 주세요.",
       },
     ],
   },
@@ -330,7 +330,7 @@ export const createInitialCareerSchema = (): RegisterSchema => ({
           if (startDate && v < startDate) return false;
           return true;
         },
-        message: "퇴사 년월을 올바르게 입력해주세요.",
+        message: "퇴사 년월을 올바르게 입력해 주세요.",
       },
     ],
   },
@@ -346,7 +346,7 @@ export const createInitialCertificateSchema = (): RegisterSchema => ({
     validations: [
       {
         func: (v: string) => v.trim().length > 0,
-        message: "자격증명을 입력해주세요.",
+        message: "자격증명을 입력해 주세요.",
       },
     ],
   },
@@ -359,7 +359,7 @@ export const createInitialCertificateSchema = (): RegisterSchema => ({
     validations: [
       {
         func: (v: string) => v.trim().length > 0,
-        message: "발행기관을 입력해주세요.",
+        message: "발행기관을 입력해 주세요.",
       },
     ],
   },
@@ -373,7 +373,7 @@ export const createInitialCertificateSchema = (): RegisterSchema => ({
     validations: [
       {
         func: (v: string) => v.trim().length > 0,
-        message: "합격구분을 선택해주세요.",
+        message: "합격구분을 선택해 주세요.",
       },
     ],
   },
@@ -390,7 +390,7 @@ export const createInitialCertificateSchema = (): RegisterSchema => ({
           if (passStatus === "불합격") return true;
           return v !== null;
         },
-        message: "합격년월을 입력해주세요.",
+        message: "합격년월을 입력해 주세요.",
       },
     ],
   },
@@ -407,7 +407,7 @@ export const createInitialEducationSchema = (): RegisterSchema => ({
     validations: [
       {
         func: (v: string) => v.trim().length > 0,
-        message: "대학구분을 선택해주세요.",
+        message: "대학구분을 선택해 주세요.",
       },
     ],
   },
@@ -420,7 +420,7 @@ export const createInitialEducationSchema = (): RegisterSchema => ({
     validations: [
       {
         func: (v: string) => v.trim().length > 0,
-        message: "학교명을 입력해주세요.",
+        message: "학교명을 입력해 주세요.",
       },
     ],
   },
@@ -433,7 +433,7 @@ export const createInitialEducationSchema = (): RegisterSchema => ({
     validations: [
       {
         func: (v: string) => v.trim().length > 0,
-        message: "전공을 입력해주세요.",
+        message: "전공을 입력해 주세요.",
       },
     ],
   },
@@ -448,7 +448,7 @@ export const createInitialEducationSchema = (): RegisterSchema => ({
     validations: [
       {
         func: (v: string) => v.trim().length > 0,
-        message: "졸업여부를 선택해주세요.",
+        message: "졸업여부를 선택해 주세요.",
       },
     ],
   },
@@ -462,7 +462,7 @@ export const createInitialEducationSchema = (): RegisterSchema => ({
     validations: [
       {
         func: (v: Date | null) => v !== null,
-        message: "입학연월을 입력해주세요.",
+        message: "입학연월을 입력해 주세요.",
       },
     ],
   },
@@ -484,7 +484,7 @@ export const createInitialEducationSchema = (): RegisterSchema => ({
           if (graduationStatus < startDate) return false;
           return true;
         },
-        message: "졸업연월을 올바르게 입력해주세요.",
+        message: "졸업연월을 올바르게 입력해 주세요.",
       },
     ],
   },
@@ -502,7 +502,7 @@ export const createInitialJobSchema = (): RegisterSchema => ({
     validations: [
       {
         func: (v: string) => v.trim().length > 0,
-        message: "직무.직업을 선택해주세요.",
+        message: "직무.직업을 선택해 주세요.",
       },
     ],
   },
@@ -525,7 +525,7 @@ export const createInitialJobSchema = (): RegisterSchema => ({
           }
           return v.trim().length > 0;
         },
-        message: "직무.직업 상세를 올바르게 선택해주세요.",
+        message: "직무.직업 상세를 올바르게 선택해 주세요.",
       },
     ],
   },
