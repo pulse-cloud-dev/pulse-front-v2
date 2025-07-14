@@ -10,13 +10,14 @@ export interface MentoringDetail {
   deadline_time: string;
   start_date: string;
   end_date: string;
-  lecture_type: string;
+  lecture_type: "ONLINE" | "OFFLINE";
   online_platform: string;
   address: string;
   detail_address: string;
   recruit_number: number;
   apply_number: number;
   cost: number;
+  region: string;
 }
 
 export interface MentoringDetailResponse {
