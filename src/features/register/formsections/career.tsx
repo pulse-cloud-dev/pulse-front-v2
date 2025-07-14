@@ -5,7 +5,7 @@ import { Dropdown, DropdownItem } from "@/shared/components/blocks/dropdown/drop
 import { DatePickerField } from "@/shared/components/blocks/datepicker/DatePickerField";
 import ToggleBtn from "@/shared/components/blocks/togglebutton/togglebutton";
 import { useRoleLevels } from "../register.service";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import ErrorBoundary from "@/shared/components/blocks/errorboundary/errorBoundary";
 
 const RoleLevelOptions = () => {
@@ -44,11 +44,7 @@ const deleteButtonStyle = {
   marginTop: "16px",
 };
 
-export const Career = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError }: UseStackReturn<RegisterSchema>) => {
-  /*
-경력 ->
-재직중:입사 년월만 검증
-  */
+export const Career = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError, resetStackField }: UseStackReturn<RegisterSchema>) => {
   return (
     <section className="m-t-24">
       <div
@@ -83,13 +79,15 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
                       labelSize="sm"
                       name={key}
                       label={field.label}
-                      selected={field.value ? new Date(field.value) : null}
-                      onChange={(date) => updateStackField(i, key as keyof RegisterSchema, date)}
+                      selected={field.value ? (field.status === "fail" ? null : new Date(field.value)) : null}
+                      onChange={(date) => {
+                        updateStackField(i, key as keyof RegisterSchema, date);
+                      }}
                       onBlur={() => {
                         checkError(i, key as keyof RegisterSchema);
                       }}
                       onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
-                      error={isError ? "입력값을 확인해주세요." : ""}
+                      error={isError ? field.errormessage : ""}
                       isValid={!isError}
                     />
                   ) : null}
@@ -97,6 +95,7 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
                   {field.type === "input" && (
                     <FormField
                       label={field.label}
+                      wrapperClass="form-field-wrapper"
                       labelClass="form-field__label"
                       errorClass="text-field__error"
                       inputClass="form-field__input"
@@ -104,7 +103,7 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
                       name={key}
                       value={field.value}
                       isInvalid={isError}
-                      errorMessage={isError ? "입력값을 확인해주세요." : ""}
+                      errorMessage={isError ? field.errormessage : ""}
                       onChange={(e) => updateStackField(i, key as keyof RegisterSchema, e.target.value)}
                       onBlur={() => checkError(i, key as keyof RegisterSchema)}
                       onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
@@ -120,7 +119,7 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
                       onBlur={() => checkError(i, key as keyof RegisterSchema)}
                       onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
                       hasError={isError}
-                      errorMessage="입력값을 확인해주세요."
+                      errorMessage={field.errormessage}
                     >
                       <ErrorBoundary fallback={<h2>Error...</h2>}>
                         <Suspense fallback={<>loading</>}>

@@ -90,19 +90,19 @@ export const DatePickerField = forwardRef<HTMLInputElement, DatePickerFieldProps
           <Icon
             onClick={handleIconClick}
             src="calendar_bk_16"
-            alt=""
+            alt="달력 아이콘"
             aria-hidden="true"
             className={`w24 h24 ${disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
             style={{
               position: "absolute",
               right: "10px",
-              top: "8px",
+              top: "10px",
             }}
           />
         </div>
 
         {error && !isValid && (
-          <p id={errorId} className="text-field__error" role="alert" aria-live="polite" style={{ marginTop: "4px" }}>
+          <p id={errorId} className="text-field__error" role="alert" aria-live="polite" style={{ position: "absolute", marginTop: "81px" }}>
             {error}
           </p>
         )}

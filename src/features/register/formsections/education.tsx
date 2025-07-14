@@ -3,7 +3,7 @@ import { Typography } from "@/shared/components";
 import { FormField } from "@/shared/components";
 import { Dropdown, DropdownItem } from "@/shared/components/blocks/dropdown/dropdown";
 import { DatePickerField } from "@/shared/components/blocks/datepicker/DatePickerField";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import ErrorBoundary from "@/shared/components/blocks/errorboundary/errorBoundary";
 import { useEducationStatuses, useEducationLevels } from "../register.service";
 
@@ -43,7 +43,7 @@ const EducationStatusOptions = () => {
 학력 -> 에러검사 + 졸업,졸업 예정 ,재학중,중퇴,휴학
 졸업예정,졸업이 아니면 졸업연월 검증 스킵
 */
-export const Education = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError }: UseStackReturn<RegisterSchema>) => {
+export const Education = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError, resetStackField }: UseStackReturn<RegisterSchema>) => {
   return (
     <>
       <section className="m-t-24">
@@ -82,15 +82,16 @@ export const Education = ({ stacks, pushStack, popStack, updateStackField, reset
                 <div key={key}>
                   {field.type === "input" && (
                     <FormField
+                      wrapperClass="form-field-wrapper"
                       labelClass="form-field__label"
                       errorClass="text-field__error"
                       inputClass="form-field__input"
                       label={field.label}
-                      type={["입학년월", "졸업년월"].includes(key) ? "month" : "text"}
+                      type={["입학년월", "졸업연월"].includes(key) ? "month" : "text"}
                       name={key}
                       value={field.value}
                       isInvalid={isError}
-                      errorMessage={isError ? "입력값을 확인해주세요." : ""}
+                      errorMessage={isError ? field.errormessage : ""}
                       onChange={(e) => updateStackField(i, key as keyof RegisterSchema, e.target.value)}
                       onBlur={() => checkError(i, key as keyof RegisterSchema)}
                       onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
@@ -100,11 +101,13 @@ export const Education = ({ stacks, pushStack, popStack, updateStackField, reset
                     <DatePickerField
                       name={key}
                       label={field.label}
-                      selected={field.value ? new Date(field.value) : null}
+                      selected={field.value ? (field.status === "fail" ? null : new Date(field.value)) : null}
                       onChange={(date) => updateStackField(i, key as keyof RegisterSchema, date)}
-                      onBlur={() => checkError(i, key as keyof RegisterSchema)}
+                      onBlur={() => {
+                        checkError(i, key as keyof RegisterSchema);
+                      }}
                       onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
-                      error={isError ? "입력값을 확인해주세요." : ""}
+                      error={isError ? field.errormessage : ""}
                       isValid={!isError}
                     />
                   ) : null}
@@ -119,7 +122,7 @@ export const Education = ({ stacks, pushStack, popStack, updateStackField, reset
                       onBlur={() => checkError(i, key as keyof RegisterSchema)}
                       onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
                       hasError={isError}
-                      errorMessage="입력값을 확인해주세요."
+                      errorMessage={isError ? field.errormessage : ""}
                     >
                       <ErrorBoundary fallback={<h2>Error...</h2>}>
                         <Suspense fallback={<>loading</>}>
