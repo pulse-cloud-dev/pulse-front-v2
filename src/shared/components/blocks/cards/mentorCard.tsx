@@ -4,7 +4,7 @@ import { BaseCard } from "./baseCard";
 import { useState } from "react";
 
 import { Link } from "react-router-dom";
-import { BookmarkButton  } from "../bookmark/bookmarkButton";
+import { BookmarkButton } from "../bookmark/bookmarkButton";
 
 
 // Body
@@ -125,7 +125,7 @@ export const MentorCard = ({
     <BaseCard >
       <BaseCard.Header>
         <SquareBadge title={badgeTitle} color={badgeColor} />
-        <BookmarkButton />
+        <BookmarkButton mentoringId={mentoringId}/>
       </BaseCard.Header>
       <BaseCard.Body className="border-b">
         <div className="mentorCard-body__top">
