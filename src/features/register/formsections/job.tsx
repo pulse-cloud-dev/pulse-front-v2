@@ -78,7 +78,7 @@ export const Job = ({ stacks, updateStackField, resetStatus, checkError }: UseSt
                     onBlur={() => checkError(i, key as keyof RegisterSchema)}
                     onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
                     hasError={isError}
-                    errorMessage="입력값을 확인해주세요."
+                    errorMessage={field.errormessage}
                   >
                     <ErrorBoundary fallback={<h2>Error...</h2>}>
                       <Suspense fallback={<>loading</>}>

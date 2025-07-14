@@ -1,5 +1,10 @@
-<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="chevron_down_bk_16">
-<path id="&#237;&#140;&#168;&#236;&#138;&#164; 85821 (Stroke)" fill-rule="evenodd" clip-rule="evenodd" d="M7.99932 11.5898L13.5297 6.05951L12.469 4.99885L7.99932 9.46852L3.52965 4.99885L2.46899 6.05951L7.99932 11.5898Z" fill="white" fill-opacity="0.8"/>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_1711_1887)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M3.22257 7.72257C3.65215 7.293 4.34863 7.293 4.77821 7.72257L12.0004 14.9448L19.2226 7.72257C19.6521 7.293 20.3486 7.293 20.7782 7.72257C21.2078 8.15215 21.2078 8.84863 20.7782 9.27821L12.7782 17.2782C12.3486 17.7078 11.6521 17.7078 11.2226 17.2782L3.22257 9.27821C2.793 8.84863 2.793 8.15215 3.22257 7.72257Z" fill="#212121"/>
 </g>
+<defs>
+<clipPath id="clip0_1711_1887">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>
 </svg>
