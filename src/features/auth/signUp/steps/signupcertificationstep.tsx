@@ -6,7 +6,7 @@ export const SignUpCertificationStep = ({ handleJoinSocial }: { handleJoinSocial
   const socialLogin = socialConstant.socialLogin;
 
   return (
-    <div className="m-t-40 w-100 flex_c align_center justify_center">
+    <div className="m-t-40 w-100 flex_r align_center justify_center">
       {socialLogin.map((item) => (
         <BaseButton className="w400 m-b-30 border gap_8" size="xl" onClick={handleJoinSocial}>
           <Icon src={item.icon} alt={item.alt} />
