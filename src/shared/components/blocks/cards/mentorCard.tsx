@@ -1,9 +1,11 @@
 import type { HTMLAttributes } from "react";
-import { Modal, useModal } from "@/shared/modules";
-import { MentorDetailPopup } from "@/shared/components/widgets";
 import { Icon, Image, SquareBadge } from "@/shared/components/atoms";
 import { BaseCard } from "./baseCard";
 import { useState } from "react";
+
+import { Link } from "react-router-dom";
+import { BookmarkButton  } from "../bookmark/bookmarkButton";
+
 
 // Body
 const BodyContentTitle = ({
@@ -16,14 +18,31 @@ const BodyContentTitle = ({
   return <span onClick={onClick}>{title}</span>;
 };
 
+
 const BodyContentTag = ({
   job,
-
+  career,
+  lectureType,
+  platform,
+  region,
   profileImage,
 }: {
   job: string;
-  profileImage: string | null;
+  career: number;
+  lectureType: "ONLINE" | "OFFLINE";
+  platform: string;
+  region: string;
+  profileImage: string;
 }) => {
+  // 조건부 표시 값 설정
+  const locationOrPlatform =
+    lectureType === "OFFLINE"
+      ? region
+      : platform?.trim() || "미정";
+
+  const locationLabel =
+    lectureType === "OFFLINE" ? "지역" : "플랫폼";
+
   return (
     <div className="mentorCard-content__tag">
       <div className="content__tag left">
@@ -33,31 +52,26 @@ const BodyContentTag = ({
         </label>
         <label className="flex_r flex_ac">
           <Icon src="briefcase_20" alt="서류가방" />
-          <span className="m-l-4">{job}</span>
+          <span className="m-l-4">경력 {career}년</span>
         </label>
         <label className="flex_r flex_ac">
           <Icon src="desktop" alt="데스크탑" />
-          <span className="m-l-4">{job}</span>
+          <span className="m-l-4">
+            {locationLabel} : {locationOrPlatform}
+          </span>
         </label>
       </div>
       <div className="content__tag right">
-        {profileImage ? (
           <Image
             className="mentorCard-img"
-            src={profileImage}
+            src={profileImage || "profile 1"}
             alt="프로필"
           />
-        ) : (
-          <Icon
-            className="mentorCard-img"
-            src="pulse_symbol"
-            alt="pulse symbol"
-          />
-        )}
       </div>
     </div>
   );
 };
+
 
 // Footer
 const FooterDescription = ({
@@ -81,8 +95,11 @@ interface MentorCardProps {
   mentorNickname: string;
   deadlineDate: string;
   mentorJob: string;
-  mentorProfileImage: string | null;
-  onlineStatus: "온라인" | "오프라인";
+  mentorCareer: number;
+  mentorProfileImage: string;
+  lectureType: "ONLINE" | "OFFLINE";
+  onlinePlatform: string;
+  region: string;
 }
 
 // Mentor Card Component
@@ -92,67 +109,36 @@ export const MentorCard = ({
   mentorNickname,
   deadlineDate,
   mentorJob,
+  mentorCareer,
   mentorProfileImage,
-  onlineStatus
+  lectureType,
+  onlinePlatform,
+  region,
 }: MentorCardProps) => {
+  
 
-interface ModalPayload {
-  mentoringId: string;
-}
-
-interface ModalConfig {
-  title: string;
-  variant?: string;
-  children: (payload: ModalPayload) => JSX.Element;
-}
-
-const modal = useModal<ModalPayload>(Modal, {
-  title: "멘토링 정보",
-  variant: "default",
-  children: ({ mentoringId }: { mentoringId: string }) => (
-    <MentorDetailPopup mentoringId={mentoringId} />
-  ),
-} as any);
-
-// 북마크 상태 관리용 (임시)
-const [isHovered, setIsHovered] = useState(false);
-const [isBookmarked, setIsBookmarked] = useState(false);
-
-const handleBookmarkClick = () => {
-  setIsBookmarked((prev) => !prev); 
-};
+  const badgeColor = lectureType === "ONLINE" ? "blue" : "orange";
+  const badgeTitle = lectureType === "ONLINE" ? "온라인" : region || "주소 없음";
 
   return (
-    <BaseCard>
+    <Link to={`/mentor-detail/${mentoringId}`} className="mentor-card-link">
+    <BaseCard >
       <BaseCard.Header>
-        <SquareBadge 
-          title={onlineStatus}
-          color={onlineStatus === "온라인" ? "blue" : "orange"}
-        />
-        <div
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          onClick={handleBookmarkClick}
-          style={{ cursor: "pointer" }}
-        >
-        <Icon 
-          src= {
-            isBookmarked || isHovered
-              ? "bookmark_on" // 북마크 활성화
-              : "bookmark_20" 
-          } 
-          alt={"bookmark"} 
-        /></div>
+        <SquareBadge title={badgeTitle} color={badgeColor} />
+        <BookmarkButton />
       </BaseCard.Header>
       <BaseCard.Body className="border-b">
         <div className="mentorCard-body__top">
-          <BodyContentTitle
-            title={title}
-            onClick={() => modal.openModal({ mentoringId })}
-          />
+          <BodyContentTitle title={title} />
         </div>
         <div className="mentorCard-body__bottom">
-          <BodyContentTag job={mentorJob} profileImage={mentorProfileImage} />
+          <BodyContentTag 
+            job={mentorJob} 
+            career={mentorCareer} 
+            lectureType={lectureType}
+            platform={onlinePlatform}
+            region={region}
+            profileImage={mentorProfileImage} />
         </div>
       </BaseCard.Body>
       <BaseCard.Footer>
@@ -161,6 +147,8 @@ const handleBookmarkClick = () => {
           mentorNickname={mentorNickname}
         />
       </BaseCard.Footer>
-    </BaseCard>
+      </BaseCard>
+      </Link>
+    
   );
 };

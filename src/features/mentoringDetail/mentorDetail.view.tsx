@@ -7,6 +7,8 @@ import { MentorProfileCard } from "@/features/mentoringDetail";
 import { MentoringMetaCard } from "@/features/mentoringDetail";
 
 
+import { useMentoringDetailQuery } from "@/features/mentoringDetail";
+
 interface MentorDetailViewProps {
   title: string;
   region: string;
@@ -20,6 +22,7 @@ interface MentorDetailViewProps {
   deadline: string;
   recruitNumber: number;
   applyNumber: number;
+  lectureType: "ONLINE" | "OFFLINE";
 }
 
 
@@ -35,7 +38,8 @@ export const MentorDetailView = ({
   location,
   deadline,
   recruitNumber,
-  applyNumber
+  applyNumber,
+  lectureType
 }: MentorDetailViewProps) => {
   return (
     <div className="mentoring-detail">
@@ -44,7 +48,7 @@ export const MentorDetailView = ({
         {/* 멘토링 내용 */}
         <div className="mentoring-content">
           <div className="mentoring-detail-title-wrapper">
-            <MentoringHeader title={title} region={region}/>
+            <MentoringHeader title={title} region={region} lectureType={lectureType}/>
             <div className="mentoring-actions">
               <button type="button">
                 <Icon src="bookmark_20" alt="북마크" />

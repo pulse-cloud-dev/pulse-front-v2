@@ -44,6 +44,8 @@ export const DetailController = () => {
       recruitNumber={d.recruit_number}
       applyNumber={d.apply_number}
     />
+
+    
   );
 };
 
