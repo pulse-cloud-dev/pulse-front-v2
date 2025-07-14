@@ -63,7 +63,7 @@
 
 
 .alert__buttonArea > button {
-	width: 112px;
+	/* width: 112px; */
 	height: 48px;
 	justify-content: center;
 	align-items: center;
