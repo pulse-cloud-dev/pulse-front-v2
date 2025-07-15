@@ -42,22 +42,46 @@
   min-width: 48px;
 }
 
-.btn.sm {
+/* .btn.sm {
   padding: 6px 12px;
+  font-size: 13px;
+  height: 32px;
+  min-width: 64px;
+} */
+
+.btn.sm {
+  width: fit-content; /**/
+  padding: 18px 12px;
   font-size: 13px;
   height: 32px;
   min-width: 64px;
 }
 
-.btn.md {
+/* .btn.md {
   padding: 8px 16px;
+  font-size: 14px;
+  height: 40px;
+  min-width: 80px;
+} */
+
+.btn.md {
+  width: fit-content; /**/
+  padding: 18px;
   font-size: 14px;
   height: 40px;
   min-width: 80px;
 }
 
-.btn.lg {
+/* .btn.lg {
   padding: 10px 20px;
+  font-size: 16px;
+  height: 48px;
+  min-width: 96px;
+} */
+
+.btn.lg {
+  width: fit-content; /**/
+  padding: 18px 24px;
   font-size: 16px;
   height: 48px;
   /* min-width: 96px; */
@@ -97,6 +121,50 @@
   background-color: #00cbba;
   color: #fff;
 }
+
+/* 주요 사용 색상 */
+.btn.teal:hover:not(:disabled) {
+  background-color: #00b0a3;
+  color: #fff;
+}
+
+.btn.teal:disabled {
+  background-color: #F2F2F2;
+  color: #C4C4C4;
+}
+
+.btn.outlined {
+  background-color: white;
+  color: #202020;
+  border: solid 1px #ccc;
+}
+
+.btn.outlined:hover:not(:disabled) {
+  background-color: #f5f5f5; 
+}
+
+.btn.outlined:disabled {
+  background-color: white;
+  color: #c4c4c4;
+  border-color: #e0e0e0;
+}
+
+.btn.secondary {
+  background-color: transparent;
+  color: #00CBBA;
+  border: 1px solid #00CBBA;
+}
+
+.btn.secondary:hover:not(:disabled) {
+  background-color: #E6FAF8; 
+}
+
+.btn.secondary:disabled {
+  background-color: #F5F5F5;
+  color: #C4C4C4;
+  border: 1px solid #E0E0E0;
+}
+
 /* 
 ========================================================
                 Button Shape Style
