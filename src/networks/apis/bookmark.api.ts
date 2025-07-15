@@ -6,7 +6,7 @@ export interface BookmarkRequest {
 }
 
 
-export const uploadBookmark = async (payload: BookmarkRequest): Promise<void> => {
+export const UploadBookmark = async (payload: BookmarkRequest): Promise<void> => {
   try {
     await publicClient.post("/mentoring-bookmarks/upload", payload);
   } catch (error) {
