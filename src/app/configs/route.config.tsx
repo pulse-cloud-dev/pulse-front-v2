@@ -15,15 +15,23 @@ const createRoutes = (): Routers => {
       path: urlConst.home.default, // ""
       element: <MainLayout />,
       children: [
-        { path: "/", element: <Navigate to={"mentor-find"} /> },
+        { path: "/", element: <Controller.MainController /> },
 
         {
           /**
            * @description Mentee Find (멘티 찾기)
            */
           path: "mentee-find",
-          children: [{ path: "", element: <Controller.ChatController /> }],
+          children: [{ path: "", element: <Controller.MentorController /> }],
         },
+
+        // {
+        //   /**
+        //    * @description Mentee Find (멘티 찾기)
+        //    */
+        //   path: "mentee-find",
+        //   children: [{ path: "", element: <Controller.ChatController /> }],
+        // },
         {
           /**
            * @description Mentor register (멘토 등록)

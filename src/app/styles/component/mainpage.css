@@ -1,0 +1,170 @@
+.main-container {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  /* padding: 0 20px; */
+  max-width: 1280px; 
+  margin: 0 auto;
+}
+
+/* === 상단 이미지 영역 === */
+.main-image {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 60px;
+  z-index: 0;
+}
+
+.main-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* === 멘토링 카드 === */
+.mentoringcard-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-bottom: 50px;
+}
+
+.mentoringcard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.mentoringcard-title,
+.mentoringfit-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #222;
+}
+
+.mentoringcard-view-all-button {
+  font-size: 16px;
+  color: #555;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+
+
+/* 카드 그리드 */
+.mentoring-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  
+}
+
+
+/* === 맞춤 멘토 찾기 === */
+.mentoringfit-section {
+ padding: 60px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.mentoring-fit-find-mentor {
+  display: flex;
+  /* flex-direction: row; */
+  /* gap: 40px; */
+  align-items: center;
+  /* justify-content: space-between; */
+  flex-wrap: wrap;
+}
+
+.fit-find-mentor__image img {
+  width: 100%;
+  max-width: 720px;
+  height: 480px;
+  border-radius: 12px;
+}
+
+.fit-find-mentor__text {
+    margin-left: 100px;
+}
+
+.fit-find-mentor__text h2 {
+  font-size: 40px;
+  font-weight: 700;
+  color: #333;
+  line-height: 1.5;
+}
+
+.fit-find-mentor__text p {
+  margin-top: 12px;
+  font-size: 20px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.fit-find-mentor__btn {
+  width: 144px;
+  height: 51px;
+  margin-top: 40px;
+  background-color: transparent;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.fit-find-mentor__btn:hover {
+  border-color: #999;
+  color: #111;
+}
+
+@media (max-width: 1230px) {
+  .mentoringfit-section,
+  .mentoring-fit-find-mentor {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .fit-find-mentor__text {
+    margin-top: 20px;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .mentoringcard-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .mentoringcard-title {
+    font-size: 22px;
+  }
+
+  .mentoringcard-view-all-button {
+    align-self: flex-end;
+    font-size: 14px;
+  }
+
+  .mentoring-fit-find-mentor {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .fit-find-mentor__btn {
+    margin: 32px auto 0;
+  }
+}
