@@ -12,7 +12,7 @@ export const SignUpView = (props: { state: Record<string, any>; mutate: Record<s
           <Linker href="/" className="align_center">
             <Icon src="logo_02" alt="logo" className="logo" />
           </Linker>
-          <Typography variant="title" size="28" weight="bold" color="grayscale" colorscale="90" style={{ marginTop: "20px" }}>
+          <Typography variant="title" size="28" weight="bold" color="grayscale" colorscale="90" style={{ marginTop: "25px" }}>
             시작하기
           </Typography>
 
