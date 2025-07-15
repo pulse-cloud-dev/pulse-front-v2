@@ -16,8 +16,11 @@ interface Mentoring {
   mentor_nickname: string;
   deadline_time: string;
   mentor_job: { jobCode: string };
-  mentor_profile_image: string | null;
+  mentor_career_total_year: number;
+  mentor_profile_image: string;
   lecture_type: "ONLINE" | "OFFLINE";
+  online_platform: string;
+  region: string;
 }
 
 interface MentorViewPostsProps extends FilterProps {
@@ -65,8 +68,9 @@ export const MentorViewPosts = ({
     mentor_nickname: "코딩은재밌어",
     deadline_time: "2025-08-01",
     mentor_job: { jobCode: "프론트엔드 개발자" },
-    mentor_profile_image: null,
+    mentor_profile_image: "",
     lecture_type: "OFFLINE",
+    region: ""
   },
   {
     mentoring_id: "2",
@@ -74,8 +78,10 @@ export const MentorViewPosts = ({
     mentor_nickname: "백엔드장인",
     deadline_time: "2025-08-15",
     mentor_job: { jobCode: "백엔드 개발자" },
-    mentor_profile_image: null,
+    mentor_profile_image: "",
     lecture_type: "ONLINE",
+    region: ""
+
   },
 ];
 
@@ -137,15 +143,17 @@ return (
           <MentorCard
             key={item.mentoring_id}
             mentoringId={item.mentoring_id}
-            onlineStatus={item.lecture_type === "ONLINE" ? "온라인" : "오프라인"}
+            lectureType={item.lecture_type}
+            onlinePlatform={item.online_platform}
             title={item.title}
             mentorNickname={item.mentor_nickname}
             deadlineDate={item.deadline_time}
             mentorJob={item.mentor_job.jobCode}
+            mentorCareer={item.mentor_career_total_year}
+            region={item.region}
             mentorProfileImage={item.mentor_profile_image}
-          /> 
-    ))
-              
+            /> 
+          ))
         )}
       </section>
 

@@ -60,6 +60,8 @@ export const DetailController = () => {
       applyNumber={d.apply_number}
       isLogin={isLogin}
     />
+
+    
   );
 };
 
