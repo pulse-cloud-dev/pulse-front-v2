@@ -5,13 +5,13 @@ interface MentoringHeaderSectionProps {
   region: string;
   lectureType: "ONLINE" | "OFFLINE";
 }
-
 export const MentoringHeader = ({
   title,
   region,
   lectureType,
 }: MentoringHeaderSectionProps) => {
-  const badgeColor = lectureType === "ONLINE" ? "blue" : "orange"; // ✅ 조건부 색상
+
+  const badgeColor = lectureType === "ONLINE" ? "blue" : "orange"; // 조건부 색상
   const badgeTitle = lectureType === "ONLINE" ? "온라인" : region || "주소 없음";
   
   return (
