@@ -1,12 +1,11 @@
 import { Outlet } from "react-router-dom";
-
-import { PageHeader, ThemeToggle } from "@/shared/components/widgets";
+import { PageHeader, ThemeToggle, Footer } from "@/shared/components/widgets";
 
 export const MainLayout = () => {
   return (
     <>
       <PageHeader />
-
+      
       <div className="h80"></div>
 
       <main className="layout__sub">
@@ -18,6 +17,8 @@ export const MainLayout = () => {
       <div className="outer__right">
         <ThemeToggle />
       </div>
+
+      <Footer/>
     </>
   );
 };
