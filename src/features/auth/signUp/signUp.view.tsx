@@ -1,5 +1,5 @@
 import { checkboxConst } from "@/shared/constants";
-import { CheckboxProvider, Heading, Icon, Linker } from "@/shared/components";
+import { CheckboxProvider, Heading, Icon, Linker, Typography } from "@/shared/components";
 import { SignUpCertificationStep } from "./steps/signupcertificationstep";
 import { SignUpConsentStep } from "./steps/signupconsentstep";
 import { SignUpFormStep } from "./steps/signupformstep";
@@ -12,9 +12,9 @@ export const SignUpView = (props: { state: Record<string, any>; mutate: Record<s
           <Linker href="/" className="align_center">
             <Icon src="logo_02" alt="logo" className="logo" />
           </Linker>
-          <Heading as="h3" className="title-32 text-center m-t-20 m-b-20">
+          <Typography variant="title" size="28" weight="bold" color="grayscale" colorscale="90" style={{ marginTop: "20px" }}>
             시작하기
-          </Heading>
+          </Typography>
 
           {props.state?.step === "consent" && (
             <CheckboxProvider initialItems={checkboxConst.SIGN_UP_STEP_1}>

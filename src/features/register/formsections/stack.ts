@@ -470,7 +470,7 @@ export const createInitialEducationSchema = (): RegisterSchema => ({
     label: "졸업연월",
     type: "date",
     value: null,
-    status: "pending",
+    status: "success",
     errormessage: "",
     validations: [
       {
