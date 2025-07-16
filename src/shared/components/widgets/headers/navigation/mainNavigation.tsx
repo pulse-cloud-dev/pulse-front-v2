@@ -6,8 +6,8 @@ import { HeaderSearchbar } from "@/shared/components/blocks";
 import { Icon, Linker } from "@/shared/components/atoms";
 
 const links = [
-  { href: "/mentor-find", label: "멘토링 찾기" },
   { href: "/mentee-find", label: "멘티 찾기" },
+  { href: "/mentor-find", label: "멘토링 찾기" },
   { href: "/chat", label: "멘토링 챗" },
 ];
 

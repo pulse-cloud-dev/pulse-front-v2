@@ -6,13 +6,12 @@ export * from "./auth/signIn/sigIn.controller";
 export * from "./auth/signUp/signUp.controller";
 export * from "./auth/finds/find.controller";
 
-// Mentor
-export * from "./mentor/controller/mentor.controller";
-export * from "./mentoringDetail/mentorDetail.controller";
+// Mentee(변수명 변경필욥)
+export * from "./mentee/controller/mentee.controller";
+export * from "./menteeDetail/menteeDetail.controller";
 
 // Mentee
 export * from "./main/main.controller";
-
 
 // Mentor/Register
 export * from "./register/register.controller";
@@ -26,8 +25,8 @@ export * from "./posts/posts.controller";
 // Bookmarks
 export * from "./bookmarks/bookmark.controller";
 
-// Community
-export * from "./community/community.controller";
+// mentor
+export * from "./mentorfind/mentorfind.controller";
 
 // Notice
 export * from "./notice/notice.controller";

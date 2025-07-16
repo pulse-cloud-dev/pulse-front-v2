@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
 
 import { SideMenuConst } from "@/shared/constants";
-import { FloatingSideMenu, PageHeader, ThemeToggle, Footer } from "@/shared/components/widgets";
+import { FloatingSideMenu, PageHeader, ThemeToggle } from "@/shared/components/widgets";
 
-export const MentorLayout = () => {
+export const NoFooterLayout = () => {
   return (
     <>
       <PageHeader />
@@ -14,16 +14,11 @@ export const MentorLayout = () => {
         <section className="sub-layout__wrap">
           <Outlet />
         </section>
-        <aside className="side__menu right">
-          <FloatingSideMenu items={SideMenuConst.MENTEE.FLOATING_MENU} />
-        </aside>
       </main>
 
       <div className="outer__right">
         <ThemeToggle />
       </div>
-
-      <Footer />
     </>
   );
 };
