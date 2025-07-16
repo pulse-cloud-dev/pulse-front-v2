@@ -6,6 +6,9 @@ export * from "./auth/signIn/sigIn.controller";
 export * from "./auth/signUp/signUp.controller";
 export * from "./auth/finds/find.controller";
 
+// MyPage
+export * from "./withAuth/mypage.controller";
+
 // Mentor
 export * from "./mentor/controller/mentor.controller";
 export * from "./mentoringDetail/mentorDetail.controller";
