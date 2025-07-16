@@ -9,7 +9,13 @@
                   -reigsterform
 ========================================================
  */
-
+.formInput::placeholder {
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 100%;
+  color: var(--grayscale-40);
+  letter-spacing: -0.2px;
+}
 /* ================== log-in form style =====================  */
 
 .form-auth {
@@ -197,7 +203,13 @@
 .sign-up-input.readonly {
   background: var(--palette-gray-10);
 }
-
+.input::placeholder {
+  font-weight: 400;
+  font-size: 15px !important;
+  line-height: 100%;
+  color: var(--grayscale-40);
+  letter-spacing: -2%;
+}
 /* ================== find-passwordstyle =====================  */
 /* fs_16 btn__line btn_xl flex1  */
 /* css   */

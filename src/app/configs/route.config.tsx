@@ -101,7 +101,7 @@ const createRoutes = (): Routers => {
           /**
            * @description 멘토링 상세페이지
            */
-          path: "mentor-detail",
+          path: "mentor-detail/:id",
           children: [{ path: "", element: <Controller.DetailController /> }],
         },
 
