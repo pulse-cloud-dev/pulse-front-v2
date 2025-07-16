@@ -17,7 +17,7 @@ export const ScheduleProvider = ({ children }: ScheduleProviderProps) => {
 export const useSchedule = (): ScheduleContextType => {
   const context = useContext(scheduleContext);
   if (context === "use Provider") {
-    throw new Error("provider사용해주세요");
+    throw new Error("provider사용해 주세요");
   }
   return context;
 };

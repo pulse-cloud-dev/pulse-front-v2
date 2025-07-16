@@ -175,7 +175,7 @@ const nicknameCheck = async (nickname: string): Promise<any> => {
       throw error.response.data;
     } else {
       // 네트워크 오류 또는 다른 문제(에러메세지 커스텀 Ex 괌리자문의)
-      throw new Error("네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      throw new Error("네트워크 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
     }
   }
 };

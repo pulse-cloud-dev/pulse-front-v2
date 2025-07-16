@@ -59,7 +59,7 @@ const useFormState = () => {
   const [formData, setFormData] = useState<FormState>({
     title: {
       value: "",
-      errorMessage: "제목은 1자 이상 100자 이하로 입력해주세요.",
+      errorMessage: "제목은 1자 이상 100자 이하로 입력해 주세요.",
       pattern: /^.{1,100}$/,
       state: "pending",
     },
@@ -83,7 +83,7 @@ const useFormState = () => {
     },
     dueTime: {
       value: null,
-      errorMessage: "마감 시간을 입력해주세요.",
+      errorMessage: "마감 시간을 입력해 주세요.",
       state: "pending",
       dependsOn: ["dueDate"],
       customValidator: (value: string, formData: FormState) => {
@@ -122,33 +122,33 @@ const useFormState = () => {
     },
     lectureFormat: {
       value: "ONLINE",
-      errorMessage: "강의 형식을 선택해주세요.",
+      errorMessage: "강의 형식을 선택해 주세요.",
       state: "pending",
     },
     onlinePlatform: {
       value: "",
-      errorMessage: "온라인 플랫폼을 입력해주세요.",
+      errorMessage: "온라인 플랫폼을 입력해 주세요.",
       state: "pending",
     },
     offlineAddress: {
       value: "",
-      errorMessage: "오프라인 주소를 입력해주세요.",
+      errorMessage: "오프라인 주소를 입력해 주세요.",
       state: "pending",
     },
     offlineDetailAddress: {
       value: "",
-      errorMessage: "상세 주소를 입력해주세요.",
+      errorMessage: "상세 주소를 입력해 주세요.",
       state: "pending",
     },
     recruitCount: {
       value: "",
-      errorMessage: "1명 이상의 숫자를 입력해주세요.",
+      errorMessage: "1명 이상의 숫자를 입력해 주세요.",
       pattern: /^[1-9][0-9]*$/,
       state: "pending",
     },
     mentorFee: {
       value: "",
-      errorMessage: "숫자만 입력해주세요.",
+      errorMessage: "숫자만 입력해 주세요.",
       pattern: /^[0-9]+$/,
       state: "pending",
     },
@@ -362,7 +362,7 @@ export const PostsView = (props: PostsViewProps) => {
             inputClass="form-field__input"
             name="제목"
             label="제목"
-            placeholder="제목을 입력해주세요"
+            placeholder="제목을 입력해 주세요"
             value={formData.title.value}
             onChange={(e) => updateField("title", e.target.value)}
             onBlur={(e) => validateAndUpdate("title", e.target.value)}
