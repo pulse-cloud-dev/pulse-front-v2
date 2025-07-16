@@ -3,7 +3,7 @@ import { createBrowserRouter, Navigate, type RouteObject } from "react-router-do
 // Controllers
 import * as Controller from "@/features";
 // Layouts...
-import { AdminLayout, AuthLayout, MainLayout, MentorLayout, WithAuthLayout } from "@/shared/layouts";
+import { AuthLayout, MainLayout, WithAuthLayout, MenteeLayout, NoFooterLayout } from "@/shared/layouts";
 // Shared
 import { urlConst } from "@/shared/constants";
 
@@ -16,45 +16,10 @@ const createRoutes = (): Routers => {
       element: <MainLayout />,
       children: [
         { path: "/", element: <Controller.MainController /> },
-
-        {
-          /**
-           * @description Mentee Find (멘티 찾기)
-           */
-          path: "mentee-find",
-          children: [{ path: "", element: <Controller.MentorController /> }],
-        },
-
-        // {
-        //   /**
-        //    * @description Mentee Find (멘티 찾기)
-        //    */
-        //   path: "mentee-find",
-        //   children: [{ path: "", element: <Controller.ChatController /> }],
-        // },
-        {
-          /**
-           * @description Mentor register (멘토 등록)
-           */
-          path: "mentor-register",
-          children: [{ path: "", element: <Controller.RegisterContainer /> }],
-        },
-        /**
-         * @description Community (커뮤니티)
-         */
-        {
-          path: "community",
-          children: [{ path: "", element: <Controller.CommunityController /> }],
-        },
-
+        { path: "/mentor-register", element: <Controller.RegisterContainer /> },
         /**
          * @description Notice (공지사항)
          */
-        {
-          path: "notice",
-          children: [{ path: "", element: <Controller.NoticeController /> }],
-        },
-
         {
           path: "notice",
           children: [{ path: "", element: <Controller.NoticeController /> }],
@@ -88,98 +53,82 @@ const createRoutes = (): Routers => {
 
     {
       path: urlConst.home.default, // ""
-      element: <MentorLayout />,
+      element: <MenteeLayout />,
       children: [
         {
           /**
-           * @description Mentor Find (멘토링 찾기)
+           * @description Mentee Find (멘티 찾기)
            */
-          path: "mentor-find",
-          children: [{ path: "", element: <Controller.MentorController /> }],
+          path: "mentee-find",
+          children: [{ path: "", element: <Controller.MeteeController /> }],
         },
         {
           /**
-           * @description 멘토링 상세페이지
+           * @description 멘티 상세페이지
+           */
+          path: "mentee-detail/:id",
+          children: [{ path: "", element: <Controller.DetailController /> }],
+        },
+        {
+          /**
+           * @description Mentor Find (멘티 찾기)
+           */
+          path: "mentor-find",
+          children: [{ path: "", element: <Controller.MentorFindController /> }],
+        },
+        {
+          /**
+           * @description 멘토 상세페이지
            */
           path: "mentor-detail/:id",
           children: [{ path: "", element: <Controller.DetailController /> }],
-        },
-
-        /**
-         * @description 모집글 등록
-         */
-        {
-          path: "",
-          children: [{ path: "posts", element: <Controller.ProtectedPostsController /> }],
         },
 
         {
           path: "bookmarks",
           children: [{ path: "", element: <Controller.BookmarkController /> }],
         },
+        {
+          path: "chat",
+          children: [{ path: "/chat", element: <Controller.ChatController /> }],
+        },
+        {
+          /**
+           * @description Mentor Find (멘토링 찾기)
+           */
+          path: "mentee-find",
+          children: [{ path: "", element: <Controller.MeteeController /> }],
+        },
+        {
+          /**
+           * @description 멘토링 상세페이지
+           */
+          path: "mentee-detail/:id",
+          children: [{ path: "", element: <Controller.DetailController /> }],
+        },
+      ],
+    },
+    {
+      path: urlConst.home.default, // ""
+      element: <NoFooterLayout />,
+      children: [
+        {
+          /**
+           * @description Mentee Find (멘티 찾기)
+           */
+          path: "mentor-register",
+          children: [{ path: "", element: <Controller.RegisterContainer /> }],
+        },
+        {
+          /**
+           * @description Mentee Find (멘티 찾기)
+           */
+          path: "posts",
+          children: [{ path: "", element: <Controller.ProtectedPostsController /> }],
+        },
       ],
     },
 
-    /**
-     * @description Admin (관리자 라우터)
-     */
-    {
-      path: "admin",
-      element: <AdminLayout />,
-      children: [
-        { path: "", element: <Controller.AdminMainController /> },
-        { path: "dashboard", element: <>대시보드</> },
-        {
-          path: "user",
-          children: [
-            { path: "member", element: <>회원정보관리</> },
-            { path: "admin", element: <>관리자정보관리</> },
-            { path: "access-log", element: <>회원정보접근이력</> },
-          ],
-        },
-        { path: "permission", element: <>권한관리</> },
-        {
-          path: "mentoring",
-          children: [
-            { path: "", element: <>멘토링관리</> },
-            { path: "chat", element: <>채팅관리</> },
-            { path: "restriction", element: <>활동제한설정</> },
-            { path: "review", element: <>멘토평가</> },
-          ],
-        },
-        {
-          path: "board",
-          children: [
-            { path: "knowledge-sharing", element: <>지식공유</> },
-            { path: "challenge", element: <>맞춰라 문제</> },
-          ],
-        },
-        {
-          path: "report",
-          children: [
-            { path: "mentoring", element: <>멘토링 신고</> },
-            { path: "post", element: <>게시물 신고</> },
-          ],
-        },
-        {
-          path: "support",
-          children: [
-            { path: "announcement", element: <>공지사항</> },
-            { path: "faq", element: <>FAQ</> },
-          ],
-        },
-        {
-          path: "statistics",
-          children: [
-            { path: "user", element: <>회원통계</> },
-            { path: "mentoring", element: <>멘토링통계</> },
-            { path: "payment", element: <>결제통계</> },
-            { path: "board", element: <>게시판통계</> },
-            { path: "page", element: <>페이지별통계</> },
-          ],
-        },
-      ],
-    },
     /**
      * @description My-Pages
      */
