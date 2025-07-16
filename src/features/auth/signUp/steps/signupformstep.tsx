@@ -1,4 +1,4 @@
-import { CheckboxGroup, useCheckboxGroup } from "@/shared/components";
+import { CheckboxGroup, Typography, useCheckboxGroup } from "@/shared/components";
 import { SignUpStepProps } from "./signupsteptype";
 import { FormField } from "@/shared/components";
 import { useState, FormEvent, ChangeEvent, useEffect } from "react";
@@ -117,11 +117,11 @@ const initialFields: FormState = {
     schema: {
       required: {
         validate: (value) => value.trim().length > 0,
-        message: "닉네임을 입력해주세요.",
+        message: "닉네임을 입력해 주세요.",
       },
       length: {
         validate: (value) => value.length >= 2 && value.length <= 10,
-        message: "닉네임은 2~10자 이내로 입력해주세요.",
+        message: "닉네임은 2~10자 이내로 입력해 주세요.",
       },
       format: {
         validate: (value) => /^[가-힣a-zA-Z]+$/.test(value),
@@ -140,27 +140,23 @@ const initialFields: FormState = {
     schema: {
       required: {
         validate: (value) => value.trim().length > 0,
-        message: "비밀번호를 입력해주세요.",
+        message: "비밀번호를 입력해 주세요.",
       },
       minLength: {
         validate: (value) => value.length >= 8,
         message: "비밀번호는 8자 이상이어야 합니다.",
       },
       hasUppercase: {
-        validate: (value) => /[A-Z]/.test(value),
-        message: "대문자를 포함해야 합니다.",
-      },
-      hasLowercase: {
-        validate: (value) => /[a-z]/.test(value),
-        message: "소문자를 포함해야 합니다.",
-      },
-      hasNumber: {
-        validate: (value) => /\d/.test(value),
-        message: "숫자를 포함해야 합니다.",
-      },
-      hasSpecial: {
-        validate: (value) => /[@$!%*?&]/.test(value),
-        message: "특수문자(@$!%*?&)를 포함해야 합니다.",
+        validate: (value) => {
+          const conditions = [
+            /[A-Z]/.test(value), // 대문자
+            /[a-z]/.test(value), // 소문자
+            /\d/.test(value), // 숫자
+            /[@$!%*?&]/.test(value), // 특수문자
+          ];
+          return conditions.filter(Boolean).length >= 3;
+        },
+        message: "영문 대문자, 영문 소문자, 숫자, 특수문자(@$!%*?&) 중 3종류 이상 조합해야 합니다.",
       },
       notStartWithSpecial: {
         validate: (value) => !/^[@$!%*?&]/.test(value),
@@ -175,7 +171,7 @@ const initialFields: FormState = {
     schema: {
       required: {
         validate: (value) => value.trim().length > 0,
-        message: "비밀번호 확인을 입력해주세요.",
+        message: "비밀번호 확인을 입력해 주세요.",
       },
       match: {
         validate: (value, form) => value === form?.password.value,
@@ -278,7 +274,7 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
         name={"비밀번호"}
         value={formState.password.value}
         required={true}
-        placeholder="숫자, 영문, 특수문자 포함 8자 이상 작성해 주세요"
+        placeholder="숫자, 영문, 특수문자 포함 8자 이상 작성해 주세요."
         onChange={handleInputChange("password")}
         onBlur={handleBlur("password")}
         onFocus={handleFocus("password")}
@@ -294,25 +290,31 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
         name={"비밀번호확인"}
         value={formState.confirmPassword.value}
         required={true}
-        placeholder="입력한 비밀번호를 입력해주세요."
+        placeholder="입력한 비밀번호를 입력해 주세요."
         onChange={handleInputChange("confirmPassword")}
         onBlur={handleBlur("confirmPassword")}
         onFocus={handleFocus("confirmPassword")}
         errorMessage={getErrorMessage(formState.confirmPassword.errors)}
         isInvalid={formState.confirmPassword.errors.length > 0}
       />
-      <div className="signUp__step3">
+      <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "5px" }}>
         {checkboxItems.map((item) => (
-          <div key={item.id}>
+          <div key={item.id} style={{ display: "flex", justifyContent: "flex-start", alignItems: "flex-start" }}>
             <CheckboxGroup type="item" id={item.id} />
             <span>
-              <p>{item.label}</p>
-              <span>{item.desc}</span>
+              <p style={{ marginBottom: "10px" }}>
+                <Typography variant="compact" weight="regular" size="14" color="grayscale" colorscale="90">
+                  {item.label}
+                </Typography>
+              </p>
+              <Typography variant="compact" weight="regular" size="13" color="grayscale" colorscale="60">
+                {item.desc}
+              </Typography>
             </span>
           </div>
         ))}
       </div>
-      <div className="flex_r align_center justify_center gap_8 m-t-40 w200" style={{ margin: "auto" }}>
+      <div className="flex_r align_center justify_center gap_8 m-t-27 w200" style={{ margin: "auto" }}>
         <button type="button" className="auth__button cancel" onClick={onPrev}>
           취소
         </button>

@@ -4,7 +4,6 @@ import { resetPasswordSchema, FormValues } from "../type/useRePasswordForm";
 import { userApis } from "@/networks/apis/user.api";
 import { usePageNavigation } from "@/shared/lib/hooks";
 
-
 export const ResetAccountPasswordStep = ({ onNext, onMain }: { onNext?: () => void; onMain?: () => void }) => {
   const {
     register,
@@ -28,7 +27,7 @@ export const ResetAccountPasswordStep = ({ onNext, onMain }: { onNext?: () => vo
       onNext?.();
     } catch (error) {
       console.error("비밀번호 재설정 실패:", error);
-      alert("비밀번호 변경에 실패했습니다. 다시 시도해주세요.");
+      alert("비밀번호 변경에 실패했습니다. 다시 시도해 주세요.");
     }
   };
 
@@ -40,16 +39,12 @@ export const ResetAccountPasswordStep = ({ onNext, onMain }: { onNext?: () => vo
       {/* 이메일 */}
       <div>
         <label htmlFor="email">이메일</label>
-        <input
-          id="email"
-          type="email"
-          placeholder="ex) id@pulse.com"
-          aria-invalid={!!errors.email}
-          aria-describedby="email-error"
-          {...register("email")}
-          className={`${isSubmitted && errors.email ? "form-find__border" : ""}`}
-        />
-        {errors.email && <p id="email-error" className="form-find__error-message text-sm">{errors.email.message}</p>}
+        <input id="email" type="email" placeholder="ex) id@pulse.com" aria-invalid={!!errors.email} aria-describedby="email-error" {...register("email")} className={`${isSubmitted && errors.email ? "form-find__border" : ""}`} />
+        {errors.email && (
+          <p id="email-error" className="form-find__error-message text-sm">
+            {errors.email.message}
+          </p>
+        )}
       </div>
 
       {/* 비밀번호 */}
@@ -65,11 +60,15 @@ export const ResetAccountPasswordStep = ({ onNext, onMain }: { onNext?: () => vo
           onBlur={() => trigger("password")}
           className={`${isSubmitted && errors.password ? "form-find__border" : ""}`}
         />
-        {errors.password && <p id="password-error" className="form-find__error-message text-sm">{errors.password.message}</p>}
+        {errors.password && (
+          <p id="password-error" className="form-find__error-message text-sm">
+            {errors.password.message}
+          </p>
+        )}
       </div>
 
       {/* 비밀번호 확인 */}
-      <div >
+      <div>
         <label htmlFor="passwordCheck">비밀번호 확인</label>
         <div className="relative">
           <input
@@ -82,29 +81,16 @@ export const ResetAccountPasswordStep = ({ onNext, onMain }: { onNext?: () => vo
             onBlur={() => trigger("passwordCheck")}
             className={`${(isSubmitted || touchedFields.passwordCheck) && errors.passwordCheck ? "form_find_border-red-500" : ""}`}
           />
-          {password && passwordCheck === password && !errors.passwordCheck && (
-              <img
-                src="/png/Check.png"
-                alt=""
-                aria-hidden="true"
-              />
-          )}
+          {password && passwordCheck === password && !errors.passwordCheck && <img src="/png/Check.png" alt="" aria-hidden="true" />}
         </div>
       </div>
 
       {/* 버튼 */}
       <div className="w-75 m-t-40 flex_r align_center justify_center gap_8" style={{ margin: "auto" }}>
-        <button
-          type="button"
-          className="form-find__reset-button"
-          onClick={goHome}
-        >
+        <button type="button" className="form-find__reset-button" onClick={goHome}>
           메인으로 이동
         </button>
-        <button
-          type="submit"
-          className="form-find__submit-button fs_16 btn_l flex1"
-        >
+        <button type="submit" className="form-find__submit-button fs_16 btn_l flex1">
           비밀번호 재설정
         </button>
       </div>

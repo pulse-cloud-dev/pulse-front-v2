@@ -386,7 +386,7 @@ export const HeaderSearchbar = forwardRef<HTMLInputElement, HeaderSearchbarProps
         id={id}
         ref={ref}
         type="text"
-        placeholder={placeholder || "검색어를 입력해주세요."}
+        placeholder={placeholder || "검색어를 입력해 주세요."}
         aria-label="Search"
         style={{
           flex: 1,

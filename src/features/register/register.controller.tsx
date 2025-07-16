@@ -64,7 +64,7 @@ export const RegisterContainer = () => {
   }, [jobState.stacks, careerState.stacks, educationState.stacks, certificateState.stacks]);
 
   const registerMentor = useRegisterMentor();
-
+  console.log(jobState, careerState, educationState, certificateState);
   return (
     <RegisterView
       job={jobState}
@@ -94,12 +94,12 @@ export const RegisterContainer = () => {
     />
   );
 };
-// 날짜를 ISO 문자열로 변환하는 함수
-const formatDateToISO = (date: Date | null): string => {
-  if (!date) return "";
-  return date.toISOString();
+const formatDateToYYYYMM = (date: Date | null): string | null => {
+  if (!date) return null;
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  return `${year}${month}`;
 };
-
 const mapCareerStacksToDto = (stacks: RegisterSchema[]): any[] => {
   const mapCareerStackToRawDto = (careerStack: RegisterSchema) => ({
     company_name: careerStack.company,
@@ -109,14 +109,6 @@ const mapCareerStacksToDto = (stacks: RegisterSchema[]): any[] => {
     retire_date: careerStack.endDate,
     is_working: careerStack.isWorking,
   });
-  const formatDateToYYMMDD = (date: Date | null): string => {
-    if (!date) return "";
-    const year = date.getFullYear().toString().slice(-2);
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}${month}${day}`;
-  };
-
   const roleLevelList = queryClient.getQueryData(["roleLevels"]) as {
     name: string;
     description: string;
@@ -127,8 +119,8 @@ const mapCareerStacksToDto = (stacks: RegisterSchema[]): any[] => {
     company_name: careerDto.company_name.value,
     department: careerDto.department.value, //해싱처리 하기
     position: positionHash[careerDto.position.value],
-    join_date: formatDateToYYMMDD(careerDto.join_date.value),
-    retire_date: formatDateToYYMMDD(careerDto.retire_date.value),
+    join_date: formatDateToYYYYMM(careerDto.join_date.value),
+    retire_date: formatDateToYYYYMM(careerDto.retire_date.value),
     is_working: careerDto.is_working.value,
   });
   return stacks.map(mapCareerStackToRawDto).map(mapCareerRawDtoToFinalDto);
@@ -160,8 +152,8 @@ const mapEducationStacksToDto = (stacks: RegisterSchema[]): any[] => {
     school_name: academicDto.school_name?.value || academicDto.school_name || "",
     major: academicDto.major?.value || academicDto.major || "",
     education_status: educationStatusHash[academicDto.education_status?.value || academicDto.education_status] || "",
-    admission_date: formatDateToISO(academicDto.admission_date?.value),
-    graduation_date: formatDateToISO(academicDto.graduation_date?.value),
+    admission_date: formatDateToYYYYMM(academicDto.admission_date?.value),
+    graduation_date: formatDateToYYYYMM(academicDto.graduation_date?.value),
   });
 
   return stacks.map(mapEducationStackToRawDto).map(mapRawDtoToFinalDto);
@@ -213,7 +205,7 @@ const mapCertificationStacksToDto = (stacks: RegisterSchema[]): any[] => {
     certificate_name: Dto.certificate_name.value,
     issuer: Dto.issuer.value,
     pass_status: certificationHash[Dto.pass_status.value],
-    pass_date: formatDateToISO(Dto.pass_date.value),
+    pass_date: formatDateToYYYYMM(Dto.pass_date.value),
   });
   return stacks.map(mapCertificationStackToRawDto).map(mapCertificationRawDtoToFinalDto);
 };

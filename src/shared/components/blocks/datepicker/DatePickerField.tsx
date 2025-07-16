@@ -2,6 +2,7 @@ import { useState, useRef, useId, forwardRef } from "react";
 import DatePicker from "react-datepicker";
 import { Icon } from "../../atoms";
 import "react-datepicker/dist/react-datepicker.css";
+
 interface DatePickerFieldProps {
   label?: string;
   name?: string;
@@ -32,8 +33,8 @@ export const DatePickerField = forwardRef<HTMLInputElement, DatePickerFieldProps
       onBlur,
       error,
       disabled = false,
-      placeholderText = "날짜를 선택하세요",
-      dateFormat = "yyyy년MM월dd일",
+      placeholderText = "YYYYMM",
+      dateFormat = "yyyyMM",
       labelSize = "md",
       className = "",
       minDate = new Date("2000-01-01"),
@@ -57,6 +58,7 @@ export const DatePickerField = forwardRef<HTMLInputElement, DatePickerFieldProps
         setIsOpen((prev) => !prev);
       }
     };
+
     return (
       <div className={` ${isValid ? "" : ""} ${disabled ? "text-field--disabled" : ""} ${className}`} style={{ display: "flex", flexDirection: "column", gap: "0px" }}>
         {label && (
@@ -86,6 +88,8 @@ export const DatePickerField = forwardRef<HTMLInputElement, DatePickerFieldProps
             open={isOpen}
             onClickOutside={() => setIsOpen(false)}
             onSelect={() => setIsOpen(false)}
+            showMonthYearPicker
+            showFullMonthYearPicker
           />
           <Icon
             onClick={handleIconClick}

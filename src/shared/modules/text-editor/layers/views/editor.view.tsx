@@ -1,14 +1,14 @@
-import type { HTMLAttributes } from 'react';
-import { Editor } from 'draft-js';
-import { ContentBlock, DraftEditorCommand, DraftStyleMap, EditorState } from 'draft-js';
+import type { HTMLAttributes } from "react";
+import { Editor } from "draft-js";
+import { ContentBlock, DraftEditorCommand, DraftStyleMap, EditorState } from "draft-js";
 
-import { forwardRef } from 'react';
+import { forwardRef } from "react";
 
 export interface EditorViewProps extends HTMLAttributes<HTMLElement> {
   onFocus?: () => void;
   editorState: EditorState;
   handleChange: (newEditorState: EditorState) => void;
-  handleKeyCommand: (command: DraftEditorCommand, state: EditorState) => 'handled' | 'not-handled';
+  handleKeyCommand: (command: DraftEditorCommand, state: EditorState) => "handled" | "not-handled";
   keyBindingFn: (e: React.KeyboardEvent) => DraftEditorCommand | null;
   blockStyleFn: (contentBlock: ContentBlock) => string;
   customStyleMap?: DraftStyleMap;
@@ -26,7 +26,7 @@ export const TextEditorView = forwardRef<Editor, EditorViewProps>(
       keyBindingFn,
       blockStyleFn,
       customStyleMap = {},
-      placeholder = '내용을 입력해주세요...',
+      placeholder = "내용을 입력해 주세요...",
 
       className,
       style,
@@ -34,7 +34,7 @@ export const TextEditorView = forwardRef<Editor, EditorViewProps>(
       ...rest
     },
 
-    forwardedRef,
+    forwardedRef
   ) => {
     const { onCopy, onCut, onPaste, ...filteredRest } = rest;
 
@@ -51,5 +51,5 @@ export const TextEditorView = forwardRef<Editor, EditorViewProps>(
         placeholder={placeholder}
       />
     );
-  },
+  }
 );
