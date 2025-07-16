@@ -117,6 +117,10 @@ const createRoutes = (): Routers => {
           path: "bookmarks",
           children: [{ path: "", element: <Controller.BookmarkController /> }],
         },
+        {
+          path: "chat",
+          children: [{ path: "", element: <Controller.ChatController /> }],
+        },
       ],
     },
 
