@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import { useMentoringDetailQuery } from "@/features/mentoringDetail";
-import { MentorDetailView } from "./mentorDetail.view";
+import { useMentoringDetailQuery } from "@/features/menteeDetail";
+import { MenteeDetailView } from "./menteeDetail.view";
 import { MentoringDetail } from "@/contracts/request/category/mentoringDetail";
 import dayjs from "dayjs";
 import { useState } from "react";
@@ -28,7 +28,6 @@ const dummyFallback: MentoringDetail = {
   online_platform: "",
 };
 
-
 export const DetailController = () => {
   const { id } = useParams<{ id: string }>();
   const { data, isLoading, error } = useMentoringDetailQuery(id || "");
@@ -36,14 +35,12 @@ export const DetailController = () => {
 
   const { isLogin } = useUser();
 
-
-  const d = data?? dummyFallback;
+  const d = data ?? dummyFallback;
 
   const formattedDeadline = dayjs(d.deadline_date).format("YYYY.MM.DD HH:mm");
 
-
   return (
-    <MentorDetailView
+    <MenteeDetailView
       title={d.title}
       region={d.region}
       content={d.content}
@@ -60,8 +57,5 @@ export const DetailController = () => {
       applyNumber={d.apply_number}
       isLogin={isLogin}
     />
-
-    
   );
 };
-

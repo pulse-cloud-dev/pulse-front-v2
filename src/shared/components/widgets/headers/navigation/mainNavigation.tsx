@@ -6,11 +6,9 @@ import { HeaderSearchbar } from "@/shared/components/blocks";
 import { Icon, Linker } from "@/shared/components/atoms";
 
 const links = [
-  { href: "/mentor-find", label: "멘토링 찾기" },
   { href: "/mentee-find", label: "멘티 찾기" },
-  { href: "/community", label: "커뮤니티" },
-  { href: "/notice", label: "공지사항" },
-  // { href: "/admin", label: "관리자" },
+  { href: "/mentor-find", label: "멘토링 찾기" },
+  { href: "/chat", label: "멘토링 챗" },
 ];
 
 interface HeaderMainMenuProps {}

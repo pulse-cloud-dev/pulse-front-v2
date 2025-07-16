@@ -1,8 +1,7 @@
 import { Typography } from "@/shared/components";
-import React from "react";
 
-interface CommunityViewProps {}
-export const CommunityView = (props: CommunityViewProps) => {
+interface MentorFindViewProps {}
+export const MentorFindView = (props: MentorFindViewProps) => {
   return (
     <article className="sub-layout__content">
       <div className="flex_c border-b">
