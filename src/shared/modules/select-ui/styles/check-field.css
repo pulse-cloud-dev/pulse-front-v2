@@ -20,18 +20,10 @@
 .check-field-module label::after {
   content: "";
   position: absolute;
-  top: 0.063rem;
-  left: 0.125rem;
-  width: 1rem;
-  height: 1rem;
-
-  border: 0.063rem solid var(--white-w_60);
-  box-sizing: border-box;
-  opacity: 0.6;
-
-  -webkit-border-radius: 0.125rem;
-  -moz-border-radius: 0.125rem;
-  border-radius: 0.125rem;
+  border: 0.063rem solid var(--primary-pri_100);
+  background: url("/icons/checkbox_unchecked.svg") 0.125rem center no-repeat;
+  background-size: 0.625rem auto;
+  opacity: 1;
 }
 
 .check-field-module input[type="checkbox"]:checked + label::after {
@@ -77,13 +69,6 @@
   opacity: 0.8;
 }
 
-.check-field-module.tree input[type="checkbox"]:checked + label::after {
-  border: 0.063rem solid var(--primary-pri_100);
-  background: url("/icons/checkbox_checked.svg") 0.125rem center no-repeat;
-  background-size: 0.625rem auto;
-  opacity: 1;
-}
-
 .check-field-module.tree input[type="checkbox"]:checked + label {
   color: var(--white-w_100-sec);
 }
@@ -99,16 +84,41 @@
   height: 17px;
   border-radius: 50%;
   background: white;
-  border: 1.5px solid #CECECE;
+  border: 1.5px solid #cecece;
   opacity: 0.6;
 }
+/* 체크 안된 상태*/
+.check-field-module.circle.md.md label::after {
+  background: url("/icons/checkbox_unchecked_md_md.svg");
+  background-size: 0.5rem auto;
+}
 
-/* 체크된 상태 */
-.check-field-module.circle input[type="checkbox"]:checked + label::after {
-  background: url("/icons/checked.svg") center center no-repeat;
-  background-size: 100%;
-  border: none;
-  opacity: 1;
+.check-field-module.circle.md.lg label::after {
+  background: url("/icons/checkbox_unchecked_md_lg.svg");
+  background-size: 0.625rem auto;
+}
+.check-field-module.circle.lg.md label::after {
+  background: url("/icons/checkbox_unchecked_lg_md.svg");
+  background-size: 0.5rem auto;
+}
+
+.check-field-module.circle.lg.lg label::after {
+  background: url("/icons/checkbox_unchecked_lg_lg.svg");
+  background-size: 0.625rem auto;
+}
+
+/* 체크된 상태 <!-- 첫번쨰 opacity 두번쨰 사이즈 -->*/
+.check-field-module.circle.md.md input[type="checkbox"]:checked + label::after {
+  background: url("/icons/check_md_md.svg") center center no-repeat, url("/icons/checked_md_md.svg") center center no-repeat;
+}
+.check-field-module.circle.md.lg input[type="checkbox"]:checked + label::after {
+  background: url("/icons/check_md_lg.svg") center center no-repeat, url("/icons/checked_md_lg.svg") center center no-repeat;
+}
+.check-field-module.circle.lg.md input[type="checkbox"]:checked + label::after {
+  background: url("/icons/check_lg_md.svg") center center no-repeat, url("/icons/checked_lg_md.svg") center center no-repeat;
+}
+.check-field-module.circle.lg.lg input[type="checkbox"]:checked + label::after {
+  background: url("/icons/check_lg_lg.svg") center center no-repeat, url("/icons/checked_lg_lg.svg") center center no-repeat;
 }
 
 .check-field-module.circle input[type="checkbox"]:checked + label {
