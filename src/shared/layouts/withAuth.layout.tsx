@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 
-import { PageHeader, ThemeToggle } from "@/shared/components/widgets";
+import { SideMenuConst } from "@/shared/constants";
+import { FloatingSideMenu, PageHeader, ThemeToggle } from "@/shared/components/widgets";
 
 export const WithAuthLayout = () => {
   return (
@@ -13,6 +14,10 @@ export const WithAuthLayout = () => {
         <section className="sub-layout__wrap">
           <Outlet />
         </section>
+
+        <aside className="side__menu right">
+          <FloatingSideMenu items={SideMenuConst.MENTEE.FLOATING_MENU} />
+        </aside>
       </main>
 
       <div className="outer__right">

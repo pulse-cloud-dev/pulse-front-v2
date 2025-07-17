@@ -1,0 +1,29 @@
+.custom-toggle {
+  width: 40px;
+  height: 22px;
+  border-radius: 22px;
+  background-color: #e0e0e0;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  outline: none;
+}
+
+.custom-toggle.checked {
+  background-color: #00cbba;
+}
+
+.custom-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+.custom-toggle.checked .custom-thumb {
+  transform: translateX(18px);
+}
