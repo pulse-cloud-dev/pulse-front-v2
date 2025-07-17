@@ -16,7 +16,7 @@ export const WithAuthLayout = () => {
         </section>
 
         <aside className="side__menu right">
-          <FloatingSideMenu items={SideMenuConst.FLOATING_MENU} />
+          <FloatingSideMenu items={SideMenuConst.MENTEE.FLOATING_MENU} />
         </aside>
       </main>
 
