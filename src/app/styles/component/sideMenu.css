@@ -14,9 +14,10 @@
   justify-content: center;
   align-items: center;
   gap: 20px;
-  height: 500px;
+  height: auto;
   width: 90px;
-  height: 284px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 .sideMenu__floating > div > .btn {
   padding: 4px;

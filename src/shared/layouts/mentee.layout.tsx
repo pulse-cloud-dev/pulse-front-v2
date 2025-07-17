@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import { SideMenuConst } from "@/shared/constants";
 import { FloatingSideMenu, PageHeader, ThemeToggle, Footer } from "@/shared/components/widgets";
 
-export const MentorLayout = () => {
+export const MenteeLayout = () => {
   return (
     <>
       <PageHeader />
