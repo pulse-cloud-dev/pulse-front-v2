@@ -6,6 +6,10 @@ export * from "./auth/signIn/sigIn.controller";
 export * from "./auth/signUp/signUp.controller";
 export * from "./auth/finds/find.controller";
 
+
+// MyPage
+export * from "./withAuth/mypage.controller";
+
 // Mentee(변수명 변경필욥)
 export * from "./mentee/controller/mentee.controller";
 export * from "./menteeDetail/menteeDetail.controller";

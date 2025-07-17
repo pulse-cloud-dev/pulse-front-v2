@@ -135,7 +135,7 @@ const createRoutes = (): Routers => {
     {
       path: "my-page",
       element: <WithAuthLayout />,
-      children: [{ path: "", element: <Controller.UnderConstructionController /> }],
+      children: [{ path: "", element: <Controller.MyPageController /> }],
     },
     /**
      * @description Auth

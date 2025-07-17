@@ -1,0 +1,288 @@
+
+
+.mypage-layout {
+  display: flex;
+}
+
+.mypage-main {
+  flex: 1;
+  padding: 40px;
+}
+
+.mypage-title {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+
+
+/*사이드 메뉴*/
+.mypage-sidebar {
+  width: 280px;
+  height: 1016px;
+  padding: 32px 24px;
+  background-color: white;
+  border-right: 1px solid #eee;
+  font-family: sans-serif;
+}
+
+.sidebar__profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.sidebar__image-wrapper {
+  position: relative;
+  width: 72px;
+  height: 72px;
+}
+
+.sidebar__image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.sidebar__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sidebar__edit-icon {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 20px;
+  height: 20px;
+  background-color: #eee;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar__nickname {
+  font-weight: bold;
+  margin-top: 12px;
+}
+
+.sidebar__menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar__group-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: #212121;
+  margin-top: 16px;
+  margin-bottom: 10px;
+}
+
+.sidebar__item {
+  padding: 15px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #333;
+  font-size: 15px;
+  transition: background 0.2s;
+}
+
+.sidebar__item.active {
+  background-color: #e6faf8;
+  color: #00cbba;
+  font-weight: 600;
+}
+
+
+/* 탭 */
+.mypage-tabs .tabs__pageMenu {
+  display: flex;
+  width: 968px;
+  gap: 32px;
+  margin-top: 16px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #eee;
+}
+
+.mypage-tabs .tabs__pageMenu .tabs-btn {
+  padding: 10px 6px;
+  font-size: 16px;
+  font-weight: 500;
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  position: relative;
+}
+
+.mypage-tabs .tabs__pageMenu .tabs-btn.active {
+  color: #222;
+  font-weight: 700;
+}
+
+.mypage-tabs .tabs__pageMenu .tabs-btn.active::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #222;
+}
+
+
+/*정보 폼*/
+.info-box {
+  width: 100%;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 32px;
+  background-color: #fff;
+}
+
+.info-box > div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #333;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.info-label {
+  width: 130px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #444;
+}
+
+.info-value {
+  
+  flex: 1;
+  display: flex;
+  margin-left: 20px;
+  align-items: center;
+  
+}
+
+
+.info-box button {
+  margin-left: 12px;
+  padding: 4px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  background-color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* .info-box input[type="checkbox"] {
+  margin-left: 12px;
+  width: 20px;
+  height: 20px;
+  accent-color: #00cbba;
+} */
+
+.info-withdraw {
+  text-align: right;
+  margin-top: 20px;
+}
+
+.info-withdraw a {
+  color: #999;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+
+
+/* 마이페이지 모달 */
+.mypage-modal-body {
+  width: 440px;
+  padding: 20px;
+  padding-bottom: 15px;
+}
+
+.modal-form-group {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-input-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 8px;
+}
+
+.modal-input-field {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.modal-input-field::placeholder {
+  color: #ccc;
+  font-size: 13px;
+}
+
+
+.modal-input-wrapper {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  padding-right: 7px;
+}
+
+.input-wrapper input {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.modal-input-nick {
+  width: 440px;
+}
+
+.input-wrapper input::placeholder {
+  color: #ccc;
+}
+
+.modal-divider {
+  /* width: 600px; */
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 0; 
+  padding: 0;
+}
+
+.button-wrapper {
+  width: 100%;
+  padding: 15px 25px;
+  margin: 0;
+}
+
+.mypage-modal__button {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
