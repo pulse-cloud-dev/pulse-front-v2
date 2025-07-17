@@ -26,14 +26,16 @@ const location = useLocation();
       <main className="mypage-main">
         <h1 className="mypage-title">내 정보</h1>
 
-        <PageTabs
-          tabList={[
-            { id: "basic", display: "기본 정보" },
-            { id: "mentor", display: "멘토 정보" },
-            { id: "condition", display: "맞춤 멘토 조건" },
-          ]}
-        />
-
+        <div className="mypage-tabs">
+          <PageTabs
+            tabList={[
+              { id: "basic", display: "기본 정보" },
+              { id: "mentor", display: "멘토 정보" },
+              { id: "condition", display: "맞춤 멘토 조건" },
+            ]}
+          />
+        </div>
+        
         <div className="tab-panel">
           {currentTab === "basic" && <MyInfoForm data={userInfo}/>}
           {currentTab === "mentor" && <div>멘토 정보 콘텐츠</div>}
