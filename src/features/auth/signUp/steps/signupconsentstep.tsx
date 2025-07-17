@@ -1,6 +1,8 @@
 import { usePageNavigation } from "@/shared/lib/hooks";
 import { Accordion, CheckboxGroup, Icon, useCheckboxGroup } from "@/shared/components";
 import { SignUpStepProps } from "./signupsteptype";
+import { Typography } from "@/shared/components";
+import { BaseButton } from "@/shared/components";
 // Step 1
 export const SignUpConsentStep = ({ onNext }: SignUpStepProps) => {
   const { items: checkboxItems } = useCheckboxGroup();
@@ -8,27 +10,29 @@ export const SignUpConsentStep = ({ onNext }: SignUpStepProps) => {
   const isActiveNext = checkboxItems[0].checked;
 
   return (
-    <div className="p-30 w-100">
-      <div className="border-b m-t-10">
-        <div className="flex_r align_center gap_8 p-8" style={{ justifyContent: "start", alignItems: "center" }}>
-          <CheckboxGroup type="all" id={checkboxItems[0].id} />
-          <span>모두 동의합니다</span>
-        </div>
+    <div className="w-100" style={{ paddingLeft: "18px", paddingRight: "18px" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "start", marginTop: "30px" }}>
+        <CheckboxGroup type="all" id={checkboxItems[0].id} />
+        <Typography variant="compact" size="14" weight="semi-bold" color="grayscale" colorscale="90">
+          모두 동의합니다
+        </Typography>
       </div>
-
-      <div className="flex1 flex_c">
+      <Bar />
+      <div className="flex1 flex_c m-t-10 gap_8">
         {checkboxItems.slice(1).map((item) => (
           <Accordion key={item.id}>
             <Accordion.Item>
               {({ toggle, isActive }) => (
                 <>
-                  <div className={`accordion__toggle m-t-8`}>
-                    <div className="flex_r align_center p-8 gap_8" style={{ justifyContent: "start", alignItems: "center" }}>
+                  <div className={`accordion__toggle m-t-8`} style={{ justifyContent: "space-between", display: "flex" }}>
+                    <div className="flex_r align_center  gap_1" style={{ justifyContent: "start", alignItems: "center" }}>
                       <CheckboxGroup type="item" id={item.id} />
-                      <span>{item.label}</span>
+                      <Typography variant="compact" size="14" weight="regular" color="grayscale" colorscale="90" onClick={toggle}>
+                        {item.label}
+                      </Typography>
                     </div>
                     <button type="button" className="accordion__toggle-arrow more" onClick={toggle}>
-                      <Icon className={`icon__arrow img_to_bk80 ${isActive ? "" : "on"}`} src="chevron_down_bk_16" alt="화살표" />
+                      <Icon style={{ width: "16px", height: "16px", padding: "0px" }} className={`icon__arrow img_to_bk80 ${isActive ? "" : "on"}`} src="chevron_down_bk_16" alt="화살표" />
                     </button>
                   </div>
                   {isActive && (
@@ -50,12 +54,18 @@ export const SignUpConsentStep = ({ onNext }: SignUpStepProps) => {
         ))}
       </div>
 
-      <div className="w-60 m-t-40 flex_r align_center justify_center gap_8" style={{ margin: "auto" }}>
-        <button className="fs_16 btn__line gray btn_xl flex1" onClick={goBack}>
-          취소
-        </button>
-        <button
-          className={`fs_16 btn__primary btn_xl flex1 ${isActiveNext ? "" : "disabled"}`}
+      <div style={{ marginLeft: "auto", marginRight: "auto", display: "flex", gap: "8px", alignItems: "center", justifyContent: "center", width: "200px", marginTop: "50px" }}>
+        <BaseButton size="md" color="gray" onClick={goBack} style={{ flex: 1 }}>
+          <Typography variant="compact" size="14" weight="semi-bold" color="grayscale" colorscale="90">
+            취소
+          </Typography>
+        </BaseButton>
+
+        <BaseButton
+          size="md"
+          color="primary"
+          style={{ flex: 1 }}
+          className={` ${isActiveNext ? "" : "disabled"}`}
           onClick={() => {
             const uncheckedItem = checkboxItems.filter((item) => item.id !== "all").find((item) => !item.checked);
             if (uncheckedItem === undefined) {
@@ -67,9 +77,13 @@ export const SignUpConsentStep = ({ onNext }: SignUpStepProps) => {
             }
           }}
         >
-          다음
-        </button>
+          <Typography variant="compact" size="14" weight="semi-bold" color="grayscale" colorscale="90">
+            다음
+          </Typography>
+        </BaseButton>
       </div>
     </div>
   );
 };
+
+const Bar = () => <div className="w-100 border-b m-t-10" />;

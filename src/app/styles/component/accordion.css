@@ -10,6 +10,7 @@
   color: var(--text);
   display: flex;
   justify-content: space-between;
+  height: 24px;
 }
 
 .accordion__toggle.toggle__text {
@@ -63,7 +64,6 @@
 
 .accordion__toggle-arrow {
   right: 0;
-  padding: 0 12px 0 12px;
   display: none;
 }
 .accordion__toggle-arrow.more {
