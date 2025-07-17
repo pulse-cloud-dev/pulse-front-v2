@@ -101,7 +101,7 @@
 
 
 /* 탭 */
-.tabs__pageMenu {
+.mypage-tabs .tabs__pageMenu {
   display: flex;
   width: 968px;
   gap: 32px;
@@ -110,7 +110,7 @@
   border-bottom: 1px solid #eee;
 }
 
-.tabs__pageMenu .tabs-btn {
+.mypage-tabs .tabs__pageMenu .tabs-btn {
   padding: 10px 6px;
   font-size: 16px;
   font-weight: 500;
@@ -121,12 +121,12 @@
   position: relative;
 }
 
-.tabs__pageMenu .tabs-btn.active {
+.mypage-tabs .tabs__pageMenu .tabs-btn.active {
   color: #222;
   font-weight: 700;
 }
 
-.tabs__pageMenu .tabs-btn.active::after {
+.mypage-tabs .tabs__pageMenu .tabs-btn.active::after {
   content: "";
   position: absolute;
   bottom: -2px;
@@ -154,6 +154,29 @@
   color: #333;
 }
 
+.info-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.info-label {
+  width: 130px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #444;
+}
+
+.info-value {
+  
+  flex: 1;
+  display: flex;
+  margin-left: 20px;
+  align-items: center;
+  
+}
+
+
 .info-box button {
   margin-left: 12px;
   padding: 4px 12px;
@@ -164,12 +187,12 @@
   cursor: pointer;
 }
 
-.info-box input[type="checkbox"] {
+/* .info-box input[type="checkbox"] {
   margin-left: 12px;
   width: 20px;
   height: 20px;
   accent-color: #00cbba;
-}
+} */
 
 .info-withdraw {
   text-align: right;
@@ -182,46 +205,84 @@
   text-decoration: none;
 }
 
-.toggle-switch {
-  position: relative;
-  width: 80px;
-  height: 20px;
+
+
+/* 마이페이지 모달 */
+.mypage-modal-body {
+  width: 440px;
+  padding: 20px;
+  padding-bottom: 15px;
 }
 
-.toggle-switch input[type="checkbox"] {
-  opacity: 0;
-  width: 40px;
-  height: 0;
+.modal-form-group {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
 }
 
-.toggle-switch::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
+.modal-input-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 8px;
+}
+
+.modal-input-field {
   width: 100%;
-  height: 100%;
-  background-color: #ccc;
-  border-radius: 20px;
-  transition: background-color 0.3s;
+  padding: 12px 14px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
 }
 
-.toggle-switch::after {
-  content: "";
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 16px;
-  height: 16px;
-  background: white;
-  border-radius: 50%;
-  transition: transform 0.3s;
+.modal-input-field::placeholder {
+  color: #ccc;
+  font-size: 13px;
 }
 
-.toggle-switch input[type="checkbox"]:checked + &::before {
-  background-color: #00cbba;
+
+.modal-input-wrapper {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  padding-right: 7px;
 }
 
-.toggle-switch input[type="checkbox"]:checked + &::after {
-  transform: translateX(20px);
+.input-wrapper input {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
 }
+
+.modal-input-nick {
+  width: 440px;
+}
+
+.input-wrapper input::placeholder {
+  color: #ccc;
+}
+
+.modal-divider {
+  /* width: 600px; */
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 0; 
+  padding: 0;
+}
+
+.button-wrapper {
+  width: 100%;
+  padding: 15px 25px;
+  margin: 0;
+}
+
+.mypage-modal__button {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
