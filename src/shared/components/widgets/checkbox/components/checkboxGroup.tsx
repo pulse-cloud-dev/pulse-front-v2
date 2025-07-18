@@ -13,7 +13,7 @@ const CheckboxForAll = ({ items, toggleCheckbox }: CheckboxGroupAllProps) => (
         <CheckField key={item.id} variant="circle" className="check-field-module">
           <CheckField.Input checkId={item.id} name={item.id} isChecked={item.checked} onChange={() => toggleCheckbox(item.id)} />
           <CheckField.Label checkId={item.id}>
-            <span style={{ visibility: "hidden" }}>.</span>{" "}
+            <span style={{ visibility: "hidden" }}>.</span>
           </CheckField.Label>
         </CheckField>
       ))}
