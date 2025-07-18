@@ -33,7 +33,7 @@ export const DatePickerField = forwardRef<HTMLInputElement, DatePickerFieldProps
       onBlur,
       error,
       disabled = false,
-      placeholderText = "YYYYMM",
+      placeholderText = "ex)202507",
       dateFormat = "yyyyMM",
       labelSize = "md",
       className = "",
