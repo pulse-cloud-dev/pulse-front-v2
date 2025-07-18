@@ -94,6 +94,7 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
 
                   {field.type === "input" && (
                     <FormField
+                      placeholder={field.label}
                       label={field.label}
                       wrapperClass="form-field-wrapper"
                       labelClass="form-field__label"
