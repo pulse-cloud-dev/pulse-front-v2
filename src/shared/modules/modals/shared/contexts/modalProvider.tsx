@@ -31,7 +31,6 @@ export interface ModalProviderProps extends PropsWithChildren {}
 export const ModalProvider = ({ children }: ModalProviderProps) => {
   const [state, dispatch] = useReducer(modalReducer, []);
 
-  console.log(state);
   // const modalElements = useMemo(
   //   () => state.map(({ id, component: Component, props }) => <ModalComponent key={id} Component={Component} props={props} />),
   //   [state, dispatch]
@@ -42,8 +41,8 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
       {children}
       {/* {modalElements} */}
       {state.map(({ id, component: Component, props }) => (
-  <Component key={props.key ?? id} {...props} />
-))}
+        <Component key={props.key ?? id} {...props} />
+      ))}
     </ModalContext.Provider>
   );
 };

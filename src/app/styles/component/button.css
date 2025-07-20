@@ -113,8 +113,17 @@
 }
 .btn.primary {
   border: 1px solid var(--border);
-  background-color: var(--primary-60);
-  color: var(--text-wh);
+  background-color: var(--primary-40);
+  color: #ffffff !important; /* 직접 흰색 지정 */
+  opacity: 1;
+}
+.btn.primary:hover:not(.disabled),
+.btn.primary.hover {
+  opacity: 0.7;
+}
+
+.btn.primary.disabled {
+  opacity: 0.3;
 }
 
 .btn.teal {
@@ -217,7 +226,7 @@ button.disabled .img_on {
   padding: 2px 12px 0;
   border-radius: 8px;
   font-size: 8px;
-  background: #00cbba;
+  background: var(--primary-100);
   color: var(--text-wh);
   border-radius: 8px;
 }
@@ -225,9 +234,9 @@ button.disabled .img_on {
 .btn__primary.hover {
   background: var(--primary-70);
 }
+
 .btn__primary.disabled {
-  background: var(--grayscale-50);
-  color: var(--white-w_20);
+  background: var(--primary-30);
 }
 
 .btn__secondary {
@@ -431,9 +440,4 @@ button.disabled .img_on {
   font-size: 14px;
   color: var(--text-muted);
   line-height: 1.6;
-}
-
-.disabled {
-  background-color: var(--text-muted) !important;
-  color: #fff !important;
 }

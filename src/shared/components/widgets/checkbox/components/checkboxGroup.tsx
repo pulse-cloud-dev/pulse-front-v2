@@ -23,6 +23,7 @@ const CheckboxForAll = ({ items, toggleCheckbox }: CheckboxGroupAllProps) => (
 export interface CheckboxGroupItemProps extends ReturnType<typeof useCheckboxGroup> {
   id?: Id;
 }
+
 const CheckboxForItem = ({ items, id, toggleCheckbox }: CheckboxGroupItemProps) => (
   <>
     {items.map((item) =>

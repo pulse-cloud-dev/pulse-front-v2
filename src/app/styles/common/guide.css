@@ -138,7 +138,7 @@ input[type="password"] {
   letter-spacing: 1px;
 }
 input::placeholder {
-  color: rgb(58, 9, 9);
+  color: #cecece;
 }
 
 /*scroll*/
