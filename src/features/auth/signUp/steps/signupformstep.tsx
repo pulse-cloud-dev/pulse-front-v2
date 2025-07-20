@@ -1,4 +1,4 @@
-import { CheckboxGroup, Typography, useCheckboxGroup } from "@/shared/components";
+import { BaseButton, CheckboxGroup, Typography, useCheckboxGroup } from "@/shared/components";
 import { SignUpStepProps } from "./signupsteptype";
 import { FormField } from "@/shared/components";
 import { useState, FormEvent, ChangeEvent, useEffect } from "react";
@@ -315,13 +315,16 @@ export const SignUpFormStep = ({ onPrev, onNext }: SignUpStepProps) => {
         ))}
       </div>
       <div className="flex_r align_center justify_center gap_8 m-t-27 w200" style={{ margin: "auto" }}>
-        <button type="button" className="auth__button cancel" onClick={onPrev}>
-          취소
-        </button>
-
-        <button type="submit" className={`auth__button ${!isFormValid || checknickname.isError ? "disabled" : ""}`} disabled={!isFormValid || checknickname.isError}>
-          확인
-        </button>
+        <BaseButton type="button" size="md" color="gray" onClick={onPrev} style={{ flex: 1 }}>
+          <Typography variant="compact" size="15" weight="semi-bold" color="grayscale" colorscale="70">
+            취소
+          </Typography>
+        </BaseButton>
+        <BaseButton type="submit" color="primary" disabled={!isFormValid || checknickname.isError} className={`${!isFormValid || checknickname.isError ? "disabled" : ""}`} style={{ flex: 1 }}>
+          <Typography variant="compact" size="15" weight="semi-bold" color="white" colorscale="90">
+            확인
+          </Typography>
+        </BaseButton>
       </div>
     </form>
   );

@@ -60,6 +60,7 @@ export const Certificate = ({ stacks, pushStack, popStack, updateStackField, res
                   <FormField
                     key={key}
                     {...commonProps}
+                    placeholder={field.label}
                     wrapperClass="form-field-wrapper"
                     labelClass="form-field__label"
                     errorClass="text-field__error"

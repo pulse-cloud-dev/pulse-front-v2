@@ -123,7 +123,7 @@ height: 200px;
   }, []);
   open === true ? "" : (cnt = 0);
   return (
-    <div className={`dropdown-container ${className}`} ref={wrapperRef} onBlur={handleBlur} onFocus={onFocus}>
+    <div className={`dropdown-container ${className}`} ref={wrapperRef} onBlur={handleBlur} onFocus={onFocus} style={{ position: "relative" }}>
       <label htmlFor={id} className="dropdown-label">
         {label}
       </label>
@@ -142,12 +142,24 @@ height: 200px;
         aria-invalid={hasError}
         style={{ display: "flex", alignItems: "center" }}
       >
-        {value || "선택하세요"}
+        <span style={{ color: value ? "inherit" : "#CECECE" }}>{value || "선택하세요"}</span>
         <Icon className={`icon__arrow img_to_bk80 absolute ${open ? "" : "on"}`} src="chevron_down_bk_16" alt="화살표" style={{ right: "10px" }} />
       </button>
 
       {open && (
-        <ul role="listbox" className="dropdown-list" style={{ marginBottom: "4px" }}>
+        <ul
+          role="listbox"
+          className="dropdown-list"
+          style={{
+            border: "1px solid #E0E0E0",
+            borderRadius: "10px",
+            maxHeight: "200px",
+            overflowY: "auto",
+            top: "70px",
+            position: "absolute",
+            boxShadow: "2px 2px 10px rgba(18, 18, 18, 0.1)",
+          }}
+        >
           <DropdownContext.Provider
             value={{
               onSelect: handleSelect,

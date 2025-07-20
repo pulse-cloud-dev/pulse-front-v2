@@ -4,10 +4,9 @@
   display: inline-block;
   width: 100%;
   min-width: 120px;
-  max-width: 100%; 
-  height: 1.5rem; 
-  font-size: 0.75rem; 
-
+  max-width: 100%;
+  height: 1.5rem;
+  font-size: 0.75rem;
 }
 
 /* 드롭다운 아이콘 추가 */
@@ -41,17 +40,15 @@
   background: var(--more-visible-wh_12-to-6);
 
   border: 0.0625rem solid var(--white-w_20);
-  /* border: 0.0625rem solid var(--line-pri_40-to-bk_40); */
   border-radius: 2px;
-  /* background: var(--bg_02); */
   background-color: transparent;
   font-size: 13px;
-  color: var(--white-w_87); 
+  color: var(--white-w_87);
 }
 
 /* hover, focus 상태 */
 .quick-select.select:hover {
-  border:  0.0625rem  solid var(--primary-pri_20);
+  border: 0.0625rem solid var(--primary-pri_20);
 }
 
 .quick-select.select:focus {
@@ -63,8 +60,8 @@
   color: var(--white-w_87);
 }
 .quick-select.select:has(option[value=""]:checked) {
-  color: var(--white-w_20) 
+  color: var(--white-w_20);
 }
-.quick-select.select option:disabled{
+.quick-select.select option:disabled {
   color: var(--white-w_20);
 }

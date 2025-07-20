@@ -1,6 +1,5 @@
 import type { FC, Dispatch } from "react";
 import { createContext, useContext } from "react";
-
 import type { ModalAction } from "../../types";
 
 export interface ModalState {

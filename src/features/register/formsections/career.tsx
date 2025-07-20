@@ -5,7 +5,7 @@ import { Dropdown, DropdownItem } from "@/shared/components/blocks/dropdown/drop
 import { DatePickerField } from "@/shared/components/blocks/datepicker/DatePickerField";
 import ToggleBtn from "@/shared/components/blocks/togglebutton/togglebutton";
 import { useRoleLevels } from "../register.service";
-import { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 import ErrorBoundary from "@/shared/components/blocks/errorboundary/errorBoundary";
 
 const RoleLevelOptions = () => {
@@ -94,6 +94,7 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
 
                   {field.type === "input" && (
                     <FormField
+                      placeholder={field.label}
                       label={field.label}
                       wrapperClass="form-field-wrapper"
                       labelClass="form-field__label"

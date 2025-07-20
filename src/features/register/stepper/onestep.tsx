@@ -1,7 +1,7 @@
 import { StepProps } from "./type/stepstype";
 import { BaseButton, Typography } from "@/shared/components";
 import { HTMLAttributes, PropsWithChildren } from "react";
-import { Modal } from "@/shared/modules";
+
 // FooterProps 타입 정의
 interface FooterProps extends HTMLAttributes<HTMLElement>, PropsWithChildren {
   onPrev: () => void;
