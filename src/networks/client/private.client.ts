@@ -16,7 +16,7 @@ privateClient.interceptors.request.use(
       ...config,
       headers: {
         "Content-type": "application/json;charset=UTF-8",
-        Authorization: `Bearer ${localStorageManager.get("test")}`,
+        Authorization: `Bearer ${localStorageManager.get("pulse")}`,
       },
     };
   },
