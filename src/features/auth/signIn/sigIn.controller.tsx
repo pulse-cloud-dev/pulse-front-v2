@@ -10,6 +10,7 @@ import { usePageNavigation, useUser } from "@/shared/lib/hooks";
 export const SigInController = () => {
   const { goHome } = usePageNavigation();
   const { login } = useUser();
+
   const { mutation, requestSignIn } = signInService.useSignIn();
   const handleSubmit = (formData: SignInRequestDTO) => requestSignIn(formData);
 
