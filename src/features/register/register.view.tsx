@@ -1,8 +1,9 @@
-import React from "react";
+import { useState } from "react";
 import { Typography } from "@/shared/components";
 import { Job, Career, Education, Certificate, Introduction } from "./formsections";
 import { RegisterSchema, UseStackReturn } from "./formsections/stack";
 import { BaseButton } from "@/shared/components";
+import { Alert } from "@/shared/modules";
 
 interface IntroductionState {
   introduction: string;
@@ -26,6 +27,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({ job, career, educati
     e.preventDefault();
     onSubmit();
   };
+  const [open, setopen] = useState(false);
   return (
     <article className="sub-layout__content">
       <Typography variant="title" size="24" weight="bold">

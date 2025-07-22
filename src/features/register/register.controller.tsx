@@ -4,15 +4,16 @@ import { RegisterView } from "./register.view";
 import { RegisterSchema } from "./formsections/stack";
 import { useRegisterMentor } from "./register.service";
 import { queryClient } from "@/app/contexts";
-
+import { useModal } from "@/shared/modules";
+import { Modal } from "@/shared/modules";
 export const RegisterContainer = () => {
   const jobState = useStack<RegisterSchema>(createInitialJobSchema);
   const careerState = useStack<RegisterSchema>(createInitialCareerSchema);
   const educationState = useStack<RegisterSchema>(createInitialEducationSchema);
   const certificateState = useStack<RegisterSchema>(createInitialCertificateSchema);
-
+  const modal = useModal(Modal);
   const [introduction, setIntroduction] = useState<string>("");
-
+  const registerMentor = useRegisterMentor();
   const allStacksValid = useMemo(() => {
     const checkStackStatus = (stacks: RegisterSchema[], skipFields?: (stack: RegisterSchema) => string[], stackName?: string): boolean => {
       let isValid = true;
@@ -63,8 +64,27 @@ export const RegisterContainer = () => {
     return careerValid && educationValid && certificateValid && jobValid;
   }, [jobState.stacks, careerState.stacks, educationState.stacks, certificateState.stacks]);
 
-  const registerMentor = useRegisterMentor();
-  console.log(jobState, careerState, educationState, certificateState);
+  const openRegisterModal = () => {
+    modal.openModal({
+      title: "멘토 등록",
+      subtitle: "입력 내용을 확인하세요",
+      children: () => (
+        <div>
+          <button
+            onClick={() => {
+              registerMentor.mutate({
+                academic_info_list: mapEducationStacksToDto(educationState.stacks),
+                certificate_info_list: mapCertificationStacksToDto(certificateState.stacks),
+                job_info: mapJobStacksToDto(jobState.stacks),
+                career_info_list: mapCareerStacksToDto(careerState.stacks),
+                mentor_introduction: introduction,
+              });
+            }}
+          />
+        </div>
+      ),
+    });
+  };
   return (
     <RegisterView
       job={jobState}
@@ -82,15 +102,7 @@ export const RegisterContainer = () => {
           mentor_introduction: introduction,
         });
       }}
-      onSubmit={() => {
-        registerMentor.mutate({
-          academic_info_list: mapEducationStacksToDto(educationState.stacks),
-          certificate_info_list: mapCertificationStacksToDto(certificateState.stacks),
-          job_info: mapJobStacksToDto(jobState.stacks),
-          career_info_list: mapCareerStacksToDto(careerState.stacks),
-          mentor_introduction: introduction,
-        });
-      }}
+      onSubmit={openRegisterModal}
     />
   );
 };
