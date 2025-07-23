@@ -1,9 +1,9 @@
-import { AlertInterface } from './alertTypes';
-
+import { AlertInterface } from "./alertTypes";
+import { useKey } from "../modals/shared/hooks/useKey";
 /**
  * `Alert` 컴포넌트는 사용자에게 알림 메시지를 보여주고
  * 확인/취소 등 버튼을 통해 상호작용할 수 있도록 제공하는 공통 컴포넌트입니다.
- * 
+ *
  * @example
  * ```tsx
  * <Alert
@@ -32,21 +32,13 @@ import { AlertInterface } from './alertTypes';
  * @returns {JSX.Element} 알림 모달 JSX
  */
 export const Alert = (props: AlertInterface): JSX.Element => {
-  const {
-    title = '알림',
-    body = '',
-    cancelBtn = true,
-    cancelText = '취소',
-    confirmText = '확인',
-    onCancel,
-    onConfirm,
-    className,
-    style,
-  } = props;
+  const { title = "알림", body = "", cancelBtn = true, cancelText = "취소", confirmText = "확인", onCancel, onConfirm, className, style } = props;
+
+  useKey("Escape", onCancel!);
 
   return (
     <div className="alert-overlay">
-      <div className={`alert ${className ?? ''}`} style={style}>
+      <div className={`alert ${className ?? ""}`} style={style}>
         <div className="alert__TextArea">
           <div className="alert__TextArea--title">{title}</div>
           <div className="alert__TextArea--body">{body}</div>

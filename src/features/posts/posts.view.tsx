@@ -364,10 +364,12 @@ export const PostsView = (props: PostsViewProps) => {
             label="제목"
             placeholder="제목을 입력해 주세요."
             value={formData.title.value}
-            onChange={(e) => updateField("title", e.target.value)}
+            onChange={(e) => {
+              const sanitizedValue = e.target.value.replace(/[^ㄱ-ㅎ가-힣a-zA-Z0-9]/g, "").slice(0, 100);
+              updateField("title", sanitizedValue);
+            }}
             onBlur={(e) => validateAndUpdate("title", e.target.value)}
-            isInvalid={formData.title.state === "invalid"}
-            errorMessage={formData.title.errorMessage}
+            isInvalid={false}
           />
         </div>
 
