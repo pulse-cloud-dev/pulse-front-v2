@@ -25,7 +25,7 @@ import { forwardRef } from "react";
 
 type BaseButtonProps = PropsWithChildren<ButtonHTMLAttributes<HTMLButtonElement>> & {
   size?: "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
-  color?: "gray" | "bk" | "wh" | "default" | "primary" | "reverse" | "teal" | "outlined" | "secondary";
+  color?: "gray" | "bk" | "wh" | "default" | "primary" | "reverse" | "teal" | "outlined" | "secondary" | "select";
 };
 
 export const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>((props, forwardedRef) => {

@@ -362,7 +362,7 @@ export const PostsView = (props: PostsViewProps) => {
             inputClass="form-field__input"
             name="제목"
             label="제목"
-            placeholder="제목을 입력해 주세요"
+            placeholder="제목을 입력해 주세요."
             value={formData.title.value}
             onChange={(e) => updateField("title", e.target.value)}
             onBlur={(e) => validateAndUpdate("title", e.target.value)}
@@ -424,6 +424,7 @@ export const PostsView = (props: PostsViewProps) => {
               labelSize="sm"
               label=" 모집 마감 기한"
               name="duedate"
+              dateFormat="yyyy/MM/dd"
               isValid={formData.dueDate.state === "invalid" ? false : true}
               error={formData.dueDate.errorMessage}
               selected={formData.dueDate.value}
@@ -457,6 +458,7 @@ export const PostsView = (props: PostsViewProps) => {
                 labelSize="md"
                 label="멘토링기간"
                 name="startdate"
+                dateFormat="yyyy/MM/dd"
                 selected={formData.startDate.value}
                 onChange={(date) => updateField("startDate", date || new Date())}
                 onBlur={() => handleBlur("startDate")}
@@ -466,9 +468,11 @@ export const PostsView = (props: PostsViewProps) => {
               />
             </div>
             <div className="m-r-16 m-l-16 m-t-35">~</div>
-            <div style={{ width: "241px" }}>
+            <div style={{ width: "241px", position: "relative" }}>
               <DatePickerField
-                className="m-t-20"
+                label="*"
+                labelSize="hidden"
+                dateFormat="yyyy/MM/dd"
                 isValid={formData.endDate.state === "invalid" ? false : true}
                 name="enddate"
                 selected={formData.endDate.value}
@@ -489,19 +493,8 @@ export const PostsView = (props: PostsViewProps) => {
             {lectureFormatOptions.map((option) => {
               const { value, label } = option;
               return (
-                <BaseButton
-                  key={value}
-                  size="lg"
-                  type="button"
-                  color="reverse"
-                  className={`m-r-8 ${formData.lectureFormat.value === value ? "primary" : "reverse"}`}
-                  onClick={() => {
-                    updateField("lectureFormat", (value as "ONLINE") || "OFFLINE");
-                  }}
-                >
-                  <Typography variant="compact" size="14">
-                    {label}
-                  </Typography>
+                <BaseButton key={value} size="lg" type="button" color={formData.lectureFormat.value === value ? "secondary" : "reverse"} className="m-r-8" onClick={() => updateField("lectureFormat", value === "ONLINE" ? "ONLINE" : "OFFLINE")}>
+                  {label}
                 </BaseButton>
               );
             })}
@@ -625,7 +618,7 @@ export const PostsView = (props: PostsViewProps) => {
             labelClass="form-field__label"
             errorClass="text-field__error"
             inputClass="form-field__input"
-            placeholder="모집인원을 입력해주세요"
+            placeholder="모집인원을 입력해주세요."
             value={formData.recruitCount.value}
             onChange={(e) => updateField("recruitCount", e.target.value)}
             onBlur={(e) => validateAndUpdate("recruitCount", e.target.value)}
@@ -641,7 +634,7 @@ export const PostsView = (props: PostsViewProps) => {
             labelClass="form-field__label"
             errorClass="text-field__error"
             inputClass="form-field__input"
-            placeholder="금액을 입력해주세요"
+            placeholder="금액을 입력해주세요."
             value={formData.mentorFee.value}
             onChange={(e) => updateField("mentorFee", e.target.value)}
             onBlur={(e) => validateAndUpdate("mentorFee", e.target.value)}

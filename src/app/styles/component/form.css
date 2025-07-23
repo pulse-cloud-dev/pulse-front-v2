@@ -450,6 +450,11 @@
   margin-bottom: 4px;
   display: block;
 }
+.form-field__label.hidden {
+  visibility: hidden; /* 안보이게 */
+  height: 20px; /* 기존 라벨 높이 유지 */
+  display: block;
+}
 
 .certificate-form {
   display: grid;

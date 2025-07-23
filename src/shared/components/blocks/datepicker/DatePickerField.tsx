@@ -14,7 +14,7 @@ interface DatePickerFieldProps {
   disabled?: boolean;
   placeholderText?: string;
   dateFormat?: string;
-  labelSize?: "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
+  labelSize?: "hidden" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
   className?: string;
   minDate?: Date;
   maxDate?: Date;
@@ -88,8 +88,6 @@ export const DatePickerField = forwardRef<HTMLInputElement, DatePickerFieldProps
             open={isOpen}
             onClickOutside={() => setIsOpen(false)}
             onSelect={() => setIsOpen(false)}
-            showMonthYearPicker
-            showFullMonthYearPicker
           />
           <Icon
             onClick={handleIconClick}
