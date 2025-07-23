@@ -3,7 +3,7 @@ import { Typography } from "@/shared/components";
 import { FormField } from "@/shared/components";
 import { Dropdown, DropdownItem } from "@/shared/components/blocks/dropdown/dropdown";
 import { DatePickerField } from "@/shared/components/blocks/datepicker/DatePickerField";
-import { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 import ErrorBoundary from "@/shared/components/blocks/errorboundary/errorBoundary";
 import { useEducationStatuses, useEducationLevels } from "../register.service";
 
@@ -43,7 +43,7 @@ const EducationStatusOptions = () => {
 학력 -> 에러검사 + 졸업,졸업 예정 ,재학중,중퇴,휴학
 졸업예정,졸업이 아니면 졸업연월 검증 스킵
 */
-export const Education = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError }: UseStackReturn<RegisterSchema>) => {
+export const Education = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError, resetStackField }: UseStackReturn<RegisterSchema>) => {
   return (
     <>
       <section className="m-t-24">
@@ -98,19 +98,39 @@ export const Education = ({ stacks, pushStack, popStack, updateStackField, reset
                     />
                   )}
                   {field.type === "date" ? (
-                    <DatePickerField
-                      name={key}
-                      label={field.label}
-                      selected={field.value ? (field.status === "fail" ? null : new Date(field.value)) : null}
-                      onChange={(date) => updateStackField(i, key as keyof RegisterSchema, date)}
-                      onBlur={() => {
-                        checkError(i, key as keyof RegisterSchema);
-                      }}
-                      onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
-                      error={isError ? field.errormessage : ""}
-                      isValid={!isError}
-                    />
+                    field.label === "입학연월" ? (
+                      <DatePickerField
+                        labelSize="sm"
+                        name={key}
+                        label={field.label}
+                        selected={field.value ? (field.status === "fail" ? null : new Date(field.value)) : null}
+                        onChange={(date) => {
+                          updateStackField(i, key as keyof RegisterSchema, date);
+                          resetStackField(i, "graduationDate" as keyof RegisterSchema); // 입학 연월 변경 시 졸업연월 초기화
+                        }}
+                        onBlur={() => checkError(i, key as keyof RegisterSchema)}
+                        onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
+                        isValid={!isError}
+                        maxDate={new Date()}
+                      />
+                    ) : field.label === "졸업연월" ? (
+                      <DatePickerField
+                        labelSize="sm"
+                        name={key}
+                        label={field.label}
+                        selected={field.value ? (field.status === "fail" ? null : new Date(field.value)) : null}
+                        onChange={(date) => {
+                          updateStackField(i, key as keyof RegisterSchema, date);
+                        }}
+                        onBlur={() => checkError(i, key as keyof RegisterSchema)}
+                        onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
+                        isValid={true}
+                        minDate={stacks[i].admissionDate?.value ? new Date(stacks[i].admissionDate.value as Date) : undefined}
+                        maxDate={new Date()}
+                      />
+                    ) : null
                   ) : null}
+
                   {field.type === "dropdown" && "list" in field && (
                     <Dropdown
                       id={`${key}-${i}`}

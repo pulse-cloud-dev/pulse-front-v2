@@ -83,6 +83,7 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
                         selected={field.value ? (field.status === "fail" ? null : new Date(field.value)) : null}
                         onChange={(date) => {
                           updateStackField(i, key as keyof RegisterSchema, date);
+                          resetStackField(i, "endDate" as keyof RegisterSchema); // 입사 년월 변경 시 퇴사 년월 상태 초기화
                         }}
                         onBlur={() => {
                           checkError(i, key as keyof RegisterSchema);
