@@ -435,14 +435,19 @@ export const PostsView = (props: PostsViewProps) => {
         <div className="flex_r" style={{ gap: "8px" }}>
           <div style={{ width: "308px" }}>
             <DatePickerField
+              minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
               labelSize="sm"
-              label=" 모집 마감 기한"
+              label="모집 마감 기한"
               name="duedate"
               dateFormat="yyyy/MM/dd"
-              isValid={formData.dueDate.state === "invalid" ? false : true}
+              isValid={formData.dueDate.state !== "invalid"}
               error={formData.dueDate.errorMessage}
               selected={formData.dueDate.value}
-              onChange={(date) => updateField("dueDate", date || new Date())}
+              onChange={(date) => {
+                updateField("dueDate", date || new Date());
+                updateField("startDate", null);
+                updateField("endDate", null);
+              }}
               onBlur={() => handleBlur("dueDate")}
               placeholderText="모집 마감 기한을 선택해 주세요."
             />
@@ -452,10 +457,11 @@ export const PostsView = (props: PostsViewProps) => {
               id="hour-selector"
               label="시간 선택"
               value={formData.dueTime.value === null ? "" : formData.dueTime.value}
-              onChange={(val) => updateField("dueTime", val)}
+              onChange={(val) => {
+                updateField("dueTime", val);
+              }}
               onBlur={() => handleBlur("dueTime")}
-              hasError={formData.dueTime.state === "invalid"}
-              errorMessage={formData.dueTime.errorMessage}
+              hasError={false}
             >
               {generateHours().map((hour, index) => (
                 <DropdownItem key={index} value={hour}>
@@ -469,12 +475,18 @@ export const PostsView = (props: PostsViewProps) => {
           <div style={{ height: "70px", display: "flex", flexDirection: "row", alignItems: "flex-end" }}>
             <div style={{ width: "241px" }}>
               <DatePickerField
+                minDate={formData.dueDate.value ? new Date(formData.dueDate.value) : new Date(new Date().setDate(new Date().getDate() + 1))}
                 labelSize="md"
                 label="멘토링기간"
                 name="startdate"
                 dateFormat="yyyy/MM/dd"
                 selected={formData.startDate.value}
-                onChange={(date) => updateField("startDate", date || new Date())}
+                onChange={(date) => {
+                  if (!date) return;
+                  const startDate = new Date(date);
+                  updateField("startDate", startDate);
+                  updateField("endDate", null);
+                }}
                 onBlur={() => handleBlur("startDate")}
                 placeholderText="시작일을 선택해 주세요."
                 isValid={formData.startDate.state === "invalid" ? false : true}
@@ -484,6 +496,7 @@ export const PostsView = (props: PostsViewProps) => {
             <div className="m-r-16 m-l-16 m-b-15">~</div>
             <div style={{ width: "241px", position: "relative" }}>
               <DatePickerField
+                minDate={formData.startDate.value ? new Date(new Date(formData.startDate.value).setDate(new Date(formData.startDate.value).getDate() + 1)) : new Date(new Date().setDate(new Date().getDate() + 1))}
                 label="*"
                 labelSize="hidden"
                 dateFormat="yyyy/MM/dd"
