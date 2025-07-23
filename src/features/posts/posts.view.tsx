@@ -540,8 +540,7 @@ export const PostsView = (props: PostsViewProps) => {
               value={formData.onlinePlatform.value}
               onChange={(e) => updateField("onlinePlatform", e.target.value)}
               onBlur={(e) => validateAndUpdate("onlinePlatform", e.target.value)}
-              isInvalid={formData.onlinePlatform.state === "invalid"}
-              errorMessage={formData.onlinePlatform.errorMessage}
+              isInvalid={false}
             />
           </div>
         )}
