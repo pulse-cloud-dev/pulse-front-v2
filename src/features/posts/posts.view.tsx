@@ -440,8 +440,7 @@ export const PostsView = (props: PostsViewProps) => {
               label="모집 마감 기한"
               name="duedate"
               dateFormat="yyyy/MM/dd"
-              isValid={formData.dueDate.state !== "invalid"}
-              error={formData.dueDate.errorMessage}
+              isValid={true}
               selected={formData.dueDate.value}
               onChange={(date) => {
                 updateField("dueDate", date || new Date());
@@ -489,8 +488,7 @@ export const PostsView = (props: PostsViewProps) => {
                 }}
                 onBlur={() => handleBlur("startDate")}
                 placeholderText="시작일을 선택해 주세요."
-                isValid={formData.startDate.state === "invalid" ? false : true}
-                error={formData.startDate.errorMessage}
+                isValid={true}
               />
             </div>
             <div className="m-r-16 m-l-16 m-b-15">~</div>
@@ -500,12 +498,11 @@ export const PostsView = (props: PostsViewProps) => {
                 label="*"
                 labelSize="hidden"
                 dateFormat="yyyy/MM/dd"
-                isValid={formData.endDate.state === "invalid" ? false : true}
+                isValid={true}
                 name="enddate"
                 selected={formData.endDate.value}
                 onChange={(date) => updateField("endDate", date || new Date())}
                 onBlur={() => handleBlur("endDate")}
-                error={formData.endDate.errorMessage}
                 placeholderText="종료일을 선택해 주세요."
               />
             </div>
