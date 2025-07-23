@@ -18,14 +18,14 @@ import { forwardRef } from "react";
  * - `teal`: 기본 사용 색상 (배경 Teal, 흰색 글자)
  * - `outlined`: 테두리형 버튼 (민트 테두리 + 텍스트만 컬러)
  * - `secondary`: 민트 텍스트, hover 시 연한 배경
- *
+ * - selected: 선택시에 secondary의 hover와 같은 색상(디자인 시스템 select참고)
  * 주요 size 옵션:
  * - `"sm"`, `"md"`, `"lg"`
  */
 
 type BaseButtonProps = PropsWithChildren<ButtonHTMLAttributes<HTMLButtonElement>> & {
   size?: "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
-  color?: "gray" | "bk" | "wh" | "default" | "primary" | "reverse" | "teal" | "outlined" | "secondary" | "select";
+  color?: "gray" | "bk" | "wh" | "default" | "primary" | "reverse" | "teal" | "outlined" | "secondary" | "selected";
 };
 
 export const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>((props, forwardedRef) => {

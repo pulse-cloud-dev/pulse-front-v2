@@ -148,7 +148,7 @@ const useFormState = () => {
     },
     mentorFee: {
       value: "",
-      errorMessage: "숫자만 입력해 주세요.",
+      errorMessage: "",
       pattern: /^[0-9]+$/,
       state: "pending",
     },
@@ -505,7 +505,7 @@ export const PostsView = (props: PostsViewProps) => {
             {lectureFormatOptions.map((option) => {
               const { value, label } = option;
               return (
-                <BaseButton key={value} size="lg" type="button" color={formData.lectureFormat.value === value ? "secondary" : "reverse"} className="m-r-8" onClick={() => updateField("lectureFormat", value === "ONLINE" ? "ONLINE" : "OFFLINE")}>
+                <BaseButton key={value} size="lg" type="button" color={formData.lectureFormat.value === value ? "selected" : "reverse"} className="m-r-8" onClick={() => updateField("lectureFormat", value === "ONLINE" ? "ONLINE" : "OFFLINE")}>
                   {label}
                 </BaseButton>
               );
@@ -632,7 +632,10 @@ export const PostsView = (props: PostsViewProps) => {
             inputClass="form-field__input"
             placeholder="모집인원을 입력해주세요."
             value={formData.recruitCount.value}
-            onChange={(e) => updateField("recruitCount", e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value.replace(/\D/g, "");
+              updateField("recruitCount", value.slice(0, 9));
+            }}
             onBlur={(e) => validateAndUpdate("recruitCount", e.target.value)}
             isInvalid={formData.recruitCount.state === "invalid"}
             errorMessage={formData.recruitCount.errorMessage}
@@ -648,12 +651,18 @@ export const PostsView = (props: PostsViewProps) => {
             inputClass="form-field__input"
             placeholder="금액을 입력해주세요."
             value={formData.mentorFee.value}
-            onChange={(e) => updateField("mentorFee", e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value.replace(/\D/g, "");
+              updateField("mentorFee", value.slice(0, 9));
+            }}
             onBlur={(e) => validateAndUpdate("mentorFee", e.target.value)}
             isInvalid={formData.mentorFee.state === "invalid"}
             errorMessage={formData.mentorFee.errorMessage}
+            type="text"
+            maxLength={9}
           />
-          <div className="dropdown-error-message" role="alert" style={{ marginTop: "30px" }}>
+
+          <div className="dropdown-error-message" role="alert" style={{ marginTop: "15px" }}>
             *금액 수령 시 부가세를 제외한 금액으로 정산됩니다.
           </div>
         </div>
