@@ -629,8 +629,7 @@ export const PostsView = (props: PostsViewProps) => {
                     updateField("offlineDetailAddress", value.slice(0, 255));
                   }}
                   maxLength={255}
-                  errorMessage={formData.offlineDetailAddress.errorMessage}
-                  isInvalid={formData.offlineDetailAddress.state === "invalid"}
+                  isInvalid={false}
                 />
               </div>
             </div>
