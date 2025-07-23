@@ -103,8 +103,7 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
                       type={["startDate", "endDate"].includes(key) ? "month" : "text"}
                       name={key}
                       value={field.value}
-                      isInvalid={isError}
-                      errorMessage={isError ? field.errormessage : ""}
+                      isInvalid={false}
                       onChange={(e) => updateStackField(i, key as keyof RegisterSchema, e.target.value)}
                       onBlur={() => checkError(i, key as keyof RegisterSchema)}
                       onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
@@ -119,8 +118,7 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
                       onChange={(val) => updateStackField(i, key as keyof RegisterSchema, val)}
                       onBlur={() => checkError(i, key as keyof RegisterSchema)}
                       onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
-                      hasError={isError}
-                      errorMessage={field.errormessage}
+                      hasError={false}
                     >
                       <ErrorBoundary fallback={<h2>Error...</h2>}>
                         <Suspense fallback={<>loading</>}>

@@ -48,8 +48,7 @@ export const Certificate = ({ stacks, pushStack, popStack, updateStackField, res
             const commonProps = {
               name: key,
               label: field.label,
-              isInvalid: isError,
-              errorMessage: isError ? field.errormessage : "",
+              isInvalid: false,
               onBlur: () => checkError(i, key as keyof RegisterSchema),
               onFocus: () => resetStatus(i, key as keyof RegisterSchema),
             };
@@ -74,7 +73,7 @@ export const Certificate = ({ stacks, pushStack, popStack, updateStackField, res
               case "date":
                 return (
                   <div key={key}>
-                    <DatePickerField isValid={isError ? false : true} {...commonProps} selected={field.value ? new Date(field.value) : null} onChange={(date) => updateStackField(i, key as keyof RegisterSchema, date)} />
+                    <DatePickerField maxDate={new Date()} isValid={true} {...commonProps} selected={field.value ? new Date(field.value) : null} onChange={(date) => updateStackField(i, key as keyof RegisterSchema, date)} />
                   </div>
                 );
 

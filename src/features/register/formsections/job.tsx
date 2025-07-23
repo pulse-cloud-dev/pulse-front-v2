@@ -63,8 +63,6 @@ export const Job = ({ stacks, updateStackField, resetStatus, checkError }: UseSt
           }}
         >
           {Object.entries(stack).map(([key, field]) => {
-            const isError = field.status === "fail";
-
             return (
               <div key={key} style={{ flex: 1 }}>
                 {field.type === "dropdown" && "list" in field && (
@@ -77,8 +75,7 @@ export const Job = ({ stacks, updateStackField, resetStatus, checkError }: UseSt
                     }}
                     onBlur={() => checkError(i, key as keyof RegisterSchema)}
                     onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
-                    hasError={isError}
-                    errorMessage={field.errormessage}
+                    hasError={false}
                   >
                     <ErrorBoundary fallback={<h2>Error...</h2>}>
                       <Suspense fallback={<>loading</>}>
