@@ -654,8 +654,7 @@ export const PostsView = (props: PostsViewProps) => {
               updateField("recruitCount", value.slice(0, 9));
             }}
             onBlur={(e) => validateAndUpdate("recruitCount", e.target.value)}
-            isInvalid={formData.recruitCount.state === "invalid"}
-            errorMessage={formData.recruitCount.errorMessage}
+            isInvalid={false}
           />
         </div>
         <div style={{ ...formfieldlayout }}>
