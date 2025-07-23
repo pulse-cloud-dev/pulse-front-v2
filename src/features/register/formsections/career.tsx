@@ -112,6 +112,7 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
                             ? new Date(stacks[i].startDate.value as Date)
                             : undefined // 없으면 제한 없이 선택
                         }
+                        maxDate={new Date()}
                       />
                     ) : null
                   ) : null}
