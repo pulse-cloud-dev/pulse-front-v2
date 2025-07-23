@@ -3,7 +3,7 @@ import type { EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import type { ViewEventProps } from "@/shared/types";
 import { TextEditorView, useTextEditor } from "@/shared/modules/text-editor";
-import { BaseButton, Typography } from "@/shared/components";
+import { BaseButton, FloatingSideMenu, Typography } from "@/shared/components";
 import { DatePickerField } from "@/shared/components/blocks/datepicker/DatePickerField";
 import { useState, useRef, useEffect } from "react";
 import { FormField } from "@/shared/components";
@@ -560,8 +560,7 @@ export const PostsView = (props: PostsViewProps) => {
                   value={formData.offlineAddress.value}
                   onChange={(e) => updateField("offlineAddress", e.target.value)}
                   onBlur={(e) => validateAndUpdate("offlineAddress", e.target.value)}
-                  isInvalid={formData.offlineAddress.state === "invalid"}
-                  errorMessage={formData.offlineAddress.errorMessage}
+                  isInvalid={false}
                   readOnly={true}
                 />
               </div>
@@ -628,7 +627,11 @@ export const PostsView = (props: PostsViewProps) => {
                   placeholder="상세주소를 입력해주세요."
                   value={formData.offlineDetailAddress.value}
                   onBlur={(e) => validateAndUpdate("offlineDetailAddress", e.target.value)}
-                  onChange={(e) => updateField("offlineDetailAddress", e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    updateField("offlineDetailAddress", value.slice(0, 255));
+                  }}
+                  maxLength={255}
                   errorMessage={formData.offlineDetailAddress.errorMessage}
                   isInvalid={formData.offlineDetailAddress.state === "invalid"}
                 />
