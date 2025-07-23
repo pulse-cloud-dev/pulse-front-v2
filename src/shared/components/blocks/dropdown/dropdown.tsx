@@ -102,11 +102,6 @@ export const Dropdown = ({ id, label, value, onChange, onBlur, onFocus, errorMes
         break;
     }
   };
-  /*
-height: 200px;
-/ overflow-y: auto;
-설정 할것,자동 focus 설정
-*/
   useEffect(() => {
     if (focusedIndex >= 0 && itemsRef.current[focusedIndex]) {
       itemsRef.current[focusedIndex]?.scrollIntoView({

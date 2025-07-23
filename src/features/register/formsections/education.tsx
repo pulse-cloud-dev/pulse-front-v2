@@ -43,7 +43,7 @@ const EducationStatusOptions = () => {
 학력 -> 에러검사 + 졸업,졸업 예정 ,재학중,중퇴,휴학
 졸업예정,졸업이 아니면 졸업연월 검증 스킵
 */
-export const Education = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError, resetStackField }: UseStackReturn<RegisterSchema>) => {
+export const Education = ({ stacks, pushStack, popStack, updateStackField, resetStatus, checkError }: UseStackReturn<RegisterSchema>) => {
   return (
     <>
       <section className="m-t-24">

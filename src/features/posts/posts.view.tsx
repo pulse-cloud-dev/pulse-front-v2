@@ -436,7 +436,7 @@ export const PostsView = (props: PostsViewProps) => {
             <Dropdown
               id="hour-selector"
               label="시간 선택"
-              value={formData.dueTime.value === null ? "선택해주세요" : formData.dueTime.value}
+              value={formData.dueTime.value === null ? "" : formData.dueTime.value}
               onChange={(val) => updateField("dueTime", val)}
               onBlur={() => handleBlur("dueTime")}
               hasError={formData.dueTime.state === "invalid"}
@@ -491,6 +491,7 @@ export const PostsView = (props: PostsViewProps) => {
               return (
                 <BaseButton
                   key={value}
+                  size="lg"
                   type="button"
                   color="reverse"
                   className={`m-r-8 ${formData.lectureFormat.value === value ? "primary" : "reverse"}`}
@@ -498,7 +499,9 @@ export const PostsView = (props: PostsViewProps) => {
                     updateField("lectureFormat", (value as "ONLINE") || "OFFLINE");
                   }}
                 >
-                  {label}
+                  <Typography variant="compact" size="14">
+                    {label}
+                  </Typography>
                 </BaseButton>
               );
             })}
@@ -543,7 +546,7 @@ export const PostsView = (props: PostsViewProps) => {
                   readOnly={true}
                 />
               </div>
-              <BaseButton type="button" color="reverse" size="lg" style={{ marginTop: "22px" }} onClick={handleAddressSearchClick}>
+              <BaseButton type="button" color="secondary" size="lg" style={{ marginTop: "22px", width: "1px", padding: "0px" }} onClick={handleAddressSearchClick}>
                 주소 검색
               </BaseButton>
             </div>
@@ -651,8 +654,10 @@ export const PostsView = (props: PostsViewProps) => {
         </div>
 
         <div className="flex_r flex_jend gap_4">
-          <BaseButton color="reverse">취소</BaseButton>
-          <BaseButton type="submit" className={isFormValid ? "primary " : "disabled"} disabled={!isFormValid}>
+          <BaseButton size="lg" color="reverse">
+            취소
+          </BaseButton>
+          <BaseButton size="lg" type="submit" className={isFormValid ? "primary " : "reverse"} disabled={!isFormValid}>
             신청
           </BaseButton>
         </div>
