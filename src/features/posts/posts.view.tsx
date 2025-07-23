@@ -375,7 +375,13 @@ export const PostsView = (props: PostsViewProps) => {
           <Typography variant="compact" size="16" weight="semi-bold">
             내용
           </Typography>
-          <div className="flex_r m-t-10 border-gray p-10 gap_5 items-center justify-center">
+          <div
+            className="flex_r m-t-10 border-gray p-10 gap_5 items-center justify-center"
+            style={{
+              borderTopLeftRadius: "10px",
+              borderTopRightRadius: "10px",
+            }}
+          >
             <button type="button" onClick={() => toggleInlineStyle("BOLD")}>
               B
             </button>
@@ -404,7 +410,13 @@ export const PostsView = (props: PostsViewProps) => {
               <Orderelistitem />
             </button>
           </div>
-          <div className="border-gray p-10 h502">
+          <div
+            className="border-gray p-10 h502"
+            style={{
+              borderBottomLeftRadius: "10px",
+              borderBottomRightRadius: "10px",
+            }}
+          >
             <TextEditorView
               ref={editorRef}
               editorState={editorState!}
@@ -452,7 +464,7 @@ export const PostsView = (props: PostsViewProps) => {
           </div>
         </div>
         <div>
-          <div style={{ height: "70px", display: "flex", flexDirection: "row", alignItems: "start" }}>
+          <div style={{ height: "70px", display: "flex", flexDirection: "row", alignItems: "flex-end" }}>
             <div style={{ width: "241px" }}>
               <DatePickerField
                 labelSize="md"
@@ -467,7 +479,7 @@ export const PostsView = (props: PostsViewProps) => {
                 error={formData.startDate.errorMessage}
               />
             </div>
-            <div className="m-r-16 m-l-16 m-t-35">~</div>
+            <div className="m-r-16 m-l-16 m-b-15">~</div>
             <div style={{ width: "241px", position: "relative" }}>
               <DatePickerField
                 label="*"
