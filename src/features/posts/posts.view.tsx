@@ -46,6 +46,7 @@ type FormState = {
 interface PostsViewProps extends ViewEventProps {
   requestPostMentoring: (payload: MentoringPostRequestDTO) => void;
   textEditorState: [EditorState, Dispatch<SetStateAction<EditorState>>];
+  onCancel: () => void;
 }
 
 const lectureFormatOptions = [
@@ -680,7 +681,7 @@ export const PostsView = (props: PostsViewProps) => {
         </div>
 
         <div className="flex_r flex_jend gap_4">
-          <BaseButton size="lg" color="reverse">
+          <BaseButton type="button" size="lg" color="reverse" onClick={props.onCancel}>
             취소
           </BaseButton>
           <BaseButton size="lg" type="submit" className={isFormValid ? "primary " : "reverse"} disabled={!isFormValid}>
