@@ -5,15 +5,21 @@ import { RegisterSchema } from "./formsections/stack";
 import { useRegisterMentor } from "./register.service";
 import { queryClient } from "@/app/contexts";
 import { useModal } from "@/shared/modules";
-import { Modal } from "@/shared/modules";
+import { Alert } from "@/shared/modules";
 export const RegisterContainer = () => {
   const jobState = useStack<RegisterSchema>(createInitialJobSchema);
   const careerState = useStack<RegisterSchema>(createInitialCareerSchema);
   const educationState = useStack<RegisterSchema>(createInitialEducationSchema);
   const certificateState = useStack<RegisterSchema>(createInitialCertificateSchema);
-  const modal = useModal(Modal);
+  const openmodal = useModal(Alert);
+  const closemodal = useModal(Alert);
   const [introduction, setIntroduction] = useState<string>("");
-  const registerMentor = useRegisterMentor();
+  const registerMentor = useRegisterMentor({
+    onSuccess: () => openRegisterModal(),
+    onError: (error) => {
+      console.error("멘토 등록 실패:", error);
+    },
+  });
   const allStacksValid = useMemo(() => {
     const checkStackStatus = (stacks: RegisterSchema[], skipFields?: (stack: RegisterSchema) => string[], stackName?: string): boolean => {
       let isValid = true;
@@ -65,52 +71,38 @@ export const RegisterContainer = () => {
   }, [jobState.stacks, careerState.stacks, educationState.stacks, certificateState.stacks]);
 
   const openRegisterModal = () => {
-    modal.openModal({
+    openmodal.openModal({
       title: "멘토 등록",
-      subtitle: "입력 내용을 확인하세요",
-      children: () => (
-        <div>
-          <button
-            onClick={() => {
-              registerMentor.mutate({
-                academic_info_list: mapEducationStacksToDto(educationState.stacks),
-                certificate_info_list: mapCertificationStacksToDto(certificateState.stacks),
-                job_info: mapJobStacksToDto(jobState.stacks),
-                career_info_list: mapCareerStacksToDto(careerState.stacks),
-                mentor_introduction: introduction,
-              });
-            }}
-          />
-        </div>
-      ),
+      body: "멘토등록이 완료되었어요.",
+      cancelBtn: false,
     });
   };
-  return (
-    <RegisterView
-      job={jobState}
-      career={careerState}
-      education={educationState}
-      certificate={certificateState}
-      introduction={{ introduction, setIntroduction }}
-      isValid={allStacksValid}
-      onCancel={() => {
-        console.log("Registration cancelled", {
-          academic_info_list: mapEducationStacksToDto(educationState.stacks),
-          certificate_info_list: mapCertificationStacksToDto(certificateState.stacks),
-          job_info: mapJobStacksToDto(jobState.stacks),
-          career_info_list: mapCareerStacksToDto(careerState.stacks),
-          mentor_introduction: introduction,
-        });
-      }}
-      onSubmit={openRegisterModal}
-    />
-  );
-};
-const formatDateToYYYYMM = (date: Date | null): string | null => {
-  if (!date) return null;
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  return `${year}${month}`;
+  const closeRegisterModal = () => {
+    closemodal.openModal({
+      title: "멘토 등록",
+      body: "작성중인 내용이 있습니다. 페이지를 나가실 경우 작성된 내용은 모두 삭제가 됩니다. 그래도 나가시겠습니까?",
+      onCancel: () => {
+        // ✅ 취소 시 아무것도 안 하거나 원하는 동작 실행
+        console.log("등록 취소됨");
+      },
+      onConfirm: () => {
+        // ✅ 취소 시 아무것도 안 하거나 원하는 동작 실행
+        console.log("등록 취소됨");
+      },
+    });
+  };
+
+  const register = () => {
+    registerMentor.mutate({
+      academic_info_list: mapEducationStacksToDto(educationState.stacks),
+      certificate_info_list: mapCertificationStacksToDto(certificateState.stacks),
+      job_info: mapJobStacksToDto(jobState.stacks),
+      career_info_list: mapCareerStacksToDto(careerState.stacks),
+      mentor_introduction: introduction,
+    });
+  };
+
+  return <RegisterView job={jobState} career={careerState} education={educationState} certificate={certificateState} introduction={{ introduction, setIntroduction }} isValid={allStacksValid} onCancel={closeRegisterModal} onSubmit={register} />;
 };
 const mapCareerStacksToDto = (stacks: RegisterSchema[]): any[] => {
   const mapCareerStackToRawDto = (careerStack: RegisterSchema) => ({
@@ -220,4 +212,11 @@ const mapCertificationStacksToDto = (stacks: RegisterSchema[]): any[] => {
     pass_date: formatDateToYYYYMM(Dto.pass_date.value),
   });
   return stacks.map(mapCertificationStackToRawDto).map(mapCertificationRawDtoToFinalDto);
+};
+
+const formatDateToYYYYMM = (date: Date | null): string | null => {
+  if (!date) return null;
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  return `${year}${month}`;
 };
