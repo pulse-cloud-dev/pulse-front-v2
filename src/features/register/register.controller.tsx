@@ -234,7 +234,7 @@ const RegisterfailAlert = ({ id, closeModal }: RegisterAlertProps) => {
   return (
     <Alert
       title="멘토 등록"
-      body="멘토등록은 5개 까지만 가능합니다."
+      body="멘토등록에 실패하였습니다."
       cancelBtn={false}
       confirmText="확인"
       onConfirm={() => {
