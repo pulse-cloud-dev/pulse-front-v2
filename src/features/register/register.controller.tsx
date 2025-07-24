@@ -212,15 +212,37 @@ interface RegisterAlertProps {
 }
 import { usePageNavigation } from "@/shared/lib/hooks";
 
-const RegisterConfirmAlert = () => {
+const RegisterConfirmAlert = ({ id, closeModal }: RegisterAlertProps) => {
   const { goToPage } = usePageNavigation();
-  return <Alert title="멘토 등록" body="멘토등록이 완료되었어요." cancelBtn={false} confirmText="확인" onConfirm={() => goToPage("/mentee-find")} />;
+  return (
+    <Alert
+      title="멘토 등록"
+      body="멘토등록이 완료되었어요."
+      cancelBtn={false}
+      confirmText="확인"
+      onConfirm={() => {
+        closeModal(id);
+        goToPage("/mentee-find");
+      }}
+    />
+  );
 };
 
-const RegisterfailAlert = () => {
+const RegisterfailAlert = ({ id, closeModal }: RegisterAlertProps) => {
   const { goToPage } = usePageNavigation();
 
-  return <Alert title="멘토 등록" body="멘토등록은 5개 까지만 가능합니다." cancelBtn={false} confirmText="확인" onConfirm={() => goToPage("/mentee-find")} />;
+  return (
+    <Alert
+      title="멘토 등록"
+      body="멘토등록은 5개 까지만 가능합니다."
+      cancelBtn={false}
+      confirmText="확인"
+      onConfirm={() => {
+        closeModal(id);
+        goToPage("/mentee-find");
+      }}
+    />
+  );
 };
 
 const RegisterCancelAlert = ({ id, closeModal }: RegisterAlertProps) => {
@@ -233,7 +255,10 @@ const RegisterCancelAlert = ({ id, closeModal }: RegisterAlertProps) => {
       cancelText="계속 작성"
       confirmText="나가기"
       onCancel={() => closeModal(id)}
-      onConfirm={() => goToPage("/mentee-find")}
+      onConfirm={() => {
+        closeModal(id);
+        goToPage("/mentee-find");
+      }}
     />
   );
 };
