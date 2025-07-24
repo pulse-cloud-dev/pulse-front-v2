@@ -26,7 +26,7 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
   return (
     <ModalContext.Provider value={{ state, dispatch }}>
       {children}
-      {state.map(({ id, component: Component, props }) => createPortal(<Component key={props.key ?? id} {...props} />, document.body))}
+      {state.map(({ id, component: Component, props }) => createPortal(<Component key={props.key ?? id} {...props} />, document.getElementById("portal-root")!))}
     </ModalContext.Provider>
   );
 };
