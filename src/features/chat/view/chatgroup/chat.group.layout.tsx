@@ -1,6 +1,6 @@
 import React from "react";
 import { Icon, Typography, Spacer } from "@/shared/components";
-
+import AddGroupButton from "@/shared/components/widgets/addGroupbutton/addgroupbutton";
 interface ChatGroupProps {
   children?: React.ReactNode;
 }
@@ -25,20 +25,7 @@ export const ChatGroupLayout = ({ children }: ChatGroupProps) => {
         </Typography>
         <Spacer size={27} />
         {children}
-        <button
-          style={{
-            borderRadius: "14px",
-            width: "104px",
-            height: "32px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            border: "1px solid #E0E0E0",
-          }}
-          aria-label="그룹 추가"
-        >
-          +
-        </button>
+        <AddGroupButton />
       </section>
     </>
   );
