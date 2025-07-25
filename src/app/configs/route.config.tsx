@@ -89,10 +89,7 @@ const createRoutes = (): Routers => {
           path: "bookmarks",
           children: [{ path: "", element: <Controller.BookmarkController /> }],
         },
-        {
-          path: "chat",
-          children: [{ path: "/chat", element: <Controller.ChatController /> }],
-        },
+
         {
           /**
            * @description Mentor Find (멘토링 찾기)
@@ -108,6 +105,11 @@ const createRoutes = (): Routers => {
           children: [{ path: "", element: <Controller.DetailController /> }],
         },
       ],
+    },
+    {
+      path: "chat",
+      element: <NoFooterLayout />,
+      children: [{ path: "/chat", element: <Controller.ChatController /> }],
     },
     {
       path: urlConst.home.default, // ""
