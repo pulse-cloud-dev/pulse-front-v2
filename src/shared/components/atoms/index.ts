@@ -7,3 +7,4 @@ export * from "./linkers/linker";
 export * from "./headings/heading";
 export * from "./typographys/typography";
 export * from "./spacer/spacer";
+export * from "./divider/divider";
