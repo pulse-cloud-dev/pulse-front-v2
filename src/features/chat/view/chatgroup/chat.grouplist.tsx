@@ -1,14 +1,32 @@
+import { useCallback } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Typography } from "@/shared/components";
+
 const groups = [
   { id: "1", name: "그룹명1" },
   { id: "2", name: "그룹명2" },
   { id: "3", name: "그룹명3" },
-  { id: "3", name: "그룹명은최대열두자까지임" },
   { id: "4", name: "그룹명은최대열두자까지임" },
+  { id: "5", name: "그룹명은최대열두자까지임" },
 ];
 
-// const groups
-import { Typography } from "@/shared/components";
 const ChatGroupList = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const params = new URLSearchParams(location.search);
+  const currentGroupId = params.get("menu") || groups[0].id;
+
+  const handleClick = useCallback(
+    (id: string) => {
+      if (id !== currentGroupId) {
+        params.set("menu", id);
+        navigate(`?${params.toString()}`);
+      }
+    },
+    [navigate, params, currentGroupId]
+  );
+
   return (
     <ul
       style={{
@@ -25,6 +43,7 @@ const ChatGroupList = () => {
       {groups.map((group) => (
         <li key={group.id}>
           <button
+            onClick={() => handleClick(group.id)}
             style={{
               width: "104px",
               height: "64px",
@@ -33,7 +52,7 @@ const ChatGroupList = () => {
               alignItems: "center",
               justifyContent: "center",
               border: "1px solid #E0E0E0",
-              backgroundColor: "#fff",
+              backgroundColor: currentGroupId === group.id ? "#E6F0FF" : "#fff", // 강조
               cursor: "pointer",
               whiteSpace: "normal",
               wordBreak: "break-word",
