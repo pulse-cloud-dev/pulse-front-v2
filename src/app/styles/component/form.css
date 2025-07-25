@@ -421,7 +421,6 @@
   display: flex;
   flex-direction: column;
   gap: 30px;
-  padding: 20px;
   border-radius: 8px;
   background-color: var(--palette-white-05);
 }
@@ -449,6 +448,11 @@
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 4px;
+  display: block;
+}
+.form-field__label.hidden {
+  visibility: hidden; /* 안보이게 */
+  height: 20px; /* 기존 라벨 높이 유지 */
   display: block;
 }
 

@@ -177,7 +177,11 @@
   color: #c4c4c4;
   border: 1px solid #e0e0e0;
 }
-
+.btn.selected {
+  background-color: #e6faf8;
+  color: #00cbba;
+  border: 1px solid #00cbba;
+}
 /* 
 ========================================================
                 Button Shape Style

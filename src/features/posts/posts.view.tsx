@@ -3,7 +3,7 @@ import type { EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import type { ViewEventProps } from "@/shared/types";
 import { TextEditorView, useTextEditor } from "@/shared/modules/text-editor";
-import { BaseButton, Typography } from "@/shared/components";
+import { BaseButton, FloatingSideMenu, Typography } from "@/shared/components";
 import { DatePickerField } from "@/shared/components/blocks/datepicker/DatePickerField";
 import { useState, useRef, useEffect } from "react";
 import { FormField } from "@/shared/components";
@@ -46,6 +46,7 @@ type FormState = {
 interface PostsViewProps extends ViewEventProps {
   requestPostMentoring: (payload: MentoringPostRequestDTO) => void;
   textEditorState: [EditorState, Dispatch<SetStateAction<EditorState>>];
+  onCancel: () => void;
 }
 
 const lectureFormatOptions = [
@@ -148,7 +149,7 @@ const useFormState = () => {
     },
     mentorFee: {
       value: "",
-      errorMessage: "숫자만 입력해 주세요.",
+      errorMessage: "",
       pattern: /^[0-9]+$/,
       state: "pending",
     },
@@ -362,12 +363,14 @@ export const PostsView = (props: PostsViewProps) => {
             inputClass="form-field__input"
             name="제목"
             label="제목"
-            placeholder="제목을 입력해 주세요"
+            placeholder="제목을 입력해 주세요."
             value={formData.title.value}
-            onChange={(e) => updateField("title", e.target.value)}
+            onChange={(e) => {
+              const sanitizedValue = e.target.value.replace(/[^ㄱ-ㅎ가-힣a-zA-Z0-9]/g, "").slice(0, 100);
+              updateField("title", sanitizedValue);
+            }}
             onBlur={(e) => validateAndUpdate("title", e.target.value)}
-            isInvalid={formData.title.state === "invalid"}
-            errorMessage={formData.title.errorMessage}
+            isInvalid={false}
           />
         </div>
 
@@ -375,7 +378,13 @@ export const PostsView = (props: PostsViewProps) => {
           <Typography variant="compact" size="16" weight="semi-bold">
             내용
           </Typography>
-          <div className="flex_r m-t-10 border-gray p-10 gap_5 items-center justify-center">
+          <div
+            className="flex_r m-t-10 border-gray p-10 gap_5 items-center justify-center"
+            style={{
+              borderTopLeftRadius: "10px",
+              borderTopRightRadius: "10px",
+            }}
+          >
             <button type="button" onClick={() => toggleInlineStyle("BOLD")}>
               B
             </button>
@@ -404,7 +413,13 @@ export const PostsView = (props: PostsViewProps) => {
               <Orderelistitem />
             </button>
           </div>
-          <div className="border-gray p-10 h502">
+          <div
+            className="border-gray p-10 h502"
+            style={{
+              borderBottomLeftRadius: "10px",
+              borderBottomRightRadius: "10px",
+            }}
+          >
             <TextEditorView
               ref={editorRef}
               editorState={editorState!}
@@ -421,13 +436,18 @@ export const PostsView = (props: PostsViewProps) => {
         <div className="flex_r" style={{ gap: "8px" }}>
           <div style={{ width: "308px" }}>
             <DatePickerField
+              minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
               labelSize="sm"
-              label=" 모집 마감 기한"
+              label="모집 마감 기한"
               name="duedate"
-              isValid={formData.dueDate.state === "invalid" ? false : true}
-              error={formData.dueDate.errorMessage}
+              dateFormat="yyyy/MM/dd"
+              isValid={true}
               selected={formData.dueDate.value}
-              onChange={(date) => updateField("dueDate", date || new Date())}
+              onChange={(date) => {
+                updateField("dueDate", date || new Date());
+                updateField("startDate", null);
+                updateField("endDate", null);
+              }}
               onBlur={() => handleBlur("dueDate")}
               placeholderText="모집 마감 기한을 선택해 주세요."
             />
@@ -436,11 +456,12 @@ export const PostsView = (props: PostsViewProps) => {
             <Dropdown
               id="hour-selector"
               label="시간 선택"
-              value={formData.dueTime.value === null ? "선택해주세요" : formData.dueTime.value}
-              onChange={(val) => updateField("dueTime", val)}
+              value={formData.dueTime.value === null ? "" : formData.dueTime.value}
+              onChange={(val) => {
+                updateField("dueTime", val);
+              }}
               onBlur={() => handleBlur("dueTime")}
-              hasError={formData.dueTime.state === "invalid"}
-              errorMessage={formData.dueTime.errorMessage}
+              hasError={false}
             >
               {generateHours().map((hour, index) => (
                 <DropdownItem key={index} value={hour}>
@@ -451,30 +472,38 @@ export const PostsView = (props: PostsViewProps) => {
           </div>
         </div>
         <div>
-          <div style={{ height: "70px", display: "flex", flexDirection: "row", alignItems: "start" }}>
+          <div style={{ height: "70px", display: "flex", flexDirection: "row", alignItems: "flex-end" }}>
             <div style={{ width: "241px" }}>
               <DatePickerField
+                minDate={formData.dueDate.value ? new Date(formData.dueDate.value) : new Date(new Date().setDate(new Date().getDate() + 1))}
                 labelSize="md"
                 label="멘토링기간"
                 name="startdate"
+                dateFormat="yyyy/MM/dd"
                 selected={formData.startDate.value}
-                onChange={(date) => updateField("startDate", date || new Date())}
+                onChange={(date) => {
+                  if (!date) return;
+                  const startDate = new Date(date);
+                  updateField("startDate", startDate);
+                  updateField("endDate", null);
+                }}
                 onBlur={() => handleBlur("startDate")}
                 placeholderText="시작일을 선택해 주세요."
-                isValid={formData.startDate.state === "invalid" ? false : true}
-                error={formData.startDate.errorMessage}
+                isValid={true}
               />
             </div>
-            <div className="m-r-16 m-l-16 m-t-35">~</div>
-            <div style={{ width: "241px" }}>
+            <div className="m-r-16 m-l-16 m-b-15">~</div>
+            <div style={{ width: "241px", position: "relative" }}>
               <DatePickerField
-                className="m-t-20"
-                isValid={formData.endDate.state === "invalid" ? false : true}
+                minDate={formData.startDate.value ? new Date(new Date(formData.startDate.value).setDate(new Date(formData.startDate.value).getDate() + 1)) : new Date(new Date().setDate(new Date().getDate() + 1))}
+                label="*"
+                labelSize="hidden"
+                dateFormat="yyyy/MM/dd"
+                isValid={true}
                 name="enddate"
                 selected={formData.endDate.value}
                 onChange={(date) => updateField("endDate", date || new Date())}
                 onBlur={() => handleBlur("endDate")}
-                error={formData.endDate.errorMessage}
                 placeholderText="종료일을 선택해 주세요."
               />
             </div>
@@ -489,15 +518,7 @@ export const PostsView = (props: PostsViewProps) => {
             {lectureFormatOptions.map((option) => {
               const { value, label } = option;
               return (
-                <BaseButton
-                  key={value}
-                  type="button"
-                  color="reverse"
-                  className={`m-r-8 ${formData.lectureFormat.value === value ? "primary" : "reverse"}`}
-                  onClick={() => {
-                    updateField("lectureFormat", (value as "ONLINE") || "OFFLINE");
-                  }}
-                >
+                <BaseButton key={value} size="lg" type="button" color={formData.lectureFormat.value === value ? "selected" : "reverse"} className="m-r-8" onClick={() => updateField("lectureFormat", value === "ONLINE" ? "ONLINE" : "OFFLINE")}>
                   {label}
                 </BaseButton>
               );
@@ -517,8 +538,7 @@ export const PostsView = (props: PostsViewProps) => {
               value={formData.onlinePlatform.value}
               onChange={(e) => updateField("onlinePlatform", e.target.value)}
               onBlur={(e) => validateAndUpdate("onlinePlatform", e.target.value)}
-              isInvalid={formData.onlinePlatform.state === "invalid"}
-              errorMessage={formData.onlinePlatform.errorMessage}
+              isInvalid={false}
             />
           </div>
         )}
@@ -538,12 +558,11 @@ export const PostsView = (props: PostsViewProps) => {
                   value={formData.offlineAddress.value}
                   onChange={(e) => updateField("offlineAddress", e.target.value)}
                   onBlur={(e) => validateAndUpdate("offlineAddress", e.target.value)}
-                  isInvalid={formData.offlineAddress.state === "invalid"}
-                  errorMessage={formData.offlineAddress.errorMessage}
+                  isInvalid={false}
                   readOnly={true}
                 />
               </div>
-              <BaseButton type="button" color="reverse" size="lg" style={{ marginTop: "22px" }} onClick={handleAddressSearchClick}>
+              <BaseButton type="button" color="secondary" size="lg" style={{ marginTop: "22px", width: "1px", padding: "0px" }} onClick={handleAddressSearchClick}>
                 주소 검색
               </BaseButton>
             </div>
@@ -606,9 +625,12 @@ export const PostsView = (props: PostsViewProps) => {
                   placeholder="상세주소를 입력해주세요."
                   value={formData.offlineDetailAddress.value}
                   onBlur={(e) => validateAndUpdate("offlineDetailAddress", e.target.value)}
-                  onChange={(e) => updateField("offlineDetailAddress", e.target.value)}
-                  errorMessage={formData.offlineDetailAddress.errorMessage}
-                  isInvalid={formData.offlineDetailAddress.state === "invalid"}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    updateField("offlineDetailAddress", value.slice(0, 255));
+                  }}
+                  maxLength={255}
+                  isInvalid={false}
                 />
               </div>
             </div>
@@ -622,12 +644,14 @@ export const PostsView = (props: PostsViewProps) => {
             labelClass="form-field__label"
             errorClass="text-field__error"
             inputClass="form-field__input"
-            placeholder="모집인원을 입력해주세요"
+            placeholder="모집인원을 입력해주세요."
             value={formData.recruitCount.value}
-            onChange={(e) => updateField("recruitCount", e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value.replace(/\D/g, "");
+              updateField("recruitCount", value.slice(0, 9));
+            }}
             onBlur={(e) => validateAndUpdate("recruitCount", e.target.value)}
-            isInvalid={formData.recruitCount.state === "invalid"}
-            errorMessage={formData.recruitCount.errorMessage}
+            isInvalid={false}
           />
         </div>
         <div style={{ ...formfieldlayout }}>
@@ -638,21 +662,29 @@ export const PostsView = (props: PostsViewProps) => {
             labelClass="form-field__label"
             errorClass="text-field__error"
             inputClass="form-field__input"
-            placeholder="금액을 입력해주세요"
+            placeholder="금액을 입력해주세요."
             value={formData.mentorFee.value}
-            onChange={(e) => updateField("mentorFee", e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value.replace(/\D/g, "");
+              updateField("mentorFee", value.slice(0, 9));
+            }}
             onBlur={(e) => validateAndUpdate("mentorFee", e.target.value)}
             isInvalid={formData.mentorFee.state === "invalid"}
             errorMessage={formData.mentorFee.errorMessage}
+            type="text"
+            maxLength={9}
           />
-          <div className="dropdown-error-message" role="alert" style={{ marginTop: "30px" }}>
+
+          <div className="dropdown-error-message" role="alert" style={{ marginTop: "15px" }}>
             *금액 수령 시 부가세를 제외한 금액으로 정산됩니다.
           </div>
         </div>
 
         <div className="flex_r flex_jend gap_4">
-          <BaseButton color="reverse">취소</BaseButton>
-          <BaseButton type="submit" className={isFormValid ? "primary " : "disabled"} disabled={!isFormValid}>
+          <BaseButton type="button" size="lg" color="reverse" onClick={props.onCancel}>
+            취소
+          </BaseButton>
+          <BaseButton size="lg" type="submit" className={isFormValid ? "primary " : "reverse"} disabled={!isFormValid}>
             신청
           </BaseButton>
         </div>

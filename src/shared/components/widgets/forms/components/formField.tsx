@@ -60,7 +60,7 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, fo
         {...rest}
       />
       {isInvalid && errorMessage && (
-        <span id={` ${inputId}-error`} className="text-field__error m-t-81" role="alert" style={{ position: "absolute", marginTop: "81px" }}>
+        <span id={`${inputId}-error`} className="text-field__error m-t-81" role="alert" style={{ position: "absolute", marginTop: "81px" }}>
           {errorMessage}
         </span>
       )}

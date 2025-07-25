@@ -16,3 +16,5 @@ export * from "./profiles/headerProfile";
 export * from "./popups";
 // Side Menu
 export * from "./sideMenus/floatingMenu";
+export * from "./addGroupbutton/addgroupbutton";
+export * from "./addGroupModal/addgroupmodal";

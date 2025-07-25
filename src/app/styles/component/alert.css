@@ -1,15 +1,25 @@
+.alert-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+}
+
 .alert {
-	position: fixed;               
-  top: 50%;                      
-  left: 50%;                     
-	transform: translate(-50%, -50%);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
 
   flex-direction: column;
-	align-content: flex-start;
-	justify-content: flex-start;
+  align-content: flex-start;
+  justify-content: flex-start;
 
-	min-width: 432px;
+  min-width: 432px;
   min-height: 220px;
 
   background: #ffffff;
@@ -25,67 +35,63 @@
 
 /*	본문 영역		*/
 .alert__TextArea {
-	flex-direction: column;
-	justify-content: flex-start;
-	align-content: flex-start;
-	display: flex;
-	padding: 32px 24px;
-	width: 432px;
-	height: 124px;
-	gap: 16px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: flex-start;
+  display: flex;
+  padding: 32px 24px;
+  width: 432px;
+  height: 124px;
+  gap: 16px;
 }
 
-
-.alert__TextArea--title  {
-	font-family: "Pretendard";
+.alert__TextArea--title {
+  font-family: "Pretendard";
   font-weight: bold;
   font-size: 18px;
-	color: #333;
+  color: #333;
 }
 
-.alert__TextArea--body  {
-	font-family: "Pretendard";
+.alert__TextArea--body {
+  font-family: "Pretendard";
   font-size: 14px;
-	color: #333;
+  color: #333;
 }
-
 
 /*	버튼영역	*/
 .alert__buttonArea {
-	width: 432px;
-	height: 96px;
-	justify-content: flex-end;
-	align-content: flex-start;
-	display: flex;
-	padding: 24px 24px;
-	gap:8px;
+  width: 432px;
+  height: 96px;
+  justify-content: flex-end;
+  align-content: flex-start;
+  display: flex;
+  padding: 24px 24px;
+  gap: 8px;
 }
 
-
 .alert__buttonArea > button {
-	/* width: 112px; */
-	height: 48px;
-	justify-content: center;
-	align-items: center;
-	display: flex;
-	padding: 18px 24px;
-	border-radius: 10px;
-	gap:6px;
-	font-size: 16px;
+  /* width: 112px; */
+  height: 48px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  padding: 18px 24px;
+  border-radius: 10px;
+  gap: 6px;
+  font-size: 16px;
 }
 
 /* 취소버튼 */
 .alert__buttonArea > button.cancel {
-	font-family: "Pretendard";
-	color:#666;
-	background-color: #fff;
-	border: 1px solid #CECECE;
+  font-family: "Pretendard";
+  color: #666;
+  background-color: #fff;
+  border: 1px solid #cecece;
 }
 
 /* 확인버튼 */
-.alert__buttonArea > button.confirm{
-	font-family: "Pretendard";
-	color:#fff;
-	background-color: #00CBBA;
+.alert__buttonArea > button.confirm {
+  font-family: "Pretendard";
+  color: #fff;
+  background-color: #00cbba;
 }
-

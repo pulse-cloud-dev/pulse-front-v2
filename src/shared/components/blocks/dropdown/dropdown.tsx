@@ -102,11 +102,6 @@ export const Dropdown = ({ id, label, value, onChange, onBlur, onFocus, errorMes
         break;
     }
   };
-  /*
-height: 200px;
-/ overflow-y: auto;
-설정 할것,자동 focus 설정
-*/
   useEffect(() => {
     if (focusedIndex >= 0 && itemsRef.current[focusedIndex]) {
       itemsRef.current[focusedIndex]?.scrollIntoView({
@@ -142,7 +137,7 @@ height: 200px;
         aria-invalid={hasError}
         style={{ display: "flex", alignItems: "center" }}
       >
-        <span style={{ color: value ? "inherit" : "#CECECE" }}>{value || "선택하세요"}</span>
+        <span style={{ color: value ? "inherit" : "#CECECE" }}>{value || "선택하세요."}</span>
         <Icon className={`icon__arrow img_to_bk80 absolute ${open ? "" : "on"}`} src="chevron_down_bk_16" alt="화살표" style={{ right: "10px" }} />
       </button>
 

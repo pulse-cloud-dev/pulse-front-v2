@@ -1,4 +1,3 @@
-import { useLocation } from "react-router-dom";
 import { Modal, useModal, useLocalStorage } from "@/shared/modules";
 import { FieldPopup, OnlineStatusPopup, LocalPopup } from "@/shared/components";
 import { MenteeView } from "../view/mentor.view";

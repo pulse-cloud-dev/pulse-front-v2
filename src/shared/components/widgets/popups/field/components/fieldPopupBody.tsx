@@ -15,12 +15,12 @@ export const Body = ({
   checkedItems: Record<string, boolean>;
   handleToggle: (key: string) => void;
 }) => {
-  const { data: fields = [], isLoading: loadingFields } = fieldQuerys.useFieldItems();
+  const { data: fields = [] } = fieldQuerys.useFieldItems();
 
   const selectedFieldObj = fields.find((f) => f.name === selectedField);
   const selectedFieldCode = selectedFieldObj?.code;
 
-  const { data: subFields = [], isLoading: loadingSub } = fieldQuerys.useSubFields(selectedFieldCode);
+  const { data: subFields = [] } = fieldQuerys.useSubFields(selectedFieldCode);
 
   return (
     <div className={`popup-local__body ${className}`} {...props}>
@@ -43,12 +43,7 @@ export const Body = ({
       <div className="popup-local__column popup-local__column-right" aria-labelledby="subfield-group-label">
         {subFields.map(({ name }) => (
           <CheckField key={name} className="check-field-module" variant="circle">
-            <CheckField.Input
-              checkId={`${selectedField}-${name}`}
-              name={`${selectedField}-${name}`}
-              isChecked={!!checkedItems[`${selectedField}-${name}`]}
-              onChange={() => handleToggle(`${selectedField}-${name}`)}
-            />
+            <CheckField.Input checkId={`${selectedField}-${name}`} name={`${selectedField}-${name}`} isChecked={!!checkedItems[`${selectedField}-${name}`]} onChange={() => handleToggle(`${selectedField}-${name}`)} />
             <CheckField.Label checkId={`${selectedField}-${name}`}>{name}</CheckField.Label>
           </CheckField>
         ))}
