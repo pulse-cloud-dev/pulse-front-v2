@@ -1,7 +1,7 @@
 import { useModal } from "@/shared/modules";
-import { Modal } from "@/shared/modules";
+import { GroupModal } from "../addGroupModal/addgroupmodal";
 function AddGroupButton() {
-  const PlusModal = useModal(Modal, {
+  const PlusModal = useModal(GroupModal, {
     variant: "confirm",
     title: "정말 삭제하시겠어요?",
     subtitle: "삭제하면 되돌릴 수 없습니다.",
