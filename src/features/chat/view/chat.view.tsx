@@ -1,11 +1,12 @@
 import { ChatLayout } from "./chat.layout";
-import { ChatGroup } from "./chat.group";
+import { ChatGroupView } from "./chatgroup/chat.group.view";
+
 interface ChatViewProps {}
 
 export const ChatView = (props: ChatViewProps) => {
   return (
     <ChatLayout>
-      <ChatGroup></ChatGroup>
+      <ChatGroupView />
     </ChatLayout>
   );
 };
