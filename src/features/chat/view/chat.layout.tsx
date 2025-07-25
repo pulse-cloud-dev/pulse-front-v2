@@ -1,18 +1,15 @@
 import { Typography } from "@/shared/components";
-import { ReactNode } from "react";
+import { ReactNode, CSSProperties } from "react";
 import { BaseButton } from "@/shared/components";
 
 interface ChatLayoutProps {
   children: ReactNode;
+  style?: CSSProperties;
+  className?: string; // className 추가
 }
-
-export const ChatLayout = ({ children }: ChatLayoutProps) => {
+export const ChatLayout = ({ children, style, className }: ChatLayoutProps) => {
   return (
-    <div
-      style={{
-        width: "100%",
-      }}
-    >
+    <div>
       <header
         style={{
           marginBottom: "25px",
@@ -31,11 +28,13 @@ export const ChatLayout = ({ children }: ChatLayoutProps) => {
         </BaseButton>
       </header>
       <div
+        className={className}
         style={{
           width: "100%",
           height: "752px",
           borderRadius: "16px",
           border: "1px solid #E0E0E0",
+          ...style,
         }}
       >
         {children}
