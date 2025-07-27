@@ -7,8 +7,24 @@ interface DetailLayoutProps {
 
 export const DetailLayout: React.FC<DetailLayoutProps> = ({ children }) => {
   return (
-    <section style={{ width: "800px", padding: "24px" }}>
-      <div>{children}</div>
+    <section
+      style={{
+        width: "800px",
+        padding: "0 24px 24px 24px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        height: "100%",
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          height: "568px",
+        }}
+      >
+        {children}
+      </div>
       <ChatInput />
     </section>
   );
