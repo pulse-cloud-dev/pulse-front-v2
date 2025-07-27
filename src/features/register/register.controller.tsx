@@ -48,7 +48,7 @@ export const RegisterContainer = () => {
       (stack) => {
         const skipFields: string[] = [];
         if (stack.isWorking?.value === true) {
-          skipFields.push("퇴사 년월");
+          skipFields.push("퇴사년월");
         }
         return skipFields;
       },

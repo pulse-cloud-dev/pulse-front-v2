@@ -330,7 +330,7 @@ export const createInitialCareerSchema = (): RegisterSchema => ({
           if (startDate && v < startDate) return false;
           return true;
         },
-        message: "퇴사 년월을 올바르게 입력해 주세요.",
+        message: "퇴사년월을 올바르게 입력해 주세요.",
       },
     ],
   },

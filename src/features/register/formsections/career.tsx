@@ -93,7 +93,7 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
                         isValid={!isError}
                         maxDate={new Date()}
                       />
-                    ) : field.label === "퇴사 년월" ? (
+                    ) : field.label === "퇴사년월" ? (
                       <DatePickerField
                         labelSize="sm"
                         name={key}
