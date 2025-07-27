@@ -16,7 +16,7 @@ export const ChatRoomLayout = ({ children }: ChatGroupProps) => {
           justifyContent: "flex-start",
           width: "336px",
           height: "100%",
-          paddingLeft: "25px",
+
           paddingTop: "25px",
         }}
       >
@@ -27,6 +27,7 @@ export const ChatRoomLayout = ({ children }: ChatGroupProps) => {
             alignItems: "center",
             width: "100%",
             paddingRight: "25px",
+            paddingLeft: "25px",
           }}
         >
           <Typography variant="compact" weight="bold" size="16">

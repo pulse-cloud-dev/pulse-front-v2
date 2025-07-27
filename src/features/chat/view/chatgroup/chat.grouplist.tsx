@@ -15,12 +15,12 @@ const ChatGroupList = () => {
   const location = useLocation();
 
   const params = new URLSearchParams(location.search);
-  const currentGroupId = params.get("menu") || groups[0].id;
+  const currentGroupId = params.get("group") || groups[0].id;
 
   const handleClick = useCallback(
     (id: string) => {
       if (id !== currentGroupId) {
-        params.set("menu", id);
+        params.set("group", id);
         navigate(`?${params.toString()}`);
       }
     },

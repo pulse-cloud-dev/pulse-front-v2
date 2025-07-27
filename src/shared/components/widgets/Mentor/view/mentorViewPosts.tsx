@@ -30,28 +30,8 @@ interface MentorViewPostsProps extends FilterProps {
   setOffset: (val: number) => void;
 }
 
-export const MentorViewPosts = ({
-  event,
-  keyword,
-  setKeyword,
-  setSearchText,
-  removeField,
-  removeRegion,
-  selectedFields,
-  selectedRegions,
-  onlineStatus,
-  sortOption,
-  setSortOption,
-  searchText,
-  offset,
-  setOffset,
-  onReset
-}: MentorViewPostsProps) => {
-  const {
-    data,
-    isFetching,
-    error,
-  } = useMentoringListQuery({
+export const MentorViewPosts = ({ event, keyword, setKeyword, setSearchText, removeField, removeRegion, selectedFields, selectedRegions, onlineStatus, sortOption, setSortOption, searchText, offset, setOffset, onReset }: MentorViewPostsProps) => {
+  const { data, isFetching, error } = useMentoringListQuery({
     selectedFields,
     selectedRegions,
     onlineStatus,
@@ -59,35 +39,32 @@ export const MentorViewPosts = ({
     searchText,
     offset,
   });
-  
+
   //더미데이터
-   const dummyData = [
-  {
-    mentoring_id: "1",
-    title: "React로 배우는 프론트엔드 입문 React로 배우는 프론트엔드 입문 React로 배우는 프론트엔드 입문",
-    mentor_nickname: "코딩은재밌어",
-    deadline_time: "2025-08-01",
-    mentor_job: { jobCode: "프론트엔드 개발자" },
-    mentor_profile_image: "",
-    lecture_type: "OFFLINE",
-    region: ""
-  },
-  {
-    mentoring_id: "2",
-    title: " 백엔드 개발 로드맵",
-    mentor_nickname: "백엔드장인",
-    deadline_time: "2025-08-15",
-    mentor_job: { jobCode: "백엔드 개발자" },
-    mentor_profile_image: "",
-    lecture_type: "ONLINE",
-    region: ""
+  const dummyData = [
+    {
+      mentoring_id: "1",
+      title: "React로 배우는 프론트엔드 입문 React로 배우는 프론트엔드 입문 React로 배우는 프론트엔드 입문",
+      mentor_nickname: "코딩은재밌어",
+      deadline_time: "2025-08-01",
+      mentor_job: { jobCode: "프론트엔드 개발자" },
+      mentor_profile_image: "",
+      lecture_type: "OFFLINE",
+      region: "",
+    },
+    {
+      mentoring_id: "2",
+      title: " 백엔드 개발 로드맵",
+      mentor_nickname: "백엔드장인",
+      deadline_time: "2025-08-15",
+      mentor_job: { jobCode: "백엔드 개발자" },
+      mentor_profile_image: "",
+      lecture_type: "ONLINE",
+      region: "",
+    },
+  ];
 
-  },
-];
-
-
-const mentorings =
-  !data || data.contents.length === 0 ? dummyData : data.contents;
+  const mentorings = !data || data.contents.length === 0 ? dummyData : data.contents;
 
   // const mentorings = data?.contents ?? [];
   // const totalPages = data?.total_pages ?? 1;
@@ -97,16 +74,14 @@ const mentorings =
   const isDataEmpty = mentorings.length === 0;
 
   const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
-  const card = (e.target as HTMLElement).closest("[data-index]");
-  if (!card) return;
+    const card = (e.target as HTMLElement).closest("[data-index]");
+    if (!card) return;
 
-  const index = card.getAttribute("data-index");
-  console.log("클릭된 카드 인덱스:", index);
-};
+    const index = card.getAttribute("data-index");
+    console.log("클릭된 카드 인덱스:", index);
+  };
 
-
-
-return (
+  return (
     <>
       <FilterBar
         event={event}
@@ -140,19 +115,19 @@ return (
           <Typography>결과가 없습니다.</Typography>
         ) : (
           (mentorings as Mentoring[]).map((item) => (
-          <MentorCard
-            key={item.mentoring_id}
-            mentoringId={item.mentoring_id}
-            lectureType={item.lecture_type}
-            onlinePlatform={item.online_platform}
-            title={item.title}
-            mentorNickname={item.mentor_nickname}
-            deadlineDate={item.deadline_time}
-            mentorJob={item.mentor_job.jobCode}
-            mentorCareer={item.mentor_career_total_year}
-            region={item.region}
-            mentorProfileImage={item.mentor_profile_image}
-            /> 
+            <MentorCard
+              key={item.mentoring_id}
+              mentoringId={item.mentoring_id}
+              lectureType={item.lecture_type}
+              onlinePlatform={item.online_platform}
+              title={item.title}
+              mentorNickname={item.mentor_nickname}
+              deadlineDate={item.deadline_time}
+              mentorJob={item.mentor_job.jobCode}
+              mentorCareer={item.mentor_career_total_year}
+              region={item.region}
+              mentorProfileImage={item.mentor_profile_image}
+            />
           ))
         )}
       </section>
