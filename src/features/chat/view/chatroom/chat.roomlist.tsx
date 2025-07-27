@@ -40,6 +40,7 @@ const mockRooms = Array.from({ length: 100 }, (_, i) => {
     ...base,
   };
 });
+
 export interface ChatRoomData {
   id: number;
   title: string;
@@ -159,7 +160,11 @@ import { useQueryParams } from "@/shared/modules/modals/shared/hooks/usequerypar
 
 export const RoomList = () => {
   const { currentValue: selectedRoomId, setQueryValue } = useQueryParams("room");
+  const { currentValue: selectedRequestId } = useQueryParams("request");
 
+  const { currentValue: selectedGroupId } = useQueryParams("group");
+  console.log(selectedGroupId, "selectedGroupId  호출");
+  console.log(selectedRequestId, "selectedRequestId 호출");
   return (
     <div style={{ width: "100%", height: "auto" }}>
       <ErrorBoundary fallback={<>error</>}>

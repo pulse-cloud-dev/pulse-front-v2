@@ -23,9 +23,7 @@ export const ChatLayout = ({ children, style, className }: ChatLayoutProps) => {
         <Typography variant="title" size="24" weight="bold">
           멘토링 챗
         </Typography>
-        <BaseButton color="reverse" type="button">
-          임시채팅(4)
-        </BaseButton>
+        <TemporaryChatButton />
       </header>
       <div
         className={className}
@@ -41,5 +39,21 @@ export const ChatLayout = ({ children, style, className }: ChatLayoutProps) => {
         {children}
       </div>
     </div>
+  );
+};
+import { useSearchParams } from "react-router-dom";
+
+const TemporaryChatButton = () => {
+  const [_, setSearchParams] = useSearchParams();
+  return (
+    <BaseButton
+      color="reverse"
+      type="button"
+      onClick={() => {
+        setSearchParams({ temp: "true" }, { replace: true });
+      }}
+    >
+      임시채팅(4)
+    </BaseButton>
   );
 };

@@ -15,12 +15,14 @@ export const DetailLayout: React.FC<DetailLayoutProps> = ({ children }) => {
         flexDirection: "column",
         justifyContent: "space-between",
         height: "100%",
+        overflow: "hidden",
       }}
     >
       <div
         style={{
           width: "100%",
           height: "568px",
+          overflow: "scroll",
         }}
       >
         {children}

@@ -1,6 +1,7 @@
-import { useCallback } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import { Typography } from "@/shared/components";
+import { useQueryParams } from "@/shared/modules/modals/shared/hooks/usequeryparams";
+import { useSearchParams } from "react-router-dom";
+
 const baseGroups = [
   { id: "1", name: "그룹명1" },
   { id: "2", name: "그룹명2" },
@@ -18,21 +19,8 @@ const groups = Array.from({ length: 100 }, (_, i) => {
 });
 
 const ChatGroupList = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const params = new URLSearchParams(location.search);
-  const currentGroupId = params.get("group") || groups[0].id;
-
-  const handleClick = useCallback(
-    (id: string) => {
-      if (id !== currentGroupId) {
-        params.set("group", id);
-        navigate(`?${params.toString()}`);
-      }
-    },
-    [navigate, params, currentGroupId]
-  );
+  const { currentValue: currentGroupId } = useQueryParams("group");
+  const [_, setSearchParams] = useSearchParams();
 
   return (
     <ul
@@ -50,7 +38,9 @@ const ChatGroupList = () => {
       {groups.map((group) => (
         <li key={group.id}>
           <button
-            onClick={() => handleClick(group.id)}
+            onClick={() => {
+              setSearchParams({ group: group.id }, { replace: true });
+            }}
             style={{
               width: "104px",
               height: "64px",
