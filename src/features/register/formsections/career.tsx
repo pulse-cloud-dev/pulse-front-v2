@@ -75,7 +75,7 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
               return (
                 <div key={key} style={careerFieldStyle}>
                   {field.type === "date" ? (
-                    field.label === "입사 년월" ? (
+                    field.label === "입사년월" ? (
                       <DatePickerField
                         labelSize="sm"
                         name={key}

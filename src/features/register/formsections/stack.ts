@@ -295,7 +295,7 @@ export const createInitialCareerSchema = (): RegisterSchema => ({
     errormessage: "",
   },
   startDate: {
-    label: "입사 년월",
+    label: "입사년월",
     type: "date",
     value: null,
     errormessage: "",
@@ -310,12 +310,12 @@ export const createInitialCareerSchema = (): RegisterSchema => ({
           if (startDate && v > endDate) return false;
           return true;
         },
-        message: "입사 년월을 올바르게 입력해 주세요.",
+        message: "입사년월을 올바르게 입력해 주세요.",
       },
     ],
   },
   endDate: {
-    label: "퇴사 년월",
+    label: "퇴사년월",
     type: "date",
     value: null,
     status: "success",
