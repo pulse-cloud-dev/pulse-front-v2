@@ -1,5 +1,5 @@
 import React from "react";
-import { Icon, Typography, Spacer } from "@/shared/components";
+import { Icon, Typography } from "@/shared/components";
 
 interface ChatGroupProps {
   children?: React.ReactNode;

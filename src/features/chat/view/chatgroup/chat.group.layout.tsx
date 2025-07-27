@@ -31,7 +31,6 @@ export const ChatGroupLayout = ({ children }: ChatGroupProps) => {
             paddingLeft: "25px",
             position: "sticky",
             top: 0,
-            zIndex: 10,
             backgroundColor: "#FFFFFF",
           }}
         >
