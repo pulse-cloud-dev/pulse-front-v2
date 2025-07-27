@@ -18,6 +18,7 @@ export const DetailLayout: React.FC<DetailLayoutProps> = ({ children }) => {
         overflow: "hidden",
       }}
     >
+      <div></div>
       <div
         style={{
           width: "100%",
@@ -32,7 +33,7 @@ export const DetailLayout: React.FC<DetailLayoutProps> = ({ children }) => {
   );
 };
 
-const ChatInput: React.FC = () => {
+const ChatInput = () => {
   return (
     <form
       style={{
@@ -77,9 +78,9 @@ const Bottom = () => {
           alignItems: "center",
         }}
       >
-        <Icon src="search_18" alt="search button" />
-        <Icon src="search_18" alt="search button" />
-        <Icon src="search_18" alt="search button" />
+        <Icon src="clip" alt="search button" />
+        <Icon src="marker" alt="search button" />
+        <Icon src="search_18" alt="search button" style={{ width: "24px", height: "24px" }} />
       </div>
       <BaseButton color="primary"> 전송</BaseButton>
     </div>
