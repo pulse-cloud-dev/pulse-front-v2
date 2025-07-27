@@ -1,14 +1,21 @@
 import { useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Typography } from "@/shared/components";
-
-const groups = [
+const baseGroups = [
   { id: "1", name: "그룹명1" },
   { id: "2", name: "그룹명2" },
   { id: "3", name: "그룹명3" },
   { id: "4", name: "그룹명은최대열두자까지임" },
   { id: "5", name: "그룹명은최대열두자까지임" },
 ];
+
+const groups = Array.from({ length: 100 }, (_, i) => {
+  const base = baseGroups[i % baseGroups.length];
+  return {
+    id: String(i + 1),
+    name: base.name,
+  };
+});
 
 const ChatGroupList = () => {
   const navigate = useNavigate();

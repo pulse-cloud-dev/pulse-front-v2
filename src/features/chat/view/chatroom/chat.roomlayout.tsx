@@ -16,18 +16,23 @@ export const ChatRoomLayout = ({ children }: ChatGroupProps) => {
           justifyContent: "flex-start",
           width: "336px",
           height: "100%",
-
-          paddingTop: "25px",
+          overflow: "scroll",
         }}
       >
         <header
           style={{
+            paddingTop: "25px",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
             width: "100%",
             paddingRight: "25px",
             paddingLeft: "25px",
+            position: "sticky",
+            top: 0,
+            zIndex: 10,
+            backgroundColor: "#FFFFFF",
+            paddingBottom: "27px",
           }}
         >
           <Typography variant="compact" weight="bold" size="16">
@@ -38,7 +43,7 @@ export const ChatRoomLayout = ({ children }: ChatGroupProps) => {
             <Icon src="chatpencil" alt="search button" />
           </div>
         </header>
-        <Spacer size={27} />
+
         {children}
       </section>
     </>

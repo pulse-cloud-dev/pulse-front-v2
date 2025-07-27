@@ -2,10 +2,8 @@ import { Typography } from "@/shared/components";
 import { ImageGroup } from "@/shared/components";
 import { Suspense } from "react";
 import ErrorBoundary from "@/shared/components/blocks/errorboundary/errorBoundary";
-
-const mockRooms = [
+const baseRooms = [
   {
-    id: 1,
     title: "닉네임이 너무 길어서 엘립시스닉네임이 너무 길어서 엘립시스닉네임이 너무 길어서 엘립시스닉네임이 너무 길어서 엘립시스닉네임이 너무 길어서 엘립시스",
     lastMessage: "안녕하세요! 멘토링채팅입니다. 두줄까지 보여집니다.안녕하세요! 멘토링채팅입니다. 두줄까지 보여집니다안녕하세요! 멘토링채팅입니다. 두줄까지 보여집니다안녕하세요! 멘토링채팅입니다. 두줄까지 보여집니다",
     timestamp: "오전 10:12",
@@ -13,7 +11,6 @@ const mockRooms = [
     unreadCount: 99,
   },
   {
-    id: 2,
     title: "닉네임이 너무 길어서 엘립시스",
     lastMessage: "안녕하세요! 멘토링채팅입니다. 두줄까지 보여집니다.",
     timestamp: "어제",
@@ -21,7 +18,6 @@ const mockRooms = [
     unreadCount: 100,
   },
   {
-    id: 3,
     title: "닉네임이 너무 길어서 엘립시스",
     lastMessage: "안녕하세요! 멘토링채팅입니다. 두줄까지 보여집니다.",
     timestamp: "어제",
@@ -29,7 +25,6 @@ const mockRooms = [
     unreadCount: 0,
   },
   {
-    id: 4,
     title: "닉네임이 너무 길어서 엘립시스",
     lastMessage: "안녕하세요! 멘토링채팅입니다. 두줄까지 보여집니다.",
     timestamp: "7/24",
@@ -38,6 +33,13 @@ const mockRooms = [
   },
 ];
 
+const mockRooms = Array.from({ length: 100 }, (_, i) => {
+  const base = baseRooms[i % baseRooms.length];
+  return {
+    id: i + 1,
+    ...base,
+  };
+});
 export interface ChatRoomData {
   id: number;
   title: string;
@@ -99,7 +101,7 @@ const ChatRoomItem = ({ title, lastMessage, timestamp, participants, unreadCount
               {title}
             </Typography>
           </div>
-          <Typography variant="compact" size="14" weight="regular">
+          <Typography variant="compact" size="13" weight="regular">
             {timestamp}
           </Typography>
         </div>
@@ -115,7 +117,7 @@ const ChatRoomItem = ({ title, lastMessage, timestamp, participants, unreadCount
           <div style={{ width: "180px" }}>
             <Typography
               variant="compact"
-              size="14"
+              size="13"
               weight="regular"
               style={{
                 display: "-webkit-box",
@@ -159,7 +161,7 @@ export const RoomList = () => {
   const { currentValue: selectedRoomId, setQueryValue } = useQueryParams("room");
 
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "100%", height: "auto" }}>
       <ErrorBoundary fallback={<>error</>}>
         <Suspense fallback={<>suspense</>}>
           {mockRooms.map((room) => (

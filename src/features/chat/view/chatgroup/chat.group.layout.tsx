@@ -12,19 +12,42 @@ export const ChatGroupLayout = ({ children }: ChatGroupProps) => {
         style={{
           display: "flex",
           flexDirection: "column",
-          alignItems: "flex-start",
-          justifyContent: "flex-start",
+          alignItems: "center",
+          justifyContent: "center",
           width: "144px",
           height: "100%",
-          paddingLeft: "25px",
-          paddingTop: "25px",
+          overflow: "scroll",
+          paddingBottom: "10px",
         }}
       >
-        <Typography variant="compact" weight="bold" size="16">
-          그룹
-        </Typography>
+        <header
+          style={{
+            paddingTop: "25px",
+            display: "flex",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            width: "100%",
+            paddingRight: "25px",
+            paddingLeft: "25px",
+            position: "sticky",
+            top: 0,
+            zIndex: 10,
+            backgroundColor: "#FFFFFF",
+          }}
+        >
+          <Typography variant="compact" weight="bold" size="16">
+            그룹
+          </Typography>
+        </header>
         <Spacer size={27} />
-        {children}
+        <div
+          style={{
+            flex: 1,
+            overflow: "auto",
+          }}
+        >
+          {children}
+        </div>
         <AddGroupButton />
       </section>
     </>
