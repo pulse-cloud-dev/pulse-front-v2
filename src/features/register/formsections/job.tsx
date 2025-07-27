@@ -79,8 +79,8 @@ export const Job = ({ stacks, updateStackField, resetStatus, checkError }: UseSt
                   >
                     <ErrorBoundary fallback={<h2>Error...</h2>}>
                       <Suspense fallback={<>loading</>}>
-                        {field.label === "직무.직업" && <CategoryOptions />}
-                        {field.label === "직무.직업 상세" && <CategoryItemListOptions selectedCategoryValue={(Object.values(stack).find((f) => f.label === "직무.직업")?.value as string) || ""} />}
+                        {field.label === "분야" && <CategoryOptions />}
+                        {field.label === "분야 상세" && <CategoryItemListOptions selectedCategoryValue={(Object.values(stack).find((f) => f.label === "분야")?.value as string) || ""} />}
                       </Suspense>
                     </ErrorBoundary>
                   </Dropdown>

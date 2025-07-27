@@ -492,7 +492,7 @@ export const createInitialEducationSchema = (): RegisterSchema => ({
 
 export const createInitialJobSchema = (): RegisterSchema => ({
   jobCategory: {
-    label: "직무.직업",
+    label: "분야",
     type: "dropdown",
     value: "",
     status: "pending",
@@ -507,7 +507,7 @@ export const createInitialJobSchema = (): RegisterSchema => ({
     ],
   },
   jobDetail: {
-    label: "직무.직업 상세",
+    label: "분야 상세",
     type: "dropdown",
     value: "",
     status: "pending",
@@ -525,7 +525,7 @@ export const createInitialJobSchema = (): RegisterSchema => ({
           }
           return v.trim().length > 0;
         },
-        message: "직무.직업 상세를 올바르게 선택해 주세요.",
+        message: "분야 상세를 올바르게 선택해 주세요.",
       },
     ],
   },

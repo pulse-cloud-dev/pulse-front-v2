@@ -80,7 +80,7 @@ export const Certificate = ({ stacks, pushStack, popStack, updateStackField, res
               case "dropdown":
                 return (
                   "list" in field && (
-                    <Dropdown key={key} id={`${key}-${i}`} {...commonProps} value={field.value} onChange={(val) => updateStackField(i, key as keyof RegisterSchema, val)} hasError={isError}>
+                    <Dropdown key={key} id={`${key}-${i}`} {...commonProps} value={field.value} onChange={(val) => updateStackField(i, key as keyof RegisterSchema, val)} hasError={false}>
                       <ErrorBoundary fallback={<h2>Error...</h2>}>
                         <Suspense fallback={<>loading</>}>
                           <PassStatusOptions />
