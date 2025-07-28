@@ -9,7 +9,7 @@ export const usePostMentoring = (openPostModal: { openModal: () => void }, failP
     onSuccess: (data) => {
       if (data.body === "SUCCESS") {
         console.log("멘토링 등록 성공:", data.message);
-        openPostModal.openModal(); // 성공 시 모달 열기
+        openPostModal.openModal(); // 성공 시 모달 열기 테스트!!!
       } else {
         console.warn("멘토링 등록 실패:", data.message);
         failPostModal.openModal(); // 실패 시 모달 열기
