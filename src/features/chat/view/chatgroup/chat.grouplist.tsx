@@ -10,7 +10,7 @@ const baseGroups = [
   { id: "5", name: "그룹명은최대열두자까지임" },
 ];
 
-const groups = Array.from({ length: 100 }, (_, i) => {
+const groups = Array.from({ length: 30 }, (_, i) => {
   const base = baseGroups[i % baseGroups.length];
   return {
     id: String(i + 1),
