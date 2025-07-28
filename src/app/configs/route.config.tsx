@@ -6,6 +6,7 @@ import * as Controller from "@/features";
 import { AuthLayout, MainLayout, WithAuthLayout, MenteeLayout, NoFooterLayout } from "@/shared/layouts";
 // Shared
 import { urlConst } from "@/shared/constants";
+import { ModalProvider } from "@/shared/modules";
 
 export type Routers = RouteObject[];
 
@@ -88,10 +89,7 @@ const createRoutes = (): Routers => {
           path: "bookmarks",
           children: [{ path: "", element: <Controller.BookmarkController /> }],
         },
-        {
-          path: "chat",
-          children: [{ path: "/chat", element: <Controller.ChatController /> }],
-        },
+
         {
           /**
            * @description Mentor Find (멘토링 찾기)
@@ -109,22 +107,45 @@ const createRoutes = (): Routers => {
       ],
     },
     {
+      path: "chat",
+      element: <NoFooterLayout />,
+      children: [{ path: "/chat", element: <Controller.ChatController /> }],
+    },
+    {
       path: urlConst.home.default, // ""
       element: <NoFooterLayout />,
       children: [
         {
           /**
-           * @description Mentee Find (멘티 찾기)
+           * @description Mentor Register (멘토 등록)
            */
           path: "mentor-register",
-          children: [{ path: "", element: <Controller.RegisterContainer /> }],
+          children: [
+            {
+              path: "",
+              element: (
+                <ModalProvider>
+                  <Controller.RegisterContainer />
+                </ModalProvider>
+              ),
+            },
+          ],
         },
         {
           /**
            * @description Mentee Find (멘티 찾기)
            */
           path: "posts",
-          children: [{ path: "", element: <Controller.ProtectedPostsController /> }],
+          children: [
+            {
+              path: "",
+              element: (
+                <ModalProvider>
+                  <Controller.ProtectedPostsController />
+                </ModalProvider>
+              ),
+            },
+          ],
         },
       ],
     },

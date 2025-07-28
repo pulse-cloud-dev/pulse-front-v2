@@ -1,5 +1,6 @@
 import type { FC, PropsWithChildren } from "react";
 import { useReducer } from "react";
+import { createPortal } from "react-dom";
 
 import type { ModalAction } from "../../types";
 import { ModalContext, ModalState } from "./modalContexts";
@@ -17,32 +18,15 @@ const modalReducer = (state: ModalState[], action: ModalAction): ModalState[] =>
   }
 };
 
-interface ModalComponentProps {
-  Component: FC<any>;
-  props: Record<string, any>;
-}
-
-// const ModalComponent = (props) => {
-//   // return <Component {...props} />;
-// };
-
 export interface ModalProviderProps extends PropsWithChildren {}
 
 export const ModalProvider = ({ children }: ModalProviderProps) => {
   const [state, dispatch] = useReducer(modalReducer, []);
 
-  // const modalElements = useMemo(
-  //   () => state.map(({ id, component: Component, props }) => <ModalComponent key={id} Component={Component} props={props} />),
-  //   [state, dispatch]
-  // );
-
   return (
     <ModalContext.Provider value={{ state, dispatch }}>
       {children}
-      {/* {modalElements} */}
-      {state.map(({ id, component: Component, props }) => (
-        <Component key={props.key ?? id} {...props} />
-      ))}
+      {state.map(({ id, component: Component, props }) => createPortal(<Component key={props.key ?? id} {...props} />, document.getElementById("portal-root")!))}
     </ModalContext.Provider>
   );
 };

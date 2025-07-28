@@ -63,8 +63,6 @@ export const Job = ({ stacks, updateStackField, resetStatus, checkError }: UseSt
           }}
         >
           {Object.entries(stack).map(([key, field]) => {
-            const isError = field.status === "fail";
-
             return (
               <div key={key} style={{ flex: 1 }}>
                 {field.type === "dropdown" && "list" in field && (
@@ -77,13 +75,12 @@ export const Job = ({ stacks, updateStackField, resetStatus, checkError }: UseSt
                     }}
                     onBlur={() => checkError(i, key as keyof RegisterSchema)}
                     onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
-                    hasError={isError}
-                    errorMessage={field.errormessage}
+                    hasError={false}
                   >
                     <ErrorBoundary fallback={<h2>Error...</h2>}>
                       <Suspense fallback={<>loading</>}>
-                        {field.label === "직무.직업" && <CategoryOptions />}
-                        {field.label === "직무.직업 상세" && <CategoryItemListOptions selectedCategoryValue={(Object.values(stack).find((f) => f.label === "직무.직업")?.value as string) || ""} />}
+                        {field.label === "분야" && <CategoryOptions />}
+                        {field.label === "분야 상세" && <CategoryItemListOptions selectedCategoryValue={(Object.values(stack).find((f) => f.label === "분야")?.value as string) || ""} />}
                       </Suspense>
                     </ErrorBoundary>
                   </Dropdown>

@@ -16,3 +16,7 @@ export * from "./profiles/headerProfile";
 export * from "./popups";
 // Side Menu
 export * from "./sideMenus/floatingMenu";
+//chatting 컴포넌트
+export * from "./addGroupbutton/addgroupbutton";
+export * from "./addGroupModal/addgroupmodal";
+export * from "./imagegroup/imagegroup";

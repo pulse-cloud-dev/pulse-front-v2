@@ -52,8 +52,16 @@ export const useCategoryItemList = (itemCode: string) => {
   });
 };
 
-export const useRegisterMentor = () => {
+//ayn로 했지만 input값으로 받아야해
+interface MutationCallbacks<TData = any, TError = Error> {
+  onSuccess?: (data: TData) => void;
+  onError?: (error: TError) => void;
+}
+
+export const useRegisterMentor = ({ onSuccess, onError }: MutationCallbacks = {}) => {
   return useMutation({
     mutationFn: mentoringApis.postRegisterMentor,
+    onSuccess,
+    onError,
   });
 };
