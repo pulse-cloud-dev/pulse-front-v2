@@ -19,11 +19,12 @@ export const GroupModal = (props: ModalProps) => {
   if (!id) return null;
   return (
     <div className={type === "large" ? `modal_box ${id ? "on overflow_y" : ""}` : `modal_box ${id ? "on" : ""}`}>
-      {/* 모달 컨텐츠 */}
       <div className={`modal__contents ${type}`} style={props.style}>
         {children}
-        <BaseButton />
-        <BaseButton />
+        <div>
+          <BaseButton>취소 </BaseButton>
+          <BaseButton>저장 </BaseButton>
+        </div>
       </div>
     </div>
   );

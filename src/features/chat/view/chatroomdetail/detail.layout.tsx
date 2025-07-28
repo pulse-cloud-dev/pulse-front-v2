@@ -4,31 +4,35 @@ import React from "react";
 interface DetailLayoutProps {
   children: React.ReactNode;
 }
-
+import { useQueryParams } from "@/shared/modules/modals/shared/hooks/usequeryparams";
 export const DetailLayout: React.FC<DetailLayoutProps> = ({ children }) => {
+  const { currentValue } = useQueryParams("status");
   return (
-    <section
-      style={{
-        width: "800px",
-        padding: "0 24px 24px 24px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        height: "100%",
-        overflow: "hidden",
-      }}
-    >
-      <div
+    <div>
+      {currentValue === "allow" && <RequestHeader />}
+      <section
         style={{
-          width: "100%",
-          height: "568px",
-          overflow: "scroll",
+          width: "800px",
+          padding: "0 24px 24px 24px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          height: "auto",
+          overflow: "hidden",
         }}
       >
-        {children}
-      </div>
-      <ChatInput />
-    </section>
+        <div
+          style={{
+            width: "100%",
+            maxHeight: "568px",
+            overflow: "scroll",
+          }}
+        >
+          {children}
+        </div>
+        <ChatInput />
+      </section>
+    </div>
   );
 };
 
@@ -113,5 +117,18 @@ const Bottom = () => {
       </div>
       <BaseButton color="primary">전송</BaseButton>
     </div>
+  );
+};
+
+const RequestHeader = () => {
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "60px",
+        borderBottom: "1px solid #e0e0e0",
+        padding: "16px 20px",
+      }}
+    ></div>
   );
 };

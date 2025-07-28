@@ -32,7 +32,7 @@ export const ChatLayout = ({ children, style, className }: ChatLayoutProps) => {
           height: "752px",
           borderRadius: "16px",
           border: "1px solid #E0E0E0",
-          backgroundColor: "#FFFFFF", // 또는 살짝 다른 색 (예: #FAFAFA)
+          backgroundColor: "#FFFFFF",
           ...style,
         }}
       >
