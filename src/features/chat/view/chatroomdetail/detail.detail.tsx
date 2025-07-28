@@ -171,10 +171,13 @@ export const DetailList = () => {
       showTimestamp: !isSameSenderAsNext || !isSameMinuteAsNext,
     };
   });
-
   const { getQueryValue } = useQueryParams("room");
   const selectedRoomId = getQueryValue();
   console.log("Selected Room ID:", selectedRoomId);
+
+  if (!processedMessages || processedMessages.length === 0) {
+    return <div style={{ height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>채팅이 없습니다</div>;
+  }
 
   return (
     <>
