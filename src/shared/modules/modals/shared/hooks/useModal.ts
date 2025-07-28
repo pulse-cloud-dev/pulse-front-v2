@@ -36,7 +36,7 @@ export const useModal = <T = Record<string, any>>(component: ModalComponent, pro
         },
       };
 
-    const childrenFn = typeof (dynamicProps as any)?.children === "function" ? (dynamicProps as any).children : typeof (props as any)?.children === "function" ? (props as any).children : null;
+      const childrenFn = typeof (dynamicProps as any)?.children === "function" ? (dynamicProps as any).children : typeof (props as any)?.children === "function" ? (props as any).children : null;
 
       const resolvedProps = {
         ...modalProps,

@@ -75,21 +75,47 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
               return (
                 <div key={key} style={careerFieldStyle}>
                   {field.type === "date" ? (
-                    <DatePickerField
-                      labelSize="sm"
-                      name={key}
-                      label={field.label}
-                      selected={field.value ? (field.status === "fail" ? null : new Date(field.value)) : null}
-                      onChange={(date) => {
-                        updateStackField(i, key as keyof RegisterSchema, date);
-                      }}
-                      onBlur={() => {
-                        checkError(i, key as keyof RegisterSchema);
-                      }}
-                      onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
-                      error={isError ? field.errormessage : ""}
-                      isValid={!isError}
-                    />
+                    field.label === "입사년월" ? (
+                      <DatePickerField
+                        labelSize="sm"
+                        name={key}
+                        label={field.label}
+                        selected={field.value ? (field.status === "fail" ? null : new Date(field.value)) : null}
+                        onChange={(date) => {
+                          updateStackField(i, key as keyof RegisterSchema, date);
+                          resetStackField(i, "endDate" as keyof RegisterSchema); // 입사 년월 변경 시 퇴사 년월 상태 초기화
+                        }}
+                        onBlur={() => {
+                          checkError(i, key as keyof RegisterSchema);
+                        }}
+                        onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
+                        error={isError ? field.errormessage : ""}
+                        isValid={!isError}
+                        maxDate={new Date()}
+                      />
+                    ) : field.label === "퇴사년월" ? (
+                      <DatePickerField
+                        labelSize="sm"
+                        name={key}
+                        label={field.label}
+                        selected={field.value ? (field.status === "fail" ? null : new Date(field.value)) : null}
+                        onChange={(date) => {
+                          updateStackField(i, key as keyof RegisterSchema, date);
+                        }}
+                        onBlur={() => {
+                          checkError(i, key as keyof RegisterSchema);
+                        }}
+                        onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
+                        error={isError ? field.errormessage : ""}
+                        isValid={!isError}
+                        minDate={
+                          stacks[i].startDate?.value // 입사 년월이 있으면 minDate 지정
+                            ? new Date(stacks[i].startDate.value as Date)
+                            : undefined // 없으면 제한 없이 선택
+                        }
+                        maxDate={new Date()}
+                      />
+                    ) : null
                   ) : null}
 
                   {field.type === "input" && (
@@ -103,8 +129,7 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
                       type={["startDate", "endDate"].includes(key) ? "month" : "text"}
                       name={key}
                       value={field.value}
-                      isInvalid={isError}
-                      errorMessage={isError ? field.errormessage : ""}
+                      isInvalid={false}
                       onChange={(e) => updateStackField(i, key as keyof RegisterSchema, e.target.value)}
                       onBlur={() => checkError(i, key as keyof RegisterSchema)}
                       onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
@@ -119,8 +144,7 @@ export const Career = ({ stacks, pushStack, popStack, updateStackField, resetSta
                       onChange={(val) => updateStackField(i, key as keyof RegisterSchema, val)}
                       onBlur={() => checkError(i, key as keyof RegisterSchema)}
                       onFocus={() => resetStatus(i, key as keyof RegisterSchema)}
-                      hasError={isError}
-                      errorMessage={field.errormessage}
+                      hasError={false}
                     >
                       <ErrorBoundary fallback={<h2>Error...</h2>}>
                         <Suspense fallback={<>loading</>}>
