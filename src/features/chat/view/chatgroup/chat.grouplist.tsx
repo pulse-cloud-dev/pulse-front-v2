@@ -49,7 +49,7 @@ const ChatGroupList = () => {
               alignItems: "center",
               justifyContent: "center",
               border: "1px solid #E0E0E0",
-              backgroundColor: currentGroupId === group.id ? "#E6F0FF" : "#fff", // 강조
+              backgroundColor: currentGroupId === group.id ? "#EBFAF8" : "#fff", // 강조
               cursor: "pointer",
               whiteSpace: "normal",
               wordBreak: "break-word",
@@ -57,7 +57,7 @@ const ChatGroupList = () => {
               padding: "15px 16px 14px 16px",
             }}
           >
-            <Typography variant="compact" size="14" weight="medium">
+            <Typography variant="compact" size="14" weight="medium" color={currentGroupId === group.id ? "primary" : "black"}>
               {group.name}
             </Typography>
           </button>

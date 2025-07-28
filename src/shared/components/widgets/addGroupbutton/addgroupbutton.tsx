@@ -1,5 +1,6 @@
 import { useModal } from "@/shared/modules";
 import { GroupModal } from "../addGroupModal/addgroupmodal";
+import { BaseButton } from "../../atoms";
 function AddGroupButton() {
   const PlusModal = useModal(GroupModal, {
     variant: "confirm",
