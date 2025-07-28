@@ -18,7 +18,6 @@ export const DetailLayout: React.FC<DetailLayoutProps> = ({ children }) => {
         overflow: "hidden",
       }}
     >
-      <div></div>
       <div
         style={{
           width: "100%",
@@ -33,9 +32,22 @@ export const DetailLayout: React.FC<DetailLayoutProps> = ({ children }) => {
   );
 };
 
+import { useState } from "react";
+
 const ChatInput = () => {
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!message.trim()) return;
+
+    console.log("보낸 메시지:", message);
+    setMessage(""); // 입력창 초기화
+  };
+
   return (
     <form
+      onSubmit={handleSubmit}
       style={{
         width: "100%",
         borderRadius: "12px",
@@ -46,26 +58,36 @@ const ChatInput = () => {
         height: "136px",
       }}
     >
-      <ChatInputArea />
+      <ChatInputArea value={message} onChange={setMessage} onSubmit={handleSubmit} />
       <Bottom />
     </form>
   );
 };
+
 interface ChatInputAreaProps {
   value: string;
   onChange: (value: string) => void;
+  onSubmit: (e: React.FormEvent) => void;
 }
 
-const ChatInputArea: React.FC<ChatInputAreaProps> = ({ value, onChange }) => {
+const ChatInputArea: React.FC<ChatInputAreaProps> = ({ value, onChange, onSubmit }) => {
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onChange(e.target.value);
   };
 
-  return <textarea className="chat-textarea" placeholder="메시지를 입력하세요." value={value} onChange={handleChange} style={{ height: "56px", width: "100%" }} />;
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      onSubmit(e as any);
+    }
+  };
+
+  return <textarea className="chat-textarea" placeholder="메시지를 입력하세요." value={value} onChange={handleChange} onKeyDown={handleKeyDown} style={{ height: "56px", width: "100%" }} />;
 };
 
 import { BaseButton } from "@/shared/components";
 import { Icon } from "@/shared/components";
+
 const Bottom = () => {
   return (
     <div
@@ -89,7 +111,7 @@ const Bottom = () => {
         <Icon src="marker" alt="search button" />
         <Icon src="search_18" alt="search button" style={{ width: "24px", height: "24px" }} />
       </div>
-      <BaseButton color="primary"> 전송</BaseButton>
+      <BaseButton color="primary">전송</BaseButton>
     </div>
   );
 };
