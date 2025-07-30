@@ -14,18 +14,25 @@ type MenuAction = (
 export const menuActionMap: Record<string, MenuAction> = {
   handleMentorInfo: async (navigate, context, item) => {
     if (!context.isLogin) {
-      alert('로그인을 하고 오십시오');
+
+      alert('로그인 후 이용가능합니다.');
+
       navigate("/auth/signIn");
       return;
     }
 
-    // 멘토 등록 여부 확인 로직은 여기에 나중에 추가
+    
+
     const isMentorRegistered = await checkMentorRegistered();
 
-    if (!isMentorRegistered) {
-      navigate(item?.href ?? "/mentor-register");
+    if (isMentorRegistered) {
+      alert("이미 멘토로 등록되어있습니다.");
+      setTimeout(() => {
+        navigate("/mentor-find");
+      }, 100); 
     } else {
-      alert("등록이 되어있습니다.");
+      navigate(item?.href ?? "/mentor-register");
+
     }
   },
 };
