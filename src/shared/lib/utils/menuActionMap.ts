@@ -19,6 +19,7 @@ export const menuActionMap: Record<string, MenuAction> = {
       return;
     }
 
+
     const isMentorRegistered = await checkMentorRegistered();
 
     if (isMentorRegistered) {
