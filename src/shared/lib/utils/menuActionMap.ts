@@ -14,11 +14,14 @@ type MenuAction = (
 export const menuActionMap: Record<string, MenuAction> = {
   handleMentorInfo: async (navigate, context, item) => {
     if (!context.isLogin) {
+
       alert('로그인 후 이용가능합니다.');
+
       navigate("/auth/signIn");
       return;
     }
 
+    
 
     const isMentorRegistered = await checkMentorRegistered();
 
@@ -29,6 +32,7 @@ export const menuActionMap: Record<string, MenuAction> = {
       }, 100); 
     } else {
       navigate(item?.href ?? "/mentor-register");
+
     }
   },
 };
