@@ -4,6 +4,7 @@ import { FindMentorSection } from "./component/findMentor";
 import { usePageNavigation } from "@/shared/lib/hooks";
 
 import { Icon } from "@/shared/components";
+import { MainCardListContainer } from "../mentoring-list/\bmentoring-list-container";
 
 export const MainView = () =>  {
 
@@ -30,7 +31,7 @@ export const MainView = () =>  {
         </div>
 
         {/* 나중에 API 연동해서 카드 8개 노출 */}
-        <MainCardList />
+        <MainCardListContainer/>
         </section>
 
       {/* 맞춤 멘토 찾기 */}

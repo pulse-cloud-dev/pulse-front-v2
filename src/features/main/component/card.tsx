@@ -1,103 +1,29 @@
+import { MentoringListItemDto } from "@/contracts/response/mentoring-list/mentoring-list.reseponse.dto";
 import { MentorCard } from "@/shared/components";
 
-interface Mentoring {
-  mentoring_id: string;
-  title: string;
-  mentor_nickname: string;
-  deadline_time: string;
-  mentor_job: { jobCode: string };
-  mentor_profile_image: string | null;
-  lecture_type: "ONLINE" | "OFFLINE";
+interface Props {
+  list: MentoringListItemDto[];
 }
 
-const dummyMentoringList: Mentoring[] = [
-  {
-    mentoring_id: "1",
-    title: "제목입니다 제목은 세 줄까지지만 보입니다",
-    mentor_nickname: "찡구는목말라",
-    deadline_time: "2025-03-02",
-    mentor_job: { jobCode: "UI/UX" },
-    mentor_profile_image: "/profile.png",
-    lecture_type: "ONLINE",
-  },
-  {
-    mentoring_id: "1",
-    title: "제목입니다 제목은 세 줄까지지만 보입니다",
-    mentor_nickname: "찡구는목말라",
-    deadline_time: "2025-03-02",
-    mentor_job: { jobCode: "UI/UX" },
-    mentor_profile_image: "/profile.png",
-    lecture_type: "ONLINE",
-  },
-  {
-    mentoring_id: "1",
-    title: "제목입니다 제목은 세 줄까지지만 보입니다",
-    mentor_nickname: "찡구는목말라",
-    deadline_time: "2025-03-02",
-    mentor_job: { jobCode: "UI/UX" },
-    mentor_profile_image: "/profile.png",
-    lecture_type: "ONLINE",
-  },
-  {
-    mentoring_id: "1",
-    title: "제목입니다 제목은 세 줄까지지만 보입니다",
-    mentor_nickname: "찡구는목말라",
-    deadline_time: "2025-03-02",
-    mentor_job: { jobCode: "UI/UX" },
-    mentor_profile_image: "/profile.png",
-    lecture_type: "ONLINE",
-  },
-  {
-    mentoring_id: "1",
-    title: "제목입니다 제목은 세 줄까지지만 보입니다",
-    mentor_nickname: "찡구는목말라",
-    deadline_time: "2025-03-02",
-    mentor_job: { jobCode: "UI/UX" },
-    mentor_profile_image: "/profile.png",
-    lecture_type: "ONLINE",
-  },
-  {
-    mentoring_id: "1",
-    title: "제목입니다 제목은 세 줄까지지만 보입니다",
-    mentor_nickname: "찡구는목말라",
-    deadline_time: "2025-03-02",
-    mentor_job: { jobCode: "UI/UX" },
-    mentor_profile_image: "/profile.png",
-    lecture_type: "ONLINE",
-  },
-  {
-    mentoring_id: "1",
-    title: "제목입니다 제목은 세 줄까지지만 보입니다",
-    mentor_nickname: "찡구는목말라",
-    deadline_time: "2025-03-02",
-    mentor_job: { jobCode: "UI/UX" },
-    mentor_profile_image: "/profile.png",
-    lecture_type: "ONLINE",
-  },
-  {
-    mentoring_id: "1",
-    title: "제목입니다 제목은 세 줄까지지만 보입니다",
-    mentor_nickname: "찡구는목말라",
-    deadline_time: "2025-03-02",
-    mentor_job: { jobCode: "UI/UX" },
-    mentor_profile_image: "/profile.png",
-    lecture_type: "ONLINE",
-  },
-];
-
-export const MainCardList = () => {
+export const MainCardList = ({ list }: Props) => {
+  console.log("받은 리스트:", list); 
   return (
+    
     <div className="mentoring-card-grid">
-      {dummyMentoringList.map((item) => (
+      {list.map((item) => (
         <MentorCard
           key={item.mentoring_id}
           mentoringId={item.mentoring_id}
-          onlineStatus={item.lecture_type === "ONLINE" ? "온라인" : "오프라인"}
           title={item.title}
           mentorNickname={item.mentor_nickname}
           deadlineDate={item.deadline_time}
-          mentorJob={item.mentor_job.jobCode}
+          mentorJob={item.mentor_job}
+          mentorCareer={item.mentor_career_total_year}
           mentorProfileImage={item.mentor_profile_image}
+          lectureType={item.lecture_type}
+          onlinePlatform={item.online_platform}
+          region={""} 
+          onlineStatus={item.lecture_type === "ONLINE" ? "온라인" : "오프라인"}
         />
       ))}
     </div>
