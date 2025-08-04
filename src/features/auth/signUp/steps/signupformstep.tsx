@@ -142,25 +142,42 @@ const initialFields: FormState = {
         validate: (value) => value.trim().length > 0,
         message: "비밀번호를 입력해 주세요.",
       },
-      minLength: {
-        validate: (value) => value.length >= 8,
-        message: "비밀번호는 8자 이상이어야 합니다.",
+      length: {
+        validate: (value) => value.length >= 8 && value.length <= 30,
+        message: "8자~30자 사이로 작성해야 합니다.",
       },
-      hasUppercase: {
+      startWithLetter: {
+        validate: (value) => /^[a-zA-Z]/.test(value),
+        message: "영문 대문자 또는 소문자로 시작할 수 있습니다.",
+      },
+      // noBirthDate: {
+      //   validate: (value) => !containsBirthDate(value),
+      //   message: "생년월일은 비밀번호에 사용할 수 없습니다.",
+      // },
+      hasThreeTypes: {
         validate: (value) => {
           const conditions = [
             /[A-Z]/.test(value), // 대문자
             /[a-z]/.test(value), // 소문자
             /\d/.test(value), // 숫자
-            /[@$!%*?&]/.test(value), // 특수문자
+            /[!@#$%^&*(),.?":{}|<>]/.test(value), // 특수문자
           ];
           return conditions.filter(Boolean).length >= 3;
         },
-        message: "영문 대문자, 영문 소문자, 숫자, 특수문자(@$!%*?&) 중 3종류 이상 조합해야 합니다.",
+        message: "영문 대문자, 영문 소문자, 숫자, 특수문자 중 3종류 이상 조합되어야 합니다.",
       },
-      notStartWithSpecial: {
-        validate: (value) => !/^[@$!%*?&]/.test(value),
-        message: "특수문자로 시작할 수 없습니다.",
+      basicCombination: {
+        validate: (value) => {
+          const hasLetter = /[a-zA-Z]/.test(value);
+          const hasNumber = /\d/.test(value);
+          const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(value);
+          return hasLetter && hasNumber && hasSpecial;
+        },
+        message: "영문, 숫자, 특수문자 최소 1개씩 사용해야 합니다.",
+      },
+      validChars: {
+        validate: (value) => /^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]+$/.test(value),
+        message: "사용 불가능한 비밀번호입니다.",
       },
     },
   },
