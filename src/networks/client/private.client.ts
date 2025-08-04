@@ -1,6 +1,5 @@
 import { envConst } from "@/shared/constants";
 import axios from "axios";
-import { localStorageManager } from "taeo-utils";
 
 const { server, server_port } = envConst;
 

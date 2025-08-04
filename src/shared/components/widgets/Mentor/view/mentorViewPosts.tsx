@@ -73,14 +73,6 @@ export const MentorViewPosts = ({ event, keyword, setKeyword, setSearchText, rem
   const totalPages = data?.total_pages ?? 1;
   const isDataEmpty = mentorings.length === 0;
 
-  const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const card = (e.target as HTMLElement).closest("[data-index]");
-    if (!card) return;
-
-    const index = card.getAttribute("data-index");
-    console.log("클릭된 카드 인덱스:", index);
-  };
-
   return (
     <>
       <FilterBar

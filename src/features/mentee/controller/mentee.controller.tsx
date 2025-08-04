@@ -7,7 +7,6 @@ import { useSearchParams } from "react-router-dom";
 export const MeteeController = () => {
   const [keyword, setKeyword] = useState("");
   const [searchText, setSearchText] = useState("");
-
   const [selectedFields, setSelectedFields] = useLocalStorage<string[]>("selectedFields", []);
   const [selectedRegions, setSelectedRegions] = useLocalStorage<string[]>("selectedRegions", []);
   const [onlineStatus, setOnlineStatus] = useLocalStorage<string>("onlineStatus", "전체");
@@ -30,6 +29,8 @@ export const MeteeController = () => {
       return updated;
     });
   };
+
+  console.log("확인좀 하자", keyword, sortOption, regionCheckedItems, fieldCheckedItems, isOnlineOnly, onlineStatus, selectedRegions, selectedFields);
 
   // const { data: mentorings = [], isLoading: loading } = useMentoringListQuery({
   //   selectedFields,

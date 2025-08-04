@@ -1,6 +1,7 @@
 import type { Dispatch, SetStateAction } from "react";
 import type { EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
+import dayjs from "dayjs";
 import type { ViewEventProps } from "@/shared/types";
 import { TextEditorView, useTextEditor } from "@/shared/modules/text-editor";
 import { BaseButton, FloatingSideMenu, Typography } from "@/shared/components";
@@ -319,29 +320,50 @@ export const PostsView = (props: PostsViewProps) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const formatDateYYMMDD = (date: Date): string => {
-      const yy = String(date.getFullYear()).slice(2);
-      const mm = String(date.getMonth() + 1).padStart(2, "0");
-      const dd = String(date.getDate()).padStart(2, "0");
-      return `${yy}${mm}${dd}`;
+    const formatDateYYYYMMDD = (date: Date): string => {
+      return dayjs(date).format("YYYYMMDD");
+    };
+
+    const formatTimeHHMM = (timeStr: string): string => {
+      return timeStr.replace(":", ""); // "00:00" → "0000"
     };
 
     if (isFormValid) {
       const htmlContent = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-      const requestData: MentoringPostRequestDTO = {
-        title: formData.title.value,
-        content: htmlContent,
-        deadline_date: formatDateYYMMDD(formData.dueDate.value as Date),
-        deadline_time: formData.dueTime.value as string,
-        start_date: formatDateYYMMDD(formData.startDate.value as Date),
-        end_date: formatDateYYMMDD(formData.endDate.value as Date),
-        lecture_type: formData.lectureFormat.value,
-        online_platform: formData.onlinePlatform.value,
-        address: formData.offlineAddress.value,
-        detail_address: formData.offlineDetailAddress.value,
-        recruit_number: Number(formData.recruitCount.value),
-        cost: Number(formData.mentorFee.value),
-      };
+
+      const lectureType = formData.lectureFormat.value as "ONLINE" | "OFFLINE";
+
+      let requestData: MentoringPostRequestDTO;
+
+      if (lectureType === "ONLINE") {
+        requestData = {
+          lecture_type: "ONLINE",
+          title: formData.title.value,
+          content: htmlContent,
+          deadline_date: formatDateYYYYMMDD(formData.dueDate.value as Date),
+          deadline_time: formatTimeHHMM(formData.dueTime.value as string),
+          start_date: formatDateYYYYMMDD(formData.startDate.value as Date),
+          end_date: formatDateYYYYMMDD(formData.endDate.value as Date),
+          online_platform: formData.onlinePlatform.value,
+          recruit_number: Number(formData.recruitCount.value),
+          cost: Number(formData.mentorFee.value),
+        };
+      } else {
+        requestData = {
+          lecture_type: "OFFLINE",
+          title: formData.title.value,
+          content: htmlContent,
+          deadline_date: formatDateYYYYMMDD(formData.dueDate.value as Date),
+          deadline_time: formatTimeHHMM(formData.dueTime.value as string),
+          start_date: formatDateYYYYMMDD(formData.startDate.value as Date),
+          end_date: formatDateYYYYMMDD(formData.endDate.value as Date),
+          address: formData.offlineAddress.value,
+          detail_address: formData.offlineDetailAddress.value || "미정",
+          recruit_number: Number(formData.recruitCount.value),
+          cost: Number(formData.mentorFee.value),
+        };
+      }
+
       requestPostMentoring(requestData);
     } else {
       alert("입력값을 다시 확인해주세요.");

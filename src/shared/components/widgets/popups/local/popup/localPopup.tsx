@@ -8,37 +8,24 @@ import { Footer } from "../../popupFooter";
 import { useCheckFieldGroup } from "@/shared/modules/select-ui";
 import { Certificate } from "crypto";
 
-
-export function LocalPopup({
-  closeModal,
-  onApply,
-  initialCheckedItems = {},
-}: {
-  closeModal?: () => void;
-  onApply?: (selected: string[], checkedItems: Record<string, boolean>) => void;
-  initialCheckedItems?: Record<string, boolean>;
-})
-  {
-  const { reset } = useCheckFieldGroup ({
-    initialValues : {
-      option: false
-    }
-  })
+export function LocalPopup({ closeModal, onApply, initialCheckedItems = {} }: { closeModal?: () => void; onApply?: (selected: string[], checkedItems: Record<string, boolean>) => void; initialCheckedItems?: Record<string, boolean> }) {
+  const { reset } = useCheckFieldGroup({
+    initialValues: {
+      option: false,
+    },
+  });
 
   const [selectedCity, setSelectedCity] = useState("서울");
-  const [selected, setSelected] = useState(null);
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>(initialCheckedItems);
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [cities, setCities] = useState<{ name: string; code: string }[]>([]);
-
+  const [cities] = useState<{ name: string; code: string }[]>([]);
 
   const handleReset = () => {
     reset();
     setCheckedItems({});
-    // setSelected(null);
     setSelectedCity("서울");
     setSearchKeyword("");
-  }  
+  };
 
   const handleClose = () => {
     closeModal?.();
@@ -55,8 +42,6 @@ export function LocalPopup({
     setCheckedItems({ ...checkedItems, [key]: !checkedItems[key] });
   };
 
-
-
   const selectedItems = useMemo(() => {
     return Object.entries(checkedItems)
       .filter(([, isChecked]) => isChecked)
@@ -64,44 +49,30 @@ export function LocalPopup({
         const [city, district] = key.split("-");
 
         if (key === "전국-전국") {
-        return { key, label: "전국" };
-      }
+          return { key, label: "전국" };
+        }
 
-        return { key, label: `${city} > ${district}` };
+        return { key, label: `${city} > ${district}` };
       });
   }, [checkedItems]);
 
-    const handleApply = () => {
-    const regionList = selectedItems.map(item => item.label); 
+  const handleApply = () => {
+    const regionList = selectedItems.map((item) => item.label);
     onApply?.(regionList, checkedItems);
     // setRegionChecked(checkedItems);
     closeModal?.();
   };
 
-
-// 검색어 변경 시 도시 선택
-useEffect(() => {
-  if (!searchKeyword) return;
-  const matched = cities.find((city) =>
-    city.name.toLowerCase().includes(searchKeyword.toLowerCase())
-  );
-  if (matched) setSelectedCity(matched.name);
-}, [searchKeyword, cities]);
-
+  // 검색어 변경 시 도시 선택
+  useEffect(() => {
+    if (!searchKeyword) return;
+    const matched = cities.find((city) => city.name.toLowerCase().includes(searchKeyword.toLowerCase()));
+    if (matched) setSelectedCity(matched.name);
+  }, [searchKeyword, cities]);
 
   return (
-    <div 
-      className="popup-local"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="popup-title"
-    >
-      <Header 
-        id="popup-title" 
-        onSearch={setSearchKeyword} 
-        onToggle={handleToggle}
-        checkedItems={checkedItems}
-      />
+    <div className="popup-local" role="dialog" aria-modal="true" aria-labelledby="popup-title">
+      <Header id="popup-title" onSearch={setSearchKeyword} onToggle={handleToggle} checkedItems={checkedItems} />
       <Body
         selectedCity={selectedCity}
         setSelectedCity={setSelectedCity}
@@ -110,7 +81,7 @@ useEffect(() => {
         // searchKeyword={searchKeyword}
       />
       <SelectedItems selectedItems={selectedItems} handleToggle={handleToggle} />
-      <Footer onReset={handleReset}  onClose={handleClose} onApply={handleApply}/>
+      <Footer onReset={handleReset} onClose={handleClose} onApply={handleApply} />
     </div>
   );
 }

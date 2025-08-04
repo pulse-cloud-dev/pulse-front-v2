@@ -3,15 +3,20 @@ import { useEffect, useRef } from "react";
 interface NaverMap {
   map: naver.maps.Map | null;
 }
-
-export const Map = () => {
+interface regionType {
+  region: string[];
+}
+export const Map = (region: regionType) => {
   const mapRef = useRef<NaverMap>({ map: null });
+  console.log(region); //이거 좌표 전환헤서 데이터 불러옴
+
+  // region.region.forEach((item) => {
 
   useEffect(() => {
     const initializeMap = () => {
       const mapOptions: naver.maps.MapOptions = {
         center: new naver.maps.LatLng(37.5666103, 126.9783882),
-        zoom: 16,
+        zoom: 10,
       };
 
       mapRef.current.map = new naver.maps.Map("map", mapOptions);
@@ -39,5 +44,5 @@ export const Map = () => {
     };
   });
 
-  return <div id="map" style={{ width: "100%", height: "100%" }} />;
+  return <div id="map" style={{ width: "100%", height: "100%" }}></div>;
 };
