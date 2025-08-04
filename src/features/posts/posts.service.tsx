@@ -6,14 +6,8 @@ export const usePostMentoring = (openPostModal: { openModal: () => void }, failP
   const mutation = useMutation({
     mutationFn: (payload: MentoringPostRequestDTO) => postMentoring(payload),
 
-    onSuccess: (data) => {
-      if (data.body === "SUCCESS") {
-        console.log("멘토링 등록 성공:", data.message);
-        openPostModal.openModal(); // 성공 시 모달 열기
-      } else {
-        console.warn("멘토링 등록 실패:", data.message);
-        failPostModal.openModal(); // 실패 시 모달 열기
-      }
+    onSuccess: () => {
+      openPostModal.openModal();
     },
 
     onError: (error) => {

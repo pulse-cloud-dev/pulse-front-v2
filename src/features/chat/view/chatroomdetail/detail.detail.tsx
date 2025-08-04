@@ -141,6 +141,7 @@ const MessageItem: React.FC<{
     </div>
   );
 };
+
 export const DetailList = () => {
   const myname = "euan";
 

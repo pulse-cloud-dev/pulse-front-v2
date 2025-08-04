@@ -1,31 +1,23 @@
 import { FilterBar } from "../filters/filterBar";
-import {
-  Map,
-  MentorCard,
-  BaseDrawer,
-} from "@/shared/components/blocks";
+import { Map, MentorCard, BaseDrawer } from "@/shared/components/blocks";
 import { useState } from "react";
 import type { FilterProps } from "../type/filterProps";
 
 export const MentorViewMap = (props: FilterProps & { sortOption: string; setSortOption: (val: string) => void }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
   return (
-    <section 
-      className="m-t-30" 
-      style={{ position: "relative", overflow: "hidden" }}
-      aria-label="지도 및 필터 영역"
-    >
-      <div 
-        style={{ 
-          background: "lightgray", 
-          height: "750px", 
-          borderRadius: "18px", 
-          border: "1px solid #e0e0e0" 
+    <section className="m-t-30" style={{ position: "relative", overflow: "hidden" }} aria-label="지도 및 필터 영역">
+      <div
+        style={{
+          background: "lightgray",
+          height: "750px",
+          borderRadius: "18px",
+          border: "1px solid #e0e0e0",
         }}
         role="region"
         aria-label="멘토링 지도"
       >
-        <Map />
+        <Map region={props.selectedRegions} />
       </div>
       <div style={{ position: "absolute", top: "16px", left: "16px" }}>
         <FilterBar {...props} />

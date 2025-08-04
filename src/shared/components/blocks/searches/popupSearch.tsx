@@ -1,5 +1,4 @@
 import { Icon, RoundButton } from "@/shared/components/atoms";
-import { ColorPicker } from "@/shared/modules/text-editor/shared/components/colorPicker";
 
 interface PopupSearchProps {
   title?: string;
@@ -16,12 +15,12 @@ export const PopupSearch = (props: PopupSearchProps) => {
     ? {
         backgroundColor: "#E6FAF5",
         border: "1px solid #00B894",
-        color: "#00B894"
+        color: "#00B894",
       }
     : {
         backgroundColor: "#FFFFFF",
         border: "1px solid #D1D5DB", // gray-300
-        color: "#000000"
+        color: "#000000",
       };
 
   return (
