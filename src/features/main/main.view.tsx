@@ -1,10 +1,11 @@
 import { MainHeader } from "./component/header";
-import { MainCardList } from "./component/card";
 import { FindMentorSection } from "./component/findMentor";
 import { usePageNavigation } from "@/shared/lib/hooks";
-
 import { Icon } from "@/shared/components";
-import { MainCardListContainer } from "../mentoring-list/\bmentoring-list-container";
+import { MainCardList } from "./component/card";
+import { Suspense } from "react";
+import { ErrorBoundary } from 'react-error-boundary';
+import { FallbackMentoringList } from "@/shared/components/widgets/Mentor/view/fallbackMentoringList";
 
 export const MainView = () =>  {
 
@@ -31,7 +32,12 @@ export const MainView = () =>  {
         </div>
 
         {/* 나중에 API 연동해서 카드 8개 노출 */}
-        <MainCardListContainer/>
+        <ErrorBoundary fallback={<FallbackMentoringList/>}>
+          <Suspense fallback={<div>불러오는 중...</div>}>
+            <MainCardList />
+          </Suspense>
+        </ErrorBoundary>
+       
         </section>
 
       {/* 맞춤 멘토 찾기 */}
