@@ -16,6 +16,11 @@ export interface MentoringListItemDto {
   is_bookmark: boolean;                  // 북마크 여부
 }
 
+export interface ResultData<T> {
+  body: T;
+  message: string;
+}
+
 // 페이징 정보 및 멘토링 리스트 포함한 응답
 export interface PaginationDto<T> {
   page: number;                          // 현재 페이지 번호
