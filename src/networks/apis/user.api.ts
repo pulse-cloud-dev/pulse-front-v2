@@ -143,7 +143,7 @@ const getEmailByOauthCode = async (code: string): Promise<{ email: string; name:
   const { data } = await axios.get("http://13.209.104.215:8080/api/v1/social/naver/find-email", {
     params: { code },
   });
-  console.log(data.body);
+ 
   return data.body;
 };
 
