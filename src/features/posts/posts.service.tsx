@@ -12,7 +12,7 @@ export const usePostMentoring = (openPostModal: { openModal: () => void }, failP
 
     onError: (error) => {
       console.error("API 호출 중 에러 발생:", error);
-      failPostModal.openModal(); // 에러 발생 시 실패 모달 열기
+      failPostModal.openModal();
     },
   });
 
