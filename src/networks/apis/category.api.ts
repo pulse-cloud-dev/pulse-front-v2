@@ -134,7 +134,14 @@ const allSubRegions = async (): Promise<{ parent: string; name: string; code: st
 const getMentoringDetail = async (id: string): Promise<MentoringDetailResponse["body"]> => {
   try {
     const data: MentoringDetailResponse = await publicClient.get(`/mentoring/${id}`);
-    return data.body;
+    const converted = {
+      ...data.body,
+
+      deadline_date: dayjs(data.body.deadline_date).tz("Asia/Seoul").format("YYYY-MM-DD"),
+      start_date: dayjs(data.body.start_date).tz("Asia/Seoul").format("YYYY-MM-DD"),
+      end_date: dayjs(data.body.end_date).tz("Asia/Seoul").format("YYYY-MM-DD"),
+    };
+    return converted;
   } catch (error) {
     console.error("멘토링 상세 조회 실패:", error);
     throw error;
