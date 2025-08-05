@@ -93,7 +93,6 @@ const CardCount = ({ selectedFields, selectedRegions, onlineStatus, sortOption, 
     searchText,
     offset,
   });
-
   return (
     <Typography variant="body" size="16" weight="semi-bold">
       총 {data?.total_count ?? 0}개
