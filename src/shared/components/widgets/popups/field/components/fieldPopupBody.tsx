@@ -21,7 +21,7 @@ export const Body = ({
   const selectedFieldCode = selectedFieldObj?.code;
 
   const { data: subFields = [] } = fieldQuerys.useSubFields(selectedFieldCode);
-
+  console.log("subfields", subFields);
   return (
     <div className={`popup-local__body ${className}`} {...props}>
       <div className="popup-local__column popup-local__column-left" role="listbox" aria-label="분야 선택">

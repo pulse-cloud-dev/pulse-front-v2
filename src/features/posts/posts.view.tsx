@@ -4,7 +4,7 @@ import "draft-js/dist/Draft.css";
 import dayjs from "dayjs";
 import type { ViewEventProps } from "@/shared/types";
 import { TextEditorView, useTextEditor } from "@/shared/modules/text-editor";
-import { BaseButton, FloatingSideMenu, Typography } from "@/shared/components";
+import { BaseButton, Typography } from "@/shared/components";
 import { DatePickerField } from "@/shared/components/blocks/datepicker/DatePickerField";
 import { useState, useRef, useEffect } from "react";
 import { FormField } from "@/shared/components";

@@ -69,17 +69,18 @@
 ========================================================
 */
 .mentor-card-link {
-  display: block;
+  display: inline-block;
   text-decoration: none;
   color: inherit;
+  height: auto;
 }
 
 .mentorCard-body__top {
-  width: 100%;      /* 너비 제한 */
-  height: 80px;       /* 최대 높이 제한 (3줄 기준) */
+  width: 100%; /* 너비 제한 */
+  height: 80px; /* 최대 높이 제한 (3줄 기준) */
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 3;              /* 최대 3줄 */
+  -webkit-line-clamp: 3; /* 최대 3줄 */
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
   word-break: break-word;

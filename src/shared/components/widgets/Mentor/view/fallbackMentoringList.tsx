@@ -25,7 +25,6 @@ const dummyData = [
 export const FallbackMentoringList = () => {
   return (
     <>
-      <Typography>예시 데이터입니다.</Typography>
       <div className="flex__box m-t-10">
         {dummyData.map((item, index) => (
           <div key={item.mentoring_id} data-index={index}>

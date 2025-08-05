@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { useMentoringListQuery } from "../hooks/useMentoringListQuery";
 import { FilterBar } from "../filters/filterBar";
 import { Typography } from "@/shared/components/atoms";
@@ -5,10 +6,8 @@ import { SortDropdown } from "@/shared/components/widgets/sortDropdown/SortDropd
 import { MentorCard } from "@/shared/components/blocks";
 import { PageNation } from "@/shared/components/widgets";
 import { FilterProps } from "../type/filterProps";
-
-// import { Suspense } from "react";
-// import ErrorBoundary from "@/shared/components/blocks/errorboundary/errorBoundary";
-// import { FallbackMentoringList } from "@/shared/components/widgets/Mentor/view/fallbackMentoringList";
+import ErrorBoundary from "@/shared/components/blocks/errorboundary/errorBoundary";
+import { FallbackMentoringList } from "@/shared/components/widgets/Mentor/view/fallbackMentoringList";
 
 interface Mentoring {
   mentoring_id: string;
@@ -30,8 +29,25 @@ interface MentorViewPostsProps extends FilterProps {
   setOffset: (val: number) => void;
 }
 
-export const MentorViewPosts = ({ event, keyword, setKeyword, setSearchText, removeField, removeRegion, selectedFields, selectedRegions, onlineStatus, sortOption, setSortOption, searchText, offset, setOffset, onReset }: MentorViewPostsProps) => {
-  const { data, isFetching, error } = useMentoringListQuery({
+// 멘토링 카드 리스트 컴포넌트 (Suspense 내부)
+const MentoringCardList = ({
+  selectedFields,
+  selectedRegions,
+  onlineStatus,
+  sortOption,
+  searchText,
+  offset,
+}: {
+  selectedFields: string[];
+  selectedRegions: string[];
+  onlineStatus: string | null;
+  sortOption: string;
+  searchText: string;
+  offset: number;
+}) => {
+  const {
+    data: { contents: mentorings },
+  } = useMentoringListQuery({
     selectedFields,
     selectedRegions,
     onlineStatus,
@@ -40,41 +56,54 @@ export const MentorViewPosts = ({ event, keyword, setKeyword, setSearchText, rem
     offset,
   });
 
-  //더미데이터
-  const dummyData = [
-    {
-      mentoring_id: "1",
-      title: "React로 배우는 프론트엔드 입문 React로 배우는 프론트엔드 입문 React로 배우는 프론트엔드 입문",
-      mentor_nickname: "코딩은재밌어",
-      deadline_time: "2025-08-01",
-      mentor_job: { jobCode: "프론트엔드 개발자" },
-      mentor_profile_image: "",
-      lecture_type: "OFFLINE",
-      region: "",
-    },
-    {
-      mentoring_id: "2",
-      title: " 백엔드 개발 로드맵",
-      mentor_nickname: "백엔드장인",
-      deadline_time: "2025-08-15",
-      mentor_job: { jobCode: "백엔드 개발자" },
-      mentor_profile_image: "",
-      lecture_type: "ONLINE",
-      region: "",
-    },
-  ];
-
-  const mentorings = !data || data.contents.length === 0 ? dummyData : data.contents;
-
-  // const mentorings = data?.contents ?? [];
-  // const totalPages = data?.total_pages ?? 1;
-  // const isDataEmpty = mentorings.length === 0;
-  // const mentorings = data?.contents ?? [];
-  const totalPages = data?.total_pages ?? 1;
   const isDataEmpty = mentorings.length === 0;
+
+  if (isDataEmpty) {
+    return <Typography>결과가 없습니다.</Typography>;
+  }
 
   return (
     <>
+      {mentorings.map((item: Mentoring) => (
+        <MentorCard
+          key={item.mentoring_id}
+          mentoringId={item.mentoring_id}
+          lectureType={item.lecture_type}
+          onlinePlatform={item.online_platform}
+          title={item.title}
+          mentorNickname={item.mentor_nickname}
+          deadlineDate={item.deadline_time}
+          mentorJob={item.mentor_job.jobCode}
+          mentorCareer={item.mentor_career_total_year}
+          region={item.region}
+          mentorProfileImage={item.mentor_profile_image}
+        />
+      ))}
+    </>
+  );
+};
+
+// 카드 개수 컴포넌트 (Suspense 내부)
+const CardCount = ({ selectedFields, selectedRegions, onlineStatus, sortOption, searchText, offset }: { selectedFields: string[]; selectedRegions: string[]; onlineStatus: string | null; sortOption: string; searchText: string; offset: number }) => {
+  const { data } = useMentoringListQuery({
+    selectedFields,
+    selectedRegions,
+    onlineStatus,
+    sortOption,
+    searchText,
+    offset,
+  });
+
+  return (
+    <Typography variant="body" size="16" weight="semi-bold">
+      총 {data?.total_count ?? 0}개
+    </Typography>
+  );
+};
+
+export const MentorViewPosts = ({ event, keyword, setKeyword, setSearchText, removeField, removeRegion, selectedFields, selectedRegions, onlineStatus, sortOption, setSortOption, searchText, offset, setOffset, onReset }: MentorViewPostsProps) => {
+  return (
+    <div style={{ marginBottom: "60px" }}>
       <FilterBar
         event={event}
         keyword={keyword}
@@ -90,41 +119,23 @@ export const MentorViewPosts = ({ event, keyword, setKeyword, setSearchText, rem
         setSortOption={setSortOption}
         onReset={onReset}
       />
-
       <div className="card-count" role="region" aria-label="멘토 개수 및 정렬 옵션">
-        <Typography variant="body" size="16" weight="semi-bold">
-          총 {data?.total_count ?? 0}개
-        </Typography>
+        <ErrorBoundary fallback={<Typography>데이터를 불러오는 중 오류가 발생했습니다.</Typography>}>
+          <Suspense fallback={<Typography>카드 개수를 불러오는 중...</Typography>}>
+            <CardCount selectedFields={selectedFields} selectedRegions={selectedRegions} onlineStatus={onlineStatus} sortOption={sortOption} searchText={searchText} offset={offset} />
+          </Suspense>
+        </ErrorBoundary>
         <SortDropdown sortOption={sortOption} setSortOption={setSortOption} />
       </div>
 
-      <section className="flex__box m-t-10" aria-labelledby="멘토링 카드 리스트 영역">
-        {isFetching && isDataEmpty ? (
-          <Typography>로딩 중...</Typography>
-        ) : error ? (
-          <Typography>에러가 발생했습니다.</Typography>
-        ) : isDataEmpty ? (
-          <Typography>결과가 없습니다.</Typography>
-        ) : (
-          (mentorings as Mentoring[]).map((item) => (
-            <MentorCard
-              key={item.mentoring_id}
-              mentoringId={item.mentoring_id}
-              lectureType={item.lecture_type}
-              onlinePlatform={item.online_platform}
-              title={item.title}
-              mentorNickname={item.mentor_nickname}
-              deadlineDate={item.deadline_time}
-              mentorJob={item.mentor_job.jobCode}
-              mentorCareer={item.mentor_career_total_year}
-              region={item.region}
-              mentorProfileImage={item.mentor_profile_image}
-            />
-          ))
-        )}
+      <section className="flex__box m-t-10 m-b-30" aria-labelledby="멘토링 카드 리스트 영역" style={{ height: "1524px" }}>
+        <ErrorBoundary fallback={<FallbackMentoringList />}>
+          <Suspense fallback={<Typography>로딩 중...</Typography>}>
+            <MentoringCardList selectedFields={selectedFields} selectedRegions={selectedRegions} onlineStatus={onlineStatus} sortOption={sortOption} searchText={searchText} offset={offset} />
+          </Suspense>
+        </ErrorBoundary>
       </section>
-
-      <PageNation offset={offset} setOffset={setOffset} pages={totalPages} />
-    </>
+      <PageNation offset={offset} setOffset={setOffset} pages={10} />
+    </div>
   );
 };
