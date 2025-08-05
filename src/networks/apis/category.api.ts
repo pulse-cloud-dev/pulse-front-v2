@@ -75,7 +75,7 @@ const getMentoringList = async (params: MentoringListParams) => {
       ...data.body,
       contents: data.body.contents.map((item) => ({
         ...item,
-        deadline_time: dayjs(item.deadlineDate).tz("Asia/Seoul").format("YYYY-MM-DD HH:mm"),
+        deadline_time: dayjs(item.deadlineDate).tz("Asia/Seoul").format("YY년 M월 D일"),
       })),
     };
 
