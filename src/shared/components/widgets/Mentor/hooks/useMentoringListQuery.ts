@@ -28,7 +28,7 @@ export const useMentoringListQuery = ({ selectedFields, selectedRegions, onlineS
   };
 
   return useSuspenseQuery({
-    queryKey: ["mentoringList", selectedFields, selectedRegions, onlineStatus, sortOption, searchText, offset],
+    queryKey: ["mentoring", "list", selectedFields, selectedRegions, onlineStatus, sortOption, searchText, offset],
     queryFn: () => categoryApis.getMentoringList(params),
     staleTime: 1000 * 60,
   });
