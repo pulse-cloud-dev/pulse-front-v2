@@ -100,7 +100,42 @@ const CardCount = ({ selectedFields, selectedRegions, onlineStatus, sortOption, 
   );
 };
 
+interface CustomPageNationProps {
+  selectedFields: string[];
+  selectedRegions: string[];
+  onlineStatus: string | null;
+  sortOption: string;
+  searchText: string;
+  offset: number;
+  setOffset: (val: number) => void;
+  showCount?: number;
+}
+
+const CustomPageNation = ({ selectedFields, selectedRegions, onlineStatus, sortOption, searchText, offset, setOffset, showCount = 5 }: CustomPageNationProps) => {
+  const {
+    data: { total_pages: totalPages },
+  } = useMentoringListQuery({
+    selectedFields,
+    selectedRegions,
+    onlineStatus,
+    sortOption,
+    searchText,
+    offset,
+  });
+
+  return <PageNation offset={offset} setOffset={setOffset} pages={totalPages} showCount={showCount} />;
+};
+
 export const MentorViewPosts = ({ event, keyword, setKeyword, setSearchText, removeField, removeRegion, selectedFields, selectedRegions, onlineStatus, sortOption, setSortOption, searchText, offset, setOffset, onReset }: MentorViewPostsProps) => {
+  const mentoringFilter = {
+    selectedFields,
+    selectedRegions,
+    onlineStatus,
+    sortOption,
+    searchText,
+    offset,
+  };
+
   return (
     <div style={{ marginBottom: "60px" }}>
       <FilterBar
@@ -121,7 +156,7 @@ export const MentorViewPosts = ({ event, keyword, setKeyword, setSearchText, rem
       <div className="card-count" role="region" aria-label="멘토 개수 및 정렬 옵션">
         <ErrorBoundary fallback={<Typography>데이터를 불러오는 중 오류가 발생했습니다.</Typography>}>
           <Suspense fallback={<Typography>카드 개수를 불러오는 중...</Typography>}>
-            <CardCount selectedFields={selectedFields} selectedRegions={selectedRegions} onlineStatus={onlineStatus} sortOption={sortOption} searchText={searchText} offset={offset} />
+            <CardCount {...mentoringFilter} />
           </Suspense>
         </ErrorBoundary>
         <SortDropdown sortOption={sortOption} setSortOption={setSortOption} />
@@ -130,11 +165,16 @@ export const MentorViewPosts = ({ event, keyword, setKeyword, setSearchText, rem
       <section className="flex__box m-t-10 m-b-30" aria-labelledby="멘토링 카드 리스트 영역" style={{ height: "1524px" }}>
         <ErrorBoundary fallback={<FallbackMentoringList />}>
           <Suspense fallback={<Typography>로딩 중...</Typography>}>
-            <MentoringCardList selectedFields={selectedFields} selectedRegions={selectedRegions} onlineStatus={onlineStatus} sortOption={sortOption} searchText={searchText} offset={offset} />
+            <MentoringCardList {...mentoringFilter} />
           </Suspense>
         </ErrorBoundary>
       </section>
-      <PageNation offset={offset} setOffset={setOffset} pages={10} />
+
+      <ErrorBoundary fallback={<Typography>페이지네이션을 불러오는 중 오류가 발생했습니다.</Typography>}>
+        <Suspense fallback={<Typography>페이지네이션 로딩 중...</Typography>}>
+          <CustomPageNation {...mentoringFilter} setOffset={setOffset} />
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 };
