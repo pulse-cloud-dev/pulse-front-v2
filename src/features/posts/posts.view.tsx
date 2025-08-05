@@ -440,6 +440,8 @@ export const PostsView = (props: PostsViewProps) => {
             style={{
               borderBottomLeftRadius: "10px",
               borderBottomRightRadius: "10px",
+              height: "504px",
+              overflowY: "auto",
             }}
           >
             <TextEditorView
