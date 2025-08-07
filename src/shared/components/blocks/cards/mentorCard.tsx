@@ -73,7 +73,7 @@ export const MentorCard = ({ mentoringId, title, mentorNickname, deadlineDate, m
       <BaseCard>
         <BaseCard.Header>
           <SquareBadge title={badgeTitle} color={badgeColor} />
-          <BookmarkButton mentoringId={mentoringId} />
+          <BookmarkButton />
         </BaseCard.Header>
         <BaseCard.Body className="border-b">
           <div className="mentorCard-body__top">
