@@ -1,6 +1,6 @@
-import { Icon, Image, SquareBadge } from "@/shared/components/atoms";
+import { SquareBadge } from "@/shared/components/atoms";
+import { BodyContentTag, BodyContentTitle, FooterDescription } from "./bodyContentTag";
 import { BaseCard } from "./baseCard";
-
 import { Link } from "react-router-dom";
 import { BookmarkButton } from "../bookmark/bookmarkButton";
 
@@ -51,16 +51,17 @@ const FooterDescription = ({ deadlineDate, mentorNickname }: { deadlineDate: str
 };
 
 interface MentorCardProps {
-  mentoringId: string;
-  title: string;
-  mentorNickname: string;
-  deadlineDate: string;
-  mentorJob: string;
-  mentorCareer: number;
-  mentorProfileImage: string;
-  lectureType: "ONLINE" | "OFFLINE";
-  onlinePlatform: string;
-  region: string;
+  mentoringId: string; // 멘토링 고유 ID (백엔드 제공)
+  onlineStatus: string; // 온/오프라인 여부 (가공됨: "온라인" | "오프라인")
+  title: string; // 멘토링 제목
+  mentorNickname: string; // 멘토 닉네임
+  deadlineDate: string; // 마감 날짜 (가공됨: YYYY-MM-DD 형식)
+  mentorJob: string; // 멘토 직무명
+  mentorCareer: number; // 멘토 총 경력 년수
+  mentorProfileImage: string; // 멘토 프로필 이미지 경로
+  lectureType: "ONLINE" | "OFFLINE"; // 강의 형태 (백엔드 원본 값)
+  onlinePlatform: string; // 온라인 플랫폼명 (예: Zoom 등)
+  region: string; // 오프라인 강의 지역명 (lectureType이 OFFLINE일 때 사용)
 }
 
 // Mentor Card Component
