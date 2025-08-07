@@ -17,7 +17,7 @@ export const MenteeDetailView = () => {
                 <BookmarkButton />
               </div>
               <div className="mentoring-actions__share">
-                <ShareButton label="공유" />
+                <ShareButton />
               </div>
             </div>
           </div>
