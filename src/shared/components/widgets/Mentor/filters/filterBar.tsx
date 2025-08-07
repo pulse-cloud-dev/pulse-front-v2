@@ -35,15 +35,15 @@ export const FilterBar = ({ event, keyword, setKeyword, setSearchText, selectedF
 
         {selectedFields?.map((field, idx) => (
           <span key={idx} className="tag" aria-label={`분야 ${field.parent} 삭제`}>
-            {field.parent}
+            {field.parent}&gt;{field.name}
             <DeleteIcon size={12} color="#9E9E9E" className="m-l-4" onClick={() => removeField(field.name)} />
           </span>
         ))}
 
         {selectedRegions?.map((region, idx) => (
           <span key={idx} className="tag" aria-label={`지역 ${region} 삭제`}>
-            {region}
-            <DeleteIcon size={12} color="#9E9E9E" className="m-l-4" onClick={() => removeRegion(region)} />
+            {region.parent} &gt; {region.name}
+            <DeleteIcon size={12} color="#9E9E9E" className="m-l-4" onClick={() => removeRegion(region.name)} />
           </span>
         ))}
       </div>

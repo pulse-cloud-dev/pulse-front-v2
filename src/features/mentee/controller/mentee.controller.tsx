@@ -4,14 +4,14 @@ import { MenteeView } from "../view/mentor.view";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { SubItemWithParent } from "@/shared/components/widgets/popups/type/searchProps";
+
 export const MeteeController = () => {
   const [keyword, setKeyword] = useState("");
   const [searchText, setSearchText] = useState("");
-  const [selectedRegions, setSelectedRegions] = useLocalStorage<string[]>("selectedRegions", []);
   const [onlineStatus, setOnlineStatus] = useLocalStorage<string>("onlineStatus", "전체");
   const [isOnlineOnly, setIsOnlineOnly] = useLocalStorage<boolean>("isOnlineOnly", false);
   const [fieldCheckedItems, setFieldCheckedItems] = useLocalStorage<SubItemWithParent[]>("fieldCheckedItems", []);
-  const [regionCheckedItems, setRegionCheckedItems] = useLocalStorage<Record<string, boolean>>("regionCheckedItems", {});
+  const [regionCheckedItems, setRegionCheckedItems] = useLocalStorage<SubItemWithParent[]>("regionCheckedItems", []);
   const [sortOption, setSortOption] = useState("기본순");
 
   const firstModal = useModal(Modal);
@@ -31,10 +31,9 @@ export const MeteeController = () => {
 
   const resetFilters = () => {
     setKeyword("");
-    setSelectedRegions([]);
     setOnlineStatus("전체");
     setIsOnlineOnly(false);
-    setRegionCheckedItems({});
+    setRegionCheckedItems([]);
     setOffset(1);
   };
 
@@ -100,8 +99,7 @@ export const MeteeController = () => {
           aria-labelledby="region-modal-title"
           closeModal={() => modalProps.closeModal(modalProps.id)}
           initialCheckedItems={regionCheckedItems}
-          onApply={(regions, latestCheckedItems) => {
-            setSelectedRegions(regions);
+          onApply={(latestCheckedItems) => {
             setRegionCheckedItems(latestCheckedItems);
             setOffset(1);
             modalProps.closeModal(modalProps.id);
@@ -112,23 +110,19 @@ export const MeteeController = () => {
   };
 
   const labelToKey = (label: string) => label.replace(/\s*>\s*/g, "-");
-
   const removeField = (field: string) => {
     const key = labelToKey(field);
     setFieldCheckedItems((prev) => prev.filter((item) => item.name !== key));
     setOffset(1);
   };
-
   const removeRegion = (region: string) => {
     const key = labelToKey(region);
-    setSelectedRegions((prev) => prev.filter((r) => r !== region));
-    setRegionCheckedItems((prev) => {
-      const newItems = { ...prev };
-      delete newItems[key];
-      return newItems;
-    });
+    setRegionCheckedItems((prev) => prev.filter((item) => item.name !== key));
+
     setOffset(1);
   };
+
+  console.log("regionCheckedItems", regionCheckedItems);
 
   const props = {
     event: {
@@ -140,7 +134,7 @@ export const MeteeController = () => {
       keyword,
       searchText,
       fieldCheckedItems,
-      selectedRegions,
+      regionCheckedItems,
       onlineStatus,
       isOnlineOnly,
       sortOption,
@@ -149,7 +143,6 @@ export const MeteeController = () => {
     actions: {
       setKeyword,
       setSearchText,
-      setSelectedRegions,
       removeField,
       removeRegion,
       setOnlineStatus,

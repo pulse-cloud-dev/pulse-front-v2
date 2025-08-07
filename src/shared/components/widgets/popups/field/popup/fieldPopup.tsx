@@ -1,5 +1,5 @@
 import { useCheckFieldGroup } from "@/shared/modules/select-ui";
-import { useState, useMemo, useEffect } from "react";
+import { useState } from "react";
 import { useKey } from "@/shared/modules/modals/shared/hooks/useKey";
 
 import { Header } from "../components/fieldPopupHeader";
@@ -16,7 +16,6 @@ export function FieldPopup({ closeModal, onApply, initialCheckedItems = [] }: { 
   const { reset } = useCheckFieldGroup({
     initialValues: { option: false },
   });
-  console.log("braekpoint", initialCheckedItems);
   const [selectedField, setSelectedField] = useState("기획/경영/마케팅");
   const [_, setSelected] = useState<string | null>(null);
   const [checkedItems, setCheckedItems] = useState<CheckedItemData[]>(initialCheckedItems);

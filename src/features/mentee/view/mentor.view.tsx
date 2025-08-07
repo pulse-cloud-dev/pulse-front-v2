@@ -10,14 +10,14 @@ export const MenteeView = (props: ViewEventProps & { state: any; actions: any })
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const menu = params.get("menu") || "posts";
-  const { keyword, fieldCheckedItems, selectedRegions, onlineStatus, sortOption, searchText, offset } = props.state;
+  const { keyword, fieldCheckedItems, onlineStatus, sortOption, searchText, offset, regionCheckedItems } = props.state;
   const { setKeyword, removeField, removeRegion, resetFilters, setSortOption, setSearchText, setOffset } = props.actions;
 
   const commonProps = {
     event: props.event,
     keyword,
     setKeyword,
-    selectedRegions,
+    regionCheckedItems,
     onlineStatus,
     removeField,
     removeRegion,
@@ -28,7 +28,7 @@ export const MenteeView = (props: ViewEventProps & { state: any; actions: any })
     setSearchText,
     fieldCheckedItems,
   };
-
+  console.log("selectedregions view", regionCheckedItems);
   return (
     <article className="sub-layout__content">
       <header>
@@ -44,8 +44,8 @@ export const MenteeView = (props: ViewEventProps & { state: any; actions: any })
           ]}
         />
       </section>
-      {menu === "posts" && <MentorViewPosts {...commonProps} selectedFields={fieldCheckedItems} offset={offset} setOffset={setOffset} />}
-      {menu === "map" && <MentorViewMap {...commonProps} selectedFields={fieldCheckedItems} />}
+      {menu === "posts" && <MentorViewPosts {...commonProps} selectedFields={fieldCheckedItems} selectedRegions={regionCheckedItems} offset={offset} setOffset={setOffset} />}
+      {menu === "map" && <MentorViewMap {...commonProps} selectedRegions={regionCheckedItems} selectedFields={fieldCheckedItems} />}
     </article>
   );
 };

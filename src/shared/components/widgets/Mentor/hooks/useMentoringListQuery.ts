@@ -5,7 +5,7 @@ const PAGE_SIZE = 20;
 
 interface UseMentoringListQueryParams {
   selectedFields: CheckedItemData[];
-  selectedRegions: string[];
+  selectedRegions: CheckedItemData[];
   onlineStatus: string | null;
   sortOption: string;
   searchText: string;

@@ -7,7 +7,7 @@ export interface FilterProps {
   setSearchText: (value: string) => void;
   searchText: string;
   selectedFields: CheckedItemData[];
-  selectedRegions: string[];
+  selectedRegions: CheckedItemData[];
   onlineStatus: string | null;
   removeField: (field: string) => void;
   removeRegion: (region: string) => void;
