@@ -17,7 +17,6 @@ interface MentorCardProps {
   region: string; // 오프라인 강의 지역명 (lectureType이 OFFLINE일 때 사용)
 }
 
-// Mentor Card Component
 export const MentorCard = ({ mentoringId, title, mentorNickname, deadlineDate, mentorJob, mentorCareer, mentorProfileImage, lectureType, onlinePlatform, region }: MentorCardProps) => {
   const badgeColor = lectureType === "ONLINE" ? "blue" : "orange";
   const badgeTitle = lectureType === "ONLINE" ? "온라인" : region || "주소 없음";
