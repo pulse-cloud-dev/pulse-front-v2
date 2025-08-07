@@ -18,7 +18,16 @@ export const Body = ({
 }) => {
   const { data: cities = [] } = localQeurys.useCities();
   const selectedCityObj = cities.find((city) => city.name === selectedCity);
-  const { data: districts = [] } = localQeurys.useDistricts(selectedCityObj?.code, selectedCity);
+  const { data: originalDistricts = [] } = localQeurys.useDistricts(selectedCityObj?.code, selectedCity);
+
+  // "전체" 항목을 districts에 추가
+  const districts = [
+    {
+      name: "전체",
+      code: selectedCityObj?.code || "all",
+    },
+    ...originalDistricts,
+  ];
 
   return (
     <div className={`popup-local__body ${className}`} {...props}>
@@ -42,8 +51,13 @@ export const Body = ({
 
       <div className="popup-local__column popup-local__column-right" aria-labelledby="subregion-group-label">
         {districts.map(({ name, code }) => (
-          <CheckField key={name} className="check-field-module" variant="circle">
-            <CheckField.Input checkId={`${selectedCity}-${name}`} name={`${selectedCity}-${name}`} isChecked={checkedItems.some((item) => item.name === name)} onChange={() => handleToggle({ name, code, parent: selectedCity })} />
+          <CheckField key={`${selectedCity}-${name}`} className="check-field-module" variant="circle">
+            <CheckField.Input
+              checkId={`${selectedCity}-${name}`}
+              name={`${selectedCity}-${name}`}
+              isChecked={checkedItems.some((item) => item.code === code && item.parent === selectedCity)}
+              onChange={() => handleToggle({ name, code, parent: selectedCity })}
+            />
             <CheckField.Label checkId={`${selectedCity}-${name}`}>{name}</CheckField.Label>
           </CheckField>
         ))}
