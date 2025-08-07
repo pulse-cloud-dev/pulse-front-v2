@@ -18,8 +18,8 @@ export const useMentoringListQuery = ({ selectedFields, selectedRegions, onlineS
   const getSortType = (option: string) => ({ 인기순: "POPULAR", 기본순: "DEFAULT", 최신순: "LATEST" }[option] ?? "DEFAULT");
 
   const params = {
-    ...(selectedFields?.length && { field: selectedFields.join(",") }),
-    ...(selectedRegions?.length && { region: selectedRegions.join(",") }),
+    ...(selectedFields?.length && { field: selectedFields.map((item) => item.code).join(",") }),
+    ...(selectedRegions?.length && { region: selectedRegions.map((item) => item.code).join(",") }),
     ...(getLectureType(onlineStatus) && { lecture_type: getLectureType(onlineStatus) }),
     ...(getSortType(sortOption) && { sort_type: getSortType(sortOption) }),
     ...(searchText?.trim() && { search_text: searchText }),

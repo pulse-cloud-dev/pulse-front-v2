@@ -1,8 +1,13 @@
-interface MentoringContentSectionProps {
-  content: string;
-}
+import { useParams } from "react-router-dom";
+import { useMentoringDetailQuery } from "@/features/menteeDetail";
 
-export const MentoringContent = ({ content }: MentoringContentSectionProps) => {
+export const MentoringContent = () => {
+  const { id } = useParams<{ id: string }>();
+  const { data } = useMentoringDetailQuery(id || "");
+
+  if (!data) return null;
+
+  const content = data.content || "내용이 없습니다.";
   const truncated = content.slice(0, 3000);
 
   return (

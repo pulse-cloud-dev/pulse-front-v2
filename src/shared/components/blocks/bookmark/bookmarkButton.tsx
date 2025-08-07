@@ -3,55 +3,30 @@ import { useBookmarkMutation } from "./hook/useBookmarkMutation";
 import { Icon } from "@/shared/components/atoms";
 import { useUser } from "@/shared/lib/hooks";
 import { usePageNavigation } from "@/shared/lib/hooks";
+import { useParams } from "react-router-dom";
+import { useMentoringDetailQuery } from "@/features/menteeDetail";
 
-interface BookmarkButtonProps {
-  mentoringId: string;
-  isBookmarked?: boolean;
-  label?: string;
-}
+const label = "북마크";
 
-export const BookmarkButton = ({
-  mentoringId,
-  isBookmarked: initialBookmarked = false,
-  label,
-}: BookmarkButtonProps) => {
+export const BookmarkButton = () => {
+  const { id: mentoringId } = useParams<{ id: string }>();
+  const { data } = useMentoringDetailQuery(mentoringId || "");
   const { mutate, isPending } = useBookmarkMutation();
   const { isLogin } = useUser();
   const { goToPage } = usePageNavigation();
 
   const [isHovered, setIsHovered] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState(initialBookmarked);
-
+  // console.log("data(회원정보)", data);
   const toggleBookmark = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
 
     if (!isLogin) {
-    goToPage("/auth/signIn"); 
-    return;
+      goToPage("/auth/signIn");
+      return;
     }
-
-    // optimistic update
-    const nextState = !isBookmarked;
-    setIsBookmarked(nextState);
-
-    // mutation 요청
-    mutate(
-      {
-        mentoring_id: mentoringId,
-        is_bookmark: nextState,
-      },
-      {
-        // 요청 실패 시 롤백
-        onError: () => {
-          setIsBookmarked(!nextState);
-        },
-      }
-    );
   };
 
-  
-  
   return (
     <button
       type="button"
@@ -60,19 +35,11 @@ export const BookmarkButton = ({
       onMouseLeave={() => setIsHovered(false)}
       onFocus={() => setIsHovered(true)}
       onBlur={() => setIsHovered(false)}
-      aria-pressed={isBookmarked}
+      // aria-pressed={mutate || false}
       aria-label={label}
-      disabled={isPending} // 요청 중엔 버튼 비활성화
-
+      disabled={isPending}
     >
-      <Icon
-        src={
-          isBookmarked || isHovered
-            ? "bookmark_on"
-            : "bookmark_20"
-        }
-        alt="북마크"
-      />
+      <Icon src={isHovered ? "bookmark_on" : "bookmark_20"} alt="북마크" />
       <span>{label}</span>
     </button>
   );

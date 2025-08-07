@@ -15,7 +15,7 @@ interface Mentoring {
   title: string;
   mentor_nickname: string;
   deadline_time: string;
-  mentor_job: { jobCode: string };
+  mentor_job: string;
   mentor_career_total_year: number;
   mentor_profile_image: string;
   lecture_type: "ONLINE" | "OFFLINE";
@@ -62,7 +62,6 @@ const MentoringCardList = ({
   if (isDataEmpty) {
     return <Typography>결과가 없습니다.</Typography>;
   }
-
   return (
     <>
       {mentorings.map((item: Mentoring) => (
@@ -74,7 +73,7 @@ const MentoringCardList = ({
           title={item.title}
           mentorNickname={item.mentor_nickname}
           deadlineDate={item.deadline_time}
-          mentorJob={item.mentor_job.jobCode}
+          mentorJob={item.mentor_job}
           mentorCareer={item.mentor_career_total_year}
           region={item.region}
           mentorProfileImage={item.mentor_profile_image}
