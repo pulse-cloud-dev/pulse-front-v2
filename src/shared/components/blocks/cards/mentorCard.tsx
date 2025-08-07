@@ -14,7 +14,7 @@ const BodyContentTag = ({ job, career, lectureType, platform, region, profileIma
   const locationOrPlatform = lectureType === "OFFLINE" ? region : platform?.trim() || "미정";
 
   const locationLabel = lectureType === "OFFLINE" ? "지역" : "플랫폼";
-  console.log("job", job);
+
   return (
     <div className="mentorCard-content__tag">
       <div className="content__tag left">
@@ -67,7 +67,7 @@ interface MentorCardProps {
 export const MentorCard = ({ mentoringId, title, mentorNickname, deadlineDate, mentorJob, mentorCareer, mentorProfileImage, lectureType, onlinePlatform, region }: MentorCardProps) => {
   const badgeColor = lectureType === "ONLINE" ? "blue" : "orange";
   const badgeTitle = lectureType === "ONLINE" ? "온라인" : region || "주소 없음";
-  console.log("mentorJob", mentorJob);
+
   return (
     <Link to={`/mentor-detail/${mentoringId}`} className="mentor-card-link">
       <BaseCard>
