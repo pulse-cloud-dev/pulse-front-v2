@@ -6,23 +6,29 @@ const PAGE_SIZE = 20;
 interface UseMentoringListQueryParams {
   selectedFields: CheckedItemData[];
   selectedRegions: CheckedItemData[];
-  onlineStatus: string | null;
+  onlineStatus: "ONLINE" | "OFFLINE" | null;
   sortOption: string;
   searchText: string;
   offset?: number;
 }
 
 export const useMentoringListQuery = ({ selectedFields, selectedRegions, onlineStatus, sortOption, searchText, offset = 1 }: UseMentoringListQueryParams) => {
-  const getLectureType = (status: string | null) => (status === "미선택" ? undefined : status === "온라인" ? "ONLINE" : "OFFLINE");
-
   const getSortType = (option: string) => ({ 인기순: "POPULAR", 기본순: "DEFAULT", 최신순: "LATEST" }[option] ?? "DEFAULT");
 
   const params = {
-    ...(selectedFields?.length && { field: selectedFields.map((item) => item.code).join(",") }),
-    ...(selectedRegions?.length && { region: selectedRegions.map((item) => item.code).join(",") }),
-    ...(getLectureType(onlineStatus) && { lecture_type: getLectureType(onlineStatus) }),
-    ...(getSortType(sortOption) && { sort_type: getSortType(sortOption) }),
-    ...(searchText?.trim() && { search_text: searchText }),
+    ...(selectedFields.length > 0 && {
+      field: selectedFields.map((item) => item.code).join(","),
+    }),
+    ...(selectedRegions.length > 0 && {
+      region: selectedRegions.map((item) => item.code).join(","),
+    }),
+    ...(onlineStatus && {
+      lecture_type: onlineStatus,
+    }),
+    sort_type: getSortType(sortOption),
+    ...(searchText.trim() && {
+      search_text: searchText.trim(),
+    }),
     page: offset,
     size: PAGE_SIZE,
   };

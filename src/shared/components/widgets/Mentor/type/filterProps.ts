@@ -8,7 +8,7 @@ export interface FilterProps {
   searchText: string;
   selectedFields: CheckedItemData[];
   selectedRegions: CheckedItemData[];
-  onlineStatus: string | null;
+  onlineStatus: "ONLINE" | "OFFLINE" | null;
   removeField: (field: string) => void;
   removeRegion: (region: string) => void;
   onReset?: () => void;

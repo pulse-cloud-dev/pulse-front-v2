@@ -41,7 +41,7 @@ const MentoringCardList = ({
 }: {
   selectedFields: CheckedItemData[];
   selectedRegions: CheckedItemData[];
-  onlineStatus: string | null;
+  onlineStatus: "OFFLINE" | "ONLINE" | null;
   sortOption: string;
   searchText: string;
   offset: number;
@@ -94,7 +94,7 @@ const CardCount = ({
 }: {
   selectedFields: CheckedItemData[];
   selectedRegions: CheckedItemData[];
-  onlineStatus: string | null;
+  onlineStatus: "ONLINE" | "OFFLINE" | null;
   sortOption: string;
   searchText: string;
   offset: number;
@@ -117,7 +117,7 @@ const CardCount = ({
 interface CustomPageNationProps {
   selectedFields: CheckedItemData[];
   selectedRegions: CheckedItemData[];
-  onlineStatus: string | null;
+  onlineStatus: "OFFLINE" | "ONLINE" | null;
   sortOption: string;
   searchText: string;
   offset: number;
@@ -144,12 +144,11 @@ export const MentorViewPosts = ({ event, keyword, setKeyword, setSearchText, rem
   const mentoringFilter = {
     selectedFields,
     selectedRegions,
-    onlineStatus,
+    onlineStatus: onlineStatus,
     sortOption,
     searchText,
     offset,
   };
-  console.log("selectedregion", selectedRegions);
   return (
     <div style={{ marginBottom: "60px" }}>
       <FilterBar

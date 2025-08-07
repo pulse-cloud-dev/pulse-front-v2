@@ -4,12 +4,20 @@ import { MenteeView } from "../view/mentor.view";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { SubItemWithParent } from "@/shared/components/widgets/popups/type/searchProps";
+export type LectureType = "온라인" | "오프라인";
+const getOnlineStatus = (lectureType: LectureType[]): "ONLINE" | "OFFLINE" | null => {
+  const hasOnline = lectureType.includes("온라인");
+  const hasOffline = lectureType.includes("오프라인");
 
+  if (hasOnline && hasOffline) return null;
+  if (hasOnline) return "ONLINE";
+  if (hasOffline) return "OFFLINE";
+  return null; // 혹시 빈 배열일 경우도 처리
+};
+// 2. 하나의 상태로 통합
 export const MeteeController = () => {
   const [keyword, setKeyword] = useState("");
   const [searchText, setSearchText] = useState("");
-  const [onlineStatus, setOnlineStatus] = useLocalStorage<string>("onlineStatus", "전체");
-  const [isOnlineOnly, setIsOnlineOnly] = useLocalStorage<boolean>("isOnlineOnly", false);
   const [fieldCheckedItems, setFieldCheckedItems] = useLocalStorage<SubItemWithParent[]>("fieldCheckedItems", []);
   const [regionCheckedItems, setRegionCheckedItems] = useLocalStorage<SubItemWithParent[]>("regionCheckedItems", []);
   const [sortOption, setSortOption] = useState("기본순");
@@ -31,8 +39,7 @@ export const MeteeController = () => {
 
   const resetFilters = () => {
     setKeyword("");
-    setOnlineStatus("전체");
-    setIsOnlineOnly(false);
+    setLectureType(["오프라인", "온라인"]);
     setRegionCheckedItems([]);
     setFieldCheckedItems([]);
     setOffset(1);
@@ -60,7 +67,11 @@ export const MeteeController = () => {
       ),
     });
   };
+  const onOnlineSelected = (type: LectureType[]) => {
+    setLectureType(type);
+  };
 
+  const [lectureType, setLectureType] = useLocalStorage<LectureType[]>("lectureType", ["온라인", "오프라인"]);
   const openSecondModal = () => {
     secondModal.openModal({
       title: "온/오프라인",
@@ -68,25 +79,12 @@ export const MeteeController = () => {
       ariaLabelledBy: "onoff-modal-title",
       role: "dialog",
       children: (modalProps: { id: string; closeModal: (id: string) => void }) => (
-        <OnlineStatusPopup
-          aria-labelledby="onoff-modal-title"
-          initialValue={onlineStatus === "온라인" ? "ONLINE" : onlineStatus === "오프라인" ? "OFFLINE" : null}
-          closeModal={() => modalProps.closeModal(modalProps.id)}
-          onOnlineSelected={(isOnline) => {
-            if (isOnline === undefined) {
-              setOnlineStatus("전체");
-              setIsOnlineOnly(false);
-            } else {
-              setOnlineStatus(isOnline ? "온라인" : "오프라인");
-              setIsOnlineOnly(isOnline);
-            }
-            setOffset(1);
-          }}
-        />
+        <OnlineStatusPopup aria-labelledby="onoff-modal-title" initialValue={lectureType} closeModal={() => modalProps.closeModal(modalProps.id)} onOnlineSelected={onOnlineSelected} />
       ),
     });
   };
 
+  console.log("lecturetype 검사", getOnlineStatus(lectureType));
   const openThirdModal = () => {
     thirdModal.openModal({
       key: JSON.stringify(regionCheckedItems),
@@ -122,7 +120,6 @@ export const MeteeController = () => {
 
     setOffset(1);
   };
-
   const props = {
     event: {
       openFirstModal,
@@ -134,9 +131,9 @@ export const MeteeController = () => {
       searchText,
       fieldCheckedItems,
       regionCheckedItems,
-      onlineStatus,
-      isOnlineOnly,
+      lectureType,
       sortOption,
+      onlineStatus: getOnlineStatus(lectureType),
       offset,
     },
     actions: {
@@ -144,7 +141,7 @@ export const MeteeController = () => {
       setSearchText,
       removeField,
       removeRegion,
-      setOnlineStatus,
+      setOnlineStatus: setLectureType,
       resetFilters,
       setSortOption,
       setOffset,

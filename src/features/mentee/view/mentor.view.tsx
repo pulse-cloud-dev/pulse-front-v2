@@ -18,7 +18,7 @@ export const MenteeView = (props: ViewEventProps & { state: any; actions: any })
     keyword,
     setKeyword,
     regionCheckedItems,
-    onlineStatus,
+    onlineStatus: onlineStatus,
     removeField,
     removeRegion,
     onReset: resetFilters,
@@ -28,7 +28,7 @@ export const MenteeView = (props: ViewEventProps & { state: any; actions: any })
     setSearchText,
     fieldCheckedItems,
   };
-  console.log("selectedregions view", regionCheckedItems);
+  console.log("selectedregions view", commonProps.onlineStatus);
   return (
     <article className="sub-layout__content">
       <header>
@@ -44,7 +44,7 @@ export const MenteeView = (props: ViewEventProps & { state: any; actions: any })
           ]}
         />
       </section>
-      {menu === "posts" && <MentorViewPosts {...commonProps} selectedFields={fieldCheckedItems} selectedRegions={regionCheckedItems} offset={offset} setOffset={setOffset} />}
+      {menu === "posts" && <MentorViewPosts {...commonProps} selectedFields={fieldCheckedItems} onlineStatus={onlineStatus} selectedRegions={regionCheckedItems} offset={offset} setOffset={setOffset} />}
       {menu === "map" && <MentorViewMap {...commonProps} selectedRegions={regionCheckedItems} selectedFields={fieldCheckedItems} />}
     </article>
   );

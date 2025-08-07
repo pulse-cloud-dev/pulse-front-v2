@@ -5,12 +5,13 @@ import { PopupSearch } from "@/shared/components/blocks";
 import type { FilterProps } from "../type/filterProps";
 
 export const FilterBar = ({ event, keyword, setKeyword, setSearchText, selectedFields, selectedRegions, onlineStatus, removeField, removeRegion, onReset }: FilterProps) => {
+  console.log("oonlineStatus mentor view", onlineStatus);
   return (
     <>
       <div className="flex_r gap_6 m-t-30">
         <PopupSearch title="분야" openPopup={event?.openFirstModal} count={selectedFields?.length ?? 0} />
         <PopupSearch title="온/오프라인" openPopup={event?.openSecondModal} />
-        {onlineStatus !== "온라인" && <PopupSearch title="지역" openPopup={event?.openThirdModal} count={selectedRegions?.length ?? 0} />}
+        {onlineStatus !== "ONLINE" && <PopupSearch title="지역" openPopup={event?.openThirdModal} count={selectedRegions?.length ?? 0} />}
         <div className="btn-search">
           <input
             id="mentor-search"
