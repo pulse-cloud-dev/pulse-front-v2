@@ -8,7 +8,7 @@ export function useUser() {
   const login = (token: string) => {
     if (!token) return;
     userStore.setToken(token);
-    localStorage.setItem("pulse", token);
+    localStorage.setItem("pulse", JSON.stringify({ token }));
   };
 
   const logout = () => {

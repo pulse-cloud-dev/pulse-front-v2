@@ -1,19 +1,18 @@
 import { SquareBadge } from "@/shared/components";
+import { useParams } from "react-router-dom";
+import { useMentoringDetailQuery } from "@/features/menteeDetail";
 
-interface MentoringHeaderSectionProps {
-  title: string;
-  region: string;
-  lectureType: "ONLINE" | "OFFLINE";
-}
-export const MentoringHeader = ({
-  title,
-  region,
-  lectureType,
-}: MentoringHeaderSectionProps) => {
+export const MentoringHeader = () => {
+  const { id } = useParams<{ id: string }>();
+  const { data } = useMentoringDetailQuery(id || "");
 
-  const badgeColor = lectureType === "ONLINE" ? "blue" : "orange"; // 조건부 색상
-  const badgeTitle = lectureType === "ONLINE" ? "온라인" : region || "주소 없음";
-  
+  if (!data) return null;
+
+  const { title, region, lecture_type } = data;
+
+  const badgeColor = lecture_type === "ONLINE" ? "blue" : "orange";
+  const badgeTitle = lecture_type === "ONLINE" ? "온라인" : region || "주소 없음";
+
   return (
     <div>
       <SquareBadge title={badgeTitle} color={badgeColor} />

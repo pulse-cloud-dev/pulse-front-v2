@@ -1,11 +1,9 @@
 import { envConst } from "@/shared/constants";
 import axios from "axios";
-import { localStorageManager } from "taeo-utils";
 
 const { server, server_port } = envConst;
 
-const baseUrl =
-  import.meta.env.MODE === "production" ? "/api" : server + server_port + "/api/v1";
+const baseUrl = import.meta.env.MODE === "production" ? "/api" : server + server_port + "/api/v1";
 
 const privateClient = axios.create({
   baseURL: baseUrl,
@@ -18,12 +16,10 @@ const getToken = (): string | null => {
   return raw ?? null; //  JSON.parse 제거
 };
 
-
 // 요청 시 헤더에 토큰 자동 부착
 privateClient.interceptors.request.use(
   async (config: any) => {
     const token = getToken();
-    console.log("[Interceptor] 토큰 확인:", token);
 
     return {
       ...config,
@@ -44,9 +40,7 @@ privateClient.interceptors.response.use(
   (response) => {
     const contentType = response.headers["content-type"];
 
-    const isJson =
-      typeof response.data === "object" &&
-      contentType?.includes("application/json");
+    const isJson = typeof response.data === "object" && contentType?.includes("application/json");
 
     if (isJson) {
       console.info("응답을 받았습니다.");
@@ -54,7 +48,7 @@ privateClient.interceptors.response.use(
     }
 
     console.warn("응답이 JSON이 아닙니다.");
-    return response.data;  
+    return response.data;
   },
   (error) => {
     return Promise.reject(error);
@@ -62,7 +56,6 @@ privateClient.interceptors.response.use(
 );
 
 export default privateClient;
-
 
 //
 // import { envConst } from "@/shared/constants";
@@ -105,4 +98,4 @@ export default privateClient;
 //   }
 // );
 
-// export default privateClient; 
+// export default privateClient;

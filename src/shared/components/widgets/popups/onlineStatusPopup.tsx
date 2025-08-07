@@ -6,7 +6,6 @@ import { useKey } from "@/shared/modules/modals/shared/hooks/useKey";
 
 import { Footer } from "./popupFooter";
 
-
 interface HeaderProps extends HTMLAttributes<HTMLElement>, PropsWithChildren {}
 const Header = (props: HeaderProps) => {
   const { className, children, ...restProps } = props;
@@ -17,93 +16,63 @@ const Header = (props: HeaderProps) => {
   );
 };
 
+import { LectureType } from "@/features";
 interface BodyProps extends HTMLAttributes<HTMLDivElement>, PropsWithChildren {
-  selected: string | null;
-  onOptionSelect: (option: string) => void; 
-  lectureTypes: string[]; 
+  selected: LectureType[];
+  onOptionSelect: (option: LectureType) => void;
 }
+const labelMap: Record<string, LectureType> = {
+  ONLINE: "온라인",
+  OFFLINE: "오프라인",
+};
+const Body = ({ selected, onOptionSelect }: BodyProps) => {
+  const { data: lectureTypes = [] } = useLectureTypes();
 
-const Body = ({
-  selected,
-  onOptionSelect,
-  lectureTypes = [],
-}: BodyProps) => {
-  const labelMap : Record<string, string> ={
-    ONLINE: "온라인",
-    OFFLINE: "오프라인",
-  }
- 
   return (
     <div className="popup-online__body" aria-labelledby="lecture-type-group">
       {lectureTypes.map((type) => (
-      <CheckField key = {type} className="check-field-module" variant="circle">
-        <CheckField.Input
-          checkId= {type}
-          name={type}
-          isChecked={selected === type}
-          onChange={() => onOptionSelect(type)}
-          aria-checked={selected === type}
-          role="radio"
-        />
-        <CheckField.Label checkId={type}>
-          {labelMap[type] || type}
-        </CheckField.Label>
-      </CheckField>
+        <CheckField key={type} className="check-field-module" variant="circle">
+          <CheckField.Input checkId={type} name={type} isChecked={selected.includes(labelMap[type])} onChange={() => onOptionSelect(labelMap[type])} aria-checked={selected.includes(labelMap[type])} role="radio" />
+          <CheckField.Label checkId={type}>{labelMap[type] || type}</CheckField.Label>
+        </CheckField>
       ))}
     </div>
   );
 };
 
-
-
-
-
-
-export function OnlineStatusPopup({ 
-  onOnlineSelected,
-  closeModal,
-  initialValue,
-}: {
-  onOnlineSelected?: (isOnline: boolean | undefined) => void;
-  closeModal?: () => void;
-  initialValue?: "ONLINE" | "OFFLINE" | null; 
-}) {
-  const { checkedItems, toggle, reset } = useCheckFieldGroup({
+export function OnlineStatusPopup({ onOnlineSelected, closeModal, initialValue }: { onOnlineSelected: (isOnline: LectureType[]) => void; closeModal?: () => void; initialValue: LectureType[] }) {
+  const { reset } = useCheckFieldGroup({
     initialValues: {
       option1: false,
       option2: false,
     },
   });
 
-  
+  const [selected, setSelected] = useState<LectureType[]>(initialValue);
 
-const [selected, setSelected] = useState<string | null>((initialValue ?? null));
-const { data: lectureTypes = [], isLoading } = useLectureTypes();
+  useEffect(() => {
+    setSelected(initialValue ?? null);
+  }, [initialValue]);
 
-useEffect(() => {
-  setSelected(initialValue ?? null);
-}, [initialValue]);
+  const handleReset = () => {
+    reset(); // 내부 hook 값 초기화
+    setSelected(["온라인", "오프라인"]); // local state도 초기화
+  };
 
+  const handleSelect = (option: LectureType) => {
+    setSelected((prev) => {
+      if (prev.includes(option)) {
+        // 배열에 있으면 제거
+        return prev.filter((item) => item !== option);
+      } else {
+        // 없으면 추가
+        return [...prev, option];
+      }
+    });
+  };
 
-
-const handleReset = () => {
-  reset();              // 내부 hook 값 초기화
-  setSelected(null);    // local state도 초기화
-};
-
-const handleSelect = (option: string) => {
-  const next = selected === option ? null : option;
-  setSelected(next);
-};
-
-    const handleApply = () => {
-    if (selected === null) {
-       onOnlineSelected?.(undefined);
-      closeModal?.(); // 아무 선택도 없으면 그냥 닫기만
-      return;
-    }
-
-    onOnlineSelected?.(selected === "ONLINE");
+  const handleApply = () => {
+    onOnlineSelected(selected);
     closeModal?.();
   };
 
@@ -114,16 +83,10 @@ const handleSelect = (option: string) => {
   useKey("Escape", handleClose);
 
   return (
-    <div 
-      className="popup-online"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="popup-title"
-    >
+    <div className="popup-online" role="dialog" aria-modal="true" aria-labelledby="popup-title">
       <Header />
-      <Body selected={selected} onOptionSelect={handleSelect} lectureTypes={lectureTypes} />
+      <Body selected={selected} onOptionSelect={handleSelect} />
       <Footer onReset={handleReset} onClose={handleClose} onApply={handleApply} />
     </div>
   );
 }
-

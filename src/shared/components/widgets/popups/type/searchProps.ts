@@ -1,8 +1,7 @@
 export type HeaderProps = {
   id?: string;
-  onSearch: (keyword: string) => void;
-  onToggle: (key: string) => void;
-  checkedItems: Record<string, boolean>;
+  onToggle: (key: SubItemWithParent) => void;
+  checkedItems: SubItemWithParent[];
 };
 
 export type SubItemWithParent = {

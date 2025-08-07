@@ -1,4 +1,3 @@
-
 export interface MentoringMetaCardProps {
   price: number;
   period: string;
@@ -8,7 +7,6 @@ export interface MentoringMetaCardProps {
   applyNumber: number;
   onClickInquiry?: () => void;
   onClickApply?: () => void;
-  mentorName: string;  
-  title: string;        
-  isLogin: boolean; // 회원 여부
+  mentorName: string;
+  title: string;
 }
