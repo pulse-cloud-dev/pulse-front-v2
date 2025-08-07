@@ -34,6 +34,7 @@ export const MeteeController = () => {
     setOnlineStatus("전체");
     setIsOnlineOnly(false);
     setRegionCheckedItems([]);
+    setFieldCheckedItems([]);
     setOffset(1);
   };
 
@@ -121,8 +122,6 @@ export const MeteeController = () => {
 
     setOffset(1);
   };
-
-  console.log("regionCheckedItems", regionCheckedItems);
 
   const props = {
     event: {

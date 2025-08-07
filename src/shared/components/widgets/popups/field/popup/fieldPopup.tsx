@@ -17,13 +17,11 @@ export function FieldPopup({ closeModal, onApply, initialCheckedItems = [] }: { 
     initialValues: { option: false },
   });
   const [selectedField, setSelectedField] = useState("기획/경영/마케팅");
-  const [_, setSelected] = useState<string | null>(null);
   const [checkedItems, setCheckedItems] = useState<CheckedItemData[]>(initialCheckedItems);
 
   const handleReset = () => {
     reset();
     setCheckedItems([]);
-    setSelected(null);
     setSelectedField("기획/경영/마케팅");
   };
 

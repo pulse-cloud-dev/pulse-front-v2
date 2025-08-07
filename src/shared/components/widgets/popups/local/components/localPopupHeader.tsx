@@ -10,9 +10,6 @@ export const Header = ({ onToggle, checkedItems }: HeaderProps) => {
   const [inputValue, setInputValue] = useState("");
   const [allSubItems, setAllSubItems] = useState<SubItemWithParent[]>([]);
 
-  // 전체 상위 카테고리 가져오기 (캐싱)
-  const { data: fields = [] } = fieldQuerys.useFieldItems();
-
   // 진입 시 전체 하위 항목 수집
   useEffect(() => {
     const loadAllSubRegions = async () => {
