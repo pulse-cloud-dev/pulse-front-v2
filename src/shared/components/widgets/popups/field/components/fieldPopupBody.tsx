@@ -1,6 +1,7 @@
 import { CheckField } from "@/shared/modules/select-ui";
 import type { HTMLAttributes } from "react";
 import { fieldQuerys } from "../../../Mentor/hooks/useFieldItems";
+import { SubItemWithParent } from "../../type/searchProps";
 
 export const Body = ({
   selectedField,
@@ -12,15 +13,26 @@ export const Body = ({
 }: HTMLAttributes<HTMLDivElement> & {
   selectedField: string;
   setSelectedField: (field: string) => void;
-  checkedItems: Record<string, boolean>;
-  handleToggle: (key: string) => void;
+  checkedItems: SubItemWithParent[];
+  handleToggle: (key: SubItemWithParent) => void;
 }) => {
   const { data: fields = [] } = fieldQuerys.useFieldItems();
 
-  const selectedFieldObj = fields.find((f) => f.name === selectedField);
+  const selectedFieldObj = fields.find((field) => field.name === selectedField);
   const selectedFieldCode = selectedFieldObj?.code;
 
-  const { data: subFields = [] } = fieldQuerys.useSubFields(selectedFieldCode);
+  const { data: originalSubFields = [] } = fieldQuerys.useSubFields(selectedFieldCode);
+
+  const subFields =
+    selectedField !== "전체"
+      ? [
+          {
+            name: "전체",
+            code: selectedFieldObj?.code || "all",
+          },
+          ...originalSubFields,
+        ]
+      : originalSubFields;
 
   return (
     <div className={`popup-local__body ${className}`} {...props}>
@@ -41,12 +53,24 @@ export const Body = ({
       </div>
 
       <div className="popup-local__column popup-local__column-right" aria-labelledby="subfield-group-label">
-        {subFields.map(({ name }) => (
-          <CheckField key={name} className="check-field-module" variant="circle">
-            <CheckField.Input checkId={`${selectedField}-${name}`} name={`${selectedField}-${name}`} isChecked={!!checkedItems[`${selectedField}-${name}`]} onChange={() => handleToggle(`${selectedField}-${name}`)} />
-            <CheckField.Label checkId={`${selectedField}-${name}`}>{name}</CheckField.Label>
-          </CheckField>
-        ))}
+        {selectedField !== "전체" &&
+          subFields.map(({ name, code }) => (
+            <CheckField key={`${selectedField}-${name}`} className="check-field-module" variant="circle">
+              <CheckField.Input
+                checkId={`${selectedField}-${name}`}
+                name={`${selectedField}-${name}`}
+                isChecked={checkedItems.some((item) => item.code === code && item.parent === selectedField)}
+                onChange={() =>
+                  handleToggle({
+                    code,
+                    name,
+                    parent: selectedField,
+                  })
+                }
+              />
+              <CheckField.Label checkId={`${selectedField}-${name}`}>{name}</CheckField.Label>
+            </CheckField>
+          ))}
       </div>
     </div>
   );

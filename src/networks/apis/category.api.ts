@@ -1,13 +1,16 @@
-import axios from "axios";
 import { publicClient } from "@/networks/client";
 
-import type { CategoryItem, CategoryResponse} from "@/contracts/request/category/category.types";
+import type { CategoryItem, CategoryResponse } from "@/contracts/request/category/category.types";
 import type { LectureType, LectureTypeResponse } from "@/contracts/request/category/lecture.types";
 import type { RegionItem, RegionItemListResponse } from "@/contracts/request/category/region.types";
 import type { MentoringListResponse, MentoringListParams } from "@/contracts/request/category/mentoring.types";
 import type { MentoringDetail, MentoringDetailResponse } from "@/contracts/request/category/mentoringDetail";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 
-
+dayjs.extend(utc);
+dayjs.extend(timezone);
 // 분야 불러오기
 const fieldItems = async (): Promise<CategoryItem[]> => {
   try {
@@ -29,7 +32,6 @@ const subFields = async (jobCode: string): Promise<CategoryItem[]> => {
     throw error;
   }
 };
-
 
 // 강의유형 - 온/오프라인
 const lectureTypes = async (): Promise<LectureType[]> => {
@@ -68,7 +70,16 @@ const subRegions = async (regionCode: string): Promise<RegionItem[]> => {
 const getMentoringList = async (params: MentoringListParams) => {
   try {
     const data: MentoringListResponse = await publicClient.get("/mentoring/list", { params });
-    return data.body;
+
+    const converted = {
+      ...data.body,
+      contents: data.body.contents.map((item) => ({
+        ...item,
+        deadline_time: dayjs(item.deadlineDate).tz("Asia/Seoul").format("YY년 M월 D일"),
+      })),
+    };
+
+    return converted;
   } catch (error) {
     console.error("멘토링 리스트 불러오기 실패:", error);
     throw error;
@@ -97,7 +108,6 @@ const allSubFields = async (): Promise<{ parent: string; name: string; code: str
   return result.flat();
 };
 
-
 const allSubRegions = async (): Promise<{ parent: string; name: string; code: string }[]> => {
   const regions = await regionItems(); // 상위 지역 목록 (시/도 등)
 
@@ -107,9 +117,9 @@ const allSubRegions = async (): Promise<{ parent: string; name: string; code: st
       try {
         const subItems = await subRegions(region.code); // 하위 행정구역 요청
         return subItems.map((sub) => ({
-          parent: region.name,  // 상위 지역 이름
-          name: sub.name,       // 하위 지역 이름
-          code: sub.code,       // 고유 코드
+          parent: region.name, // 상위 지역 이름
+          name: sub.name, // 하위 지역 이름
+          code: sub.code, // 고유 코드
         }));
       } catch {
         return [];
@@ -124,7 +134,14 @@ const allSubRegions = async (): Promise<{ parent: string; name: string; code: st
 const getMentoringDetail = async (id: string): Promise<MentoringDetailResponse["body"]> => {
   try {
     const data: MentoringDetailResponse = await publicClient.get(`/mentoring/${id}`);
-    return data.body;
+    const converted = {
+      ...data.body,
+
+      deadline_date: dayjs(data.body.deadline_date).tz("Asia/Seoul").format("YYYY-MM-DD"),
+      start_date: dayjs(data.body.start_date).tz("Asia/Seoul").format("YYYY-MM-DD"),
+      end_date: dayjs(data.body.end_date).tz("Asia/Seoul").format("YYYY-MM-DD"),
+    };
+    return converted;
   } catch (error) {
     console.error("멘토링 상세 조회 실패:", error);
     throw error;
@@ -132,13 +149,13 @@ const getMentoringDetail = async (id: string): Promise<MentoringDetailResponse["
 };
 
 export const categoryApis = {
-    fieldItems,
-    subFields,
-    lectureTypes,
-    regionItems,
-    subRegions,
-    getMentoringList,
-    allSubFields,
-    allSubRegions,
-    getMentoringDetail
+  fieldItems,
+  subFields,
+  lectureTypes,
+  regionItems,
+  subRegions,
+  getMentoringList,
+  allSubFields,
+  allSubRegions,
+  getMentoringDetail,
 };

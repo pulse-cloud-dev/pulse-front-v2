@@ -1,7 +1,7 @@
 import { CheckField } from "@/shared/modules/select-ui";
 import type { HTMLAttributes } from "react";
 import { localQeurys } from "../../../Mentor/hooks/useLocals";
-
+import { SubItemWithParent } from "../../type/searchProps";
 
 export const Body = ({
   selectedCity,
@@ -13,20 +13,25 @@ export const Body = ({
 }: HTMLAttributes<HTMLDivElement> & {
   selectedCity: string;
   setSelectedCity: (city: string) => void;
-  checkedItems: Record<string, boolean>;
-  handleToggle: (key: string) => void;
+  checkedItems: SubItemWithParent[];
+  handleToggle: (key: SubItemWithParent) => void;
 }) => {
   const { data: cities = [] } = localQeurys.useCities();
-  const selectedCityObj = cities.find(city => city.name === selectedCity);
-  const { data: districts = [] } = localQeurys.useDistricts(selectedCityObj?.code, selectedCity);
+  const selectedCityObj = cities.find((city) => city.name === selectedCity);
+  const { data: originalDistricts = [] } = localQeurys.useDistricts(selectedCityObj?.code, selectedCity);
+
+  // "전체" 항목을 districts에 추가
+  const districts = [
+    {
+      name: "전체",
+      code: selectedCityObj?.code || "all",
+    },
+    ...originalDistricts,
+  ];
 
   return (
     <div className={`popup-local__body ${className}`} {...props}>
-      <div
-        role="listbox"
-        aria-label="지역 선택"
-        className="popup-local__column popup-local__column-left"
-      >
+      <div role="listbox" aria-label="지역 선택" className="popup-local__column popup-local__column-left">
         {cities.map(({ name }) => (
           <div
             key={name}
@@ -44,17 +49,14 @@ export const Body = ({
         ))}
       </div>
 
-      <div 
-        className="popup-local__column popup-local__column-right"
-        aria-labelledby="subregion-group-label"
-      >
-        {districts.map(({ name }) => (
-          <CheckField key={name} className="check-field-module" variant="circle">
+      <div className="popup-local__column popup-local__column-right" aria-labelledby="subregion-group-label">
+        {districts.map(({ name, code }) => (
+          <CheckField key={`${selectedCity}-${name}`} className="check-field-module" variant="circle">
             <CheckField.Input
               checkId={`${selectedCity}-${name}`}
               name={`${selectedCity}-${name}`}
-              isChecked={!!checkedItems[`${selectedCity}-${name}`]}
-              onChange={() => handleToggle(`${selectedCity}-${name}`)}
+              isChecked={checkedItems.some((item) => item.code === code && item.parent === selectedCity)}
+              onChange={() => handleToggle({ name, code, parent: selectedCity })}
             />
             <CheckField.Label checkId={`${selectedCity}-${name}`}>{name}</CheckField.Label>
           </CheckField>
