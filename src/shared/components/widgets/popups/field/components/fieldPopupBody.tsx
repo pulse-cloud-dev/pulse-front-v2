@@ -23,7 +23,6 @@ export const Body = ({
 
   const { data: originalSubFields = [] } = fieldQuerys.useSubFields(selectedFieldCode);
 
-  // "전체" 항목을 subFields에 추가
   const subFields =
     selectedField !== "전체"
       ? [
@@ -38,20 +37,6 @@ export const Body = ({
   return (
     <div className={`popup-local__body ${className}`} {...props}>
       <div className="popup-local__column popup-local__column-left" role="listbox" aria-label="분야 선택">
-        {/* "전체" 항목 */}
-        <div
-          role="option"
-          aria-selected={selectedField === "전체"}
-          tabIndex={0}
-          key="전체"
-          className={`popup-local__item ${selectedField === "전체" ? "active" : ""}`}
-          onClick={() => setSelectedField("전체")}
-          onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && setSelectedField("전체")}
-        >
-          전체
-        </div>
-
-        {/* 실제 필드들 */}
         {fields.map(({ name }) => (
           <div
             role="option"
