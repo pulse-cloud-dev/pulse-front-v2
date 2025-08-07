@@ -7,23 +7,25 @@ import { Body } from "../components/fieldPopupBody";
 import { SelectedItems } from "../../selectedBox";
 import { Footer } from "../../popupFooter";
 
-export function FieldPopup({ closeModal, onApply, initialCheckedItems = {} }: { closeModal?: () => void; onApply?: (selected: string[], checkedItems: Record<string, boolean>) => void; initialCheckedItems?: Record<string, boolean> }) {
+export type CheckedItemData = {
+  code: string;
+  name: string;
+  parent: string;
+};
+export function FieldPopup({ closeModal, onApply, initialCheckedItems = [] }: { closeModal?: () => void; onApply?: (heckedItems: CheckedItemData[]) => void; initialCheckedItems?: CheckedItemData[] }) {
   const { reset } = useCheckFieldGroup({
     initialValues: { option: false },
   });
-
+  console.log("braekpoint", initialCheckedItems);
   const [selectedField, setSelectedField] = useState("기획/경영/마케팅");
   const [_, setSelected] = useState<string | null>(null);
-  const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>(initialCheckedItems);
-  const [searchKeyword, setSearchKeyword] = useState("");
-  const [fields] = useState<{ name: string; code: string }[]>([]);
+  const [checkedItems, setCheckedItems] = useState<CheckedItemData[]>(initialCheckedItems);
 
   const handleReset = () => {
     reset();
-    setCheckedItems({});
+    setCheckedItems([]);
     setSelected(null);
     setSelectedField("기획/경영/마케팅");
-    setSearchKeyword("");
   };
 
   const handleClose = () => {
@@ -32,42 +34,35 @@ export function FieldPopup({ closeModal, onApply, initialCheckedItems = {} }: { 
 
   useKey("Escape", handleClose);
 
-  const handleToggle = (key: string) => {
-    const selectedCount = Object.values(checkedItems).filter(Boolean).length;
-    if (!checkedItems[key] && selectedCount >= 3) {
+  const handleToggle = ({ code, name, parent }: CheckedItemData) => {
+    const isAlreadySelected = checkedItems.some((item) => item.name === name);
+
+    if (!isAlreadySelected && checkedItems.length >= 3) {
       alert("최대 3개까지 선택 가능합니다.");
       return;
     }
-    setCheckedItems({ ...checkedItems, [key]: !checkedItems[key] });
+
+    setCheckedItems((prev) => {
+      if (isAlreadySelected) {
+        // 이미 선택된 항목 삭제
+        return prev.filter((item) => item.name !== name);
+      } else {
+        // 새 항목 추가
+        return [...prev, { code, name, parent }];
+      }
+    });
   };
 
-  const selectedItems = useMemo(() => {
-    return Object.entries(checkedItems)
-      .filter(([, isChecked]) => isChecked)
-      .map(([key]) => {
-        const [field, subField] = key.split("-");
-        return { key, label: `${field} > ${subField}` };
-      });
-  }, [checkedItems]);
-
   const handleApply = () => {
-    const selectedLabels = selectedItems.map((item) => item.label);
-    onApply?.(selectedLabels, checkedItems);
+    onApply?.(checkedItems);
     closeModal?.();
   };
 
-  // 검색어로 필드 자동 선택
-  useEffect(() => {
-    if (!searchKeyword) return;
-    const matched = fields.find((f) => f.name.toLowerCase().includes(searchKeyword.toLowerCase()));
-    if (matched) setSelectedField(matched.name);
-  }, [searchKeyword, fields]);
-
   return (
     <div className="popup-field" role="dialog" aria-modal="true" aria-labelledby="popup-title">
-      <Header id="popup-title" onSearch={setSearchKeyword} onToggle={handleToggle} checkedItems={checkedItems} />
+      <Header id="popup-title" onToggle={handleToggle} checkedItems={checkedItems} />
       <Body selectedField={selectedField} setSelectedField={setSelectedField} checkedItems={checkedItems} handleToggle={handleToggle} />
-      <SelectedItems selectedItems={selectedItems} handleToggle={handleToggle} />
+      <SelectedItems selectedItems={checkedItems} handleToggle={handleToggle} />
       <Footer onReset={handleReset} onClose={handleClose} onApply={handleApply} />
     </div>
   );

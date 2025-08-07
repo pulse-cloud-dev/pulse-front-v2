@@ -6,7 +6,6 @@ import { BookmarkButton } from "../bookmark/bookmarkButton";
 
 // Body
 const BodyContentTitle = ({ title, onClick }: { title: string; onClick?: () => void }) => {
-  console.log("title", title);
   return <span onClick={onClick}>{title}dfdsf</span>;
 };
 

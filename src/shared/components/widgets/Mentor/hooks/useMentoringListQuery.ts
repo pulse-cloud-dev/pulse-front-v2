@@ -1,10 +1,10 @@
 import { categoryApis } from "@/networks";
 import { useSuspenseQuery } from "@tanstack/react-query";
-
+import { CheckedItemData } from "@/shared/components/widgets/popups";
 const PAGE_SIZE = 20;
 
 interface UseMentoringListQueryParams {
-  selectedFields: string[];
+  selectedFields: CheckedItemData[];
   selectedRegions: string[];
   onlineStatus: string | null;
   sortOption: string;

@@ -6,7 +6,6 @@ import { Body } from "../components/localPopupBody";
 import { SelectedItems } from "../../selectedBox";
 import { Footer } from "../../popupFooter";
 import { useCheckFieldGroup } from "@/shared/modules/select-ui";
-import { Certificate } from "crypto";
 
 export function LocalPopup({ closeModal, onApply, initialCheckedItems = {} }: { closeModal?: () => void; onApply?: (selected: string[], checkedItems: Record<string, boolean>) => void; initialCheckedItems?: Record<string, boolean> }) {
   const { reset } = useCheckFieldGroup({

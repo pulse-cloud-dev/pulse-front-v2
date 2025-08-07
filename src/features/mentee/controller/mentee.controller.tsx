@@ -3,15 +3,14 @@ import { FieldPopup, OnlineStatusPopup, LocalPopup } from "@/shared/components";
 import { MenteeView } from "../view/mentor.view";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-
+import { SubItemWithParent } from "@/shared/components/widgets/popups/type/searchProps";
 export const MeteeController = () => {
   const [keyword, setKeyword] = useState("");
   const [searchText, setSearchText] = useState("");
-  const [selectedFields, setSelectedFields] = useLocalStorage<string[]>("selectedFields", []);
   const [selectedRegions, setSelectedRegions] = useLocalStorage<string[]>("selectedRegions", []);
   const [onlineStatus, setOnlineStatus] = useLocalStorage<string>("onlineStatus", "전체");
   const [isOnlineOnly, setIsOnlineOnly] = useLocalStorage<boolean>("isOnlineOnly", false);
-  const [fieldCheckedItems, setFieldCheckedItems] = useLocalStorage<Record<string, boolean>>("fieldCheckedItems", {});
+  const [fieldCheckedItems, setFieldCheckedItems] = useLocalStorage<SubItemWithParent[]>("fieldCheckedItems", []);
   const [regionCheckedItems, setRegionCheckedItems] = useLocalStorage<Record<string, boolean>>("regionCheckedItems", {});
   const [sortOption, setSortOption] = useState("기본순");
 
@@ -30,24 +29,11 @@ export const MeteeController = () => {
     });
   };
 
-  console.log("확인좀 하자", keyword, sortOption, regionCheckedItems, fieldCheckedItems, isOnlineOnly, onlineStatus, selectedRegions, selectedFields);
-
-  // const { data: mentorings = [], isLoading: loading } = useMentoringListQuery({
-  //   selectedFields,
-  //   selectedRegions,
-  //   onlineStatus,
-  //   sortOption,
-  //   searchText,
-  //   offset,
-  // });
-
   const resetFilters = () => {
     setKeyword("");
-    setSelectedFields([]);
     setSelectedRegions([]);
     setOnlineStatus("전체");
     setIsOnlineOnly(false);
-    setFieldCheckedItems({});
     setRegionCheckedItems({});
     setOffset(1);
   };
@@ -65,8 +51,7 @@ export const MeteeController = () => {
           aria-labelledby="field-modal-title"
           closeModal={() => modalProps.closeModal(modalProps.id)}
           initialCheckedItems={fieldCheckedItems}
-          onApply={(fields, latestCheckedItems) => {
-            setSelectedFields(fields);
+          onApply={(latestCheckedItems: SubItemWithParent[]) => {
             setFieldCheckedItems(latestCheckedItems);
             setOffset(1);
             modalProps.closeModal(modalProps.id);
@@ -130,12 +115,7 @@ export const MeteeController = () => {
 
   const removeField = (field: string) => {
     const key = labelToKey(field);
-    setSelectedFields((prev) => prev.filter((f) => f !== field));
-    setFieldCheckedItems((prev) => {
-      const newItems = { ...prev };
-      delete newItems[key];
-      return newItems;
-    });
+    setFieldCheckedItems((prev) => prev.filter((item) => item.name !== key));
     setOffset(1);
   };
 
@@ -159,19 +139,16 @@ export const MeteeController = () => {
     state: {
       keyword,
       searchText,
-      selectedFields,
+      fieldCheckedItems,
       selectedRegions,
       onlineStatus,
       isOnlineOnly,
-      // mentorings,
-      // loading,
       sortOption,
       offset,
     },
     actions: {
       setKeyword,
       setSearchText,
-      setSelectedFields,
       setSelectedRegions,
       removeField,
       removeRegion,

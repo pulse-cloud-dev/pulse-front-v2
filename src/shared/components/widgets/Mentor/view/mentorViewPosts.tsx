@@ -8,6 +8,7 @@ import { PageNation } from "@/shared/components/widgets";
 import { FilterProps } from "../type/filterProps";
 import ErrorBoundary from "@/shared/components/blocks/errorboundary/errorBoundary";
 import { FallbackMentoringList } from "@/shared/components/widgets/Mentor/view/fallbackMentoringList";
+import { CheckedItemData } from "@/shared/components/widgets/popups";
 
 interface Mentoring {
   mentoring_id: string;
@@ -38,7 +39,7 @@ const MentoringCardList = ({
   searchText,
   offset,
 }: {
-  selectedFields: string[];
+  selectedFields: CheckedItemData[];
   selectedRegions: string[];
   onlineStatus: string | null;
   sortOption: string;
@@ -84,7 +85,21 @@ const MentoringCardList = ({
 };
 
 // 카드 개수 컴포넌트 (Suspense 내부)
-const CardCount = ({ selectedFields, selectedRegions, onlineStatus, sortOption, searchText, offset }: { selectedFields: string[]; selectedRegions: string[]; onlineStatus: string | null; sortOption: string; searchText: string; offset: number }) => {
+const CardCount = ({
+  selectedFields,
+  selectedRegions,
+  onlineStatus,
+  sortOption,
+  searchText,
+  offset,
+}: {
+  selectedFields: CheckedItemData[];
+  selectedRegions: string[];
+  onlineStatus: string | null;
+  sortOption: string;
+  searchText: string;
+  offset: number;
+}) => {
   const { data } = useMentoringListQuery({
     selectedFields,
     selectedRegions,
@@ -101,7 +116,7 @@ const CardCount = ({ selectedFields, selectedRegions, onlineStatus, sortOption, 
 };
 
 interface CustomPageNationProps {
-  selectedFields: string[];
+  selectedFields: CheckedItemData[];
   selectedRegions: string[];
   onlineStatus: string | null;
   sortOption: string;
@@ -135,7 +150,6 @@ export const MentorViewPosts = ({ event, keyword, setKeyword, setSearchText, rem
     searchText,
     offset,
   };
-
   return (
     <div style={{ marginBottom: "60px" }}>
       <FilterBar

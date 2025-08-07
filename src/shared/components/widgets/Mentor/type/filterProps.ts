@@ -1,12 +1,12 @@
 import type { ViewEventProps } from "@/shared/types";
-
+import { CheckedItemData } from "../../popups";
 export interface FilterProps {
-  event: ViewEventProps['event'];
+  event: ViewEventProps["event"];
   keyword: string;
   setKeyword: (value: string) => void;
   setSearchText: (value: string) => void;
   searchText: string;
-  selectedFields: string[];
+  selectedFields: CheckedItemData[];
   selectedRegions: string[];
   onlineStatus: string | null;
   removeField: (field: string) => void;

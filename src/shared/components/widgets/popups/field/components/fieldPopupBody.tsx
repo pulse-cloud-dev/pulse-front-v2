@@ -1,7 +1,7 @@
 import { CheckField } from "@/shared/modules/select-ui";
 import type { HTMLAttributes } from "react";
 import { fieldQuerys } from "../../../Mentor/hooks/useFieldItems";
-
+import { SubItemWithParent } from "../../type/searchProps";
 export const Body = ({
   selectedField,
   setSelectedField,
@@ -12,12 +12,12 @@ export const Body = ({
 }: HTMLAttributes<HTMLDivElement> & {
   selectedField: string;
   setSelectedField: (field: string) => void;
-  checkedItems: Record<string, boolean>;
-  handleToggle: (key: string) => void;
+  checkedItems: SubItemWithParent[];
+  handleToggle: (key: SubItemWithParent) => void;
 }) => {
   const { data: fields = [] } = fieldQuerys.useFieldItems();
 
-  const selectedFieldObj = fields.find((f) => f.name === selectedField);
+  const selectedFieldObj = fields.find((field) => field.name === selectedField);
   const selectedFieldCode = selectedFieldObj?.code;
 
   const { data: subFields = [] } = fieldQuerys.useSubFields(selectedFieldCode);
@@ -41,9 +41,20 @@ export const Body = ({
       </div>
 
       <div className="popup-local__column popup-local__column-right" aria-labelledby="subfield-group-label">
-        {subFields.map(({ name }) => (
+        {subFields.map(({ name, code }) => (
           <CheckField key={name} className="check-field-module" variant="circle">
-            <CheckField.Input checkId={`${selectedField}-${name}`} name={`${selectedField}-${name}`} isChecked={!!checkedItems[`${selectedField}-${name}`]} onChange={() => handleToggle(`${selectedField}-${name}`)} />
+            <CheckField.Input
+              checkId={`${selectedField}-${name}`}
+              name={`${selectedField}-${name}`}
+              isChecked={checkedItems.some((item) => item.name === name)}
+              onChange={() =>
+                handleToggle({
+                  code,
+                  name,
+                  parent: selectedField,
+                })
+              }
+            />
             <CheckField.Label checkId={`${selectedField}-${name}`}>{name}</CheckField.Label>
           </CheckField>
         ))}
