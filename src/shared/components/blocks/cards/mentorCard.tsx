@@ -4,55 +4,8 @@ import { BaseCard } from "./baseCard";
 import { Link } from "react-router-dom";
 import { BookmarkButton } from "../bookmark/bookmarkButton";
 
-// Body
-const BodyContentTitle = ({ title, onClick }: { title: string; onClick?: () => void }) => {
-  return <span onClick={onClick}>{title}dfdsf</span>;
-};
-
-const BodyContentTag = ({ job, career, lectureType, platform, region, profileImage }: { job: string; career: number; lectureType: "ONLINE" | "OFFLINE"; platform: string; region: string; profileImage: string }) => {
-  // 조건부 표시 값 설정
-  const locationOrPlatform = lectureType === "OFFLINE" ? region : platform?.trim() || "미정";
-
-  const locationLabel = lectureType === "OFFLINE" ? "지역" : "플랫폼";
-
-  return (
-    <div className="mentorCard-content__tag">
-      <div className="content__tag left">
-        <label className="flex_r flex_ac">
-          <Icon src="id_badge" alt="사원증" />
-          <span className="m-l-4">{job}</span>
-        </label>
-        <label className="flex_r flex_ac">
-          <Icon src="briefcase_20" alt="서류가방" />
-          <span className="m-l-4">경력 {career}년</span>
-        </label>
-        <label className="flex_r flex_ac">
-          <Icon src="desktop" alt="데스크탑" />
-          <span className="m-l-4">
-            {locationLabel} : {locationOrPlatform}
-          </span>
-        </label>
-      </div>
-      <div className="content__tag right">
-        <Image className="mentorCard-img" src={profileImage || "profile 1"} alt="프로필" />
-      </div>
-    </div>
-  );
-};
-
-// Footer
-const FooterDescription = ({ deadlineDate, mentorNickname }: { deadlineDate: string; mentorNickname: string }) => {
-  return (
-    <div className="mentorCard-footer__desc">
-      <span className="footer__desc date">~{deadlineDate}</span>
-      <span className="footer__desc nickname">{mentorNickname}</span>
-    </div>
-  );
-};
-
 interface MentorCardProps {
   mentoringId: string; // 멘토링 고유 ID (백엔드 제공)
-  onlineStatus: string; // 온/오프라인 여부 (가공됨: "온라인" | "오프라인")
   title: string; // 멘토링 제목
   mentorNickname: string; // 멘토 닉네임
   deadlineDate: string; // 마감 날짜 (가공됨: YYYY-MM-DD 형식)
