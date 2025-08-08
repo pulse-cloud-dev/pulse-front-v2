@@ -708,7 +708,13 @@ export const PostsView = (props: PostsViewProps) => {
           <BaseButton type="button" size="lg" color="reverse" onClick={props.onCancel}>
             취소
           </BaseButton>
-          <BaseButton size="lg" type="submit" className={isFormValid ? "primary " : "reverse"} disabled={!isFormValid}>
+          <BaseButton 
+              size="lg" 
+              type="submit" 
+              className={isFormValid ? "primary " : "reverse"} 
+              disabled={!isFormValid}
+              onClick={handleSubmit}
+          >
             신청
           </BaseButton>
         </div>

@@ -49,8 +49,8 @@ const PostfailAlert = ({ id, closeModal }: RegisterAlertProps) => {
 
   return (
     <Alert
-      title="멘티 모집글 등록"
-      body="멘토등록은 5개 까지만 가능합니다."
+      title="멘티 모집글 등록 실패"
+      body="멘티 모집글은 멘토로 등록된 사용자만 작성할 수 있습니다."
       cancelBtn={false}
       confirmText="확인"
       onConfirm={() => {
