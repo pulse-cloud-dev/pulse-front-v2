@@ -29,33 +29,5 @@ const dummyFallback: MentoringDetail = {
 };
 
 export const DetailController = () => {
-  const { id } = useParams<{ id: string }>();
-  const { data, isLoading, error } = useMentoringDetailQuery(id || "");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const { isLogin } = useUser();
-
-  const d = data ?? dummyFallback;
-
-  const formattedDeadline = dayjs(d.deadline_date).format("YYYY.MM.DD HH:mm");
-
-  return (
-    <MenteeDetailView
-      title={d.title}
-      region={d.region}
-      content={d.content}
-      mentorName={d.mentor_nickname}
-      mentorJob={d.mentor_job}
-      mentorCareer={d.mentor_career_total_year}
-      lastCompany={d.mentor_last_company}
-      price={d.cost}
-      period={`${d.start_date} ~ ${d.end_date}`}
-      location={`${d.address} ${d.detail_address}`}
-      deadline={`${formattedDeadline}`}
-      lectureType={d.lecture_type}
-      recruitNumber={d.recruit_number}
-      applyNumber={d.apply_number}
-      isLogin={isLogin}
-    />
-  );
+  return <MenteeDetailView />;
 };

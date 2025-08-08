@@ -5,8 +5,6 @@ const { server, server_port } = envConst;
 
 const baseUrl = import.meta.env.MODE === "production" ? "/api" : server + server_port + "/api/v1";
 
-
-
 const privateClient = axios.create({
   baseURL: baseUrl,
 });
@@ -29,6 +27,7 @@ const getRefreshToken = (): string | null => {
     return null;
   }
 };
+
 
 // 토큰 재발급 요청
 const refreshAccessToken = async (): Promise<string | null> => {
@@ -62,11 +61,13 @@ const refreshAccessToken = async (): Promise<string | null> => {
 };
 
 // 요청 시 토큰 자동 추가
+
 privateClient.interceptors.request.use(
   
   async (config: any) => {
-    const token = getAccessToken();
 
+    const token = getAccessToken();
+    
     return {
       ...config,
       headers: {
@@ -78,13 +79,14 @@ privateClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// ⚠️ 응답에서 토큰 만료 감지 및 자동 재시도
+// 응답에서 토큰 만료 감지 및 자동 재시도
 privateClient.interceptors.response.use(
   (response) => {
     if (response && response.data) {
       return response.data;
     }
     return response;
+    
   },
   async (error) => {
     const originalRequest = error.config;
@@ -123,3 +125,4 @@ privateClient.interceptors.response.use(
 );
 
 export default privateClient;
+

@@ -1,9 +1,9 @@
-import {SquareBadge } from "@/shared/components/atoms";
-import { BodyContentTag,BodyContentTitle,FooterDescription } from "./bodyContentTag";
+
+import { SquareBadge } from "@/shared/components/atoms";
+import { BodyContentTag, BodyContentTitle, FooterDescription } from "./bodyContentTag";
 import { BaseCard } from "./baseCard";
 import { Link } from "react-router-dom";
 import { BookmarkButton } from "../bookmark/bookmarkButton";
-
 
 interface MentorCardProps {
   mentoringId: string;           // 멘토링 고유 ID (백엔드 제공)
@@ -17,6 +17,7 @@ interface MentorCardProps {
   lectureType: "ONLINE" | "OFFLINE"; // 강의 형태 (백엔드 원본 값)
   onlinePlatform: string;        // 온라인 플랫폼명 (예: Zoom 등)
   region: string;                // 오프라인 강의 지역명 (lectureType이 OFFLINE일 때 사용)
+
 }
 
 
@@ -30,7 +31,7 @@ export const MentorCard = ({ mentoringId, title, mentorNickname, deadlineDate, m
       <BaseCard>
         <BaseCard.Header>
           <SquareBadge title={badgeTitle} color={badgeColor} />
-          <BookmarkButton mentoringId={mentoringId} />
+          <BookmarkButton />
         </BaseCard.Header>
         <BaseCard.Body className="border-b">
           <div className="mentorCard-body__top">
