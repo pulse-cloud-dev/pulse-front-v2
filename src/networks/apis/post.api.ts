@@ -24,10 +24,11 @@ export const postMentoring = async (payload: MentoringPostRequestDTO): Promise<{
   // 2. 글 등록 시도
   try {
     const response = await privateClient.post("/mentoring/post", payload);
+    console.log("멘티모집 글 등록 성공!:", response.data.message); 
     return response.data;
   } catch (error: any) {
     if (error.response) {
-      console.error("Mentoring registration failed:", error.response.data);
+      console.error("맨토모집 글 등록 실패:", error.response.data);
     } else {
       console.error("Network or other error:", error.message);
     }
