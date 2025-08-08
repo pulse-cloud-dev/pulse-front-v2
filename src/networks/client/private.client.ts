@@ -5,6 +5,8 @@ const { server, server_port } = envConst;
 
 const baseUrl = import.meta.env.MODE === "production" ? "/api" : server + server_port + "/api/v1";
 
+
+
 const privateClient = axios.create({
   baseURL: baseUrl,
 });
@@ -61,6 +63,7 @@ const refreshAccessToken = async (): Promise<string | null> => {
 
 // 요청 시 토큰 자동 추가
 privateClient.interceptors.request.use(
+  
   async (config: any) => {
     const token = getAccessToken();
 
@@ -90,17 +93,29 @@ privateClient.interceptors.response.use(
       error.response?.status === 417 &&
       error.response?.data?.body === "TOKEN_EXPIRED";
 
+    // 재시도 플래그로 무한 루프 방지
     if (isTokenExpired && !originalRequest._retry) {
       originalRequest._retry = true;
 
-      const newToken = await refreshAccessToken();
-      if (newToken) {
-        originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
-        return privateClient(originalRequest); // 재요청
-      } else {
-        console.warn("토큰 갱신 실패. 로그아웃 처리 필요");
-        // location.href = "/login"; 또는 로그아웃 로직 실행
+      try {
+        const newToken = await refreshAccessToken();
+        if (newToken) {
+          originalRequest.headers = {
+            ...(originalRequest.headers || {}),
+            Authorization: `Bearer ${newToken}`,
+          };
+          return privateClient(originalRequest); //재요청
+        }
+      } catch (e) {
+        // 갱신 호출 자체 실패 시 아래로 떨어져 로그아웃
       }
+
+      console.warn("토큰 갱신 실패. 로그아웃 처리 필요");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      alert("토큰 갱신 실패. 로그아웃됩니다.");
+      location.href="/auth/signIn";
+      return Promise.reject(error);
     }
 
     return Promise.reject(error);
@@ -108,45 +123,3 @@ privateClient.interceptors.response.use(
 );
 
 export default privateClient;
-
-// import { envConst } from "@/shared/constants";
-// import axios from "axios";
-// import { localStorageManager } from "taeo-utils";
-
-// const { server, server_port } = envConst;
-
-// const baseUrl = import.meta.env.MODE === "production" ? "/api" : server + server_port + "/api/v1";
-// //백엔드와 프로덕션환경에 대해 이야기 해보아야함
-// const privateClient = axios.create({
-//   baseURL: baseUrl,
-// });
-
-// privateClient.interceptors.request.use(
-//   async (config: any) => {
-//     return {
-//       ...config,
-//       headers: {
-//         "Content-type": "application/json;charset=UTF-8",
-//         Authorization: Bearer ${JSON.parse(localStorage.getItem("pulse") || "{}").token},
-//       },
-//     };
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
-
-// privateClient.interceptors.response.use(
-//   (response) => {
-//     if (response && response.data) {
-//       console.info("응답을 받았습니다.");
-//       return response.data;
-//     }
-//     return response;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
-
-// export default privateClient;
