@@ -5,7 +5,7 @@ export const SideMenuConst = Object.assign(
       FLOATING_MENU: [
         { title: "멘토정보", href: "/mentor-register", iconSrc: "mentorinfo",onClick: "handleMentorInfo" },
         { title: "북마크 목록", href: "/bookmarks", iconSrc: "bookmark_20" },
-        { title: "멘티모집", href: "/posts", iconSrc: "pencile" },
+        { title: "멘티모집", href: "/posts", iconSrc: "pencile", onClick: "handleMenteeRecruit" },
       ],
     },
   }

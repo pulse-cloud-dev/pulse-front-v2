@@ -12,16 +12,13 @@ type MenuAction = (
 ) => void | Promise<void>;
 
 export const menuActionMap: Record<string, MenuAction> = {
+  /*멘토정보 클릭시 작동*/
   handleMentorInfo: async (navigate, context, item) => {
     if (!context.isLogin) {
-
       alert('로그인 후 이용가능합니다.');
-
       navigate("/auth/signIn");
       return;
     }
-
-    
 
     const isMentorRegistered = await checkMentorRegistered();
 
@@ -32,7 +29,26 @@ export const menuActionMap: Record<string, MenuAction> = {
       }, 100); 
     } else {
       navigate(item?.href ?? "/mentor-register");
+    }
+  },
 
+  /*멘티모집 클릭시 작동*/
+  handleMenteeRecruit:  async (navigate, context, item) => {
+    if (!context.isLogin) {
+      alert('로그인 후 이용가능합니다.');
+      navigate("/auth/signIn");
+      return;
+    }
+
+    const isMentorRegistered = await checkMentorRegistered();
+
+    if (!isMentorRegistered) {
+      alert("멘토로 등록된 사람만 이용이 가능합니다");
+      setTimeout(() => {
+        navigate("/mentor-find");
+      }, 100); 
+    } else {
+      navigate(item?.href ?? "/mentor-register");
     }
   },
 };
