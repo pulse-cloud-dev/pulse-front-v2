@@ -146,38 +146,31 @@ const initialFields: FormState = {
         validate: (value) => value.length >= 8 && value.length <= 30,
         message: "8자~30자 사이로 작성해야 합니다.",
       },
-      startWithLetter: {
-        validate: (value) => /^[a-zA-Z]/.test(value),
-        message: "영문 대문자 또는 소문자로 시작할 수 있습니다.",
+      // 공백 금지
+      noSpace: {
+        validate: (value) => !/\s/.test(value),
+        message: "공백은 사용할 수 없습니다.",
       },
-      // noBirthDate: {
-      //   validate: (value) => !containsBirthDate(value),
-      //   message: "생년월일은 비밀번호에 사용할 수 없습니다.",
-      // },
-      hasThreeTypes: {
-        validate: (value) => {
-          const conditions = [
-            /[A-Z]/.test(value), // 대문자
-            /[a-z]/.test(value), // 소문자
-            /\d/.test(value), // 숫자
-            /[!@#$%^&*(),.?":{}|<>]/.test(value), // 특수문자
-          ];
-          return conditions.filter(Boolean).length >= 3;
-        },
-        message: "영문 대문자, 영문 소문자, 숫자, 특수문자 중 3종류 이상 조합되어야 합니다.",
+      // 허용 문자만 사용 (영문/숫자/허용 특수문자)
+      validChars: {
+        validate: (value) =>
+          /^[A-Za-z0-9~․!@#$%^&*()_\-+=\[\]\|\\;:‘’“”<>,.?\/]+$/.test(value),
+        message: "허용되지 않은 문자가 포함되어 있습니다.",
       },
-      basicCombination: {
+      // 영문 + 숫자 + 특수문자 각각 최소 1개 포함 (대소문자 구분 없음)
+      mustContainAllThree: {
         validate: (value) => {
-          const hasLetter = /[a-zA-Z]/.test(value);
+          const hasLetter = /[A-Za-z]/.test(value);
           const hasNumber = /\d/.test(value);
-          const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(value);
+          const hasSpecial = /[~․!@#$%^&*()_\-+=\[\]\|\\;:‘’“”<>,.?\/]/.test(value);
           return hasLetter && hasNumber && hasSpecial;
         },
-        message: "영문, 숫자, 특수문자 최소 1개씩 사용해야 합니다.",
+        message: "영문, 숫자, 특수문자를 각각 최소 1개 이상 포함해야 합니다.",
       },
-      validChars: {
-        validate: (value) => /^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]+$/.test(value),
-        message: "사용 불가능한 비밀번호입니다.",
+      // 같은 문자 3회 연속 금지 (대소문자 구분 없이)
+      noTripleRepeat: {
+        validate: (value) => !/(.)\1\1/i.test(value),
+        message: "같은 문자를 3번 연속 사용할 수 없습니다.",
       },
     },
   },
